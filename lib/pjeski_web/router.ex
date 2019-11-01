@@ -1,5 +1,6 @@
 defmodule PjeskiWeb.Router do
   use PjeskiWeb, :router
+  use Pow.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -14,9 +15,18 @@ defmodule PjeskiWeb.Router do
   end
 
   scope "/", PjeskiWeb do
+    pipe_through [:browser, :protected]
+
+    # Add your protected routes here
+  end
+
+
+  scope "/" do
     pipe_through :browser
 
-    get "/", PageController, :index
+    pow_routes()
+
+    get "/", PjeskiWeb.PageController, :index
   end
 
   # Other scopes may use custom stacks.

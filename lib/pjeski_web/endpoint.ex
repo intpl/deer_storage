@@ -42,5 +42,7 @@ defmodule PjeskiWeb.Endpoint do
     key: "_pjeski_key",
     signing_salt: "KLHKFqia"
 
+  plug Pow.Plug.Session, otp_app: :pjeski
+
   plug PjeskiWeb.Router
 end

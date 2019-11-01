@@ -1,3 +1,9 @@
+* Cool libraries to use
+authentication and user management: https://github.com/danschultzer/pow
+authorization: https://github.com/jarednorman/canada
+CRON-like lib to log out users that did not pay: https://github.com/jbernardo95/cronex
+time zones and dates: https://github.com/lau/calendar
+
 * Translate using Gettext everywhere
 
 * Modules/Features to enable or disable
@@ -15,6 +21,7 @@ By default predefined user sets (veterinary or doctor) will enable either of the
   admin: boolean - [default:false] [index] [non-null]
   preferences: jsonb [non-null]
   language: enum [default:PL] [non-null]
+  timezone: string ? [default:GMT+1 warsaw]
 
 ** patients
   name: string [non-null]
