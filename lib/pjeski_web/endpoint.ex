@@ -1,10 +1,6 @@
 defmodule PjeskiWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :pjeski
 
-  socket "/socket", PjeskiWeb.UserSocket,
-    websocket: true,
-    longpoll: false
-
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest

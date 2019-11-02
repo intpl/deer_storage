@@ -22,9 +22,9 @@
     <% end %>
 
     <div class="field">
-      <%= label f, :current_password, class: 'label' %>
-      <%= password_input f, :current_password, class: 'button' %>
-      <%= error_tag f, :current_password %>
+      <%= label f, :locale, gettext("Language"), class: 'label' %>
+      <%= select f, :locale, languages_select_options(), class: 'button' %>
+      <%= error_tag f, :locale %>
     </div>
 
     <div class="field">
@@ -32,6 +32,12 @@
       <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button' %>
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
     </div>
+
+    <br>
+
+    <h4 class="title is-4">
+      <%= gettext("Change password") %>
+    </h4>
 
     <div class="field">
       <%= label f, :password, class: 'label' %>
@@ -45,8 +51,16 @@
       <%= error_tag f, :confirm_password %>
     </div>
 
+    <hr>
+
+    <div class="field">
+      <%= label f, :current_password, class: 'label' %>
+      <%= password_input f, :current_password, class: 'button' %>
+      <%= error_tag f, :current_password %>
+    </div>
+
     <div>
-      <%= submit gettext("Update"), class: 'button' %>
+      <%= submit gettext("Update"), class: 'button is-primary' %>
     </div>
     <% end %>
   </div>
