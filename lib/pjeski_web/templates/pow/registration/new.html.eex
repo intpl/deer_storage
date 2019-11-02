@@ -21,13 +21,19 @@
     <% end %>
 
     <div class="field">
+      <%= label f, :displayed_name, gettext("Clinic name"), class: 'label' %>
+      <%= text_input f, :displayed_name, class: 'button' %>
+      <%= error_tag f, :displayed_name %>
+    </div>
+
+    <div class="field">
       <%= label f, :locale, gettext("Language"), class: 'label' %>
       <%= select f, :locale, languages_select_options(), selected: [2], class: 'button' %>
       <%= error_tag f, :locale %>
     </div>
 
     <div class="field">
-      <%= label f, gettext("E-mail"), class: 'label' %>
+      <%= label f, gettext("E-mail address"), class: 'label' %>
       <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button' %>
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
     </div>

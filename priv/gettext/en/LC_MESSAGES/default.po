@@ -12,19 +12,8 @@ msgstr ""
 "Plural-Forms: nplurals=2\n"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:18
+#: lib/pjeski_web/templates/layout/navigation.html.eex:20
 msgid "Clients"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:43
-#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/pow/session/new.html.eex:5
-msgid "Log in"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:39
-msgid "Log out"
 msgstr ""
 
 #, elixir-format
@@ -40,30 +29,25 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:23
-#: lib/pjeski_web/templates/pow/registration/new.html.eex:5 lib/pjeski_web/templates/pow/registration/new.html.eex:43
-#: lib/pjeski_web/templates/pow/session/new.html.eex:41
+#: lib/pjeski_web/templates/pow/registration/new.html.eex:5 lib/pjeski_web/templates/pow/registration/new.html.eex:54
 msgid "Register"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/registration/new.html.eex:48
+#: lib/pjeski_web/templates/layout/navigation.html.eex:45
+#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/pow/session/new.html.eex:5
 #: lib/pjeski_web/templates/pow/session/new.html.eex:36
 msgid "Sign in"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:63
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:78
 msgid "Update"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:22
+#: lib/pjeski_web/templates/layout/navigation.html.eex:24
 msgid "Visits"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:39
-msgid "Change password"
 msgstr ""
 
 #, elixir-format
@@ -72,7 +56,8 @@ msgid "English"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:25
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:36
+#: lib/pjeski_web/templates/pow/registration/new.html.eex:30
 msgid "Language"
 msgstr ""
 
@@ -82,29 +67,20 @@ msgid "Polish"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:49
+#: lib/pjeski_web/templates/pow/registration/new.html.eex:48
 msgid "Confirm password"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:57
-msgid "Current password"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:43
+#: lib/pjeski_web/templates/pow/registration/new.html.eex:42
+#: lib/pjeski_web/templates/pow/session/new.html.eex:30
 msgid "Password"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/app.html.eex:7
-#: lib/pjeski_web/templates/layout/navigation.html.eex:4 lib/pjeski_web/templates/page/index.html.eex:5
+#: lib/pjeski_web/templates/page/index.html.eex:5
+#: lib/pjeski_web/views/layout_view.ex:13 lib/pjeski_web/views/layout_view.ex:17 lib/pjeski_web/views/layout_view.ex:25
 msgid "Clinic Management System"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/pow/session/new.html.eex:8
-msgid "Log in to Clinic Management System"
 msgstr ""
 
 #, elixir-format
@@ -133,11 +109,73 @@ msgid "Welcome to Clinic Management System!!!"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:26
+#: lib/pjeski_web/templates/layout/navigation.html.eex:28
 msgid "Patients"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:29
+#: lib/pjeski_web/templates/layout/navigation.html.eex:31
 msgid "Medicines"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:30
+#: lib/pjeski_web/templates/pow/registration/new.html.eex:24
+msgid "Clinic name"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:48
+#: lib/pjeski_web/templates/pow/registration/new.html.eex:36
+msgid "E-mail address"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/session/new.html.eex:8
+msgid "Sign in to Clinic Management System"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/navigation.html.eex:41
+msgid "Sign out"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:44
+msgid "Change sign-in credentials"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:60
+msgid "Confirm new password"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:73
+msgid "Enter current password"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:27
+msgid "General settings"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:54
+msgid "New password"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/session/new.html.eex:24
+msgid "E-mail"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/navigation.html.eex:44
+msgid "Free demo"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/navigation.html.eex:40
+msgid "Settings"
 msgstr ""

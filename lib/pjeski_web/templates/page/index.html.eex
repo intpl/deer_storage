@@ -22,7 +22,7 @@
           <p><%= gettext("Not logged in") %></p>
           <span><%= link gettext("Register"), to: Routes.pow_registration_path(@conn, :new) %></span>
           |
-          <span><%= link gettext("Log in"), to: Routes.pow_session_path(@conn, :new) %></span>
+          <span><%= link gettext("Sign in"), to: Routes.pow_session_path(@conn, :new) %></span>
           <% end %>
         </div>
       </article>

@@ -2,10 +2,10 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= gettext("Log in") %>
+        <%= gettext("Sign in") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Log in to Clinic Management System") %>
+        <%= gettext("Sign in to Clinic Management System") %>
       </h2>
     </div>
   </div>
@@ -21,13 +21,13 @@
     <% end %>
 
     <div class="field">
-      <%= label f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'label' %>
+      <%= label f, gettext("E-mail"), class: 'label' %>
       <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button' %>
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
     </div>
 
     <div class="field">
-      <%= label f, :password, class: 'label' %>
+      <%= label f, gettext("Password"), class: 'label' %>
       <%= password_input f, :password, class: 'button' %>
       <%= error_tag f, :password %>
     </div>
@@ -36,8 +36,5 @@
       <%= submit gettext("Sign in"), class: 'button' %>
     </div>
     <% end %>
-
-
-    <span><%= link gettext("Register"), to: Routes.pow_registration_path(@conn, :new) %></span>
   </div>
 </section>
