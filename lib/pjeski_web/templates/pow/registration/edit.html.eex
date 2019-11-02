@@ -1,11 +1,11 @@
-<section class="hero is-light">
+<section class="hero is-warning">
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= gettext("Edit profile") %>
+        <%= gettext("Edit account") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Edit your Pjeski profile") %>
+        <%= gettext("Edit your Clinic Management System account") %>
       </h2>
     </div>
   </div>
@@ -40,13 +40,13 @@
     </h4>
 
     <div class="field">
-      <%= label f, :password, class: 'label' %>
+      <%= label f, gettext("Password"), class: 'label' %>
       <%= password_input f, :password, class: 'button' %>
       <%= error_tag f, :password %>
     </div>
 
     <div class="field">
-      <%= label f, :confirm_password, class: 'label' %>
+      <%= label f, gettext("Confirm password"), class: 'label' %>
       <%= password_input f, :confirm_password, class: 'button' %>
       <%= error_tag f, :confirm_password %>
     </div>
@@ -54,7 +54,7 @@
     <hr>
 
     <div class="field">
-      <%= label f, :current_password, class: 'label' %>
+      <%= label f, gettext("Current password"), class: 'label' %>
       <%= password_input f, :current_password, class: 'button' %>
       <%= error_tag f, :current_password %>
     </div>

@@ -2,10 +2,10 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= gettext("Pjeski system") %>
+        <%= gettext("Clinic Management System") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Welcome to Pjeski System") %>
+        <%= gettext("Welcome to Clinic Management System") %>
       </h2>
     </div>
   </div>
@@ -17,7 +17,7 @@
       <article class="column">
         <div>
           <%= if @current_user do %>
-            <%= gettext("Welcome to Pjeski!!!") %>
+            <%= gettext("Welcome to Clinic Management System!!!") %>
           <% else %>
           <p><%= gettext("Not logged in") %></p>
           <span><%= link gettext("Register"), to: Routes.pow_registration_path(@conn, :new) %></span>

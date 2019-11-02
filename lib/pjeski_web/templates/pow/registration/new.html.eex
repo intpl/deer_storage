@@ -5,7 +5,7 @@
         <%= gettext("Register") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Register to Pjeski System") %>
+        <%= gettext("Register to Clinic Management System") %>
       </h2>
     </div>
   </div>
@@ -19,7 +19,6 @@
       <p><%= gettext("Oops, something went wrong! Please check the errors below.") %></p>
     </div>
     <% end %>
-
 
     <div class="field">
       <%= label f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'label' %>
@@ -43,9 +42,5 @@
       <%= submit gettext("Register"), class: 'button' %>
     </div>
     <% end %>
-
-
-    <span><%= link gettext("Sign in"), to: Routes.pow_session_path(@conn, :new) %></span>
-
   </div>
 </section>

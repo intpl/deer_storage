@@ -11,16 +11,11 @@ defmodule PjeskiWeb.Router do
     plug Pjeski.UserData
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
     # Add your protected routes here
   end
-
 
   scope "/" do
     pipe_through :browser
@@ -29,9 +24,4 @@ defmodule PjeskiWeb.Router do
 
     get "/", PjeskiWeb.PageController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", PjeskiWeb do
-  #   pipe_through :api
-  # end
 end

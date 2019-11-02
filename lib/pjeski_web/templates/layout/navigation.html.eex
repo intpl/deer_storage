@@ -1,7 +1,7 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
-      <strong>🐶 <%= gettext("Pjeski System") %></strong>
+      <strong>🐶 <%= gettext("Clinic Management System") %></strong>
     </a>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="pjeskiNavigation">
@@ -23,7 +23,10 @@
       </a>
 
       <a class="navbar-item">
-        <%= gettext("Animals") %>
+        <%= gettext("Patients") %>
+      </a>
+      <a class="navbar-item">
+        <%= gettext("Medicines") %>
       </a>
     </div>
     <% end %>
@@ -32,10 +35,11 @@
       <div class="navbar-item">
         <div class="buttons">
           <%= if @current_user do %>
-            <%= link @current_user.email, to: Routes.pow_registration_path(@conn, :edit), method: :get, class: "button is-light navbar-item" %>
+            <%= link "Edytuj profil", to: Routes.pow_registration_path(@conn, :edit), method: :get, class: "button is-light navbar-item" %>
             <%= link gettext("Log out"), to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "button is-link navbar-item" %>
           <% else %>
-            <a class="button is-primary" target="_blank" href="mailto:bgladecki@gmail.com?subject=Pjeski System demo&body=Proszę udostępnić mi ten rewelacyjny system do testów!"> <strong>Request a demo</strong> </a>
+            <a class="button is-primary" target="_blank"
+            href="mailto:bgladecki@gmail.com?subject=Clinic Management System demo&body=Proszę udostępnić mi ten rewelacyjny system do testów!"> <strong>Request a demo</strong> </a>
             <%= link gettext("Log in"), to: Routes.pow_session_path(@conn, :new), class: 'button is-light' %>
           <% end %>
         </div>

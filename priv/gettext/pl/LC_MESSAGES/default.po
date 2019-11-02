@@ -12,97 +12,132 @@ msgstr ""
 "Plural-Forms: nplurals=3\n"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:26
-msgid "Animals"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/layout/navigation.html.eex:18
 msgid "Clients"
-msgstr ""
+msgstr "Klienci"
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:5
-msgid "Edit profile"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:8
-msgid "Edit your Pjeski profile"
-msgstr ""
+#: lib/pjeski_web/templates/layout/navigation.html.eex:43
+#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/pow/session/new.html.eex:5
+msgid "Log in"
+msgstr "Zaloguj"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation.html.eex:39
-#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/pow/session/new.html.eex:5
-msgid "Log in"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/pow/session/new.html.eex:8
-msgid "Log in to Pjeski System"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:36
 msgid "Log out"
-msgstr ""
+msgstr "Wyloguj"
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:22
 msgid "Not logged in"
-msgstr ""
+msgstr "Niezalogowany"
 
 #, elixir-format
 #: lib/pjeski_web/templates/pow/registration/edit.html.eex:20
 #: lib/pjeski_web/templates/pow/registration/new.html.eex:19 lib/pjeski_web/templates/pow/session/new.html.eex:19
 msgid "Oops, something went wrong! Please check the errors below."
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/layout/app.html.eex:7
-#: lib/pjeski_web/templates/layout/navigation.html.eex:4
-msgid "Pjeski System"
-msgstr "PJESKI PO POLSKU"
+msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:23
 #: lib/pjeski_web/templates/pow/registration/new.html.eex:5 lib/pjeski_web/templates/pow/registration/new.html.eex:43
 #: lib/pjeski_web/templates/pow/session/new.html.eex:41
 msgid "Register"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/pow/registration/new.html.eex:8
-msgid "Register to Pjeski System"
-msgstr ""
+msgstr "Zarejestruj"
 
 #, elixir-format
 #: lib/pjeski_web/templates/pow/registration/new.html.eex:48
 #: lib/pjeski_web/templates/pow/session/new.html.eex:36
 msgid "Sign in"
-msgstr ""
+msgstr "Zaloguj"
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/registration/edit.html.eex:49
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:63
 msgid "Update"
-msgstr ""
+msgstr "Zaktualizuj"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation.html.eex:22
 msgid "Visits"
-msgstr ""
+msgstr "Wizyty"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:39
+msgid "Change password"
+msgstr "Zmień hasło"
+
+#, elixir-format
+#: lib/pjeski_web/views/pow/registration_view.ex:7
+msgid "English"
+msgstr "Angielski"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:25
+msgid "Language"
+msgstr "Język"
+
+#, elixir-format
+#: lib/pjeski_web/views/pow/registration_view.ex:6
+msgid "Polish"
+msgstr "Polski"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:49
+msgid "Confirm password"
+msgstr "Potwierdź hasło"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:57
+msgid "Current password"
+msgstr "Obecne hasło"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:43
+msgid "Password"
+msgstr "Hasło"
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/app.html.eex:7
+#: lib/pjeski_web/templates/layout/navigation.html.eex:4 lib/pjeski_web/templates/page/index.html.eex:5
+msgid "Clinic Management System"
+msgstr "System Zarządzania Kliniką"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/session/new.html.eex:8
+msgid "Log in to Clinic Management System"
+msgstr "Zaloguj się do Systemu Zarządzania Kliniką"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/new.html.eex:8
+msgid "Register to Clinic Management System"
+msgstr " Zarejestruj się w Systemie Zarządzania Kliniką"
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:8
-msgid "Welcome to Pjeski System"
-msgstr ""
+msgid "Welcome to Clinic Management System"
+msgstr "Witaj w Systemie Zarządzania Kliniką"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:5
+msgid "Edit account"
+msgstr "Edytuj swoje konto"
+
+#, elixir-format
+#: lib/pjeski_web/templates/pow/registration/edit.html.eex:8
+msgid "Edit your Clinic Management System account"
+msgstr "Edytuj swoje konto w Systemie Zarządzania Kliniką"
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:20
-msgid "Welcome to Pjeski!!!"
-msgstr ""
+msgid "Welcome to Clinic Management System!!!"
+msgstr "Witamy w Centrum Zarządzania Kliniką!!!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:5
-msgid "Pjeski system"
-msgstr ""
+#: lib/pjeski_web/templates/layout/navigation.html.eex:26
+msgid "Patients"
+msgstr "Pacjenci"
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/navigation.html.eex:29
+msgid "Medicines"
+msgstr "Leki"
