@@ -10,6 +10,8 @@ use Mix.Config
 config :pjeski,
   ecto_repos: [Pjeski.Repo]
 
+config :pjeski, Pjeski.Gettext, default_locale: "en", locales: ~w(en pl)
+
 # Configures the endpoint
 config :pjeski, PjeskiWeb.Endpoint,
   url: [host: "localhost"],

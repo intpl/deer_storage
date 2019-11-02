@@ -5,6 +5,11 @@ CRON-like lib to log out users that did not pay: https://github.com/jbernardo95/
 time zones and dates: https://github.com/lau/calendar
 
 * Translate using Gettext everywhere
+After new additions:
+#+BEGIN_SRC
+mix gettext.extract --merge
+#+END_SRC
+edit LC_MESSAGES files
 
 * Modules/Features to enable or disable
 - animals

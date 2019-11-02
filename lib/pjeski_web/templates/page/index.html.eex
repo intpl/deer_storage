@@ -2,10 +2,10 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        Pjeski version 2
+        <%= gettext("Pjeski system") %>
       </h1>
       <h2 class="subtitle">
-        Welcome to Pjeski System
+        <%= gettext("Welcome to Pjeski System") %>
       </h2>
     </div>
   </div>
@@ -17,12 +17,12 @@
       <article class="column">
         <div>
           <%= if @current_user do %>
-          Welcome to Pjeski!!!
+            <%= gettext("Welcome to Pjeski!!!") %>
           <% else %>
-          <p>Niezalogowany</p>
-          <span><%= link "Zarejestruj", to: Routes.pow_registration_path(@conn, :new) %></span>
+          <p><%= gettext("Not logged in") %></p>
+          <span><%= link gettext("Register"), to: Routes.pow_registration_path(@conn, :new) %></span>
           |
-          <span><%= link "Zaloguj się", to: Routes.pow_session_path(@conn, :new) %></span>
+          <span><%= link gettext("Log in"), to: Routes.pow_session_path(@conn, :new) %></span>
           <% end %>
         </div>
       </article>
