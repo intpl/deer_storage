@@ -1,15 +1,32 @@
-<section class="row">
-  <article class="column">
-    <h2>Kim jesteś?</h2>
-    <div>
-      <%= if @current_user do %>
-        <p><%= @current_user.email %>, <span><%= link "wyloguj się", to: Routes.pow_session_path(@conn, :delete), method: :delete %></span></p>
-      <% else %>
-        <p>Niezalogowany</p>
-        <span><%= link "Zarejestruj", to: Routes.pow_registration_path(@conn, :new) %></span>
-        |
-        <span><%= link "Zaloguj się", to: Routes.pow_session_path(@conn, :new) %></span>
-      <% end %>
+<section class="hero is-dark">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Pjeski version 2
+      </h1>
+      <h2 class="subtitle">
+        Welcome to Pjeski System
+      </h2>
     </div>
-  </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <section class="row">
+      <article class="column">
+        <div>
+          <%= if @current_user do %>
+          Welcome to Pjeski!!!
+          <% else %>
+          <p>Niezalogowany</p>
+          <span><%= link "Zarejestruj", to: Routes.pow_registration_path(@conn, :new) %></span>
+          |
+          <span><%= link "Zaloguj się", to: Routes.pow_session_path(@conn, :new) %></span>
+          <% end %>
+        </div>
+      </article>
+    </section>
+
+  </div>
 </section>

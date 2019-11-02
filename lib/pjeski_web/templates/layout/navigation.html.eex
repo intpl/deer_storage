@@ -1,0 +1,45 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <strong>🐶 Pjeski System</strong>
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="pjeskiNavigation">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="pjeskiNavigation" class="navbar-menu">
+  <%= if @current_user do %>
+    <div class="navbar-start">
+      <a class="navbar-item">
+        Clients
+      </a>
+
+      <a class="navbar-item">
+        Visits
+      </a>
+
+      <a class="navbar-item">
+        Animals
+      </a>
+    </div>
+    <% end %>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <%= if @current_user do %>
+            <%= link @current_user.email, to: Routes.pow_registration_path(@conn, :edit), method: :get, class: "button is-light navbar-item" %>
+            <%= link "Log out", to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "button is-link navbar-item" %>
+          <% else %>
+            <a class="button is-primary" target="_blank" href="mailto:bgladecki@gmail.com?subject=Pjeski System demo&body=Proszę udostępnić mi ten rewelacyjny system do testów!"> <strong>Request a demo</strong> </a>
+            <%= link "Log in", to: Routes.pow_session_path(@conn, :new), class: 'button is-light' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

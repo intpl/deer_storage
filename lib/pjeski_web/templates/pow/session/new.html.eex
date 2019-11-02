@@ -1,24 +1,43 @@
-<h1>Sign in</h1>
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Log in
+      </h1>
+      <h2 class="subtitle">
+        Log in to Pjeski System
+      </h2>
+    </div>
+  </div>
+</section>
 
-<%= form_for @changeset, @action, [as: :user], fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
+<section class="section">
+  <div class="container">
+    <%= form_for @changeset, @action, [as: :user], fn f -> %>
+    <%= if @changeset.action do %>
+    <div class="help is-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
-  <% end %>
+    <% end %>
 
-  <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    <div class="field">
+      <%= label f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'label' %>
+      <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button' %>
+      <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    </div>
 
-  <%= label f, :password %>
-  <%= password_input f, :password %>
-  <%= error_tag f, :password %>
+    <div class="field">
+      <%= label f, :password, class: 'label' %>
+      <%= password_input f, :password, class: 'button' %>
+      <%= error_tag f, :password %>
+    </div>
 
-  <div>
-    <%= submit "Sign in" %>
+    <div>
+      <%= submit "Sign in", class: 'button' %>
+    </div>
+    <% end %>
+
+
+    <span><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></span>
   </div>
-<% end %>
-
-
-<span><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></span>
+</section>

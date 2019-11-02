@@ -3,14 +3,16 @@
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pjeski</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
     <main role="main">
-      <p role="alert"><%= get_flash(@conn, :info) %></p>
-      <p role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= render "navigation.html", current_user: @current_user, conn: @conn %>
+      <div role="alert" class="help is-danger"><%= get_flash(@conn, :error) %></div>
+      <div role="alert" class="help is-success"><%= get_flash(@conn, :info) %></div>
+      <div role="alert" class="help is-info"><%= get_flash(@conn, :notice) %></div>
       <%= render @view_module, @view_template, assigns %>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
