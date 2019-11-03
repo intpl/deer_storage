@@ -23,4 +23,5 @@
   "pow": {:hex, :pow, "1.0.14", "e7882e05c78dfd2f54c8ddcc98ac08ea317e235e667de1fabf8d0be5cee1bb2d", [:mix], [{:ecto, "~> 2.2 or ~> 3.0", [hex: :ecto, repo: "hexpm", optional: false]}, {:phoenix, "~> 1.3.0 or ~> 1.4.0", [hex: :phoenix, repo: "hexpm", optional: false]}, {:phoenix_html, ">= 2.0.0 and <= 3.0.0", [hex: :phoenix_html, repo: "hexpm", optional: false]}, {:plug, ">= 1.5.0 and < 2.0.0", [hex: :plug, repo: "hexpm", optional: true]}], "hexpm"},
   "ranch": {:hex, :ranch, "1.7.1", "6b1fab51b49196860b733a49c07604465a47bdb78aa10c1c16a3d199f7f8c881", [:rebar3], [], "hexpm"},
   "telemetry": {:hex, :telemetry, "0.4.0", "8339bee3fa8b91cb84d14c2935f8ecf399ccd87301ad6da6b71c09553834b2ab", [:rebar3], [], "hexpm"},
+  "turbolinks": {:hex, :turbolinks, "1.0.1", "ee48ddc70884c738ff5a58a004d2565276cf5841f3ef43c22afd884d0404603e", [:mix], [{:phoenix, "~> 1.0", [hex: :phoenix, repo: "hexpm", optional: false]}, {:plug, "~> 1.0", [hex: :plug, repo: "hexpm", optional: false]}], "hexpm"},
 }

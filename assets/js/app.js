@@ -2,17 +2,23 @@
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import css from "../css/app.css"
-import "./navbar_burger.js"
+
+// Import jQuery
+window.$ = window.jQuery = require("jquery");
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
 // in "webpack.config.js".
 //
 // Import dependencies
-//
+
 import "phoenix_html"
+import "./navbar_burger"
 
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
+
+import Turbolinks from 'turbolinks'
+Turbolinks.start()

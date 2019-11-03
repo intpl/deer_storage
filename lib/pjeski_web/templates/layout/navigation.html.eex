@@ -6,14 +6,14 @@
       </strong>
     </a>
 
-    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="pjeskiNavigation">
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
   </div>
 
-  <div id="pjeskiNavigation" class="navbar-menu">
+  <div id="navigation" class="navbar-menu">
   <%= if @current_user do %>
     <div class="navbar-start">
       <a class="navbar-item">
