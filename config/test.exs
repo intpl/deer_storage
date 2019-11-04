@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :pjeski, Pjeski.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "pjeski",
+  password: "pjeski",
   database: "pjeski_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
