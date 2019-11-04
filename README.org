@@ -1,3 +1,12 @@
+* Important things to remember
+** Atoms are not garbage collected, how to check them
+#+BEGIN_SRC
+iex(1)> :erlang.system_info(:atom_limit)
+1048576
+iex(2)> :erlang.system_info(:atom_count)
+22931
+#+END_SRC
+
 * Cool libraries to use
 authentication and user management: https://github.com/danschultzer/pow
 authorization: https://github.com/jarednorman/canada
