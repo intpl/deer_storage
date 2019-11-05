@@ -16,6 +16,17 @@
   <div id="navigation" class="navbar-menu">
   <%= if @current_user do %>
     <div class="navbar-start">
+
+      <%= if @current_user.role == "admin" do %>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <%= gettext("Admin") %>
+          </a>
+          <div class="navbar-dropdown is-boxed">
+            <%= link gettext("Users"), to: Routes.admin_user_path(@conn, :index), class: 'navbar-item' %>
+          </div>
+        </div>
+      <% end %>
       <a class="navbar-item">
         <%= gettext("Clients") %>
       </a>

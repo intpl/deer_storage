@@ -26,8 +26,9 @@
           <h4 class="title is-4">
             <%= gettext("General settings") %>
           </h4>
+
           <div class="field">
-            <%= label f, :displayed_name, gettext("Clinic name"), class: 'label' %>
+            <%= label f, :displayed_name, gettext("Displayed name"), class: 'label' %>
             <%= text_input f, :displayed_name, class: 'button' %>
             <%= error_tag f, :displayed_name %>
           </div>

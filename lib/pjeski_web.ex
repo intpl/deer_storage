@@ -24,6 +24,7 @@ defmodule PjeskiWeb do
 
       import Plug.Conn
       import PjeskiWeb.Gettext
+      import PjeskiWeb.Controllers.Helpers, only: [redirect_back: 2]
       alias PjeskiWeb.Router.Helpers, as: Routes
     end
   end

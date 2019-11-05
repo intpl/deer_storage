@@ -20,6 +20,14 @@
     </div>
     <% end %>
 
+    KURWA
+
+    <div class="field">
+      <%= label f, :role, gettext("User Role), class: 'label' %>
+      <%= text_input f, :role, class: 'button' %>
+      <%= error_tag f, :role %>
+    </div>
+
     <div class="field">
       <%= label f, :displayed_name, gettext("Displayed name"), class: 'label' %>
       <%= text_input f, :displayed_name, class: 'button' %>

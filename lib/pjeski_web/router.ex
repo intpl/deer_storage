@@ -10,12 +10,27 @@ defmodule PjeskiWeb.Router do
     plug :put_secure_browser_headers
     plug Pjeski.UserData
     plug Turbolinks
+    plug NavigationHistory.Tracker
+  end
+
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
+  pipeline :admin do
+    plug PjeskiWeb.EnsureRolePlug, :admin
   end
 
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
-    # Add your protected routes here
+    scope "/admin", Admin, as: :admin do
+      pipe_through [:admin]
+
+      resources "/users", UserController do
+        put "/toggle_admin", UserController, :toggle_admin
+      end
+    end
   end
 
   scope "/" do

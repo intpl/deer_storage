@@ -1,0 +1,36 @@
+<%= render "_header.html" %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= gettext("ID") %></th>
+      <th><%= gettext("Language") %></th>
+      <th><%= gettext("E-mail") %></th>
+      <th><%= gettext("Displayed name") %></th>
+      <th><%= gettext("Actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for user <- @users do %>
+        <tr>
+          <td>
+            <%= link user.id, to: Routes.admin_user_path(@conn, :show, user) %>
+          </td>
+          <td><%= user.locale %></td>
+          <td><%= user.email %></td>
+          <td><%= user.displayed_name %></td>
+          <td>
+            <span><%= link gettext("Summary"), to: Routes.admin_user_path(@conn, :show, user) %></span>
+            <span><%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user) %></span>
+            <%= if user.role == "admin" do %> (Admin) <% end %>
+          </td>
+        </tr>
+        <% end %>
+  </tbody>
+</table>
+
+<section class="section">
+  <div class="container">
+    <%= link gettext("New User"), to: Routes.admin_user_path(@conn, :new), class: "button is-primary" %>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+<%= render "_header.html" %>
+<%= link gettext("Back"), to: Routes.admin_user_path(@conn, :index), class: "button is-text" %>
+<%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, @user), class: "button is-text" %>
+
+<section class="section">
+  <div class="container">
+    <br>
+
+    <h4 class="title is-4">
+      <%= @user.displayed_name %>
+      <%= if @user.role == "admin" do %>
+        <span class="has-text-danger">(<%= gettext("Administrator") %>)</span>
+      <% end %>
+    </h4>
+    <h4 class="subtitle is-4"><%= @user.email %></h4>
+
+    <table class="table">
+      <tr>
+        <td><%= gettext("Displayed name") %></td><td><%= @user.displayed_name %></td>
+      </tr>
+      <tr>
+        <td><%= gettext("E-mail") %></td><td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <td><%= gettext("Role") %></td><td><%= @user.role %></td>
+      </tr>
+      <tr>
+        <td><%= gettext("Language") %></td><td><%= @user.locale %></td>
+      </tr>
+    </table>
+  </div>
+</section>

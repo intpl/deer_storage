@@ -49,6 +49,7 @@ defmodule Pjeski.MixProject do
       {:pow, "~> 1.0.14"},
       {:ecto_enum, "~> 1.4"},
       {:turbolinks, "~> 1.0"},
+      {:navigation_history, "~> 0.3"},
     ]
   end
 

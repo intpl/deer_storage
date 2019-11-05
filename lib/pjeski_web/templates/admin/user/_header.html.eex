@@ -1,0 +1,12 @@
+<section class="hero is-warning">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <%= gettext("Admin Panel") %>
+      </h1>
+      <h2 class="subtitle">
+        <%= gettext("Be extra careful here") %>
+      </h2>
+    </div>
+  </div>
+</section>
