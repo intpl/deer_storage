@@ -1,14 +1,6 @@
 defmodule PjeskiWeb.LayoutView do
   use PjeskiWeb, :view
 
-  def request_demo_mailto_href do
-    email_address="bgladecki@gmail.com"
-    subject="Clinic Management System demo"
-    body="Proszę udostępnić mi ten rewelacyjny system do testów!"
-
-    "mailto:" <> email_address <> "?subject=" <> subject <> "&body=" <> body
-  end
-
   def build_title_for_user(%{displayed_name: name}) when not is_nil(name) do
     name <> " - " <> gettext("Clinic Management System")
   end
