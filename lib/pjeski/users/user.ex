@@ -2,7 +2,7 @@ defmodule Pjeski.Users.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
 
-  import Pow.Ecto.Schema.Changeset, only: [new_password_changeset: 3]
+  import Pow.Ecto.Schema.Changeset, only: [new_password_changeset: 3, user_id_field_changeset: 3]
   import Ecto.Changeset
 
   schema "users" do
@@ -16,20 +16,23 @@ defmodule Pjeski.Users.User do
     timestamps()
   end
 
+  # TODO extract validations in separate common function
   def admin_changeset(user_or_changeset, params) do
     user_or_changeset
-    |> cast(params, [:locale, :displayed_name, :role, :email, :admin_notes])
-    |> validate_required(:displayed_name)
+    |> cast(params, [:locale, :displayed_name, :role, :admin_notes])
+    |> new_password_changeset(params, @pow_config)
+    |> user_id_field_changeset(params, @pow_config)
+    |> validate_required([:displayed_name])
     |> validate_inclusion(:locale, available_locales_atoms())
     |> validate_role()
-    |> new_password_changeset(params, @pow_config)
   end
 
+  # TODO extract validations in separate common function
   def changeset(user_or_changeset, params) do
     user_or_changeset
     |> pow_changeset(params)
     |> cast(params, [:locale, :displayed_name])
-    |> validate_required(:displayed_name)
+    |> validate_required([:displayed_name, :email])
     |> validate_inclusion(:locale, available_locales_atoms())
     |> validate_role()
   end
