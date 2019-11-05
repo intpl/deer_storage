@@ -34,7 +34,7 @@ msgid "Register"
 msgstr "Zarejestruj"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:56
+#: lib/pjeski_web/templates/layout/navigation.html.eex:55
 #: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/pow/session/new.html.eex:5
 #: lib/pjeski_web/templates/pow/session/new.html.eex:36
 msgid "Sign in"
@@ -57,7 +57,7 @@ msgstr "Angielski"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:15
-#: lib/pjeski_web/templates/admin/user/index.html.eex:7 lib/pjeski_web/templates/admin/user/show.html.eex:28
+#: lib/pjeski_web/templates/admin/user/index.html.eex:7 lib/pjeski_web/templates/admin/user/show.html.eex:34
 #: lib/pjeski_web/templates/pow/registration/edit.html.eex:37 lib/pjeski_web/templates/pow/registration/new.html.eex:30
 msgid "Language"
 msgstr "Język"
@@ -80,7 +80,7 @@ msgstr "Hasło"
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:5
-#: lib/pjeski_web/views/layout_view.ex:13 lib/pjeski_web/views/layout_view.ex:17 lib/pjeski_web/views/layout_view.ex:25
+#: lib/pjeski_web/views/layout_view.ex:5 lib/pjeski_web/views/layout_view.ex:13
 msgid "Clinic Management System"
 msgstr "System Zarządzania Kliniką"
 
@@ -163,12 +163,12 @@ msgstr "Nowe hasło"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/index.html.eex:8
-#: lib/pjeski_web/templates/admin/user/show.html.eex:22 lib/pjeski_web/templates/pow/session/new.html.eex:24
+#: lib/pjeski_web/templates/admin/user/show.html.eex:28 lib/pjeski_web/templates/pow/session/new.html.eex:24
 msgid "E-mail"
 msgstr "Adres E-mail"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:55
+#: lib/pjeski_web/templates/layout/navigation.html.eex:54
 msgid "Free demo"
 msgstr "Przetestuj za darmo"
 
@@ -242,12 +242,12 @@ msgid "Revoke admin privileges"
 msgstr "Odbierz prawa administratora"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:25
+#: lib/pjeski_web/templates/admin/user/show.html.eex:31
 msgid "Role"
 msgstr "Rola"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/form.html.eex:32
+#: lib/pjeski_web/templates/admin/user/form.html.eex:38
 msgid "Save"
 msgstr "Zapisz"
 
@@ -284,7 +284,7 @@ msgstr "Edytujesz konto innego administratora"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:9
-#: lib/pjeski_web/templates/admin/user/index.html.eex:9 lib/pjeski_web/templates/admin/user/show.html.eex:19
+#: lib/pjeski_web/templates/admin/user/index.html.eex:9 lib/pjeski_web/templates/admin/user/show.html.eex:25
 #: lib/pjeski_web/templates/pow/registration/edit.html.eex:31 lib/pjeski_web/templates/pow/registration/new.html.eex:24
 msgid "Displayed name"
 msgstr "Wyświetlana nazwa"
@@ -295,7 +295,12 @@ msgstr "Wyświetlana nazwa"
 msgid "New User"
 msgstr "Nowy Użytkownik"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/admin/user/edit.html.eex:25
 msgid "Delete account"
 msgstr "Usuń konto"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/admin/user/form.html.eex:33
+msgid "Admin Notes"
+msgstr "Notatki administracyjne"

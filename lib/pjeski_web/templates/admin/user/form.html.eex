@@ -19,7 +19,7 @@
 
   <div class="field">
     <%= label f, gettext("E-mail address"), class: 'label' %>
-    <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button disabled' %>
+    <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button' %>
     <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
   </div>
 
@@ -27,6 +27,12 @@
     <%= label f, gettext("New password"), class: 'label' %>
     <%= password_input f, :password, class: 'button' %>
     <%= error_tag f, :password %>
+  </div>
+
+  <div class="field">
+    <%= label f, gettext("Admin Notes"), class: 'label' %>
+    <%= textarea f, :admin_notes, class: 'textarea' %>
+    <%= error_tag f, :admin_notes %>
   </div>
   <div>
     <%= submit gettext("Save"), class: 'button is-primary' %>

@@ -14,6 +14,12 @@
     </h4>
     <h4 class="subtitle is-4"><%= @user.email %></h4>
 
+    <%= if @user.admin_notes do %>
+      <article class="message">
+        <div class="message-body admin-notes"><%= @user.admin_notes %></div>
+      </article>
+    <% end %>
+
     <table class="table">
       <tr>
         <td><%= gettext("Displayed name") %></td><td><%= @user.displayed_name %></td>

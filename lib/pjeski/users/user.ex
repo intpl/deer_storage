@@ -8,6 +8,7 @@ defmodule Pjeski.Users.User do
   schema "users" do
     field :locale, LocaleEnum
     field :displayed_name, :string
+    field :admin_notes, :string
     field :role, :string, default: "user"
 
     pow_user_fields()
@@ -17,7 +18,7 @@ defmodule Pjeski.Users.User do
 
   def admin_changeset(user_or_changeset, params) do
     user_or_changeset
-    |> cast(params, [:locale, :displayed_name, :role, :email])
+    |> cast(params, [:locale, :displayed_name, :role, :email, :admin_notes])
     |> validate_required(:displayed_name)
     |> validate_inclusion(:locale, available_locales_atoms())
     |> validate_role()
