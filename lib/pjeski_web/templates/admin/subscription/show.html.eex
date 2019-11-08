@@ -1,0 +1,27 @@
+<%= render "_header.html" %>
+<%= link gettext("Index"), to: Routes.admin_subscription_path(@conn, :index), class: "button is-text" %>
+<%= link gettext("Edit"), to: Routes.admin_subscription_path(@conn, :edit, @subscription), class: "button is-text" %>
+
+
+<section class="section">
+  <div class="container">
+    <br>
+    <ul>
+      <li>
+        <strong><%= gettext("Name") %>:</strong>
+        <%= @subscription.name %>
+      </li>
+
+      <li>
+        <strong><%= gettext("Email") %>:</strong>
+        <%= @subscription.email %>
+      </li>
+
+      <li>
+        <strong><%= gettext("Expires on") %>:</strong>
+        <%= @subscription.expires_on %>
+      </li>
+
+    </ul>
+  </div>
+</section>

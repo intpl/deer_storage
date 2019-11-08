@@ -1,5 +1,5 @@
 <%= render "_header.html" %>
-<%= link gettext("Back"), to: Routes.admin_user_path(@conn, :index), class: "button is-text" %>
+<%= link gettext("Index"), to: Routes.admin_user_path(@conn, :index), class: "button is-text" %>
 <%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, @user), class: "button is-text" %>
 
 <section class="section">

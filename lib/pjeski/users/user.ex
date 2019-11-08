@@ -5,11 +5,14 @@ defmodule Pjeski.Users.User do
   import Pow.Ecto.Schema.Changeset, only: [new_password_changeset: 3, user_id_field_changeset: 3]
   import Ecto.Changeset
 
+  alias Pjeski.Subscriptions.Subscription
+
   schema "users" do
     field :locale, LocaleEnum
     field :displayed_name, :string
     field :admin_notes, :string
     field :role, :string, default: "user"
+    belongs_to :subscription, Subscription
 
     pow_user_fields()
 
@@ -19,7 +22,7 @@ defmodule Pjeski.Users.User do
   # TODO extract validations in separate common function
   def admin_changeset(user_or_changeset, params) do
     user_or_changeset
-    |> cast(params, [:locale, :displayed_name, :role, :admin_notes])
+    |> cast(params, [:locale, :displayed_name, :role, :admin_notes, :subscription_id])
     |> new_password_changeset(params, @pow_config)
     |> user_id_field_changeset(params, @pow_config)
     |> validate_required([:displayed_name])

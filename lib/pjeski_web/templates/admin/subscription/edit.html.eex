@@ -1,0 +1,10 @@
+<%= render "_header.html" %>
+<%= link gettext("Index"), to: Routes.admin_subscription_path(@conn, :index), class: "button is-text" %>
+<%= link gettext("Summary"), to: Routes.admin_subscription_path(@conn, :show, @subscription), class: "button is-text" %>
+
+<section class="section">
+  <div class="container">
+
+    <%= render "form.html", Map.put(assigns, :action, Routes.admin_subscription_path(@conn, :update, @subscription)) %>
+  </div>
+</section>

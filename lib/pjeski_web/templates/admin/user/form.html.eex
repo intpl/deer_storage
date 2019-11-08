@@ -1,7 +1,7 @@
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+    <div class="is-size-4 has-text-danger">
+      <p><%= gettext("Oops, something went wrong! Please check the errors below.") %></p>
     </div>
   <% end %>
 
@@ -33,6 +33,12 @@
     <%= label f, gettext("Admin Notes"), class: 'label' %>
     <%= textarea f, :admin_notes, class: 'textarea' %>
     <%= error_tag f, :admin_notes %>
+  </div>
+
+  <div class="field">
+    <%= label f, gettext("Attached Subscription"), class: 'label' %>
+    <%= select f, :subscription_id, all_subscriptions_options(), class: 'button' %>
+    <%= error_tag f, :subscription_id %>
   </div>
   <div>
     <%= submit gettext("Save"), class: 'button is-primary' %>

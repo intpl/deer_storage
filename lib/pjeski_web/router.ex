@@ -30,6 +30,8 @@ defmodule PjeskiWeb.Router do
       resources "/users", UserController do
         put "/toggle_admin", UserController, :toggle_admin
       end
+
+      resources "/subscriptions", SubscriptionController
     end
   end
 

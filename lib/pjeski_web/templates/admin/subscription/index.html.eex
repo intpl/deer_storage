@@ -1,0 +1,31 @@
+<%= render "_header.html" %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= gettext("Subscription name") %></th>
+      <th><%= gettext("E-mail") %></th>
+      <th><%= gettext("Expires on") %></th>
+      <th><%= gettext("Actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for subscription <- @subscriptions do %>
+        <tr>
+          <td><%= subscription.name %></td>
+          <td><%= subscription.email %></td>
+          <td><%= subscription.expires_on %></td>
+          <td>
+            <span><%= link gettext("Summary"), to: Routes.admin_subscription_path(@conn, :show, subscription) %></span>
+            <span><%= link gettext("Edit"), to: Routes.admin_subscription_path(@conn, :edit, subscription) %></span>
+          </td>
+        </tr>
+        <% end %>
+  </tbody>
+</table>
+
+<section class="section">
+  <div class="container">
+    <%= link gettext("New Subscription"), to: Routes.admin_subscription_path(@conn, :new), class: "button is-primary" %>
+  </div>
+</section>

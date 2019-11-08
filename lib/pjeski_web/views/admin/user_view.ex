@@ -1,6 +1,11 @@
 defmodule PjeskiWeb.Admin.UserView do
   use PjeskiWeb, :view
+
   import PjeskiWeb.Pow.RegistrationView, only: [ languages_select_options: 0 ]
+  import PjeskiWeb.Admin.SubscriptionView, only: [
+    all_subscriptions_options: 0,
+    subscription_expires_datetime: 2
+  ]
 
   def toggle_admin_button(conn, user) do
     text = if user.role == "admin" do
