@@ -31,7 +31,7 @@ msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 #: lib/pjeski_web/templates/page/index.html.eex:23
 #: lib/pjeski_web/templates/pow/registration/new.html.eex:5 lib/pjeski_web/templates/pow/registration/new.html.eex:54
 msgid "Register"
-msgstr "Zarejestruj"
+msgstr "Zarejestruj się"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation.html.eex:55
