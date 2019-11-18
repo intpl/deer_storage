@@ -40,7 +40,7 @@ defmodule Pjeski.Subscriptions do
   def demo_subscription_changeset_for_user(user_attrs) do
     %Subscription{
       email: user_attrs.email,
-      name: user_attrs.displayed_name,
+      name: user_attrs.name,
       expires_on: Date.add(Date.utc_today, 14)
     }
   end

@@ -7,7 +7,7 @@
     <br>
 
     <h4 class="title is-4">
-      <%= @user.displayed_name %>
+      <%= @user.name %>
       <%= if @user.role == "admin" do %>
         <span class="has-text-danger">(<%= gettext("Administrator") %>)</span>
       <% end %>
@@ -22,7 +22,7 @@
 
     <table class="table">
       <tr>
-        <td><%= gettext("Displayed name") %></td><td><%= @user.displayed_name %></td>
+        <td><%= gettext("Name") %></td><td><%= @user.name %></td>
       </tr>
       <tr>
         <td><%= gettext("E-mail") %></td><td><%= @user.email %></td>

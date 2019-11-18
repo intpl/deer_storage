@@ -6,12 +6,12 @@ defmodule Pjeski.UsersTest do
   describe "users" do
     alias Pjeski.Users.User
 
-    @valid_attrs %{email: "some bio", email: "test@example.org", displayed_name: "Henryk Testowny", password: "secret123", confirm_password: "secret123", locale: "pl"}
+    @valid_attrs %{email: "some bio", email: "test@example.org", name: "Henryk Testowny", password: "secret123", confirm_password: "secret123", locale: "pl"}
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
       assert user.email == "test@example.org"
-      assert user.displayed_name == "Henryk Testowny"
+      assert user.name == "Henryk Testowny"
       assert user.password == "secret123"
       assert user.locale == :pl
     end
@@ -21,13 +21,13 @@ defmodule Pjeski.UsersTest do
       refute changeset.valid?
     end
 
-    test "create_user/1 without displayed_name returns error changeset" do
-      changeset = User.changeset(%User{}, Map.delete(@valid_attrs, :displayed_name))
+    test "create_user/1 without name returns error changeset" do
+      changeset = User.changeset(%User{}, Map.delete(@valid_attrs, :name))
       refute changeset.valid?
     end
 
-    test "create_user/1 with blank displayed_name returns error changeset" do
-      changeset = User.changeset(%User{}, Map.put(@valid_attrs, :displayed_name, ""))
+    test "create_user/1 with blank name returns error changeset" do
+      changeset = User.changeset(%User{}, Map.put(@valid_attrs, :name, ""))
       refute changeset.valid?
     end
 
@@ -50,7 +50,7 @@ defmodule Pjeski.UsersTest do
 
     test "changeset is invalid if email is used already" do
       %User{} |> User.changeset(@valid_attrs) |> Pjeski.Repo.insert!
-      user2 = %User{} |> User.changeset(@valid_attrs |> Map.put(:displayed_name, "test2"))
+      user2 = %User{} |> User.changeset(@valid_attrs |> Map.put(:name, "test2"))
 
       assert {:error, changeset} = Repo.insert(user2)
       assert { "has already been taken", _ } = changeset.errors[:email]

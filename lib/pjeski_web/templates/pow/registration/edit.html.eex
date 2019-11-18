@@ -28,9 +28,9 @@
           </h4>
 
           <div class="field">
-            <%= label f, :displayed_name, gettext("Displayed name"), class: 'label' %>
-            <%= text_input f, :displayed_name, class: 'button' %>
-            <%= error_tag f, :displayed_name %>
+            <%= label f, :name, gettext("Name"), class: 'label' %>
+            <%= text_input f, :name, class: 'button' %>
+            <%= error_tag f, :name %>
           </div>
 
           <div class="field">

@@ -26,7 +26,7 @@ defmodule Pjeski.Users do
   end
 
   def create_demo_user(attrs \\ %{}) do
-    # FIXME: Pjeski.Users.create_demo_user(%{email: "dupa@dupa.pl", displayed_name: "Dupa Solutions", password: "dupadupa", confirm_password: "dupadupa"})
+    # FIXME: Pjeski.Users.create_demo_user(%{email: "dupa@dupa.pl", name: "Dupa Solutions", password: "dupadupa", confirm_password: "dupadupa"})
 
     Multi.new
     |> Multi.insert(:subscription, Subscriptions.demo_subscription_changeset_for_user(attrs))

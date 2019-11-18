@@ -9,7 +9,7 @@ defmodule Pjeski.Users.User do
 
   schema "users" do
     field :locale, LocaleEnum
-    field :displayed_name, :string
+    field :name, :string
     field :admin_notes, :string
     field :role, :string, default: "user"
     belongs_to :subscription, Subscription
@@ -22,10 +22,10 @@ defmodule Pjeski.Users.User do
   # TODO extract validations in separate common function
   def admin_changeset(user_or_changeset, params) do
     user_or_changeset
-    |> cast(params, [:locale, :displayed_name, :role, :admin_notes, :subscription_id])
+    |> cast(params, [:locale, :name, :role, :admin_notes, :subscription_id])
     |> new_password_changeset(params, @pow_config)
     |> user_id_field_changeset(params, @pow_config)
-    |> validate_required([:displayed_name])
+    |> validate_required([:name])
     |> validate_inclusion(:locale, available_locales_atoms())
     |> validate_role()
   end
@@ -34,8 +34,8 @@ defmodule Pjeski.Users.User do
   def changeset(user_or_changeset, params) do
     user_or_changeset
     |> pow_changeset(params)
-    |> cast(params, [:locale, :displayed_name])
-    |> validate_required([:displayed_name, :email])
+    |> cast(params, [:locale, :name])
+    |> validate_required([:name, :email])
     |> validate_inclusion(:locale, available_locales_atoms())
     |> validate_role()
   end

@@ -3,7 +3,7 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
 
   alias Pjeski.Users
 
-  @create_attrs %{email: "some bio", email: "test@example.org", displayed_name: "Henryk Testowny", password: "secret123", confirm_password: "secret123", locale: "pl"}
+  @create_attrs %{email: "some bio", email: "test@example.org", name: "Henryk Testowny", password: "secret123", confirm_password: "secret123", locale: "pl"}
   @update_attrs %{admin: true}
   @invalid_attrs %{email: nil}
 

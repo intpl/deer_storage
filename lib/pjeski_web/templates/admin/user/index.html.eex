@@ -6,7 +6,7 @@
       <th><%= gettext("ID") %></th>
       <th><%= gettext("Language") %></th>
       <th><%= gettext("E-mail") %></th>
-      <th><%= gettext("Displayed name") %></th>
+      <th><%= gettext("Name") %></th>
       <th><%= gettext("Subscription ends") %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
@@ -19,7 +19,7 @@
           </td>
           <td><%= user.locale %></td>
           <td><%= user.email %></td>
-          <td><%= user.displayed_name %></td>
+          <td><%= user.name %></td>
           <td><%= subscription_expires_datetime(@conn, user) %></td>
           <td>
             <span><%= link gettext("Summary"), to: Routes.admin_user_path(@conn, :show, user) %></span>

@@ -5,7 +5,7 @@ defmodule PjeskiWeb.LayoutView do
     gettext("Clinic Management System")
   end
 
-  def build_header_for_user(%{displayed_name: name}) do
+  def build_header_for_user(%{name: name}) do
     name |> prepend_emoji
   end
 
