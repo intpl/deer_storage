@@ -17,10 +17,22 @@ defmodule Pjeski.Subscriptions do
     |> Repo.preload(:users)
   end
 
+  def admin_create_subscription(attrs \\ %{}) do
+    %Subscription{}
+    |> Subscription.admin_changeset(attrs)
+    |> Repo.insert()
+  end
+
   def create_subscription(attrs \\ %{}) do
     %Subscription{}
     |> Subscription.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def admin_update_subscription(%Subscription{} = subscription, attrs) do
+    subscription
+    |> Subscription.admin_changeset(attrs)
+    |> Repo.update()
   end
 
   def update_subscription(%Subscription{} = subscription, attrs) do
@@ -37,11 +49,7 @@ defmodule Pjeski.Subscriptions do
     Subscription.changeset(subscription, %{})
   end
 
-  def demo_subscription_changeset_for_user(user_attrs) do
-    %Subscription{
-      email: user_attrs.email,
-      name: user_attrs.name,
-      expires_on: Date.add(Date.utc_today, 14)
-    }
+  def admin_change_subscription(%Subscription{} = subscription) do
+    Subscription.admin_changeset(subscription, %{})
   end
 end

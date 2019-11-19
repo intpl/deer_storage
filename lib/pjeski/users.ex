@@ -1,11 +1,8 @@
 defmodule Pjeski.Users do
   import Ecto.Query, warn: false
-
   alias Pjeski.Repo
-  alias Ecto.Multi
 
   alias Pjeski.Users.User
-  alias Pjeski.Subscriptions
 
   def list_users do
     User
@@ -23,19 +20,6 @@ defmodule Pjeski.Users do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
-  end
-
-  def create_demo_user(attrs \\ %{}) do
-    # FIXME: Pjeski.Users.create_demo_user(%{email: "dupa@dupa.pl", name: "Dupa Solutions", password: "dupadupa", confirm_password: "dupadupa"})
-
-    Multi.new
-    |> Multi.insert(:subscription, Subscriptions.demo_subscription_changeset_for_user(attrs))
-    |> Multi.run(:user, fn repo, %{subscription: subscription} ->
-      User.changeset(%User{}, attrs)
-      |> Ecto.Changeset.put_assoc(:subscription, subscription)
-      |> repo.insert
-    end)
-    |> Repo.transaction
   end
 
   def update_user(%User{} = user, attrs) do

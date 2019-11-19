@@ -16,7 +16,7 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
   end
 
   def create(conn, %{"subscription" => subscription_params}) do
-    case Subscriptions.create_subscription(subscription_params) do
+    case Subscriptions.admin_create_subscription(subscription_params) do
       {:ok, subscription} ->
         conn
         |> put_flash(:info, "Subscription created successfully.")
@@ -34,14 +34,14 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
 
   def edit(conn, %{"id" => id}) do
     subscription = Subscriptions.get_subscription!(id)
-    changeset = Subscriptions.change_subscription(subscription)
+    changeset = Subscriptions.admin_change_subscription(subscription)
     render(conn, "edit.html", subscription: subscription, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "subscription" => subscription_params}) do
     subscription = Subscriptions.get_subscription!(id)
 
-    case Subscriptions.update_subscription(subscription, subscription_params) do
+    case Subscriptions.admin_update_subscription(subscription, subscription_params) do
       {:ok, subscription} ->
         conn
         |> put_flash(:info, "Subscription updated successfully.")

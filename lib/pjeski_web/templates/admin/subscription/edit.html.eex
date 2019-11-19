@@ -4,7 +4,17 @@
 
 <section class="section">
   <div class="container">
-
     <%= render "form.html", Map.put(assigns, :action, Routes.admin_subscription_path(@conn, :update, @subscription)) %>
+
+    <%= if (length @subscription.users) == 0 do %>
+      <br>
+      <br>
+      <%= gettext("No users are attached to this subscription. ") %>
+      <br>
+      <%= link gettext("Delete this subscription"),
+          to: Routes.admin_subscription_path(@conn, :delete, @subscription),
+          method: :delete,
+          data: [confirm: gettext("Are you sure?")] %>
+    <% end %>
   </div>
 </section>

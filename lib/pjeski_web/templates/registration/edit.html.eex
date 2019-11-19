@@ -21,6 +21,10 @@
       </div>
       <% end %>
 
+      <div class="notification is-info">
+        <%= gettext("Your subscription ends in %{days} days", days: days_to_expire(@current_user)) %>
+      </div>
+
       <div class="columns">
         <div class="column">
           <h4 class="title is-4">
@@ -28,7 +32,7 @@
           </h4>
 
           <div class="field">
-            <%= label f, :name, gettext("Name"), class: 'label' %>
+            <%= label f, :name, gettext("Name and surname"), class: 'label' %>
             <%= text_input f, :name, class: 'button' %>
             <%= error_tag f, :name %>
           </div>

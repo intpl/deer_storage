@@ -19,7 +19,15 @@
 
   <div class="field">
     <%= label f, gettext("Expires on"), class: 'label' %>
-    <%= date_select f, :expires_on, class: 'button' %>
+
+    <div class="control">
+      <%= date_select f, :expires_on, builder: fn b ->  %>
+        <div class="select"><%= b.(:day, [class: "input"] ) %></div>
+        <div class="select"><%= b.(:month, [class: "input"]) %></div>
+        <div class="select"><%= b.(:year, [class: "input"]) %></div>
+      <% end %>
+    </div>
+
     <%= error_tag f, :expires_on %>
   </div>
 

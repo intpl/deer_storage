@@ -6,6 +6,7 @@
       <th><%= gettext("Subscription name") %></th>
       <th><%= gettext("E-mail") %></th>
       <th><%= gettext("Expires on") %></th>
+      <th><%= gettext("Users") %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
   </thead>
@@ -15,6 +16,7 @@
           <td><%= subscription.name %></td>
           <td><%= subscription.email %></td>
           <td><%= subscription.expires_on %></td>
+          <td><%= length subscription.users %></td>
           <td>
             <span><%= link gettext("Summary"), to: Routes.admin_subscription_path(@conn, :show, subscription) %></span>
             <span><%= link gettext("Edit"), to: Routes.admin_subscription_path(@conn, :edit, subscription) %></span>

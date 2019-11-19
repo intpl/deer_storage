@@ -6,9 +6,11 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
     gettext("empty")
   end
 
-  def subscription_expires_datetime(conn, %Pjeski.Users.User{subscription: subscription} = user) do
+  def subscription_expires_datetime(conn, %Pjeski.Users.User{subscription: subscription}) do
     link subscription.expires_on, to: Routes.admin_subscription_path(conn, :show, subscription.id)
   end
+
+  def all_subscriptions_options_with_empty, do: Map.merge %{nil => nil}, all_subscriptions_options()
 
   def all_subscriptions_options do
     Pjeski.Subscriptions.list_subscriptions()

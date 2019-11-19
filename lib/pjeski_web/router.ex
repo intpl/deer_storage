@@ -44,7 +44,7 @@ defmodule PjeskiWeb.Router do
   scope "/" do
     pipe_through :browser
 
-    pow_session_routes
+    pow_session_routes()
     # pow_extension_routes()
 
     resources "/registration",

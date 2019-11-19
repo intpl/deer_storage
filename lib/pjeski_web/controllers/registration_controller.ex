@@ -13,7 +13,7 @@ defmodule PjeskiWeb.RegistrationController do
     conn
     |> Pow.Plug.create_user(user_params)
     |> case do
-      {:ok, user, conn} ->
+      {:ok, _user, conn} ->
         conn
         |> put_flash(:info, "Welcome!")
         |> redirect(to: Routes.page_path(conn, :index))
@@ -27,7 +27,7 @@ defmodule PjeskiWeb.RegistrationController do
     conn
     |> Pow.Plug.update_user(user_params)
     |> case do
-      {:ok, user, conn} ->
+      {:ok, _user, conn} ->
         conn
         |> put_flash(:info, "Changed succesfully!")
         |> redirect(to: Routes.page_path(conn, :index))

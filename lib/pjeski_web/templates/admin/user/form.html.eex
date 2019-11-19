@@ -37,7 +37,7 @@
 
   <div class="field">
     <%= label f, gettext("Attached Subscription"), class: 'label' %>
-    <%= select f, :subscription_id, all_subscriptions_options(), class: 'button' %>
+    <%= select f, :subscription_id, all_subscriptions_options_with_empty(), class: 'button' %>
     <%= error_tag f, :subscription_id %>
   </div>
   <div>

@@ -3,7 +3,7 @@ defmodule PjeskiWeb.Admin.UserView do
 
   import PjeskiWeb.RegistrationView, only: [ languages_select_options: 0 ]
   import PjeskiWeb.Admin.SubscriptionView, only: [
-    all_subscriptions_options: 0,
+    all_subscriptions_options_with_empty: 0,
     subscription_expires_datetime: 2
   ]
 
