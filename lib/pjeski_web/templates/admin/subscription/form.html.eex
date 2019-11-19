@@ -28,6 +28,14 @@
       <% end %>
     </div>
 
+    <br>
+
+    <div class="field">
+      <%= label f, gettext("Admin Notes"), class: 'label' %>
+      <%= textarea f, :admin_notes, class: 'textarea' %>
+      <%= error_tag f, :admin_notes %>
+    </div>
+
     <%= error_tag f, :expires_on %>
   </div>
 

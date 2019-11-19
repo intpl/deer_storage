@@ -5,6 +5,7 @@ defmodule Pjeski.Subscriptions.Subscription do
   alias Pjeski.Users.User
 
   schema "subscriptions" do
+    field :admin_notes, :string
     field :email, :string
     field :name, :string
     field :expires_on, :date, default: Date.add(Date.utc_today, 14)
@@ -24,7 +25,7 @@ defmodule Pjeski.Subscriptions.Subscription do
   @doc false
   def admin_changeset(subscription, attrs) do
     subscription
-    |> cast(attrs, [:email, :name, :expires_on])
+    |> cast(attrs, [:email, :name, :expires_on, :admin_notes])
     |> validate_required([:email, :name])
     |> unique_constraint(:email)
   end

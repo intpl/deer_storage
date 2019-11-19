@@ -9,6 +9,12 @@
       <%= link gettext("Edit"), to: Routes.admin_subscription_path(@conn, :edit, @subscription), class: "button is-text" %>
     </h1>
 
+    <%= if @subscription.admin_notes do %>
+      <article class="message">
+        <div class="message-body admin-notes"><%= @subscription.admin_notes %></div>
+      </article>
+    <% end %>
+
     <ul>
       <li>
         <strong><%= gettext("Email") %>:</strong>
