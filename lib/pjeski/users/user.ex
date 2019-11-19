@@ -37,8 +37,11 @@ defmodule Pjeski.Users.User do
     |> cast(params, [:locale, :name])
     |> cast_assoc(:subscription, with: &Subscription.changeset/2)
     |> validate_required([:name, :email])
+    |> validate_length(:name, min: 3)
+    |> validate_length(:name, max: 100)
+    |> validate_length(:email, min: 3)
+    |> validate_length(:email, max: 100)
     |> validate_inclusion(:locale, available_locales_atoms())
-    |> validate_role()
   end
 
   def changeset_role(user_or_changeset, attrs) do

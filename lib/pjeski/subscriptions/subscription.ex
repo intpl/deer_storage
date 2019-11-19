@@ -19,6 +19,11 @@ defmodule Pjeski.Subscriptions.Subscription do
     subscription
     |> cast(attrs, [:email, :name])
     |> validate_required([:email, :name])
+    |> validate_length(:name, min: 3)
+    |> validate_length(:name, max: 100)
+    |> validate_length(:email, min: 3)
+    |> validate_length(:email, max: 100)
+    |> validate_format(:email, ~r/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i)
     |> unique_constraint(:email)
   end
 
