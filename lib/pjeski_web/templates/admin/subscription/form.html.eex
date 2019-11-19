@@ -7,13 +7,13 @@
 
   <div class="field">
     <%= label f, gettext("Subscription name"), class: 'label' %>
-    <%= text_input f, :name, class: 'button' %>
+    <%= text_input f, :name, class: 'input' %>
     <%= error_tag f, :name %>
   </div>
 
   <div class="field">
     <%= label f, gettext("E-mail address"), class: 'label' %>
-    <%= text_input f, :email, class: 'button' %>
+    <%= text_input f, :email, class: 'input' %>
     <%= error_tag f, :email %>
   </div>
 

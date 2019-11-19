@@ -11,7 +11,7 @@
 </nav>
 
 
-<section class="section">
+<section>
   <div class="container">
     <h4 class="is-size-4 has-text-primary">
         <%= gettext("New Subscription") %>

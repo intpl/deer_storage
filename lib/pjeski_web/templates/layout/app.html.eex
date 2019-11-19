@@ -16,5 +16,7 @@
       <div role="alert" class="help is-info"><%= get_flash(@conn, :notice) %></div>
       <%= render @view_module, @view_template, assigns %>
     </main>
+
+    <br>
   </body>
 </html>

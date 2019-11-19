@@ -33,13 +33,13 @@
 
           <div class="field">
             <%= label f, :name, gettext("Name and surname"), class: 'label' %>
-            <%= text_input f, :name, class: 'button' %>
+            <%= text_input f, :name, class: 'input' %>
             <%= error_tag f, :name %>
           </div>
 
           <div class="field">
             <%= label f, :locale, gettext("Language"), class: 'label' %>
-            <%= select f, :locale, languages_select_options(), class: 'button' %>
+            <%= select f, :locale, languages_select_options(), class: 'input' %>
             <%= error_tag f, :locale %>
           </div>
         </div>
@@ -51,19 +51,19 @@
 
           <div class="field">
             <%= label f, gettext("E-mail address"), class: 'label' %>
-            <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button disabled' %>
+            <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input disabled' %>
             <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
           </div>
 
           <div class="field">
             <%= label f, gettext("New password"), class: 'label' %>
-            <%= password_input f, :password, class: 'button' %>
+            <%= password_input f, :password, class: 'input' %>
             <%= error_tag f, :password %>
           </div>
 
           <div class="field">
             <%= label f, gettext("Confirm new password"), class: 'label' %>
-            <%= password_input f, :confirm_password, class: 'button' %>
+            <%= password_input f, :confirm_password, class: 'input' %>
             <%= error_tag f, :confirm_password %>
           </div>
         </div>
@@ -76,7 +76,7 @@
         <div class="column is-one-third has-text-centered">
           <div class="field">
             <%= label f, gettext("Enter current password"), class: 'label' %>
-            <%= password_input f, :current_password, class: 'button' %>
+            <%= password_input f, :current_password, class: 'input' %>
             <%= error_tag f, :current_password %>
           </div>
 

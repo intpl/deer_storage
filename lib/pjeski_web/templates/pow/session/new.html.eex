@@ -22,13 +22,13 @@
 
     <div class="field">
       <%= label f, gettext("E-mail"), class: 'label' %>
-      <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button' %>
+      <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
     </div>
 
     <div class="field">
       <%= label f, gettext("Password"), class: 'label' %>
-      <%= password_input f, :password, class: 'button' %>
+      <%= password_input f, :password, class: 'input' %>
       <%= error_tag f, :password %>
     </div>
 

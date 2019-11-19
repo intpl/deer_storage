@@ -44,7 +44,7 @@
   </tbody>
 </table>
 
-<section class="section">
+<section>
   <div class="container">
     <%= link gettext("New User"), to: Routes.admin_user_path(@conn, :new), class: "button is-primary" %>
   </div>

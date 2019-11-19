@@ -27,54 +27,54 @@
       <%= inputs_for f, :subscription, fn sf -> %>
         <div class="field">
           <%= label sf, :name, gettext("Clinic Name"), class: 'label' %>
-          <%= text_input sf, :name, class: 'button' %>
+          <%= text_input sf, :name, class: 'input' %>
           <%= error_tag sf, :name %>
         </div>
 
         <div class="field">
           <%= label sf, :email, gettext("Clinic E-mail"), class: 'label' %>
-          <%= text_input sf, :email, class: 'button' %>
+          <%= text_input sf, :email, class: 'input' %>
           <%= error_tag sf, :email %>
         </div>
       <% end %>
     </div>
 
-    <hr>
+    <br>
 
-    <h3 class="title"><%= gettext("First user details") %></h3>
+    <h3 class="title is-3"><%= gettext("User details") %></h3>
 
     <div class="field">
       <%= label f, :locale, gettext("Language"), class: 'label' %>
-      <%= select f, :locale, languages_select_options(), selected: "pl", class: 'button' %>
+      <%= select f, :locale, languages_select_options(), selected: "pl", class: 'input' %>
       <%= error_tag f, :locale %>
     </div>
 
     <div class="field">
       <%= label f, :name, gettext("Name and surname"), class: 'label' %>
-      <%= text_input f, :name, class: 'button' %>
+      <%= text_input f, :name, class: 'input' %>
       <%= error_tag f, :name %>
     </div>
 
     <div class="field">
       <%= label f, gettext("E-mail address"), class: 'label' %>
-      <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'button' %>
+      <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
     </div>
 
     <div class="field">
       <%= label f, gettext("Password"), class: 'label' %>
-      <%= password_input f, :password, class: 'button' %>
+      <%= password_input f, :password, class: 'input' %>
       <%= error_tag f, :password %>
     </div>
 
     <div class="field">
       <%= label f, gettext("Confirm password"), class: 'label' %>
-      <%= password_input f, :confirm_password, class: 'button' %>
+      <%= password_input f, :confirm_password, class: 'input' %>
       <%= error_tag f, :confirm_password %>
     </div>
 
     <div>
-      <%= submit gettext("Register"), class: 'button' %>
+      <%= submit gettext("Register"), class: 'button is-primary' %>
     </div>
     <% end %>
   </div>

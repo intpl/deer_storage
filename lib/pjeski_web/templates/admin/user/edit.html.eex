@@ -22,7 +22,7 @@
 </nav>
 
 
-<section class="section">
+<section>
   <div class="container">
     <%= if @current_user.id != @user.id do %>
       <%= if @user.role == "admin" do %>

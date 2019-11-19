@@ -14,7 +14,7 @@
   </ul>
 </nav>
 
-<section class="section">
+<section>
   <div class="container">
     <h1 class="title">
       <%= @subscription.name %>
