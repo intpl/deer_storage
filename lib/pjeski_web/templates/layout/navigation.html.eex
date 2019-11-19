@@ -49,10 +49,10 @@
       <div class="navbar-item">
         <div class="buttons">
           <%= if @current_user do %>
-            <%= link gettext("Settings"), to: Routes.pow_registration_path(@conn, :edit), method: :get, class: "button is-light navbar-item" %>
+            <%= link gettext("Settings"), to: Routes.registration_path(@conn, :edit), method: :get, class: "button is-light navbar-item" %>
             <%= link gettext("Sign out"), to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "button is-link navbar-item" %>
           <% else %>
-            <a class="button is-primary" href="<%= Routes.pow_registration_path(@conn, :new) %>"> <strong><%= gettext("Free demo") %></strong> </a>
+            <a class="button is-primary" href="<%= Routes.registration_path(@conn, :new) %>"> <strong><%= gettext("Free demo") %></strong> </a>
             <%= link gettext("Sign in"), to: Routes.pow_session_path(@conn, :new), class: 'button is-light' %>
           <% end %>
         </div>

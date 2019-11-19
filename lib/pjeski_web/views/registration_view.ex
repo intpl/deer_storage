@@ -1,4 +1,4 @@
-defmodule PjeskiWeb.Pow.RegistrationView do
+defmodule PjeskiWeb.RegistrationView do
   use PjeskiWeb, :view
 
   def languages_select_options do
