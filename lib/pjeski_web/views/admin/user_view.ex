@@ -13,7 +13,7 @@ defmodule PjeskiWeb.Admin.UserView do
       gettext("Grant admin privileges")
     end
 
-    link text, to: Routes.admin_user_user_path(conn, :toggle_admin, user), method: :put, data: [confirm: gettext("Are you sure?")], class: "button is-warning"
+    link text, to: Routes.admin_user_user_path(conn, :toggle_admin, user), method: :put, data: [confirm: gettext("Are you sure?")], class: "button is-danger"
   end
 
   def user_roles_select_options do

@@ -41,7 +41,7 @@
 
     <table class="table">
       <tr>
-        <td><%= gettext("Name") %></td><td><%= @user.name %></td>
+        <td><%= gettext("Name and surname") %></td><td><%= @user.name %></td>
       </tr>
       <tr>
         <td><%= gettext("E-mail") %></td><td><%= @user.email %></td>

@@ -6,7 +6,7 @@
   <% end %>
 
   <div class="field">
-    <%= label f, :name, gettext("Name"), class: 'label' %>
+    <%= label f, :name, gettext("Name and surname"), class: 'label' %>
     <%= text_input f, :name, class: 'input' %>
     <%= error_tag f, :name %>
   </div>
