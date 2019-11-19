@@ -25,6 +25,7 @@ defmodule PjeskiWeb do
       import Plug.Conn
       import PjeskiWeb.Gettext
       import PjeskiWeb.Controllers.Helpers, only: [redirect_back: 2]
+
       alias PjeskiWeb.Router.Helpers, as: Routes
     end
   end
@@ -37,6 +38,7 @@ defmodule PjeskiWeb do
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1, get_csrf_token: 0]
+      import PhoenixActiveLink
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
