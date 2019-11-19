@@ -1,5 +1,16 @@
 <%= render "_header.html" %>
 
+<nav class="breadcrumb section" aria-label="breadcrumbs">
+  <ul>
+    <li class="is-active">
+      <%= link gettext("All subscriptions"), to: Routes.admin_subscription_path(@conn, :index) %>
+    </li>
+    <li>
+      <%= link gettext("New Subscription"), to: Routes.admin_subscription_path(@conn, :new) %>
+    </li>
+  </ul>
+</nav>
+
 <table class="table">
   <thead>
     <tr>
@@ -25,9 +36,3 @@
         <% end %>
   </tbody>
 </table>
-
-<section class="section">
-  <div class="container">
-    <%= link gettext("New Subscription"), to: Routes.admin_subscription_path(@conn, :new), class: "button is-primary" %>
-  </div>
-</section>

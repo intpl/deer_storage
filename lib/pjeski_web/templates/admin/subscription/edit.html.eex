@@ -1,6 +1,18 @@
 <%= render "_header.html" %>
-<%= link gettext("Index"), to: Routes.admin_subscription_path(@conn, :index), class: "button is-text" %>
-<%= link gettext("Summary"), to: Routes.admin_subscription_path(@conn, :show, @subscription), class: "button is-text" %>
+
+<nav class="breadcrumb section" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <%= link gettext("All subscriptions"), to: Routes.admin_subscription_path(@conn, :index) %>
+    </li>
+    <li>
+      <%= link @subscription.name, to: Routes.admin_subscription_path(@conn, :show, @subscription) %>
+    </li>
+    <li class="is-active">
+      <%= link gettext("Edit"), to: Routes.admin_subscription_path(@conn, :edit, @subscription) %>
+    </li>
+  </ul>
+</nav>
 
 <section class="section">
   <div class="container">

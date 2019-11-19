@@ -29,7 +29,8 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
 
   def show(conn, %{"id" => id}) do
     subscription = Subscriptions.get_subscription!(id)
-    render(conn, "show.html", subscription: subscription)
+
+    render(conn, "show.html", subscription: subscription, users: subscription.users)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -1,6 +1,26 @@
 <%= render "_header.html" %>
-<%= link gettext("Index"), to: Routes.admin_user_path(@conn, :index), class: "button is-text" %>
-<%= link gettext("Summary"), to: Routes.admin_user_path(@conn, :show, @user), class: "button is-text" %>
+
+<nav class="breadcrumb section" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <%= link gettext("All users"), to: Routes.admin_user_path(@conn, :index) %>
+    </li>
+    <li>
+      <%= if @user.subscription_id == nil do %>
+        <%= gettext("empty") %>
+      <% else %>
+        <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
+      <% end %>
+    </li>
+    <li>
+      <%= link @user.name, to: Routes.admin_user_path(@conn, :show, @user) %>
+    </li>
+    <li class="is-active">
+      <%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, @user) %>
+    </li>
+  </ul>
+</nav>
+
 
 <section class="section">
   <div class="container">

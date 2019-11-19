@@ -1,5 +1,16 @@
 <%= render "_header.html" %>
 
+<nav class="breadcrumb section" aria-label="breadcrumbs">
+  <ul>
+    <li class="is-active">
+      <%= link gettext("All users"), to: Routes.admin_user_path(@conn, :index) %>
+    </li>
+    <li>
+      <%= link gettext("New User"), to: Routes.admin_user_path(@conn, :new) %>
+    </li>
+  </ul>
+</nav>
+
 <table class="table">
   <thead>
     <tr>
@@ -7,6 +18,7 @@
       <th><%= gettext("Language") %></th>
       <th><%= gettext("E-mail") %></th>
       <th><%= gettext("Name") %></th>
+      <th><%= gettext("Subscription") %></th>
       <th><%= gettext("Subscription ends") %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
@@ -20,7 +32,8 @@
           <td><%= user.locale %></td>
           <td><%= user.email %></td>
           <td><%= user.name %></td>
-          <td><%= subscription_expires_datetime(@conn, user) %></td>
+          <td><%= subscription_name_link_for(@conn, user) %></td>
+          <td><%= subscription_expires_datetime_for(@conn, user) %></td>
           <td>
             <span><%= link gettext("Summary"), to: Routes.admin_user_path(@conn, :show, user) %></span>
             <span><%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user) %></span>

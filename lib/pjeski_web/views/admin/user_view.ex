@@ -3,8 +3,7 @@ defmodule PjeskiWeb.Admin.UserView do
 
   import PjeskiWeb.RegistrationView, only: [ languages_select_options: 0 ]
   import PjeskiWeb.Admin.SubscriptionView, only: [
-    all_subscriptions_options_with_empty: 0,
-    subscription_expires_datetime: 2
+    all_subscriptions_options_with_empty: 0
   ]
 
   def toggle_admin_button(conn, user) do
@@ -22,5 +21,15 @@ defmodule PjeskiWeb.Admin.UserView do
       [gettext("Admin"), "admin"],
       [gettext("User"), "user"],
     ] |> Map.new(fn [k, v] -> {k, v} end)
+  end
+
+  def subscription_name_link_for(_, %Pjeski.Users.User{subscription: nil}), do: gettext("empty")
+  def subscription_name_link_for(conn, %Pjeski.Users.User{subscription: subscription}) do
+    link subscription.name, to: Routes.admin_subscription_path(conn, :show, subscription.id)
+  end
+
+  def subscription_expires_datetime_for(_, %Pjeski.Users.User{subscription: nil}), do: gettext("empty")
+  def subscription_expires_datetime_for(conn, %Pjeski.Users.User{subscription: subscription}) do
+    link subscription.expires_on, to: Routes.admin_subscription_path(conn, :show, subscription.id)
   end
 end
