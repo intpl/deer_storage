@@ -11,7 +11,7 @@
   </ul>
 </nav>
 
-<table class="table">
+<table class="table is-hoverable is-fullwidth">
   <thead>
     <tr>
       <th><%= gettext("Subscription name") %></th>
@@ -24,12 +24,11 @@
   <tbody>
     <%= for subscription <- @subscriptions do %>
         <tr>
-          <td><%= subscription.name %></td>
+          <td><%= link subscription.name, to: Routes.admin_subscription_path(@conn, :show, subscription) %></td>
           <td><%= subscription.email %></td>
           <td><%= subscription.expires_on %></td>
           <td><%= length subscription.users %></td>
           <td>
-            <span><%= link gettext("Summary"), to: Routes.admin_subscription_path(@conn, :show, subscription) %></span>
             <span><%= link gettext("Edit"), to: Routes.admin_subscription_path(@conn, :edit, subscription) %></span>
           </td>
         </tr>

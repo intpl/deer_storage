@@ -80,7 +80,7 @@
                             <tr> <td><%= gettext("Updated at") %></td><td><time datetime="<%= user.updated_at %>"><%= user.updated_at %></time></td> </tr>
                           </table>
 
-                        <%= link gettext("Summary"), to: Routes.admin_user_path(@conn, :show, user), class: "button" %>
+                        <%= link gettext("Show"), to: Routes.admin_user_path(@conn, :show, user), class: "button" %>
                         <%= if @current_user.id != user.id do %> <%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user), class: "button" %> <% end %>
                   </div>
                 </article>

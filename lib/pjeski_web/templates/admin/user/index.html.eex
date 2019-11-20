@@ -11,7 +11,7 @@
   </ul>
 </nav>
 
-<table class="table">
+<table class="table is-hoverable is-fullwidth">
   <thead>
     <tr>
       <th><%= gettext("ID") %></th>
@@ -30,12 +30,11 @@
             <%= link user.id, to: Routes.admin_user_path(@conn, :show, user) %>
           </td>
           <td><%= user.locale %></td>
-          <td><%= user.email %></td>
-          <td><%= user.name %></td>
+          <td><%= link user.email, to: Routes.admin_user_path(@conn, :show, user) %></td>
+          <td><%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %></td>
           <td><%= subscription_name_link_for(@conn, user) %></td>
-          <td><%= subscription_expires_datetime_for(@conn, user) %></td>
+          <td><%= subscription_expires_datetime_for(user) %></td>
           <td>
-            <span><%= link gettext("Summary"), to: Routes.admin_user_path(@conn, :show, user) %></span>
             <span><%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user) %></span>
             <%= if user.role == "admin" do %> (Admin) <% end %>
           </td>
