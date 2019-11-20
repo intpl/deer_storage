@@ -11,15 +11,12 @@
   </ul>
 </nav>
 
-<table class="table is-hoverable is-fullwidth">
+<table class="table is-fullwidth is-narrow responsive_index">
   <thead>
     <tr>
-      <th><%= gettext("ID") %></th>
-      <th><%= gettext("Language") %></th>
+      <th><%= gettext("Name and surname") %></th>
       <th><%= gettext("E-mail") %></th>
-      <th><%= gettext("Name") %></th>
       <th><%= gettext("Subscription") %></th>
-      <th><%= gettext("Time zone") %></th>
       <th><%= gettext("Subscription ends") %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
@@ -27,14 +24,20 @@
   <tbody>
     <%= for user <- @users do %>
         <tr>
-          <td><%= link user.id, to: Routes.admin_user_path(@conn, :show, user) %></td>
-          <td><%= user.locale %></td>
-          <td><%= link user.email, to: Routes.admin_user_path(@conn, :show, user) %></td>
-          <td><%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %></td>
-          <td><%= subscription_name_link_for(@conn, user) %></td>
-          <td><%= subscription_time_zone_for(user) %></td>
-          <td><%= subscription_expires_datetime_for(user) %></td>
           <td>
+            <%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %>
+            (<%= user.locale %>)
+          </td>
+          <td data-label="<%= gettext("E-mail") %>: ">
+            <%= link user.email, to: Routes.admin_user_path(@conn, :show, user) %>
+          </td>
+          <td data-label="<%= gettext("Subscription") %>: ">
+            <%= subscription_name_link_for(@conn, user) %> (<%= subscription_time_zone_for(user) %>)
+          </td>
+          <td data-label="<%= gettext("Subscription ends") %>: ">
+            <%= subscription_expires_datetime_for(user) %>
+          </td>
+          <td data-label="<%= gettext("Actions") %>: ">
             <span><%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user) %></span>
             <%= if user.role == "admin" do %> (Admin) <% end %>
           </td>

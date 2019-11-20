@@ -1,0 +1,36 @@
+/* Max width before this PARTICULAR table gets nasty. This query will take effect for any screen smaller than 760px and also iPads specifically. */
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px)  {
+    /* Force table to not be like tables anymore */
+    table.responsive_index,
+    table.responsive_index thead,
+    table.responsive_index tbody,
+    table.responsive_index th,
+    table.responsive_index td,
+    table.responsive_index tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    table.responsive_index thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    table.responsive_index tr {
+        margin: 0 0 2rem 0;
+    }
+
+    table.responsive_index td {
+        /* Behave  like a "row" */
+        position: relative;
+        padding-left: 50%;
+    }
+
+    table.responsive_index td:before {
+        content: attr(data-label);
+        font-weight: bold;
+    }
+
+}

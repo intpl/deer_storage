@@ -80,13 +80,27 @@
                   <p class="title"><%= user.name %> (<%= user.locale %>)</p>
                   <p class="subtitle"><%= user.email %></p>
                   <div class="content">
-                          <table class="table is-narrow">
-                            <tr> <td><%= gettext("Created at") %></td><td><time datetime="<%= user.inserted_at %>"><%= dt @conn, user.inserted_at %></time></td> </tr>
-                            <tr> <td><%= gettext("Updated at") %></td><td><time datetime="<%= user.updated_at %>"><%= dt @conn, user.updated_at %></time></td> </tr>
-                          </table>
+                     <table class="table is-narrow">
+                       <tr>
+                         <td><%= gettext("Created at") %></td>
+                         <td>
+                           <time datetime="<%= user.inserted_at %>">
+                             <%= dt @conn, user.inserted_at %>
+                           </time>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td><%= gettext("Updated at") %></td>
+                         <td>
+                           <time datetime="<%= user.updated_at %>">
+                             <%= dt @conn, user.updated_at %>
+                           </time>
+                         </td>
+                       </tr>
+                     </table>
 
-                        <%= link gettext("Show"), to: Routes.admin_user_path(@conn, :show, user), class: "button" %>
-                        <%= if @current_user.id != user.id do %> <%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user), class: "button" %> <% end %>
+                    <%= link gettext("Show"), to: Routes.admin_user_path(@conn, :show, user), class: "button" %>
+                    <%= if @current_user.id != user.id do %> <%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user), class: "button" %> <% end %>
                   </div>
                 </article>
               </div>
