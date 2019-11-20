@@ -20,7 +20,7 @@ defmodule Pjeski.MixProject do
   def application do
     [
       mod: {Pjeski.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :timex]
     ]
   end
 
@@ -51,6 +51,7 @@ defmodule Pjeski.MixProject do
       {:turbolinks, "~> 1.0"},
       {:navigation_history, "~> 0.3"},
       {:phoenix_active_link, "~> 0.2.1"},
+      {:timex, "~> 3.5"}
     ]
   end
 

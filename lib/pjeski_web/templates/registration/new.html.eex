@@ -36,6 +36,12 @@
           <%= text_input sf, :email, class: 'input' %>
           <%= error_tag sf, :email %>
         </div>
+
+        <div class="field">
+          <%= label sf, :time_zone, gettext("Clinic time zone"), class: 'label' %>
+          <%= select sf, :time_zone, time_zones_select_options(), class: 'input' %>
+          <%= error_tag sf, :time_zone %>
+        </div>
       <% end %>
     </div>
 

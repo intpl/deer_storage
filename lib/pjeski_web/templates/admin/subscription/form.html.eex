@@ -18,6 +18,12 @@
   </div>
 
   <div class="field">
+    <%= label f, gettext("Time zone"), class: 'label' %>
+    <%= select f, :time_zone, time_zones_select_options(), class: 'input' %>
+    <%= error_tag f, :email %>
+  </div>
+
+  <div class="field">
     <%= label f, gettext("Expires on"), class: 'label' %>
 
     <div class="control">

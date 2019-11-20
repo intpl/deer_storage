@@ -19,6 +19,7 @@
       <th><%= gettext("E-mail") %></th>
       <th><%= gettext("Name") %></th>
       <th><%= gettext("Subscription") %></th>
+      <th><%= gettext("Time zone") %></th>
       <th><%= gettext("Subscription ends") %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
@@ -26,13 +27,12 @@
   <tbody>
     <%= for user <- @users do %>
         <tr>
-          <td>
-            <%= link user.id, to: Routes.admin_user_path(@conn, :show, user) %>
-          </td>
+          <td><%= link user.id, to: Routes.admin_user_path(@conn, :show, user) %></td>
           <td><%= user.locale %></td>
           <td><%= link user.email, to: Routes.admin_user_path(@conn, :show, user) %></td>
           <td><%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %></td>
           <td><%= subscription_name_link_for(@conn, user) %></td>
+          <td><%= subscription_time_zone_for(user) %></td>
           <td><%= subscription_expires_datetime_for(user) %></td>
           <td>
             <span><%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user) %></span>

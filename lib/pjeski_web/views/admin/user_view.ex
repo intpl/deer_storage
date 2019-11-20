@@ -28,6 +28,9 @@ defmodule PjeskiWeb.Admin.UserView do
     link subscription.name, to: Routes.admin_subscription_path(conn, :show, subscription.id)
   end
 
+  def subscription_time_zone_for(%Pjeski.Users.User{subscription: nil}), do: gettext("empty")
+  def subscription_time_zone_for(%Pjeski.Users.User{subscription: subscription}), do: subscription.time_zone
+
   def subscription_expires_datetime_for(%Pjeski.Users.User{subscription: nil}), do: gettext("empty")
   def subscription_expires_datetime_for(%Pjeski.Users.User{subscription: subscription}), do: subscription.expires_on
 end

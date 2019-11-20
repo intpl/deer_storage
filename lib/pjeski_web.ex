@@ -46,6 +46,8 @@ defmodule PjeskiWeb do
       import PjeskiWeb.ErrorHelpers
       import PjeskiWeb.Gettext
       alias PjeskiWeb.Router.Helpers, as: Routes
+
+      import PjeskiWeb.DateHelpers
     end
   end
 

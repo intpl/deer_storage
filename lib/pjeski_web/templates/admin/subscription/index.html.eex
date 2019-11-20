@@ -16,6 +16,7 @@
     <tr>
       <th><%= gettext("Subscription name") %></th>
       <th><%= gettext("E-mail") %></th>
+      <th><%= gettext("Time zone") %></th>
       <th><%= gettext("Expires on") %></th>
       <th><%= gettext("Users") %></th>
       <th><%= gettext("Actions") %></th>
@@ -26,6 +27,7 @@
         <tr>
           <td><%= link subscription.name, to: Routes.admin_subscription_path(@conn, :show, subscription) %></td>
           <td><%= subscription.email %></td>
+          <td><%= subscription.time_zone %></td>
           <td><%= subscription.expires_on %></td>
           <td><%= length subscription.users %></td>
           <td>

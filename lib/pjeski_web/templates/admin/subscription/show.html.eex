@@ -33,6 +33,11 @@
       </li>
 
       <li>
+        <strong><%= gettext("Time zone") %>:</strong>
+        <%= @subscription.time_zone %>
+      </li>
+
+      <li>
         <strong><%= gettext("Expires on") %>:</strong>
         <%= @subscription.expires_on %>
       </li>
@@ -41,12 +46,12 @@
 
       <li>
         <strong><%= gettext("Created at") %>:</strong>
-        <time datetime="<%= @subscription.inserted_at %>"><%= @subscription.inserted_at %></time>
+        <time datetime="<%= dt @conn, @subscription.inserted_at %>"><%= dt @conn, @subscription.inserted_at %></time>
       </li>
 
       <li>
         <strong><%= gettext("Updated at") %>:</strong>
-        <time datetime="<%= @subscription.updated_at %>"><%= @subscription.updated_at %></time>
+        <time datetime="<%= dt @conn, @subscription.updated_at %>"><%= dt @conn, @subscription.updated_at %></time>
       </li>
     </ul>
 
@@ -76,8 +81,8 @@
                   <p class="subtitle"><%= user.email %></p>
                   <div class="content">
                           <table class="table is-narrow">
-                            <tr> <td><%= gettext("Created at") %></td><td><time datetime="<%= user.inserted_at %>"><%= user.inserted_at %></time></td> </tr>
-                            <tr> <td><%= gettext("Updated at") %></td><td><time datetime="<%= user.updated_at %>"><%= user.updated_at %></time></td> </tr>
+                            <tr> <td><%= gettext("Created at") %></td><td><time datetime="<%= user.inserted_at %>"><%= dt @conn, user.inserted_at %></time></td> </tr>
+                            <tr> <td><%= gettext("Updated at") %></td><td><time datetime="<%= user.updated_at %>"><%= dt @conn, user.updated_at %></time></td> </tr>
                           </table>
 
                         <%= link gettext("Show"), to: Routes.admin_user_path(@conn, :show, user), class: "button" %>
