@@ -3,9 +3,8 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
 
   alias Pjeski.Users
 
-  @create_attrs %{email: "some bio", email: "test@example.org", name: "Henryk Testowny", password: "secret123", confirm_password: "secret123", locale: "pl"}
-  @update_attrs %{admin: true}
-  @invalid_attrs %{email: nil}
+  @create_attrs %{email: "test@test.eu", name: "Henryk Testowny", password: "secret123", confirm_password: "secret123", locale: "pl"}
+  @update_attrs %{email: "test2@test.eu"}
 
   def fixture(:user) do
     {:ok, user} = Users.create_user(@create_attrs)
@@ -13,70 +12,60 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
   end
 
   describe "index" do
-    test "lists all users", %{conn: conn} do
-      conn = get(conn, Routes.admin_user_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Users"
+    test "lists all users", %{admin_conn: admin_conn} do
+      conn = get(admin_conn, Routes.admin_user_path(admin_conn, :index))
+      assert html_response(conn, 200) =~ "All users"
     end
   end
 
   describe "new user" do
-    test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.admin_user_path(conn, :new))
+    test "renders form", %{admin_conn: admin_conn} do
+      conn = get(admin_conn, Routes.admin_user_path(admin_conn, :new))
       assert html_response(conn, 200) =~ "New User"
     end
   end
 
   describe "create user" do
-    test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.admin_user_path(conn, :create), user: @create_attrs)
+    test "redirects to show when data is valid", %{admin_conn: admin_conn} do
+      conn = post(admin_conn, Routes.admin_user_path(admin_conn, :create), user: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.admin_user_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.admin_user_path(admin_conn, :show, id)
 
-      conn = get(conn, Routes.admin_user_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show User"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.admin_user_path(conn, :create), user: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New User"
+      conn = get(admin_conn, Routes.admin_user_path(admin_conn, :show, id))
+      assert html_response(conn, 200) =~ "Henryk Testowny"
     end
   end
 
   describe "edit user" do
     setup [:create_user]
 
-    test "renders form for editing chosen user", %{conn: conn, user: user} do
-      conn = get(conn, Routes.admin_user_path(conn, :edit, user))
-      assert html_response(conn, 200) =~ "Edit User"
+    test "renders form for editing chosen user", %{admin_conn: admin_conn, user: user} do
+      conn = get(admin_conn, Routes.admin_user_path(admin_conn, :edit, user))
+      assert html_response(conn, 200) =~ "Name and surname"
     end
   end
 
   describe "update user" do
     setup [:create_user]
 
-    test "redirects when data is valid", %{conn: conn, user: user} do
-      conn = put(conn, Routes.admin_user_path(conn, :update, user), user: @update_attrs)
-      assert redirected_to(conn) == Routes.admin_user_path(conn, :show, user)
+    test "redirects when data is valid", %{admin_conn: admin_conn, user: user} do
+      conn = put(admin_conn, Routes.admin_user_path(admin_conn, :update, user), user: @update_attrs)
+      assert redirected_to(conn) == Routes.admin_user_path(admin_conn, :show, user)
 
-      conn = get(conn, Routes.admin_user_path(conn, :show, user))
-      assert html_response(conn, 200) =~ "some updated admin"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = put(conn, Routes.admin_user_path(conn, :update, user), user: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit User"
+      conn = get(admin_conn, Routes.admin_user_path(admin_conn, :show, user))
+      assert html_response(conn, 200) =~ "test2@test.eu"
     end
   end
 
   describe "delete user" do
     setup [:create_user]
 
-    test "deletes chosen user", %{conn: conn, user: user} do
-      conn = delete(conn, Routes.admin_user_path(conn, :delete, user))
-      assert redirected_to(conn) == Routes.admin_user_path(conn, :index)
+    test "deletes chosen user", %{admin_conn: admin_conn, user: user} do
+      conn = delete(admin_conn, Routes.admin_user_path(admin_conn, :delete, user))
+      assert redirected_to(conn) == Routes.admin_user_path(admin_conn, :index)
       assert_error_sent 404, fn ->
-        get(conn, Routes.admin_user_path(conn, :show, user))
+        get(admin_conn, Routes.admin_user_path(conn, :show, user))
       end
     end
   end

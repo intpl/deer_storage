@@ -35,4 +35,12 @@ defmodule PjeskiWeb.ConnCase do
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
+
+  setup %{conn: conn} do
+    user = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "admin"}
+    admin_conn = Pow.Plug.assign_current_user(conn, user, [])
+
+    {:ok, conn: conn, admin_conn: admin_conn}
+  end
+
 end
