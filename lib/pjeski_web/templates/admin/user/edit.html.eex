@@ -22,7 +22,7 @@
 </nav>
 
 
-<section>
+<section class="section">
   <div class="container">
     <%= if @current_user.id != @user.id do %>
       <%= if @user.role == "admin" do %>
@@ -41,6 +41,9 @@
       </h3>
 
       <%= toggle_admin_button(@conn, @user)  %>
+
+      <br>
+      <br>
 
       <%= link gettext("Delete account"),
           to: Routes.admin_user_path(@conn, :delete, @user),
