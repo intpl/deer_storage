@@ -65,7 +65,7 @@ defmodule PjeskiWeb.Admin.UserController do
     {:ok, user} = Users.toggle_admin(user)
 
     conn
-    |> put_flash(:success, "You made #{user.email}: #{user.role}")
+    |> put_flash(:info, gettext("%{name} is now '%{role}'", name: user.name, role: user.role))
     |> redirect(to: Routes.admin_user_path(conn, :show, user))
   end
 end
