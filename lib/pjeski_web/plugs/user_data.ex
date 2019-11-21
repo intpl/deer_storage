@@ -1,6 +1,4 @@
 defmodule Pjeski.UserData do
-  import Plug.Conn
-
   alias Pjeski.Users.User
   alias Pjeski.Subscriptions
 
