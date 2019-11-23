@@ -39,6 +39,7 @@ defmodule PjeskiWeb.Endpoint do
     signing_salt: "KLHKFqia"
 
   plug Pow.Plug.Session, otp_app: :pjeski
+  plug PowPersistentSession.Plug.Cookie
 
   plug PjeskiWeb.Router
 end

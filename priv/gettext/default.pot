@@ -36,7 +36,7 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation.html.eex:56
 #: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/session/new.html.eex:5
-#: lib/pjeski_web/templates/session/new.html.eex:36
+#: lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
 msgstr ""
 
@@ -488,4 +488,9 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/controllers/session_controller.ex:39
 msgid "Your subscription is inactive."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/session/new.html.eex:36
+msgid "Remember me (for 30 days)"
 msgstr ""

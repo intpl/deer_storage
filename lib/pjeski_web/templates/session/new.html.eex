@@ -32,6 +32,11 @@
         <%= error_tag f, :password %>
       </div>
 
+      <div class="field">
+        <%= checkbox f, :persistent_session, class: 'checkbox' %>&nbsp;
+        <%= label f, :persistent_session, gettext("Remember me (for 30 days)"), class: 'checkbox' %>
+      </div>
+
       <div>
         <%= submit gettext("Sign in"), class: 'button' %>
       </div>
