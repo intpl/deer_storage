@@ -28,7 +28,8 @@ defmodule PjeskiWeb.Admin.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.html", user: user)
+
+    render(conn, "show.html", user: user, user_log_in_sessions_count: length(user_log_in_sessions(user)))
   end
 
   def edit(conn, %{"id" => id}) do
@@ -67,5 +68,9 @@ defmodule PjeskiWeb.Admin.UserController do
     conn
     |> put_flash(:info, gettext("%{name} is now '%{role}'", name: user.name, role: user.role))
     |> redirect(to: Routes.admin_user_path(conn, :show, user))
+  end
+
+  defp user_log_in_sessions(user) do
+    Pow.Store.CredentialsCache.sessions([backend: Application.get_env(:pjeski, :pow)[:cache_store_backend]], user)
   end
 end

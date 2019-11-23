@@ -33,6 +33,14 @@
     </h4>
     <h4 class="subtitle is-4"><%= @user.email %></h4>
 
+    <div class="subtitle">
+      <%= if @user_log_in_sessions_count > 0 do %>
+        <%= ngettext("Currently the user is logged in on %{count} device", "Currently the user is logged in on %{count} devices", @user_log_in_sessions_count) %>.
+      <% else %>
+        <%= gettext("Currently the user is not logged in") %>.
+      <% end %>
+    </div>
+
     <%= if @user.admin_notes do %>
       <article class="message">
         <div class="message-body admin-notes"><%= @user.admin_notes %></div>
