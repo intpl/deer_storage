@@ -12,25 +12,25 @@ msgstr ""
 "Plural-Forms: nplurals=3\n"
 
 msgid "can't be blank"
-msgstr ""
+msgstr "nie może być puste"
 
 msgid "has already been taken"
-msgstr ""
+msgstr "jest zajęte"
 
 msgid "is invalid"
-msgstr ""
+msgstr "jest niepoprawne"
 
 msgid "must be accepted"
-msgstr ""
+msgstr "musi zostać zaakceptowane"
 
 msgid "has invalid format"
-msgstr ""
+msgstr "ma niepoprawny format"
 
 msgid "has an invalid entry"
-msgstr ""
+msgstr "ma niepoprawny wpis"
 
 msgid "is reserved"
-msgstr ""
+msgstr "jest zarezerwowane"
 
 msgid "does not match confirmation"
 msgstr ""

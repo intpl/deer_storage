@@ -15,7 +15,7 @@ defmodule PjeskiWeb.RegistrationController do
     |> case do
       {:ok, _user, conn} ->
         conn
-        |> put_flash(:info, "Welcome!")
+        |> put_flash(:info, gettext("Welcome!"))
         |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, changeset, conn} ->
@@ -29,7 +29,7 @@ defmodule PjeskiWeb.RegistrationController do
     |> case do
       {:ok, _user, conn} ->
         conn
-        |> put_flash(:info, "Changed succesfully!")
+        |> put_flash(:info, gettext("Changed succesfully!"))
         |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, changeset, conn} ->

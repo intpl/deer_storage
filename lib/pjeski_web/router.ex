@@ -13,13 +13,8 @@ defmodule PjeskiWeb.Router do
     plug NavigationHistory.Tracker
   end
 
-  pipeline :protected do
-    plug Pow.Plug.RequireAuthenticated, error_handler: Pow.Phoenix.PlugErrorHandler
-  end
-
-  pipeline :not_authenticated do
-    plug Pow.Plug.RequireNotAuthenticated, error_handler: Pow.Phoenix.PlugErrorHandler
-  end
+  pipeline :protected, do: plug Pow.Plug.RequireAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
+  pipeline :not_authenticated, do: plug Pow.Plug.RequireNotAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
 
   pipeline :admin do
     plug PjeskiWeb.EnsureRolePlug, :admin
@@ -29,6 +24,7 @@ defmodule PjeskiWeb.Router do
     pipe_through [:browser, :protected]
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
+    resources "/session", SessionController, singleton: true, only: [:delete]
 
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]
@@ -42,16 +38,23 @@ defmodule PjeskiWeb.Router do
   end
 
   scope "/" do
-    pipe_through :browser
+    pipe_through [:browser, :not_authenticated]
 
-    pow_session_routes()
-    # pow_extension_routes()
+    resources "/session",
+      PjeskiWeb.SessionController,
+      singleton: true,
+      only: [:new, :create]
 
     resources "/registration",
       PjeskiWeb.RegistrationController,
       singleton: true,
-      only: [:new, :create],
-      pipe_through: :not_authenticated
+      only: [:new, :create]
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    # pow_extension_routes()
 
     get "/", PjeskiWeb.PageController, :index
   end

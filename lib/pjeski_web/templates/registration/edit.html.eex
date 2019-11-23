@@ -21,7 +21,7 @@
       </div>
       <% end %>
 
-      <div class="notification is-info">
+      <div class="notification">
         <%= gettext("Your subscription ends in %{days} days", days: days_to_expire(@current_user)) %>
       </div>
 

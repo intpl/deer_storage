@@ -23,8 +23,8 @@ msgstr "Niezalogowany"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:4
-#: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/pow/session/new.html.eex:19
-#: lib/pjeski_web/templates/registration/edit.html.eex:20 lib/pjeski_web/templates/registration/new.html.eex:20
+#: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/registration/edit.html.eex:20
+#: lib/pjeski_web/templates/registration/new.html.eex:20 lib/pjeski_web/templates/session/new.html.eex:19
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 
@@ -36,8 +36,8 @@ msgstr "Zarejestruj się"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation.html.eex:56
-#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/pow/session/new.html.eex:5
-#: lib/pjeski_web/templates/pow/session/new.html.eex:36
+#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/session/new.html.eex:5
+#: lib/pjeski_web/templates/session/new.html.eex:36
 msgid "Sign in"
 msgstr "Zaloguj się"
 
@@ -74,8 +74,8 @@ msgid "Confirm password"
 msgstr "Potwierdź hasło"
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/session/new.html.eex:30
 #: lib/pjeski_web/templates/registration/new.html.eex:71
+#: lib/pjeski_web/templates/session/new.html.eex:30
 msgid "Password"
 msgstr "Hasło"
 
@@ -128,7 +128,7 @@ msgid "E-mail address"
 msgstr "Adres E-mail"
 
 #, elixir-format
-#: lib/pjeski_web/templates/pow/session/new.html.eex:8
+#: lib/pjeski_web/templates/session/new.html.eex:8
 msgid "Sign in to Clinic Management System"
 msgstr "Zaloguj się do Systemu Zarządzania Kliniką"
 
@@ -167,7 +167,7 @@ msgstr "Nowe hasło"
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:18
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:31 lib/pjeski_web/templates/admin/user/index.html.eex:18
 #: lib/pjeski_web/templates/admin/user/index.html.eex:31 lib/pjeski_web/templates/admin/user/show.html.eex:47
-#: lib/pjeski_web/templates/admin/user/show.html.eex:62 lib/pjeski_web/templates/pow/session/new.html.eex:24
+#: lib/pjeski_web/templates/admin/user/show.html.eex:62 lib/pjeski_web/templates/session/new.html.eex:24
 msgid "E-mail"
 msgstr "Adres E-mail"
 
@@ -451,7 +451,42 @@ msgstr "Strefa czasowa Kliniki"
 msgid "Time zone"
 msgstr "Strefa czasowa"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/controllers/admin/user_controller.ex:68
 msgid "%{name} is now '%{role}'"
 msgstr "%{name} ma teraz rolę '%{role}'"
+
+#, elixir-format
+#: lib/pjeski_web/controllers/registration_controller.ex:32
+msgid "Changed succesfully!"
+msgstr "Zmiana została wprowadzona"
+
+#, elixir-format
+#: lib/pjeski_web/controllers/session_controller.ex:48
+msgid "Invalid e-mail or password"
+msgstr "Zły e-mail lub hasło"
+
+#, elixir-format
+#: lib/pjeski_web/controllers/session_controller.ex:32
+msgid "Welcome back!"
+msgstr "Witamy ponownie!"
+
+#, elixir-format
+#: lib/pjeski_web/controllers/registration_controller.ex:18
+msgid "Welcome!"
+msgstr "Witamy!"
+
+#, elixir-format
+#: lib/pjeski_web/plugs/auth_error_handler.ex:15
+msgid "You're already authenticated"
+msgstr "Jesteś już zalogowany/a"
+
+#, elixir-format
+#: lib/pjeski_web/plugs/auth_error_handler.ex:8
+msgid "You've to be authenticated first"
+msgstr "Musisz najpierw się zalogować"
+
+#, elixir-format
+#: lib/pjeski_web/controllers/session_controller.ex:39
+msgid "Your subscription is inactive."
+msgstr "Twoja subskrypcja jest nieaktywna"
