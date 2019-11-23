@@ -46,7 +46,7 @@ defmodule Pjeski.MixProject do
       {:plug_cowboy, "~> 2.0"},
 
       # Non-default
-      {:pow, "~> 1.0.14"},
+      {:pow, "~> 1.0.15"},
       {:ecto_enum, "~> 1.4"},
       {:turbolinks, "~> 1.0"},
       {:navigation_history, "~> 0.3"},
