@@ -31,7 +31,8 @@ config :phoenix, :json_library, Jason
 config :pjeski, :pow,
   user: Pjeski.Users.User,
   repo: Pjeski.Repo,
-  web_module: PjeskiWeb
+  web_module: PjeskiWeb,
+  cache_store_backend: Pow.Store.Backend.MnesiaCache
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
