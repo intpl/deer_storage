@@ -58,7 +58,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:15
-#: lib/pjeski_web/templates/admin/user/show.html.eex:61 lib/pjeski_web/templates/registration/edit.html.eex:41
+#: lib/pjeski_web/templates/admin/user/show.html.eex:62 lib/pjeski_web/templates/registration/edit.html.eex:41
 #: lib/pjeski_web/templates/registration/new.html.eex:53
 msgid "Language"
 msgstr ""
@@ -166,8 +166,8 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:18
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:31 lib/pjeski_web/templates/admin/user/index.html.eex:18
-#: lib/pjeski_web/templates/admin/user/index.html.eex:31 lib/pjeski_web/templates/admin/user/show.html.eex:55
-#: lib/pjeski_web/templates/admin/user/show.html.eex:70 lib/pjeski_web/templates/session/new.html.eex:24
+#: lib/pjeski_web/templates/admin/user/index.html.eex:31 lib/pjeski_web/templates/admin/user/show.html.eex:56
+#: lib/pjeski_web/templates/admin/user/show.html.eex:71 lib/pjeski_web/templates/session/new.html.eex:24
 msgid "E-mail"
 msgstr ""
 
@@ -237,7 +237,7 @@ msgid "Revoke admin privileges"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:58
+#: lib/pjeski_web/templates/admin/user/show.html.eex:59
 msgid "Role"
 msgstr ""
 
@@ -325,7 +325,7 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:27
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:20 lib/pjeski_web/templates/admin/subscription/index.html.eex:37
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:41 lib/pjeski_web/templates/admin/user/show.html.eex:72
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:41 lib/pjeski_web/templates/admin/user/show.html.eex:73
 msgid "Expires on"
 msgstr ""
 
@@ -340,7 +340,7 @@ msgid "Manage Users"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:67
+#: lib/pjeski_web/templates/admin/user/show.html.eex:68
 msgid "Name"
 msgstr ""
 
@@ -382,13 +382,13 @@ msgid "empty"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:75
+#: lib/pjeski_web/templates/admin/user/show.html.eex:76
 msgid "This user has no subscription attached"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:9
-#: lib/pjeski_web/templates/admin/user/index.html.eex:17 lib/pjeski_web/templates/admin/user/show.html.eex:52
+#: lib/pjeski_web/templates/admin/user/index.html.eex:17 lib/pjeski_web/templates/admin/user/show.html.eex:53
 #: lib/pjeski_web/templates/registration/edit.html.eex:35 lib/pjeski_web/templates/registration/new.html.eex:59
 msgid "Name and surname"
 msgstr ""
@@ -400,7 +400,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/index.html.eex:19
-#: lib/pjeski_web/templates/admin/user/index.html.eex:34 lib/pjeski_web/templates/admin/user/show.html.eex:64
+#: lib/pjeski_web/templates/admin/user/index.html.eex:34 lib/pjeski_web/templates/admin/user/show.html.eex:65
 msgid "Subscription"
 msgstr ""
 
@@ -447,12 +447,12 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:21
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:19 lib/pjeski_web/templates/admin/subscription/index.html.eex:34
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:36 lib/pjeski_web/templates/admin/user/show.html.eex:71
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:36 lib/pjeski_web/templates/admin/user/show.html.eex:72
 msgid "Time zone"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/admin/user_controller.ex:71
+#: lib/pjeski_web/controllers/admin/user_controller.ex:69
 msgid "%{name} is now '%{role}'"
 msgstr ""
 
@@ -497,13 +497,23 @@ msgid "Remember me (for 30 days)"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:40
+#: lib/pjeski_web/templates/admin/user/show.html.eex:41
 msgid "Currently the user is not logged in"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:38
 msgid "Currently the user is logged in on %{count} device"
 msgid_plural "Currently the user is logged in on %{count} devices"
 msgstr[0] ""
 msgstr[1] ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/controllers/admin/user_controller.ex:78
+msgid "%{name} has been logged out from all devices"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/show.html.eex:39
+msgid "Log user out"
+msgstr ""

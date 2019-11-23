@@ -36,6 +36,7 @@
     <div class="subtitle">
       <%= if @user_log_in_sessions_count > 0 do %>
         <%= ngettext("Currently the user is logged in on %{count} device", "Currently the user is logged in on %{count} devices", @user_log_in_sessions_count) %>.
+        <%= link gettext("Log user out"), to: Routes.admin_user_user_path(@conn, :log_out_from_devices, @user), method: :put, class: "is-danger" %>
       <% else %>
         <%= gettext("Currently the user is not logged in") %>.
       <% end %>

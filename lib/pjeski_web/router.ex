@@ -31,6 +31,7 @@ defmodule PjeskiWeb.Router do
 
       resources "/users", UserController do
         put "/toggle_admin", UserController, :toggle_admin
+        put "/log_out_from_devices", UserController, :log_out_from_devices
       end
 
       resources "/subscriptions", SubscriptionController

@@ -70,7 +70,26 @@ defmodule PjeskiWeb.Admin.UserController do
     |> redirect(to: Routes.admin_user_path(conn, :show, user))
   end
 
-  defp user_log_in_sessions(user) do
-    Pow.Store.CredentialsCache.sessions([backend: Application.get_env(:pjeski, :pow)[:cache_store_backend]], user)
+  def log_out_from_devices(conn, %{"user_id" => id}) do
+    user = Users.get_user!(id)
+    {:ok} = delete_all_sessions_for_user(user)
+
+    conn
+    |> put_flash(:info, gettext("%{name} has been logged out from all devices", name: user.name))
+    |> redirect(to: Routes.admin_user_path(conn, :show, user))
   end
+
+  defp user_log_in_sessions(user) do
+    Pow.Store.CredentialsCache.sessions(pow_backend_config_reuse(), user)
+  end
+
+  defp delete_all_sessions_for_user(user) do
+    for session_key <- user_log_in_sessions(user) do
+      Pow.Store.CredentialsCache.delete(pow_backend_config_reuse(), session_key)
+    end
+
+    {:ok}
+  end
+
+  defp pow_backend_config_reuse, do: [backend: Application.get_env(:pjeski, :pow)[:cache_store_backend]]
 end
