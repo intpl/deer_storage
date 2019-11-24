@@ -1,6 +1,10 @@
 defmodule PjeskiWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :pjeski
 
+  @session_options store: :cookie, key: "_pjeski_key", signing_salt: "KLHKFqia"
+
+  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
@@ -33,10 +37,7 @@ defmodule PjeskiWeb.Endpoint do
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
-  plug Plug.Session,
-    store: :cookie,
-    key: "_pjeski_key",
-    signing_salt: "KLHKFqia"
+  plug Plug.Session, @session_options
 
   plug Pow.Plug.Session, otp_app: :pjeski
   plug PowPersistentSession.Plug.Cookie

@@ -7,6 +7,7 @@
     <title><%= build_title_for_user(@current_user) %></title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <%= csrf_meta_tag() %>
   </head>
   <body>
     <main role="main">

@@ -25,6 +25,7 @@ defmodule PjeskiWeb do
       import Plug.Conn
       import PjeskiWeb.Gettext
       import PjeskiWeb.Controllers.Helpers, only: [redirect_back: 2]
+      import Phoenix.LiveView.Controller
 
       alias PjeskiWeb.Router.Helpers, as: Routes
     end
@@ -48,6 +49,10 @@ defmodule PjeskiWeb do
       alias PjeskiWeb.Router.Helpers, as: Routes
 
       import PjeskiWeb.DateHelpers
+
+      import Phoenix.LiveView,
+        only: [live_render: 2, live_render: 3, live_link: 1, live_link: 2,
+               live_component: 2, live_component: 3, live_component: 4]
     end
   end
 
@@ -56,6 +61,8 @@ defmodule PjeskiWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+
+      import Phoenix.LiveView.Router
     end
   end
 

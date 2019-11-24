@@ -3,3 +3,4 @@
 @import 'bulma.min.css';
 @import 'admin.css';
 @import 'global/table.css';
+@import "../../deps/phoenix_live_view/assets/css/live_view.css";
