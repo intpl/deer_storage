@@ -51,7 +51,8 @@ defmodule Pjeski.MixProject do
       {:turbolinks, "~> 1.0"},
       {:navigation_history, "~> 0.3"},
       {:phoenix_active_link, "~> 0.3.0"},
-      {:timex, "~> 3.5"}
+      {:timex, "~> 3.5"},
+      {:quantum, "~> 2.3"}
     ]
   end
 

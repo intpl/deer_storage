@@ -2,11 +2,22 @@ defmodule Pjeski.Subscriptions do
 
   import Ecto.Query, warn: false
   alias Pjeski.Repo
+  import Ecto.Query, only: [from: 2]
 
   alias Pjeski.Subscriptions.Subscription
 
   def list_subscriptions do
     Subscription
+    |> Repo.all
+    |> Repo.preload(:users)
+  end
+
+  def list_expired_subscriptions do
+    # todo: honor subscription time zone
+    date = Date.utc_today
+    query = from s in Subscription, where: fragment("?::date", s.expires_on) <= ^date
+
+    query
     |> Repo.all
     |> Repo.preload(:users)
   end

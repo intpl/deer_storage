@@ -34,6 +34,12 @@ config :pjeski, :pow,
   web_module: PjeskiWeb,
   cache_store_backend: Pow.Store.Backend.MnesiaCache
 
+config :pjeski, Pjeski.Scheduler,
+  jobs: [
+    # Runs every two hours
+    {"* */2 * * *",         {Pjeski.Users.UserSessionUtils, :delete_all_sessions_for_expired_subscriptions_users, []}},
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

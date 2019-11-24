@@ -12,12 +12,11 @@ defmodule Pjeski.Application do
       Pjeski.Repo,
       # Start the endpoint when the application starts
       PjeskiWeb.Endpoint,
-      # Starts a worker by calling: Pjeski.Worker.start_link(arg)
-      # {Pjeski.Worker, arg},
-      Pow.Store.Backend.MnesiaCache
+      Pow.Store.Backend.MnesiaCache,
       # # Or in a distributed system:
       # {Pow.Store.Backend.MnesiaCache, extra_db_nodes: Node.list()},
       # Pow.Store.Backend.MnesiaCache.Unsplit # Recover from netsplit
+      Pjeski.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
