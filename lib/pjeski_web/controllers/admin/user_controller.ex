@@ -3,6 +3,7 @@ defmodule PjeskiWeb.Admin.UserController do
 
   alias Pjeski.Users
   alias Pjeski.Users.User
+  alias Pjeski.Users.UserSessionUtils
 
   def index(conn, _params) do
     users = Users.list_users()
@@ -28,8 +29,9 @@ defmodule PjeskiWeb.Admin.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
+    count = length(UserSessionUtils.user_sessions_keys(user))
 
-    render(conn, "show.html", user: user, user_log_in_sessions_count: length(user_log_in_sessions(user)))
+    render(conn, "show.html", user: user, user_log_in_sessions_count: count)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -72,24 +74,10 @@ defmodule PjeskiWeb.Admin.UserController do
 
   def log_out_from_devices(conn, %{"user_id" => id}) do
     user = Users.get_user!(id)
-    {:ok} = delete_all_sessions_for_user(user)
+    {:ok} = UserSessionUtils.delete_all_sessions_for_user(user)
 
     conn
     |> put_flash(:info, gettext("%{name} has been logged out from all devices", name: user.name))
     |> redirect(to: Routes.admin_user_path(conn, :show, user))
   end
-
-  defp user_log_in_sessions(user) do
-    Pow.Store.CredentialsCache.sessions(pow_backend_config_reuse(), user)
-  end
-
-  defp delete_all_sessions_for_user(user) do
-    for session_key <- user_log_in_sessions(user) do
-      Pow.Store.CredentialsCache.delete(pow_backend_config_reuse(), session_key)
-    end
-
-    {:ok}
-  end
-
-  defp pow_backend_config_reuse, do: [backend: Application.get_env(:pjeski, :pow)[:cache_store_backend]]
 end
