@@ -1,0 +1,17 @@
+<%= for client <- @clients do %>
+  <tr>
+    <td><%= client.name %></td>
+    <td><%= client.phone_code %></td>
+    <td><%= client.phone %></td>
+    <td><%= client.email %></td>
+    <td><%= client.city %></td>
+    <td><%= client.address %></td>
+    <td><%= client.notes %></td>
+
+    <td>
+      <span><%= link "Show", to: Routes.client_path(PjeskiWeb.Endpoint, :show, client) %></span>
+      <span><%= link "Edit", to: Routes.client_path(PjeskiWeb.Endpoint, :edit, client) %></span>
+      <span><%= link "Delete", to: Routes.client_path(PjeskiWeb.Endpoint, :delete, client), method: :delete, data: [confirm: "Are you sure?"] %></span>
+    </td>
+  </tr>
+<% end %>
