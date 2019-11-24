@@ -24,6 +24,8 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
+    resources "/clients", ClientController
+
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
     resources "/session", SessionController, singleton: true, only: [:delete]
 

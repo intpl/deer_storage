@@ -1,0 +1,43 @@
+<h1>Show Client</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @client.name %>
+  </li>
+
+  <li>
+    <strong>Phone code:</strong>
+    <%= @client.phone_code %>
+  </li>
+
+  <li>
+    <strong>Phone:</strong>
+    <%= @client.phone %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @client.email %>
+  </li>
+
+  <li>
+    <strong>City:</strong>
+    <%= @client.city %>
+  </li>
+
+  <li>
+    <strong>Address:</strong>
+    <%= @client.address %>
+  </li>
+
+  <li>
+    <strong>Notes:</strong>
+    <%= @client.notes %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.client_path(@conn, :edit, @client) %></span>
+<span><%= link "Back", to: Routes.client_path(@conn, :index) %></span>

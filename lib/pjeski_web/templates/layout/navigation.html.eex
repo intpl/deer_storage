@@ -16,32 +16,13 @@
   <div id="navigation" class="navbar-menu">
   <%= if @current_user do %>
     <div class="navbar-start">
-
       <%= if @current_user.role == "admin" do %>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            <%= gettext("Admin") %>
-          </a>
-          <div class="navbar-dropdown is-boxed">
-            <%= active_link(@conn, gettext("Users"), to: Routes.admin_user_path(@conn, :index), class_active: "is-active navbar-item", class_inactive: "navbar-item") %>
-            <%= active_link(@conn, gettext("Subscriptions"), to: Routes.admin_subscription_path(@conn, :index), class_active: "is-active navbar-item", class_inactive: "navbar-item") %>
-          </div>
-        </div>
+        <%= active_link(@conn, gettext("Users"), to: Routes.admin_user_path(@conn, :index), class_active: "is-active navbar-item", class_inactive: "navbar-item") %>
+        <%= active_link(@conn, gettext("Subscriptions"), to: Routes.admin_subscription_path(@conn, :index), class_active: "is-active navbar-item", class_inactive: "navbar-item") %>
+      <% else %>
+
+        <%= active_link(@conn, gettext("Clients"), to: Routes.client_path(@conn, :index), class_active: "is-active navbar-item", class_inactive: "navbar-item") %>
       <% end %>
-      <a class="navbar-item">
-        <%= gettext("Clients") %>
-      </a>
-
-      <a class="navbar-item">
-        <%= gettext("Visits") %>
-      </a>
-
-      <a class="navbar-item">
-        <%= gettext("Patients") %>
-      </a>
-      <a class="navbar-item">
-        <%= gettext("Medicines") %>
-      </a>
     </div>
     <% end %>
 
