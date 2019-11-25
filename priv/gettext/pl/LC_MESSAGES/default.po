@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=3\n"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:32
+#: lib/pjeski_web/templates/layout/navigation.html.eex:24
 msgid "Clients"
 msgstr "Klienci"
 
@@ -35,7 +35,7 @@ msgid "Register"
 msgstr "Zarejestruj się"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:56
+#: lib/pjeski_web/templates/layout/navigation.html.eex:37
 #: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/session/new.html.eex:5
 #: lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
@@ -45,11 +45,6 @@ msgstr "Zaloguj się"
 #: lib/pjeski_web/templates/registration/edit.html.eex:83
 msgid "Update"
 msgstr "Zapisz"
-
-#, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:36
-msgid "Visits"
-msgstr "Wizyty"
 
 #, elixir-format
 #: lib/pjeski_web/views/registration_view.ex:14
@@ -111,16 +106,6 @@ msgid "Welcome to Clinic Management System!!!"
 msgstr "Witamy w Centrum Zarządzania Kliniką!!!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:40
-msgid "Patients"
-msgstr "Pacjenci"
-
-#, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:43
-msgid "Medicines"
-msgstr "Leki"
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:15
 #: lib/pjeski_web/templates/admin/user/form.html.eex:21 lib/pjeski_web/templates/registration/edit.html.eex:53
 #: lib/pjeski_web/templates/registration/new.html.eex:65
@@ -133,7 +118,7 @@ msgid "Sign in to Clinic Management System"
 msgstr "Zaloguj się do Systemu Zarządzania Kliniką"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:53
+#: lib/pjeski_web/templates/layout/navigation.html.eex:34
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -172,12 +157,12 @@ msgid "E-mail"
 msgstr "Adres E-mail"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:55
+#: lib/pjeski_web/templates/layout/navigation.html.eex:36
 msgid "Free demo"
 msgstr "Przetestuj za darmo"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:52
+#: lib/pjeski_web/templates/layout/navigation.html.eex:33
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -189,7 +174,6 @@ msgid "Actions"
 msgstr "Działania"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:23
 #: lib/pjeski_web/views/admin/user_view.ex:21
 msgid "Admin"
 msgstr "Admin"
@@ -255,7 +239,7 @@ msgstr "Użytkownik"
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:21
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:40 lib/pjeski_web/templates/admin/subscription/show.html.eex:61
-#: lib/pjeski_web/templates/layout/navigation.html.eex:26
+#: lib/pjeski_web/templates/layout/navigation.html.eex:20
 msgid "Users"
 msgstr "Użytkownicy"
 
@@ -405,7 +389,7 @@ msgid "Subscription"
 msgstr "Subskrypcja"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:27
+#: lib/pjeski_web/templates/layout/navigation.html.eex:21
 msgid "Subscriptions"
 msgstr "Subskrypcje"
 
@@ -452,7 +436,7 @@ msgid "Time zone"
 msgstr "Strefa czasowa"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/admin/user_controller.ex:69
+#: lib/pjeski_web/controllers/admin/user_controller.ex:71
 msgid "%{name} is now '%{role}'"
 msgstr "%{name} ma teraz rolę '%{role}'"
 
@@ -510,7 +494,7 @@ msgstr[1] "Obecnie użytkownik jest zalogowany (%{count} urządzenia)"
 msgstr[2] "Obecnie użytkownik jest zalogowany (%{count} urządzenia)"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/admin/user_controller.ex:78
+#: lib/pjeski_web/controllers/admin/user_controller.ex:80
 msgid "%{name} has been logged out from all devices"
 msgstr "%{name} został wylogowany ze wszystkich urządzeń"
 
