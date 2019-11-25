@@ -4,7 +4,7 @@ defmodule Pjeski.Users.UserSessionUtils do
 
   @credentials_cache_config [backend: Application.get_env(:pjeski, :pow)[:cache_store_backend]]
 
-  def user_from_live_session(%{"pjeski_auth" => token}) do
+  def user_from_live_session(token) do
     # returns :not_found if no user session, but let's keep it failing/unmatched for security reasons
     {user, _} = CredentialsCache.get(@credentials_cache_config, token)
 

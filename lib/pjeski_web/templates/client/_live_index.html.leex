@@ -1,17 +1,36 @@
-<%= for client <- @clients do %>
-  <tr>
-    <td><%= client.name %></td>
-    <td><%= client.phone_code %></td>
-    <td><%= client.phone %></td>
-    <td><%= client.email %></td>
-    <td><%= client.city %></td>
-    <td><%= client.address %></td>
-    <td><%= client.notes %></td>
+<button phx-click="reload" phx-value-token="<%= @token %>">refresh</button>
 
-    <td>
-      <span><%= link "Show", to: Routes.client_path(PjeskiWeb.Endpoint, :show, client) %></span>
-      <span><%= link "Edit", to: Routes.client_path(PjeskiWeb.Endpoint, :edit, client) %></span>
-      <span><%= link "Delete", to: Routes.client_path(PjeskiWeb.Endpoint, :delete, client), method: :delete, data: [confirm: "Are you sure?"] %></span>
-    </td>
-  </tr>
-<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Phone code</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>City</th>
+      <th>Address</th>
+      <th>Notes</th>
+
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= for client <- @clients do %>
+    <tr>
+      <td><%= client.name %></td>
+      <td><%= client.phone_code %></td>
+      <td><%= client.phone %></td>
+      <td><%= client.email %></td>
+      <td><%= client.city %></td>
+      <td><%= client.address %></td>
+      <td><%= client.notes %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.client_path(PjeskiWeb.Endpoint, :show, client) %></span>
+        <span><%= link "Edit", to: Routes.client_path(PjeskiWeb.Endpoint, :edit, client) %></span>
+        <span><%= link "Delete", to: Routes.client_path(PjeskiWeb.Endpoint, :delete, client), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
