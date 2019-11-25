@@ -16,7 +16,7 @@ defmodule PjeskiWeb.ClientIndexLive do
   end
 
   def render(assigns) do
-    PjeskiWeb.ClientView.render("_live_index.html", assigns)
+    PjeskiWeb.ClientView.render("index.html", assigns)
   end
 
   def handle_event("reload", %{"token" => token}, socket) do

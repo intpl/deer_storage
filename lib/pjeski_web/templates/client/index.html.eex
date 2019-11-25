@@ -1,5 +1,0 @@
-<h1>Listing Clients</h1>
-
-<%= live_render(@conn, PjeskiWeb.ClientIndexLive) %>
-
-<span><%= link "New Client", to: Routes.client_path(@conn, :new) %></span>

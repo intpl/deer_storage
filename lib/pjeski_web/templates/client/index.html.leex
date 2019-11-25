@@ -1,0 +1,49 @@
+<section class="section">
+  <div class="columns">
+    <div class="column is-2">
+      <button phx-click="reload" phx-value-token="<%= @token %>" class="button">
+        <%= gettext("Refresh") %>
+      </button>
+      <%= link "New Client", to: Routes.client_path(PjeskiWeb.Endpoint, :new), class: "button is-primary" %>
+    </div>
+    <div class="column is-10">
+      <input class="input" type="text" placeholder="<%= gettext("Search...") %>">
+    </div>
+  </div>
+
+  <div class="columns is-marginless">
+    <div class="column is-3">Name</div>
+    <div class="column is-1">Phone code</div>
+    <div class="column is-1">Phone</div>
+    <div class="column is-1">Email</div>
+    <div class="column is-1">City</div>
+    <div class="column is-1">Address</div>
+    <div class="column is-1">Notes</div>
+
+    <div class="column is-2">Actions</div>
+  </div>
+
+  <%= for client <- @clients do %>
+    <div class="panel">
+    <div class="columns panel-block is-vcentered is-marginless">
+      <div class="column is-3">
+        <div class="title is-5">
+          <%= client.name %>
+        </div>
+      </div>
+      <div class="column is-1"><%= client.phone_code %></div>
+      <div class="column is-1"><%= client.phone %></div>
+      <div class="column is-1"><%= client.email %></div>
+      <div class="column is-1"><%= client.city %></div>
+      <div class="column is-1"><%= client.address %></div>
+      <div class="column is-1"><%= client.notes %></div>
+
+      <div class="column is-2">
+        <span><%= link "Show", to: Routes.client_path(PjeskiWeb.Endpoint, :show, client) %></span>
+        <span><%= link "Edit", to: Routes.client_path(PjeskiWeb.Endpoint, :edit, client) %></span>
+        <span><%= link "Delete", to: Routes.client_path(PjeskiWeb.Endpoint, :delete, client), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </div>
+    </div>
+    </div>
+  <% end %>
+</section>

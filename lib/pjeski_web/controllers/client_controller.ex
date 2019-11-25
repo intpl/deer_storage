@@ -5,7 +5,7 @@ defmodule PjeskiWeb.ClientController do
   alias Pjeski.UserClients.Client
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    live_render(conn, PjeskiWeb.ClientIndexLive)
   end
 
   def new(conn, _params) do
