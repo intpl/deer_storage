@@ -2,12 +2,14 @@
   <div class="columns">
     <div class="column is-2">
       <button phx-click="reload" phx-value-token="<%= @token %>" class="button">
-        <%= gettext("Refresh") %>
+        <%= gettext("Reload") %>
       </button>
       <%= link "New Client", to: Routes.client_path(PjeskiWeb.Endpoint, :new), class: "button is-primary" %>
     </div>
     <div class="column is-10">
-      <input class="input" type="text" placeholder="<%= gettext("Search...") %>">
+      <form phx-change="filter">
+        <input class="input" type="text" name="query" list="matches" placeholder="<%= gettext("Search...") %>" />
+      </form>
     </div>
   </div>
 

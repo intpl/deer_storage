@@ -5,18 +5,31 @@ defmodule PjeskiWeb.ClientIndexLive do
   alias Pjeski.UserClients
 
   def mount(session, socket) do
+    # TODO: add query param if exists
     user = user_from_session_or_token(session)
     token = session["pjeski_auth"]
 
     {:ok,
      assign(socket,
-       token: token,
-       clients: list_clients_for_subscription(user.subscription_id)
+       clients: list_clients_for_subscription(user.subscription_id),
+       token: token
      )}
   end
 
   def render(assigns) do
     PjeskiWeb.ClientView.render("index.html", assigns)
+  end
+
+  def handle_event("filter", %{"query" => ""}, socket) do
+    subscription_id = user_from_session_or_token(socket.assigns.token).subscription_id
+
+    {:noreply, assign(socket, clients: list_clients_for_subscription(subscription_id))}
+  end
+
+  def handle_event("filter", %{"query" => query}, socket) when byte_size(query) <= 100 do
+    subscription_id = user_from_session_or_token(socket.assigns.token).subscription_id
+
+    {:noreply, assign(socket, clients: UserClients.search_clients_for_subscription(query, subscription_id))}
   end
 
   def handle_event("reload", %{"token" => token}, socket) do
