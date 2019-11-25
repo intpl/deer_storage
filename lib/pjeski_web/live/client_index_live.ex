@@ -8,7 +8,7 @@ defmodule PjeskiWeb.ClientIndexLive do
 
     {:ok,
      assign(socket,
-       clients: UserClients.list_clients
+       clients: UserClients.list_clients_for_subscription(user.subscription_id)
      )}
   end
 

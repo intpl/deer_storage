@@ -40,7 +40,7 @@ config :pjeski, :pow,
 config :pjeski, Pjeski.Scheduler,
   jobs: [
     # Runs every two hours
-    {"* */2 * * *",         {Pjeski.Users.UserSessionUtils, :delete_all_sessions_for_expired_subscriptions_users, []}},
+    {"0 */2 * * *",         {Pjeski.Users.UserSessionUtils, :delete_all_sessions_for_expired_subscriptions_users, []}},
   ]
 
 # Import environment specific config. This must remain at the bottom

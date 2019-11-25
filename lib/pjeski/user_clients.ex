@@ -1,104 +1,40 @@
 defmodule Pjeski.UserClients do
-  @moduledoc """
-  The UserClients context.
-  """
-
   import Ecto.Query, warn: false
+  alias Ecto.Changeset
+
   alias Pjeski.Repo
 
   alias Pjeski.UserClients.Client
 
-  @doc """
-  Returns the list of clients.
-
-  ## Examples
-
-      iex> list_clients()
-      [%Client{}, ...]
-
-  """
-  def list_clients do
-    Repo.all(Client)
+  def list_clients_for_subscription(subscription_id) do
+    Repo.all(from c in Client, where: c.subscription_id == ^subscription_id)
   end
 
-  @doc """
-  Gets a single client.
+  def get_client_for_subscription!(id, subscription_id), do: Repo.get_by!(Client, id: id, subscription_id: subscription_id)
 
-  Raises `Ecto.NoResultsError` if the Client does not exist.
+  def create_client_for_user(attrs \\ %{}, user) do
+    user_data = %{user_id: user.id, subscription_id: user.subscription_id}
 
-  ## Examples
-
-      iex> get_client!(123)
-      %Client{}
-
-      iex> get_client!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_client!(id), do: Repo.get!(Client, id)
-
-  @doc """
-  Creates a client.
-
-  ## Examples
-
-      iex> create_client(%{field: value})
-      {:ok, %Client{}}
-
-      iex> create_client(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_client(attrs \\ %{}) do
     %Client{}
     |> Client.changeset(attrs)
+    |> Changeset.cast(user_data, [:user_id, :subscription_id])
     |> Repo.insert()
   end
 
-  @doc """
-  Updates a client.
+  def update_client_for_user(%Client{subscription_id: subscription_id} = client, attrs, %{subscription_id: subscription_id} = user) do
+    user_data = %{last_changed_by_user_id: user.id}
 
-  ## Examples
-
-      iex> update_client(client, %{field: new_value})
-      {:ok, %Client{}}
-
-      iex> update_client(client, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_client(%Client{} = client, attrs) do
     client
     |> Client.changeset(attrs)
+    |> Changeset.cast(user_data, [:last_changed_by_user_id])
     |> Repo.update()
   end
 
-  @doc """
-  Deletes a Client.
-
-  ## Examples
-
-      iex> delete_client(client)
-      {:ok, %Client{}}
-
-      iex> delete_client(client)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_client(%Client{} = client) do
+  def delete_client_for_subscription(%Client{subscription_id: subscription_id} = client, subscription_id) do
     Repo.delete(client)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking client changes.
-
-  ## Examples
-
-      iex> change_client(client)
-      %Ecto.Changeset{source: %Client{}}
-
-  """
-  def change_client(%Client{} = client) do
+  def change_client_for_subscription(%Client{subscription_id: subscription_id} = client, subscription_id) do
     Client.changeset(client, %{})
   end
 end
