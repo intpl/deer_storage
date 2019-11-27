@@ -6,7 +6,7 @@ defmodule Pjeski.UserClients do
 
   alias Pjeski.UserClients.Client
 
-  def search_clients_for_subscription(query_string, subscription_id) do
+  def search_clients_for_subscription(subscription_id, query_string) do
     Repo.all(compose_search_query(query_string, subscription_id))
   end
 
@@ -42,11 +42,10 @@ defmodule Pjeski.UserClients do
     Client.changeset(client, %{})
   end
 
-  # test: Pjeski.UserClients.search_clients_for_subscription("b a", 22)
-
   defp compose_search_query(string, subscription_id) do
     filters = string
     |> String.split # FIXME: add guard clause for length of array of strings
+    |> Enum.uniq
     |> Enum.map(&(build_search_map(&1)))
 
     from c in clients_for_subscription_query(subscription_id), where: ^recursive_dynamic_query(filters)
