@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=3\n"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:24
+#: lib/pjeski_web/templates/layout/navigation.html.eex:23
 msgid "Clients"
 msgstr "Klienci"
 
@@ -35,7 +35,7 @@ msgid "Register"
 msgstr "Zarejestruj się"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:37
+#: lib/pjeski_web/templates/layout/navigation.html.eex:36
 #: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/session/new.html.eex:5
 #: lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
@@ -118,7 +118,7 @@ msgid "Sign in to Clinic Management System"
 msgstr "Zaloguj się do Systemu Zarządzania Kliniką"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:34
+#: lib/pjeski_web/templates/layout/navigation.html.eex:33
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -157,12 +157,12 @@ msgid "E-mail"
 msgstr "Adres E-mail"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:36
+#: lib/pjeski_web/templates/layout/navigation.html.eex:35
 msgid "Free demo"
 msgstr "Przetestuj za darmo"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:33
+#: lib/pjeski_web/templates/layout/navigation.html.eex:32
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -502,3 +502,23 @@ msgstr "%{name} został wylogowany ze wszystkich urządzeń"
 #: lib/pjeski_web/templates/admin/user/show.html.eex:39
 msgid "Log user out"
 msgstr "Wyloguj tego użytkownika"
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:15
+msgid "Clear"
+msgstr "Wyczyść"
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:3
+msgid "New Client"
+msgstr "Nowy klient"
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:13
+msgid "Search"
+msgstr "Szukaj"
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:8
+msgid "Search..."
+msgstr "Szukaj..."
