@@ -55,7 +55,8 @@ defmodule Pjeski.MixProject do
       {:tzdata, "~> 1.0.1"},
       {:quantum, "~> 2.3"},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"}, # FIXME before release. currently 0.5.0 is not available in Hex
-      {:floki, ">= 0.0.0", only: :test}
+      {:floki, ">= 0.0.0", only: :test},
+      {:faker, "~> 0.13", only: [:test, :dev]}
     ]
   end
 
