@@ -52,6 +52,7 @@ defmodule Pjeski.MixProject do
       {:navigation_history, "~> 0.3"},
       {:phoenix_active_link, "~> 0.3.0"},
       {:timex, "~> 3.5"},
+      {:tzdata, "~> 1.0.1"},
       {:quantum, "~> 2.3"},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"}, # FIXME before release. currently 0.5.0 is not available in Hex
       {:floki, ">= 0.0.0", only: :test}
