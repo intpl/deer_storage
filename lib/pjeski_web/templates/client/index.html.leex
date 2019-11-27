@@ -1,20 +1,22 @@
 <section class="section">
   <div class="field">
     <%= link gettext("New Client"), to: Routes.client_path(PjeskiWeb.Endpoint, :new), class: "button is-primary" %>
-
   </div>
-    <form phx-change="filter" action="#">
-      <div class="field">
-        <input class="input" type="text" name="query" list="matches" placeholder="<%= gettext("Search...") %>" value="<%= @query %>" />
-      </div>
 
-      <div class="field">
-        <button class="button" type="submit">
-          <%= gettext("Search") %>
-        </button>
-        <%= link gettext("Clear / Reload"), to: Routes.client_path(PjeskiWeb.Endpoint, :index), class: "button" %>
-      </div>
-    </form>
+  <form phx-change="filter" action="#">
+    <div class="field">
+      <input class="input" type="text" name="query" list="matches" placeholder="<%= gettext("Search...") %>" value="<%= @query %>" />
+    </div>
+
+    <div class="field">
+      <button class="button" type="submit">
+        <%= gettext("Search") %>
+      </button>
+      <%= link gettext("Clear / Reload"), to: Routes.client_path(PjeskiWeb.Endpoint, :index), class: "button" %>
+    </div>
+  </form>
+
+  <hr>
 
   <%= for client <- @clients do %>
     <div class="box">
