@@ -5,7 +5,7 @@
 
   <form phx-change="filter" action="#">
     <div class="field">
-      <input class="input" type="text" name="query" list="matches" placeholder="<%= gettext("Search...") %>" value="<%= @query %>" />
+      <input class="input" type="text" name="query" list="matches" placeholder="<%= gettext("Search...") %>" value="<%= @query %>" phx-debounce="300" />
     </div>
 
     <div class="field">

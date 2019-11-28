@@ -6,12 +6,18 @@ defmodule Pjeski.UserClients do
 
   alias Pjeski.UserClients.Client
 
-  def search_clients_for_subscription(subscription_id, query_string) do
-    Repo.all(compose_search_query(query_string, subscription_id))
+  @per_page 30
+
+  def search_clients_for_subscription(subscription_id, query_string, page) do
+    Repo.all(from c in Client,
+      where: ^dynamic([c], c.subscription_id == ^subscription_id and ^compose_search_query(query_string)),
+      offset: ^offset(page),
+      limit: @per_page
+    )
   end
 
-  def list_clients_for_subscription(subscription_id) do
-    Repo.all(clients_for_subscription_query(subscription_id))
+  def list_clients_for_subscription(subscription_id, page) do
+    Repo.all(from c in Client, where: c.subscription_id == ^subscription_id, offset: ^offset(page), limit: @per_page)
   end
 
   def get_client_for_subscription!(id, subscription_id), do: Repo.get_by!(Client, id: id, subscription_id: subscription_id)
@@ -42,13 +48,14 @@ defmodule Pjeski.UserClients do
     Client.changeset(client, %{})
   end
 
-  defp compose_search_query(string, subscription_id) do
+  defp compose_search_query(string) do
     filters = string
+    |> String.replace("*", "%")
     |> String.split # FIXME: add guard clause for length of array of strings
     |> Enum.uniq
     |> Enum.map(&(build_search_map(&1)))
 
-    from c in clients_for_subscription_query(subscription_id), where: ^recursive_dynamic_query(filters)
+    dynamic([c], ^recursive_dynamic_query(filters))
   end
 
   # extract this function into a module for next models to use
@@ -66,19 +73,12 @@ defmodule Pjeski.UserClients do
   defp build_search_map(string) do
     string = "%#{string}%"
 
-    [
-      name: string,
-      email: string,
-      city: string,
-      phone: string,
-    ]
+    Keyword.new [:name, :email, :city, :phone], fn key -> {key, string} end
   end
 
   defp dynamic_ilike(key, value) do
     dynamic([c], ilike(field(c, ^key), ^value))
   end
 
-  defp clients_for_subscription_query(subscription_id) do
-    from c in Client, where: c.subscription_id == ^subscription_id
-  end
+  defp offset(page) when page > 0, do: (page - 1) * @per_page
 end
