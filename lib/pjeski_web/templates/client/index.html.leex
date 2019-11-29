@@ -12,10 +12,16 @@
     </div>
 
     <div class="column is-6">
-      <form phx-change="filter" action="#">
+      <form phx-change="filter">
         <div class="field has-addons">
           <p class="control is-expanded">
-            <input class="input is-fullwidth" type="text" name="query" list="matches" placeholder="<%= gettext("Search...") %>" value="<%= @query %>" phx-debounce="300" />
+            <input
+              class="input is-fullwidth"
+              type="text" name="query"
+              list="matches"
+              placeholder="<%= gettext("Search...") %>"
+              value="<%= @query %>"
+              phx-debounce="300" />
           </p>
 
           <p class="control">

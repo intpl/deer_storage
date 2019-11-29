@@ -16,21 +16,21 @@ defmodule PjeskiWeb.ClientLive.Index do
     {:ok, assign(socket, token: token, page: 1)}
   end
 
-  def handle_params(params, url, %{assigns: %{token: token}} = socket) do
-    user = user_from_live_session(token)
+  def handle_params(params, _, %{assigns: %{token: token}} = socket) do
     query = params["query"]
-    {:ok, clients} = search_clients(user.subscription_id, query, 1)
 
-    {:noreply, socket |> assign(clients: clients, query: query, count: length(clients))}
+    case connected?(socket) do
+      true ->
+        user = user_from_live_session(token)
+        {:ok, clients} = search_clients(user.subscription_id, query, 1)
+
+        {:noreply, socket |> assign(clients: clients, query: query, count: length(clients))}
+      false -> {:noreply, socket |> assign(query: query, clients: [], count: 0)}
+    end
   end
 
   def handle_event("clear", _, socket) do
-    {:noreply,
-     live_redirect(
-       socket,
-       to: Routes.live_path(socket, PjeskiWeb.ClientLive.Index)
-     )
-    }
+    {:noreply, live_redirect(socket, to: Routes.live_path(socket, PjeskiWeb.ClientLive.Index))}
   end
 
   def handle_event("filter", %{"query" => query}, %{assigns: %{token: token}} = socket) when byte_size(query) <= 50 do
