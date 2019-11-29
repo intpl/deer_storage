@@ -22,7 +22,7 @@ Enum.map((admin_emails), fn admin_email ->
         default_user_map)))
 end)
 
-Enum.map((subscription_emails), fn subscription_email ->
+Enum.map(Enum.uniq(subscription_emails), fn subscription_email ->
   subscription = Repo.insert!(
     Subscription.admin_changeset(%Subscription{}, %{
       email: subscription_email,
