@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:23
+#: lib/pjeski_web/templates/layout/navigation.html.eex:25
 msgid "Clients"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgid "Register"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:36
+#: lib/pjeski_web/templates/layout/navigation.html.eex:41
 #: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/session/new.html.eex:5
 #: lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
@@ -117,7 +117,7 @@ msgid "Sign in to Clinic Management System"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:33
+#: lib/pjeski_web/templates/layout/navigation.html.eex:38
 msgid "Sign out"
 msgstr ""
 
@@ -156,12 +156,12 @@ msgid "E-mail"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:35
+#: lib/pjeski_web/templates/layout/navigation.html.eex:40
 msgid "Free demo"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:32
+#: lib/pjeski_web/templates/layout/navigation.html.eex:37
 msgid "Settings"
 msgstr ""
 
@@ -502,21 +502,31 @@ msgid "Log user out"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:15
-msgid "Clear"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:3
+#: lib/pjeski_web/templates/client/index.html.leex:5
 msgid "New Client"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:13
+#: lib/pjeski_web/templates/client/index.html.leex:29
 msgid "Search"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:8
+#: lib/pjeski_web/templates/client/index.html.leex:22
 msgid "Search..."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pagination/simple.html.eex:11
+msgid "Next page"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/pagination/simple.html.eex:3
+msgid "Previous page"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:8
+msgid "Reload"
 msgstr ""
