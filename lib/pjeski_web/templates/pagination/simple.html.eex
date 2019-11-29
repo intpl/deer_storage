@@ -1,0 +1,13 @@
+<div class="is-vcentered" align="right">
+  <a class="button" <%= if @page == 1, do: "disabled", else: "phx-click=previous_page" %> />
+    <%= gettext("Previous page") %>
+  </a>
+
+  <%= if @page > 1 do %>
+    <a class="button"><%= @page %></a>
+  <% end %>
+
+  <a class="button" <%= if @count < 20, do: "disabled", else: "phx-click=next_page" %> />
+    <%= gettext("Next page") %>
+  </a>
+</div>

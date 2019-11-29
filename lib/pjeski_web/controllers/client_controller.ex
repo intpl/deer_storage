@@ -4,10 +4,6 @@ defmodule PjeskiWeb.ClientController do
   alias Pjeski.UserClients
   alias Pjeski.UserClients.Client
 
-  def index(conn, params) do
-    live_render(conn, PjeskiWeb.ClientLive.Index, session: %{"query" => params["query"]})
-  end
-
   def new(conn, _params) do
     subscription_id = user(conn).subscription_id
     changeset = UserClients.change_client_for_subscription(%Client{subscription_id: subscription_id}, subscription_id)

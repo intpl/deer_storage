@@ -20,7 +20,12 @@
         <%= active_link(@conn, gettext("Users"), to: Routes.admin_user_path(@conn, :index), class_active: "is-active navbar-item", class_inactive: "navbar-item") %>
         <%= active_link(@conn, gettext("Subscriptions"), to: Routes.admin_subscription_path(@conn, :index), class_active: "is-active navbar-item", class_inactive: "navbar-item") %>
       <% else %>
-        <%= active_link(@conn, gettext("Clients"), to: Routes.client_path(@conn, :index), class_active: "is-active navbar-item", class_inactive: "navbar-item") %>
+      <%= active_link(
+          @conn,
+          gettext("Clients"),
+          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index),
+          class_active: "is-active navbar-item",
+          class_inactive: "navbar-item") %>
       <% end %>
     </div>
     <% end %>

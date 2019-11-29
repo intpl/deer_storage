@@ -1,29 +1,51 @@
 defmodule PjeskiWeb.ClientLive.Index do
   use Phoenix.LiveView
 
+  alias PjeskiWeb.Router.Helpers, as: Routes
+
   import Pjeski.UserClients, only: [search_clients_for_subscription: 3, list_clients_for_subscription: 2]
   import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
 
   def render(assigns), do: PjeskiWeb.ClientView.render("index.html", assigns)
 
-  def mount(%{"query" => query, "pjeski_auth" => token}, socket) do
+  def mount(%{"pjeski_auth" => token}, socket) do
     user = user_from_live_session(token)
-    subscription_id = user.subscription_id
 
-    user.locale
-    |> Atom.to_string
-    |> Gettext.put_locale
+    user.locale |> Atom.to_string |> Gettext.put_locale
 
-    {:ok, clients} = search_clients(subscription_id, query, 1)
-    {:ok, assign(socket, clients: clients, query: query, token: token)}
+    {:ok, assign(socket, token: token, page: 1)}
+  end
+
+  def handle_params(params, url, %{assigns: %{token: token}} = socket) do
+    user = user_from_live_session(token)
+    query = params["query"]
+    {:ok, clients} = search_clients(user.subscription_id, query, 1)
+
+    {:noreply, socket |> assign(clients: clients, query: query, count: length(clients))}
+  end
+
+  def handle_event("clear", _, socket) do
+    {:noreply,
+     live_redirect(
+       socket,
+       to: Routes.live_path(socket, PjeskiWeb.ClientLive.Index)
+     )
+    }
   end
 
   def handle_event("filter", %{"query" => query}, %{assigns: %{token: token}} = socket) when byte_size(query) <= 50 do
-    user = user_from_live_session(token)
-    subscription_id = user.subscription_id
+    {:ok, clients} = search_clients(user_from_live_session(token).subscription_id, query, 1)
 
-    {:ok, clients} = search_clients(subscription_id, query, 1)
-    {:noreply, assign(socket, token: token, clients: clients)}
+    {:noreply, socket |> assign(clients: clients, query: query, page: 1, count: length(clients))}
+  end
+
+  def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
+  def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
+
+  def change_page(new_page, %{assigns: %{token: token, query: query}} = socket) do
+    {:ok, clients} = search_clients(user_from_live_session(token).subscription_id, query, new_page)
+
+    {:noreply, socket |> assign(clients: clients, page: new_page, count: length(clients))}
   end
 
   # TODO: limit search queries from 3 characters
