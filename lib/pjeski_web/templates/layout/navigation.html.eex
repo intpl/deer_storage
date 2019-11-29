@@ -25,7 +25,9 @@
           gettext("Clients"),
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index),
           class_active: "is-active navbar-item",
-          class_inactive: "navbar-item") %>
+          class_inactive: "navbar-item",
+          data_turbolinks: "false")
+          %>
       <% end %>
     </div>
     <% end %>
