@@ -35,7 +35,7 @@ msgid "Register"
 msgstr "Zarejestruj się"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:41
+#: lib/pjeski_web/templates/layout/navigation.html.eex:43
 #: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/session/new.html.eex:5
 #: lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
@@ -118,7 +118,7 @@ msgid "Sign in to Clinic Management System"
 msgstr "Zaloguj się do Systemu Zarządzania Kliniką"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:38
+#: lib/pjeski_web/templates/layout/navigation.html.eex:40
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -157,12 +157,12 @@ msgid "E-mail"
 msgstr "Adres E-mail"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:40
+#: lib/pjeski_web/templates/layout/navigation.html.eex:42
 msgid "Free demo"
 msgstr "Przetestuj za darmo"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:37
+#: lib/pjeski_web/templates/layout/navigation.html.eex:39
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -532,3 +532,13 @@ msgstr "Poprzednia"
 #: lib/pjeski_web/templates/client/index.html.leex:8
 msgid "Reload"
 msgstr "Przeładuj"
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:42
+msgid "Could not find anything..."
+msgstr "Niczego nie znaleziono..."
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:46
+msgid "This is the last page"
+msgstr "To już ostatnia strona"

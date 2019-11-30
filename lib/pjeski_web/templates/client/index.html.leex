@@ -36,6 +36,21 @@
 
   <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: 30) %>
 
+  <%= if @count == 0 do %>
+    <div class="section">
+      <h1 class="title has-text-grey-light has-text-centered">
+        <%= gettext("Could not find anything...") %>
+      </h3>
+
+      <%= if @page > 1 do %>
+        <h3 class="subtitle has-text-grey-light has-text-centered">
+          <%= gettext("This is the last page") %>
+        </h3>
+      <% end %>
+    </div>
+  </section>
+  <% end %>
+
   <%= for client <- @clients do %>
     <div class="box">
       <article class="media">
@@ -54,7 +69,7 @@
     </div>
   <% end %>
 
-  <%= if length(@clients) > 3 do %>
+  <%= if @count > 3 do %>
     <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: 30) %>
   <% end %>
 </section>
