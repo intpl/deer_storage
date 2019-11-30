@@ -57,7 +57,7 @@ defmodule PjeskiWeb.ClientController do
 
     conn
     |> put_flash(:info, "Client deleted successfully.")
-    |> redirect(to: Routes.client_path(conn, :index))
+    |> redirect(to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index))
   end
 
   defp user(conn) do

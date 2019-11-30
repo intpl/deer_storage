@@ -41,4 +41,4 @@
 
 <span><%= link "Edit", to: Routes.client_path(@conn, :edit, @client) %></span>
 <span><%= link "Delete", to: Routes.client_path(PjeskiWeb.Endpoint, :delete, @client), method: :delete, data: [confirm: "Are you sure?"] %></span>
-<span><%= link "Back", to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index) %></span>
+<span><%= link "Back", to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index), data_turbolinks: "false" %></span>
