@@ -12,7 +12,6 @@ defmodule Pjeski.UserClients.Client do
     field :name, :string
     field :notes, :string
     field :phone, :string
-    field :phone_code, :string
 
     belongs_to :last_changed_by_user, User
     belongs_to :user, User
@@ -24,7 +23,7 @@ defmodule Pjeski.UserClients.Client do
   @doc false
   def changeset(client, attrs) do
     client
-    |> cast(attrs, [:name, :phone_code, :phone, :email, :city, :address, :notes])
+    |> cast(attrs, [:name, :phone, :email, :city, :address, :notes])
     |> validate_required([:name])
   end
 end

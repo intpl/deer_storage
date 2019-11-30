@@ -9,10 +9,6 @@
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
 
-  <%= label f, :phone_code %>
-  <%= text_input f, :phone_code %>
-  <%= error_tag f, :phone_code %>
-
   <%= label f, :phone %>
   <%= text_input f, :phone %>
   <%= error_tag f, :phone %>

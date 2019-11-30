@@ -3,9 +3,9 @@ defmodule PjeskiWeb.ClientControllerTest do
 
   alias Pjeski.UserClients
 
-  @create_attrs %{address: "some address", city: "some city", email: "some email", name: "some name", notes: "some notes", phone: "some phone", phone_code: "some phone_code"}
-  @update_attrs %{address: "some updated address", city: "some updated city", email: "some updated email", name: "some updated name", notes: "some updated notes", phone: "some updated phone", phone_code: "some updated phone_code"}
-  @invalid_attrs %{address: nil, city: nil, email: nil, name: nil, notes: nil, phone: nil, phone_code: nil}
+  @create_attrs %{address: "some address", city: "some city", email: "some email", name: "some name", notes: "some notes", phone: "some phone"}
+  @update_attrs %{address: "some updated address", city: "some updated city", email: "some updated email", name: "some updated name", notes: "some updated notes", phone: "some updated phone"}
+  @invalid_attrs %{address: nil, city: nil, email: nil, name: nil, notes: nil, phone: nil}
 
   def fixture(:client) do
     {:ok, client} = UserClients.create_client(@create_attrs)

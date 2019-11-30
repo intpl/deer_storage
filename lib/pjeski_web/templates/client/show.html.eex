@@ -8,11 +8,6 @@
   </li>
 
   <li>
-    <strong>Phone code:</strong>
-    <%= @client.phone_code %>
-  </li>
-
-  <li>
     <strong>Phone:</strong>
     <%= @client.phone %>
   </li>

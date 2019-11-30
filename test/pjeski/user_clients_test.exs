@@ -6,9 +6,9 @@ defmodule Pjeski.UserClientsTest do
   describe "clients" do
     alias Pjeski.UserClients.Client
 
-    @valid_attrs %{address: "some address", city: "some city", email: "some email", name: "some name", notes: "some notes", phone: "some phone", phone_code: "some phone_code"}
-    @update_attrs %{address: "some updated address", city: "some updated city", email: "some updated email", name: "some updated name", notes: "some updated notes", phone: "some updated phone", phone_code: "some updated phone_code"}
-    @invalid_attrs %{address: nil, city: nil, email: nil, name: nil, notes: nil, phone: nil, phone_code: nil}
+    @valid_attrs %{address: "some address", city: "some city", email: "some email", name: "some name", notes: "some notes", phone: "some phone"}
+    @update_attrs %{address: "some updated address", city: "some updated city", email: "some updated email", name: "some updated name", notes: "some updated notes", phone: "some updated phone"}
+    @invalid_attrs %{address: nil, city: nil, email: nil, name: nil, notes: nil, phone: nil}
 
     def client_fixture(attrs \\ %{}) do
       {:ok, client} =
@@ -37,7 +37,6 @@ defmodule Pjeski.UserClientsTest do
       assert client.name == "some name"
       assert client.notes == "some notes"
       assert client.phone == "some phone"
-      assert client.phone_code == "some phone_code"
     end
 
     test "create_client/1 with invalid data returns error changeset" do
@@ -53,7 +52,6 @@ defmodule Pjeski.UserClientsTest do
       assert client.name == "some updated name"
       assert client.notes == "some updated notes"
       assert client.phone == "some updated phone"
-      assert client.phone_code == "some updated phone_code"
     end
 
     test "update_client/2 with invalid data returns error changeset" do
