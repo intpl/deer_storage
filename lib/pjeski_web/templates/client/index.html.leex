@@ -52,7 +52,7 @@
   <% end %>
 
   <%= for client <- @clients do %>
-    <div class="box">
+    <div class="box <%= if client.user_id != @user_id, do: "has-background-light" %>">
       <article class="media">
         <div class="media-content">
           <div class="content">
