@@ -11,9 +11,9 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title"><%= gettext("Editing: ") %><%= changeset.data.name %></p>
-            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_edit"></button>
+            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close"></button>
           </header>
-          <%= f = form_for changeset, "#", [phx_change: :validate, phx_submit: :save, phx_hook: "SavedForm"] %>
+          <%= f = form_for changeset, "#", [phx_change: :validate, phx_submit: :save] %>
             <section class="modal-card-body">
               <div class="field is-horizontal">
                 <%= label f, gettext("Name"), class: 'label field-label' %>
@@ -78,7 +78,7 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
 
             <footer class="modal-card-foot">
               <%= submit gettext("Save changes"), class: "button is-success" %>
-              <a class="button" data-bulma-modal="close" phx-click="close_edit"><%= gettext("Cancel") %></a>
+              <a class="button" data-bulma-modal="close" phx-click="close"><%= gettext("Cancel") %></a>
             </footer>
           </form>
         </div>
@@ -96,7 +96,7 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
     {:noreply, socket}
   end
 
-  def handle_event("close_edit", _, socket) do
+  def handle_event("close", _, socket) do
     send self(), :close_edit_modal
 
     {:noreply, socket}

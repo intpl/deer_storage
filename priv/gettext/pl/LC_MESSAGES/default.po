@@ -23,9 +23,8 @@ msgstr "Niezalogowany"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:4
-#: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/client/edit_modal.html.leex:13
-#: lib/pjeski_web/templates/registration/edit.html.eex:20 lib/pjeski_web/templates/registration/new.html.eex:20
-#: lib/pjeski_web/templates/session/new.html.eex:19
+#: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/registration/edit.html.eex:20
+#: lib/pjeski_web/templates/registration/new.html.eex:20 lib/pjeski_web/templates/session/new.html.eex:19
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 
@@ -569,7 +568,6 @@ msgstr "Miasto"
 
 #, elixir-format
 #: lib/pjeski_web/live/client_live/modal/edit_component.ex:13
-#: lib/pjeski_web/templates/client/edit_modal.html.leex:6
 msgid "Editing: "
 msgstr "Edytowanie: "
 
@@ -580,7 +578,6 @@ msgstr "Notatki"
 
 #, elixir-format
 #: lib/pjeski_web/live/client_live/modal/edit_component.ex:80
-#: lib/pjeski_web/templates/client/edit_modal.html.leex:41
 msgid "Save changes"
 msgstr "Zapisz zmiany"
 
