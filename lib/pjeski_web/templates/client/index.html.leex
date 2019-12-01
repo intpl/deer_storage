@@ -1,3 +1,7 @@
+<%= if @editing_client do %>
+  <%= live_component(@socket, PjeskiWeb.ClientLive.Modal.EditComponent, id: "#{@token}-#{@editing_client.data.id}", changeset: @editing_client) %>
+<% end %>
+
 <section class="section">
   <div class="columns has-background-white sticky">
     <div class="column is-2">
@@ -44,9 +48,6 @@
  
   <div class="columns is-mobile">
     <div class="column <%= if @current_client, do: "is-hidden-mobile is-half-tablet" %>">
-      <div class="field">
-        <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
-
         <%= if @count == 0 do %>
           <div class="section">
             <h1 class="title has-text-grey-light has-text-centered">
@@ -66,7 +67,7 @@
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <a phx-click="show_client"
+                  <a phx-click="show"
                      phx-value-client_id="<%= client.id %>">
                     <strong> <%= client.name %> </strong>
                     <small> <%= client.email %> </small>
@@ -80,16 +81,15 @@
         <% end %>
 
         <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
-      </div>
     </div>
 
     <%= if @current_client do %>
       <div class="column is-half-tablet">
         <div class="sticky overwrite-padding-top-60">
-          <a class="delete is-large is-pulled-left" phx-click="close_client"></a>
+          <a class="delete is-large is-pulled-left" phx-click="close_show"></a>
 
           <article class="section">
-            <%= live_component @socket, PjeskiWeb.ClientLive.ClientComponent, client: @current_client %>
+            <%= live_component @socket, PjeskiWeb.ClientLive.ShowComponent, client: @current_client, edit_click: "edit" %>
           </article>
         </div>
       </div>

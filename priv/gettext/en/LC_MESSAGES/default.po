@@ -23,8 +23,9 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:4
-#: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/registration/edit.html.eex:20
-#: lib/pjeski_web/templates/registration/new.html.eex:20 lib/pjeski_web/templates/session/new.html.eex:19
+#: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/client/edit_modal.html.leex:13
+#: lib/pjeski_web/templates/registration/edit.html.eex:20 lib/pjeski_web/templates/registration/new.html.eex:20
+#: lib/pjeski_web/templates/session/new.html.eex:19
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr ""
 
@@ -203,10 +204,11 @@ msgid "Danger zone"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:44 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:103 lib/pjeski_web/templates/admin/user/edit.html.eex:19
-#: lib/pjeski_web/templates/admin/user/index.html.eex:41 lib/pjeski_web/templates/admin/user/show.html.eex:19
+#: lib/pjeski_web/live/client_live/show_component.ex:15
+#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:12 lib/pjeski_web/templates/admin/subscription/index.html.eex:44
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:12 lib/pjeski_web/templates/admin/subscription/show.html.eex:103
+#: lib/pjeski_web/templates/admin/user/edit.html.eex:19 lib/pjeski_web/templates/admin/user/index.html.eex:41
+#: lib/pjeski_web/templates/admin/user/show.html.eex:19
 msgid "Edit"
 msgstr ""
 
@@ -302,6 +304,7 @@ msgid "Created at"
 msgstr ""
 
 #, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:39
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:31
 msgid "Email"
 msgstr ""
@@ -324,6 +327,7 @@ msgid "Manage Users"
 msgstr ""
 
 #, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:19
 #: lib/pjeski_web/templates/admin/user/show.html.eex:68
 msgid "Name"
 msgstr ""
@@ -503,17 +507,17 @@ msgid "Log user out"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:5
+#: lib/pjeski_web/templates/client/index.html.leex:9
 msgid "New Client"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:36
+#: lib/pjeski_web/templates/client/index.html.leex:40
 msgid "Search"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:28
+#: lib/pjeski_web/templates/client/index.html.leex:32
 msgid "Search..."
 msgstr ""
 
@@ -528,21 +532,58 @@ msgid "Previous page"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:53
+#: lib/pjeski_web/templates/client/index.html.leex:54
 msgid "Could not find anything..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:58
+#: lib/pjeski_web/templates/client/index.html.leex:59
 msgid "This is the last page"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:16
+#: lib/pjeski_web/templates/client/index.html.leex:20
 msgid "Clear"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:14
+#: lib/pjeski_web/templates/client/index.html.leex:18
 msgid "Refresh"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:59
+msgid "Address"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:81
+msgid "Cancel"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:49
+msgid "City"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:13
+#: lib/pjeski_web/templates/client/edit_modal.html.leex:6
+msgid "Editing: "
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:69
+msgid "Notes"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:80
+#: lib/pjeski_web/templates/client/edit_modal.html.leex:41
+msgid "Save changes"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:29
+msgid "Phone number"
 msgstr ""

@@ -1,5 +1,5 @@
 <%= if @count == @per_page || @page != 1 do %>
-  <div class="is-vcentered" align="right">
+  <div class="is-vcentered" align="center">
     <a class="button" <%= if @page == 1, do: "disabled", else: "phx-click=previous_page" %> onClick="window.scrollTo(0,0)" />
       <%= gettext("Previous page") %>
     </a>

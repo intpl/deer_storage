@@ -21,7 +21,7 @@ defmodule Pjeski.UserClients.Client do
   end
 
   @doc false
-  def changeset(client, attrs) do
+  def changeset(client, attrs \\ %{}) do
     client
     |> cast(attrs, [:name, :phone, :email, :city, :address, :notes])
     |> validate_required([:name])

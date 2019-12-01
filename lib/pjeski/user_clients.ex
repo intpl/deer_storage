@@ -31,12 +31,12 @@ defmodule Pjeski.UserClients do
     |> Repo.insert()
   end
 
-  def update_client_for_user(%Client{subscription_id: subscription_id} = client, attrs, %{subscription_id: subscription_id} = user) do
-    user_data = %{last_changed_by_user_id: user.id}
+  def update_client_for_user(client, attrs, %{subscription_id: subscription_id} = user) do
+    user_data = %{last_changed_by_user_id: user.id, subscription_id: subscription_id}
 
     client
     |> Client.changeset(attrs)
-    |> Changeset.cast(user_data, [:last_changed_by_user_id])
+    |> Changeset.cast(user_data, [:last_changed_by_user_id, :subscription_id])
     |> Repo.update()
   end
 
@@ -44,8 +44,9 @@ defmodule Pjeski.UserClients do
     Repo.delete(client)
   end
 
-  def change_client_for_subscription(%Client{subscription_id: subscription_id} = client, subscription_id) do
-    Client.changeset(client, %{})
+  def change_client_for_subscription(client, subscription_id) do
+    # TODO is it safe?
+    Client.changeset(client, %{subscription_id: subscription_id})
   end
 
   defp build_search_query(composed_query, subscription_id, user_id, page) do

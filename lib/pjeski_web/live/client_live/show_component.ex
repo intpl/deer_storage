@@ -1,5 +1,6 @@
-defmodule PjeskiWeb.ClientLive.ClientComponent do
+defmodule PjeskiWeb.ClientLive.ShowComponent do
   use Phoenix.LiveComponent
+  import PjeskiWeb.Gettext
 
   def render(assigns) do
     ~L"""
@@ -9,6 +10,11 @@ defmodule PjeskiWeb.ClientLive.ClientComponent do
           <h1 class="title">
             <%= @client.name %>
           </h1>
+          <h3 class="subtitle">
+            <a phx-click="<%= @edit_click %>" phx-value-client_id="<%= @client.id %>">
+              <%= gettext("Edit") %>
+            </a>
+          </h3>
           <ul>
               <li>
                   <strong>Phone:</strong>

@@ -20,7 +20,7 @@ defmodule Pjeski.MixProject do
   def application do
     [
       mod: {Pjeski.Application, []},
-      extra_applications: [:logger, :runtime_tools, :timex]
+      extra_applications: [:logger, :runtime_tools, :timex, :phoenix_ecto]
     ]
   end
 
