@@ -3,7 +3,7 @@ defmodule PjeskiWeb.ClientLive.Index do
 
   alias PjeskiWeb.Router.Helpers, as: Routes
 
-  import Pjeski.UserClients, only: [list_clients: 3, list_clients: 4]
+  import Pjeski.UserClients, only: [list_clients: 3, list_clients: 4, per_page: 0]
   import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
 
   def render(assigns), do: PjeskiWeb.ClientView.render("index.html", assigns)
@@ -13,7 +13,7 @@ defmodule PjeskiWeb.ClientLive.Index do
 
     user.locale |> Atom.to_string |> Gettext.put_locale
 
-    {:ok, assign(socket, token: token, page: 1, user_id: user.id, current_client: nil, per_page: 30)}
+    {:ok, assign(socket, token: token, page: 1, user_id: user.id, current_client: nil, per_page: per_page())}
   end
 
   def handle_params(params, _, %{assigns: %{token: token}} = socket) do

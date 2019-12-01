@@ -7,7 +7,7 @@ defmodule Pjeski.UserClients do
 
   use Pjeski.DbHelpers.ComposeSearchQuery, [:name, :email, :city, :phone]
 
-  @per_page 30
+  defmacro per_page, do: 30
 
   def list_clients(subscription_id, user_id, query_string, page) do
     compose_search_query(query_string)
@@ -54,8 +54,8 @@ defmodule Pjeski.UserClients do
       offset: ^offset(page),
       order_by: [desc: c.user_id == ^user_id],
       order_by: [desc: c.id],
-      limit: @per_page
+      limit: ^per_page()
   end
 
-  defp offset(page) when page > 0, do: (page - 1) * @per_page
+  defp offset(page) when page > 0, do: (page - 1) * per_page()
 end
