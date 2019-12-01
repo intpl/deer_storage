@@ -4,3 +4,12 @@
 @import 'admin.css';
 @import 'global/table.css';
 @import "../../deps/phoenix_live_view/assets/css/live_view.css";
+
+.sticky {
+  top: 0px;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+}
+
+.overwrite-fullwidth {width: 100%}
+.overwrite-padding-top-60 {padding-top: 60px}

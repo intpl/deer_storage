@@ -507,36 +507,41 @@ msgid "New Client"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:29
+#: lib/pjeski_web/templates/client/index.html.leex:36
 msgid "Search"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:22
+#: lib/pjeski_web/templates/client/index.html.leex:28
 msgid "Search..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/pagination/simple.html.eex:11
+#: lib/pjeski_web/templates/pagination/simple.html.eex:12
 msgid "Next page"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/pagination/simple.html.eex:3
+#: lib/pjeski_web/templates/pagination/simple.html.eex:4
 msgid "Previous page"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:8
-msgid "Reload"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:42
+#: lib/pjeski_web/templates/client/index.html.leex:53
 msgid "Could not find anything..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:46
+#: lib/pjeski_web/templates/client/index.html.leex:58
 msgid "This is the last page"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:16
+msgid "Clear"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/client/index.html.leex:14
+msgid "Refresh"
 msgstr ""

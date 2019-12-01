@@ -13,7 +13,7 @@ defmodule PjeskiWeb.ClientLive.Index do
 
     user.locale |> Atom.to_string |> Gettext.put_locale
 
-    {:ok, assign(socket, token: token, page: 1, user_id: user.id)}
+    {:ok, assign(socket, token: token, page: 1, user_id: user.id, current_client: nil, per_page: 30)}
   end
 
   def handle_params(params, _, %{assigns: %{token: token}} = socket) do
@@ -27,6 +27,17 @@ defmodule PjeskiWeb.ClientLive.Index do
         {:noreply, socket |> assign(clients: clients, query: query, count: length(clients))}
       false -> {:noreply, socket |> assign(query: query, clients: [], count: 0)}
     end
+  end
+
+  def handle_event("close_client", _, socket) do
+    {:noreply, socket |> assign(current_client: nil)}
+  end
+
+  def handle_event("show_client", %{"client_id" => client_id}, %{assigns: %{clients: clients}} = socket) do
+    client_id = String.to_integer(client_id)
+    client = Enum.find(clients, fn client -> client.id == client_id end)
+
+    {:noreply, socket |> assign(current_client: client)}
   end
 
   def handle_event("clear", _, socket) do
@@ -53,7 +64,6 @@ defmodule PjeskiWeb.ClientLive.Index do
   defp search_clients(nil, _, _, _), do: {:error, "invalid subscription id"} # this will probably never happen, but let's keep this edge case just in case
   defp search_clients(_, nil, _, _), do: {:error, "invalid user id"} # this will probably never happen, but let's keep this edge case just in case
 
-  # TODO: limit search queries from all spaces
   defp search_clients(sid, uid, nil, page), do: {:ok, list_clients(sid, uid, page)}
   defp search_clients(sid, uid, "", page), do: {:ok, list_clients(sid, uid, page)}
   defp search_clients(sid, uid, q, page), do: {:ok, list_clients(sid, uid, q, page)}

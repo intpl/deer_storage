@@ -1,74 +1,98 @@
 <section class="section">
-  <div class="columns">
-    <div class="column is-4">
+  <div class="columns has-background-white sticky">
+    <div class="column is-2">
       <div class="field">
         <%= link gettext("New Client"), to: Routes.client_path(PjeskiWeb.Endpoint, :new), class: "button is-primary" %>
-
-        <button class="button is-inline" type="submit" phx-click="clear">
-          <%= gettext("Reload") %>
-        </button>
       </div>
-
     </div>
 
-    <div class="column is-6">
-      <form phx-change="filter">
-        <div class="field has-addons">
-          <p class="control is-expanded">
-            <input
-              class="input is-fullwidth"
-              type="text" name="query"
-              list="matches"
-              placeholder="<%= gettext("Search...") %>"
-              value="<%= @query %>"
-              phx-debounce="300" />
-          </p>
+    <div class="column is-8">
+      <div class="field has-addons">
+        <p class="control">
+          <button class="button is-inline" type="submit" phx-click="clear" onclick="window.scrollTo(0,0)">
+            <%= if @query == nil || @query == "" do %>
+              <%= gettext("Refresh") %>
+            <% else %>
+              <%= gettext("Clear") %>
+            <% end %>
+          </button>
+        </p>
 
-          <p class="control">
-            <button class="button" type="submit">
-              <%= gettext("Search") %>
-            </button>
-          </p>
-        </div>
-      </form>
+        <p class="is-fullwidth">
+          <form phx-change="filter" class="field has-addons overwrite-fullwidth">
+            <p class="control is-expanded">
+              <input
+                class="input"
+                type="text" name="query"
+                list="matches"
+                placeholder="<%= gettext("Search...") %>"
+                value="<%= @query %>"
+                onkeypress="window.scrollTo(0,0)"
+                phx-debounce="300" />
+            </p>
+
+            <p class="control">
+              <button class="button" type="submit">
+                <%= gettext("Search") %>
+              </button>
+            </p>
+          </form>
+        </p>
+      </div>
     </div>
   </div>
+ 
+  <div class="columns is-mobile">
+    <div class="column <%= if @current_client, do: "is-hidden-mobile is-half-tablet" %>">
+      <div class="field">
+        <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
 
-  <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: 30) %>
+        <%= if @count == 0 do %>
+          <div class="section">
+            <h1 class="title has-text-grey-light has-text-centered">
+              <%= gettext("Could not find anything...") %>
+            </h3>
 
-  <%= if @count == 0 do %>
-    <div class="section">
-      <h1 class="title has-text-grey-light has-text-centered">
-        <%= gettext("Could not find anything...") %>
-      </h3>
-
-      <%= if @page > 1 do %>
-        <h3 class="subtitle has-text-grey-light has-text-centered">
-          <%= gettext("This is the last page") %>
-        </h3>
-      <% end %>
-    </div>
-  </section>
-  <% end %>
-
-  <%= for client <- @clients do %>
-    <div class="box <%= if client.user_id != @user_id, do: "has-background-light" %>">
-      <article class="media">
-        <div class="media-content">
-          <div class="content">
-            <a href="<%= Routes.client_path(PjeskiWeb.Endpoint, :show, client) %>">
-              <strong> <%= client.name %> </strong>
-              <small> <%= client.email %> </small>
-              <small><%= client.phone %></small>
-            </a>
-            (<strong><%= client.city %></strong>)
+            <%= if @page > 1 do %>
+              <h3 class="subtitle has-text-grey-light has-text-centered">
+                <%= gettext("This is the last page") %>
+              </h3>
+            <% end %>
           </div>
-        </div>
-      </article>
-    </div>
-  <% end %>
+        <% end %>
 
-  <%= if @count > 3 do %>
-    <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: 30) %>
-  <% end %>
+        <%= for client <- @clients do %>
+          <div class="box <%= if client.user_id != @user_id, do: "has-background-light" %>">
+            <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <a phx-click="show_client"
+                     phx-value-client_id="<%= client.id %>">
+                    <strong> <%= client.name %> </strong>
+                    <small> <%= client.email %> </small>
+                    <small><%= client.phone %></small>
+                  </a>
+                  (<strong><%= client.city %></strong>)
+                </div>
+              </div>
+            </article>
+          </div>
+        <% end %>
+
+        <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
+      </div>
+    </div>
+
+    <%= if @current_client do %>
+      <div class="column is-half-tablet">
+        <div class="sticky overwrite-padding-top-60">
+          <a class="delete is-large is-pulled-left" phx-click="close_client"></a>
+
+          <article class="section">
+            <%= live_component @socket, PjeskiWeb.ClientLive.ClientComponent, client: @current_client %>
+          </article>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </section>

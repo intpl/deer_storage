@@ -1,13 +1,15 @@
-<div class="is-vcentered" align="right">
-  <a class="button" <%= if @page == 1, do: "disabled", else: "phx-click=previous_page" %> />
-    <%= gettext("Previous page") %>
-  </a>
+<%= if @count == @per_page || @page != 1 do %>
+  <div class="is-vcentered" align="right">
+    <a class="button" <%= if @page == 1, do: "disabled", else: "phx-click=previous_page" %> onClick="window.scrollTo(0,0)" />
+      <%= gettext("Previous page") %>
+    </a>
 
-  <%= if @page > 1 do %>
-    <a class="button"><%= @page %></a>
-  <% end %>
+    <%= if @page > 1 do %>
+      <a class="button"><%= @page %></a>
+    <% end %>
 
-  <a class="button" <%= if @count < 20, do: "disabled", else: "phx-click=next_page" %> />
-    <%= gettext("Next page") %>
-  </a>
-</div>
+    <a class="button" <%= if @count < 20, do: "disabled", else: "phx-click=next_page" %> onClick="window.scrollTo(0,0)" />
+      <%= gettext("Next page") %>
+    </a>
+  </div>
+<% end %>
