@@ -1,11 +1,11 @@
-defmodule Pjeski.DbHelpers.SearchQuery do
+defmodule Pjeski.DbHelpers.ComposeSearchQuery do
   @moduledoc """
   ## Usage
 
   ```
   defmodule Users do
     import Ecto.Query, warn: false
-    use DbHelpers.SearchQuery, [:name, :email]
+    use DbHelpers.ComposeSearchQuery, [:name, :email]
 
     def search(query) do
       Repo.all(from u in User, where: ^compose_search_query(query))
@@ -47,6 +47,7 @@ defmodule Pjeski.DbHelpers.SearchQuery do
       end
 
       defp recursive_dynamic_query(key, value), do: dynamic([q], ilike(field(q, ^key), ^value))
+      defp recursive_dynamic_query(_), do: nil
     end
   end
 end

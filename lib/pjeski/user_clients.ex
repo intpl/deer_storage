@@ -5,28 +5,19 @@ defmodule Pjeski.UserClients do
   alias Pjeski.Repo
   alias Pjeski.UserClients.Client
 
-  use Pjeski.DbHelpers.SearchQuery, [:name, :email, :city, :phone]
+  use Pjeski.DbHelpers.ComposeSearchQuery, [:name, :email, :city, :phone]
 
   @per_page 30
 
-  def search_clients_for_subscription(subscription_id, user_id, query_string, page) do
-    Repo.all(from c in Client,
-      where: ^dynamic([c], c.subscription_id == ^subscription_id and ^compose_search_query(query_string)),
-      offset: ^offset(page),
-      order_by: [desc: c.user_id == ^user_id],
-      order_by: [desc: c.id],
-      limit: @per_page
-    )
+  def list_clients(subscription_id, user_id, query_string, page) do
+    compose_search_query(query_string)
+    |> build_search_query(subscription_id, user_id, page)
+    |> Repo.all
   end
 
-  def list_clients_for_subscription(subscription_id, user_id, page) do
-    Repo.all(from c in Client,
-      where: c.subscription_id == ^subscription_id,
-      offset: ^offset(page),
-      order_by: [desc: c.user_id == ^user_id],
-      order_by: [desc: c.id],
-      limit: @per_page
-    )
+  def list_clients(subscription_id, user_id, page) do
+    build_search_query(true, subscription_id, user_id, page)
+    |> Repo.all
   end
 
   def get_client_for_subscription!(id, subscription_id), do: Repo.get_by!(Client, id: id, subscription_id: subscription_id)
@@ -55,6 +46,15 @@ defmodule Pjeski.UserClients do
 
   def change_client_for_subscription(%Client{subscription_id: subscription_id} = client, subscription_id) do
     Client.changeset(client, %{})
+  end
+
+  defp build_search_query(composed_query, subscription_id, user_id, page) do
+    from c in Client,
+      where: ^dynamic([c], c.subscription_id == ^subscription_id and ^composed_query),
+      offset: ^offset(page),
+      order_by: [desc: c.user_id == ^user_id],
+      order_by: [desc: c.id],
+      limit: @per_page
   end
 
   defp offset(page) when page > 0, do: (page - 1) * @per_page

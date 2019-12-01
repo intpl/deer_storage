@@ -3,7 +3,7 @@ defmodule PjeskiWeb.ClientLive.Index do
 
   alias PjeskiWeb.Router.Helpers, as: Routes
 
-  import Pjeski.UserClients, only: [search_clients_for_subscription: 4, list_clients_for_subscription: 3]
+  import Pjeski.UserClients, only: [list_clients: 3, list_clients: 4]
   import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
 
   def render(assigns), do: PjeskiWeb.ClientView.render("index.html", assigns)
@@ -50,10 +50,11 @@ defmodule PjeskiWeb.ClientLive.Index do
     {:noreply, socket |> assign(clients: clients, page: new_page, count: length(clients))}
   end
 
-  # TODO: limit search queries from 3 characters
+  defp search_clients(nil, _, _, _), do: {:error, "invalid subscription id"} # this will probably never happen, but let's keep this edge case just in case
+  defp search_clients(_, nil, _, _), do: {:error, "invalid user id"} # this will probably never happen, but let's keep this edge case just in case
+
   # TODO: limit search queries from all spaces
-  defp search_clients(nil, _, _), do: {:error, "invalid subscription id"} # this will probably never happen, but let's keep this edge case just in case
-  defp search_clients(sid, uid, nil, page), do: {:ok, list_clients_for_subscription(sid, uid, page)}
-  defp search_clients(sid, uid, "", page), do: {:ok, list_clients_for_subscription(sid, uid, page)}
-  defp search_clients(sid, uid, q, page), do: {:ok, search_clients_for_subscription(sid, uid, q, page)}
+  defp search_clients(sid, uid, nil, page), do: {:ok, list_clients(sid, uid, page)}
+  defp search_clients(sid, uid, "", page), do: {:ok, list_clients(sid, uid, page)}
+  defp search_clients(sid, uid, q, page), do: {:ok, list_clients(sid, uid, q, page)}
 end
