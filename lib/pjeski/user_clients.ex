@@ -54,7 +54,7 @@ defmodule Pjeski.UserClients do
       where: ^dynamic([c], c.subscription_id == ^subscription_id and ^composed_query),
       offset: ^offset(page),
       order_by: [desc: c.user_id == ^user_id],
-      order_by: [desc: c.id],
+      order_by: [desc: c.updated_at],
       limit: ^per_page()
   end
 
