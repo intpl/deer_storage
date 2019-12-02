@@ -82,7 +82,7 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
 
             <footer class="modal-card-foot">
               <%= if changeset.valid? do %>
-                <%= submit gettext("Save changes"), class: "button is-success" %>
+                <%= submit gettext("Save changes"), class: "button is-success", onclick: "window.scrollTo(0,0)" %>
               <% end %>
 
               <a class="button" data-bulma-modal="close" phx-click="close"><%= gettext("Cancel") %></a>

@@ -589,7 +589,7 @@ msgstr "Na pewno USUNĄĆ tego klienta?"
 #, elixir-format
 #: lib/pjeski_web/live/client_live/show_component.ex:19
 msgid "Delete"
-msgstr "Usuń konto"
+msgstr "Usuń"
 
 #, elixir-format
 #: lib/pjeski_web/live/client_live/modal/edit_component.ex:14
