@@ -11,8 +11,12 @@ defmodule PjeskiWeb.ClientLive.ShowComponent do
             <%= @client.name %>
           </h1>
           <h3 class="subtitle">
-            <a phx-click="<%= @edit_click %>" phx-value-client_id="<%= @client.id %>">
+            <a phx-click="edit" phx-value-client_id="<%= @client.id %>">
               <%= gettext("Edit") %>
+            </a>
+
+            <a phx-click="delete" phx-value-client_id="<%= @client.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this client?") %>">
+              <%= gettext("Delete") %>
             </a>
           </h3>
           <ul>

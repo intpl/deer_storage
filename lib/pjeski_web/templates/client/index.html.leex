@@ -89,7 +89,7 @@
           <a class="delete is-large is-pulled-left" phx-click="close_show"></a>
 
           <article class="section">
-            <%= live_component @socket, PjeskiWeb.ClientLive.ShowComponent, client: @current_client, edit_click: "edit" %>
+            <%= live_component @socket, PjeskiWeb.ClientLive.ShowComponent, client: @current_client %>
           </article>
         </div>
       </div>

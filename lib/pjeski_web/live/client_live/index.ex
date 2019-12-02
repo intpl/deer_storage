@@ -4,11 +4,14 @@ defmodule PjeskiWeb.ClientLive.Index do
 
   alias Pjeski.UserClients.Client
 
+  import PjeskiWeb.Gettext
+
   import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
   import Pjeski.UserClients, only: [
     change_client_for_subscription: 2,
-    list_clients: 3,
-    list_clients: 4,
+    delete_client_for_subscription: 2,
+    list_clients_for_subscription_and_user: 3,
+    list_clients_for_subscription_and_user: 4,
     per_page: 0,
     update_client_for_user: 3,
     get_client_for_subscription!: 2
@@ -54,12 +57,8 @@ defmodule PjeskiWeb.ClientLive.Index do
   def handle_info({:save_edit_modal, attrs, _}, %{assigns: %{editing_client: changeset, token: token}} = socket) do
     {:ok, _} = update_client_for_user(changeset,  attrs, user_from_live_session(token))
 
-    {:noreply,
-     live_redirect(assign(socket,
-           editing_client: nil,
-           page: 1,
-           current_client: nil
-         ), to: Routes.live_path(socket, PjeskiWeb.ClientLive.Index))}
+    # waits for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
+    redirect_to_index(socket |> put_flash(:info, gettext("User updated successfully.")))
   end
 
   def handle_info(:close_edit_modal, socket), do: {:noreply, socket |> assign(editing_client: nil)}
@@ -78,6 +77,15 @@ defmodule PjeskiWeb.ClientLive.Index do
     changeset = change_client_for_subscription(client, user.subscription_id) |> Map.put(:action, :update)
 
     {:noreply, socket |> assign(editing_client: changeset)}
+  end
+
+  def handle_event("delete", %{"client_id" => client_id}, %{assigns: %{clients: clients, token: token}} = socket) do
+    user = user_from_live_session(token)
+    client = find_client_in_list_or_database(client_id, clients, user.subscription_id)
+    {:ok, _} = delete_client_for_subscription(client, user.subscription_id)
+
+    # waits for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
+    redirect_to_index(socket |> put_flash(:info, gettext("User updated successfully.")))
   end
 
   def handle_event("clear", _, socket) do
@@ -104,13 +112,22 @@ defmodule PjeskiWeb.ClientLive.Index do
   defp search_clients(nil, _, _, _), do: {:error, "invalid subscription id"} # this will probably never happen, but let's keep this edge case just in case
   defp search_clients(_, nil, _, _), do: {:error, "invalid user id"} # this will probably never happen, but let's keep this edge case just in case
 
-  defp search_clients(sid, uid, nil, page), do: {:ok, list_clients(sid, uid, page)}
-  defp search_clients(sid, uid, "", page), do: {:ok, list_clients(sid, uid, page)}
-  defp search_clients(sid, uid, q, page), do: {:ok, list_clients(sid, uid, q, page)}
+  defp search_clients(sid, uid, nil, page), do: {:ok, list_clients_for_subscription_and_user(sid, uid, page)}
+  defp search_clients(sid, uid, "", page), do: {:ok, list_clients_for_subscription_and_user(sid, uid, page)}
+  defp search_clients(sid, uid, q, page), do: {:ok, list_clients_for_subscription_and_user(sid, uid, q, page)}
 
   defp find_client_in_list_or_database(id, clients, subscription_id) do
     id = id |> String.to_integer
 
     Enum.find(clients, fn client -> client.id == id end) || get_client_for_subscription!(id, subscription_id)
+  end
+
+  defp redirect_to_index(socket) do
+    {:noreply,
+     live_redirect(assign(socket,
+           current_client: nil,
+           editing_client: nil,
+           page: 1
+         ), to: Routes.live_path(socket, PjeskiWeb.ClientLive.Index, query: socket.assigns.query))}
   end
 end

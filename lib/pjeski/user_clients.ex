@@ -9,13 +9,13 @@ defmodule Pjeski.UserClients do
 
   defmacro per_page, do: 30
 
-  def list_clients(subscription_id, user_id, query_string, page) do
+  def list_clients_for_subscription_and_user(subscription_id, user_id, query_string, page) do
     compose_search_query(query_string)
     |> build_search_query(subscription_id, user_id, page)
     |> Repo.all
   end
 
-  def list_clients(subscription_id, user_id, page) do
+  def list_clients_for_subscription_and_user(subscription_id, user_id, page) do
     build_search_query(true, subscription_id, user_id, page)
     |> Repo.all
   end
