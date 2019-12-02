@@ -31,10 +31,10 @@ defmodule Pjeski.UserClients do
     |> Repo.insert()
   end
 
-  def update_client_for_user(client, attrs, %{subscription_id: subscription_id} = user) do
+  def update_client_for_user(%{data: %{subscription_id: subscription_id}} = changeset, attrs, %{subscription_id: subscription_id} = user) do
     user_data = %{last_changed_by_user_id: user.id, subscription_id: subscription_id}
 
-    client
+    changeset
     |> Client.changeset(attrs)
     |> Changeset.cast(user_data, [:last_changed_by_user_id, :subscription_id])
     |> Repo.update()
@@ -45,7 +45,6 @@ defmodule Pjeski.UserClients do
   end
 
   def change_client_for_subscription(client, subscription_id) do
-    # TODO is it safe?
     Client.changeset(client, %{subscription_id: subscription_id})
   end
 
