@@ -10,79 +10,84 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
-            <p class="modal-card-title"><%= gettext("Editing: ") %><%= changeset.data.name %></p>
+            <p class="modal-card-title">
+              <%= gettext("Edit client") %>
+            </p>
             <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close"></button>
           </header>
-          <%= f = form_for changeset, "#", [phx_change: :validate, phx_submit: :save] %>
+          <%= form_for changeset, "#", [phx_change: :validate, phx_submit: :save], fn f -> %>
             <section class="modal-card-body">
-            <div class"container">
-              <div class="field is-horizontal">
-                <%= label f, gettext("Name"), class: 'label field-label' %>
-                <div class="field-body">
-                  <div class="field">
-                    <%= text_input f, :name, class: 'input' %>
-                    <%= error_tag f, :name %>
+              <div class"container">
+                <div class="field is-horizontal">
+                  <%= label f, gettext("Name"), class: 'label field-label' %>
+                  <div class="field-body">
+                    <div class="field">
+                      <%= text_input f, :name, class: 'input' %>
+                      <%= error_tag f, :name %>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="field is-horizontal">
-                <%= label f, gettext("Phone number"), class: 'label field-label' %>
-                <div class="field-body">
-                  <div class="field">
-                    <%= text_input f, :phone, class: 'input' %>
-                    <%= error_tag f, :phone %>
+                <div class="field is-horizontal">
+                  <%= label f, gettext("Phone number"), class: 'label field-label' %>
+                  <div class="field-body">
+                    <div class="field">
+                      <%= text_input f, :phone, class: 'input' %>
+                      <%= error_tag f, :phone %>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="field is-horizontal">
-                <%= label f, gettext("Email"), class: 'label field-label' %>
-                <div class="field-body">
-                  <div class="field">
-                    <%= text_input f, :email, class: 'input' %>
-                    <%= error_tag f, :email %>
+                <div class="field is-horizontal">
+                  <%= label f, gettext("Email"), class: 'label field-label' %>
+                  <div class="field-body">
+                    <div class="field">
+                      <%= text_input f, :email, class: 'input' %>
+                      <%= error_tag f, :email %>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="field is-horizontal">
-                <%= label f, gettext("City"), class: 'label field-label' %>
-                <div class="field-body">
-                  <div class="field">
-                    <%= text_input f, :city, class: 'input' %>
-                    <%= error_tag f, :city %>
+                <div class="field is-horizontal">
+                  <%= label f, gettext("City"), class: 'label field-label' %>
+                  <div class="field-body">
+                    <div class="field">
+                      <%= text_input f, :city, class: 'input' %>
+                      <%= error_tag f, :city %>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="field is-horizontal">
-                <%= label f, gettext("Address"), class: 'label field-label' %>
-                <div class="field-body">
-                  <div class="field">
-                    <%= text_input f, :address, class: 'input' %>
-                    <%= error_tag f, :address %>
+                <div class="field is-horizontal">
+                  <%= label f, gettext("Address"), class: 'label field-label' %>
+                  <div class="field-body">
+                    <div class="field">
+                      <%= text_input f, :address, class: 'input' %>
+                      <%= error_tag f, :address %>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="field is-horizontal">
-                <%= label f, gettext("Notes"), class: 'label field-label' %>
-                <div class="field-body">
-                  <div class="field">
-                    <%= textarea f, :notes, class: 'textarea', rows: 5 %>
-                    <%= error_tag f, :notes %>
+                <div class="field is-horizontal">
+                  <%= label f, gettext("Notes"), class: 'label field-label' %>
+                  <div class="field-body">
+                    <div class="field">
+                      <%= textarea f, :notes, class: 'textarea', rows: 5 %>
+                      <%= error_tag f, :notes %>
+                    </div>
                   </div>
                 </div>
-              </div>
               </div>
             </section>
 
             <footer class="modal-card-foot">
-              <%= submit gettext("Save changes"), class: "button is-success" %>
+              <%= if changeset.valid? do %>
+                <%= submit gettext("Save changes"), class: "button is-success" %>
+              <% end %>
+
               <a class="button" data-bulma-modal="close" phx-click="close"><%= gettext("Cancel") %></a>
             </footer>
-          </form>
+          <% end %>
         </div>
       </div>
     """

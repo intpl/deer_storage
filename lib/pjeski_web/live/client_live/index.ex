@@ -2,19 +2,20 @@ defmodule PjeskiWeb.ClientLive.Index do
   use Phoenix.LiveView
   alias PjeskiWeb.Router.Helpers, as: Routes
 
-  alias Pjeski.UserClients.Client
-
   import PjeskiWeb.Gettext
 
   import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
+  import Pjeski.EctoHelpers, only: [reset_errors: 1]
+
   import Pjeski.UserClients, only: [
-    change_client_for_subscription: 2,
+    change_client: 1,
+    change_client: 2,
     delete_client_for_subscription: 2,
+    get_client_for_subscription!: 2,
     list_clients_for_subscription_and_user: 3,
     list_clients_for_subscription_and_user: 4,
     per_page: 0,
-    update_client_for_user: 3,
-    get_client_for_subscription!: 2
+    update_client_for_user: 3
   ]
 
   def render(assigns), do: PjeskiWeb.ClientView.render("index.html", assigns)
@@ -47,18 +48,19 @@ defmodule PjeskiWeb.ClientLive.Index do
     end
   end
 
-  def handle_info({:validate_edit_modal, attrs, _}, %{assigns: %{editing_client: client, token: token}} = socket) do
-    subscription_id = user_from_live_session(token).subscription_id
-    changeset = Client.changeset(client, attrs)
-
-    {:noreply, socket |> assign(:editing_client, change_client_for_subscription(changeset, subscription_id))}
+  def handle_info({:validate_edit_modal, attrs, _}, %{assigns: %{editing_client: client}} = socket) do
+    {_, client_or_changeset} = reset_errors(client) |> change_client(attrs) |> Ecto.Changeset.apply_action(:update)
+    {:noreply, socket |> assign(editing_client: change_client(client_or_changeset))}
   end
 
-  def handle_info({:save_edit_modal, attrs, _}, %{assigns: %{editing_client: changeset, token: token}} = socket) do
-    {:ok, _} = update_client_for_user(changeset,  attrs, user_from_live_session(token))
+  def handle_info({:save_edit_modal, attrs, _}, %{assigns: %{editing_client: %{data: %{id: client_id}}, token: token}} = socket) do
+    user = user_from_live_session(token)
+    client = find_client_in_database(client_id, user.subscription_id)
 
-    # waits for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    redirect_to_index(socket |> put_flash(:info, gettext("User updated successfully.")))
+    {:ok, _} = update_client_for_user(client, attrs, user_from_live_session(token))
+
+    # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
+    redirect_to_index(socket |> put_flash(:info, gettext("Client updated successfully.")))
   end
 
   def handle_info(:close_edit_modal, socket), do: {:noreply, socket |> assign(editing_client: nil)}
@@ -74,9 +76,8 @@ defmodule PjeskiWeb.ClientLive.Index do
   def handle_event("edit", %{"client_id" => client_id}, %{assigns: %{clients: clients, token: token}} = socket) do
     user = user_from_live_session(token)
     client = find_client_in_list_or_database(client_id, clients, user.subscription_id)
-    changeset = change_client_for_subscription(client, user.subscription_id) |> Map.put(:action, :update)
 
-    {:noreply, socket |> assign(editing_client: changeset)}
+    {:noreply, socket |> assign(editing_client: change_client(client))}
   end
 
   def handle_event("delete", %{"client_id" => client_id}, %{assigns: %{clients: clients, token: token}} = socket) do
@@ -84,8 +85,8 @@ defmodule PjeskiWeb.ClientLive.Index do
     client = find_client_in_list_or_database(client_id, clients, user.subscription_id)
     {:ok, _} = delete_client_for_subscription(client, user.subscription_id)
 
-    # waits for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    redirect_to_index(socket |> put_flash(:info, gettext("User updated successfully.")))
+    # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
+    redirect_to_index(socket |> put_flash(:info, gettext("User deleted successfully.")))
   end
 
   def handle_event("clear", _, socket) do
@@ -116,10 +117,11 @@ defmodule PjeskiWeb.ClientLive.Index do
   defp search_clients(sid, uid, "", page), do: {:ok, list_clients_for_subscription_and_user(sid, uid, page)}
   defp search_clients(sid, uid, q, page), do: {:ok, list_clients_for_subscription_and_user(sid, uid, q, page)}
 
+  defp find_client_in_database(id, subscription_id), do: get_client_for_subscription!(id, subscription_id)
   defp find_client_in_list_or_database(id, clients, subscription_id) do
     id = id |> String.to_integer
 
-    Enum.find(clients, fn client -> client.id == id end) || get_client_for_subscription!(id, subscription_id)
+    Enum.find(clients, fn client -> client.id == id end) || find_client_in_database(id, subscription_id)
   end
 
   defp redirect_to_index(socket) do

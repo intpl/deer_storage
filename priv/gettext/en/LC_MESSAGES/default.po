@@ -303,7 +303,7 @@ msgid "Created at"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:39
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:42
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:31
 msgid "Email"
 msgstr ""
@@ -326,7 +326,7 @@ msgid "Manage Users"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:19
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:22
 #: lib/pjeski_web/templates/admin/user/show.html.eex:68
 msgid "Name"
 msgstr ""
@@ -551,36 +551,56 @@ msgid "Refresh"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:59
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:62
 msgid "Address"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:81
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:88
 msgid "Cancel"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:49
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:52
 msgid "City"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:13
-msgid "Editing: "
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:69
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:72
 msgid "Notes"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:80
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:85
 msgid "Save changes"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:29
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:32
 msgid "Phone number"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/show_component.ex:18
+msgid "Are you sure to REMOVE this client?"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/show_component.ex:19
+msgid "Delete"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:14
+msgid "Edit client"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/index.ex:63
+msgid "Client updated successfully."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/index.ex:89
+msgid "User deleted successfully."
 msgstr ""
