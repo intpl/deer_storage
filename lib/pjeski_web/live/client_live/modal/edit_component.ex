@@ -15,6 +15,7 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
           </header>
           <%= f = form_for changeset, "#", [phx_change: :validate, phx_submit: :save] %>
             <section class="modal-card-body">
+            <div class"container">
               <div class="field is-horizontal">
                 <%= label f, gettext("Name"), class: 'label field-label' %>
                 <div class="field-body">
@@ -73,6 +74,7 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
                     <%= error_tag f, :notes %>
                   </div>
                 </div>
+              </div>
               </div>
             </section>
 
