@@ -77,7 +77,7 @@ defmodule PjeskiWeb.ClientLive.Index do
           socket
           # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
           |> put_flash(:info, gettext("Client created successfully."))
-          |> assign(new_client: nil))
+          |> assign(new_client: nil, query: nil))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, socket |> assign(new_client: changeset)}
