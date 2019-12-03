@@ -33,17 +33,17 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
   end
 
   def handle_event("save", %{"client" => client_attrs}, socket) do
-    send self(), {:save_edit_modal, client_attrs, socket}
+    send self(), {:save_edit, client_attrs}
     {:noreply, socket}
   end
 
   def handle_event("validate", %{"client" => client_attrs}, socket) do
-    send self(), {:validate_edit_modal, client_attrs, socket}
+    send self(), {:validate_edit, client_attrs}
     {:noreply, socket}
   end
 
   def handle_event("close", _, socket) do
-    send self(), :close_edit_modal
+    send self(), :close_edit
 
     {:noreply, socket}
   end

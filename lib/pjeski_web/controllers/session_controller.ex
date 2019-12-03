@@ -36,7 +36,7 @@ defmodule PjeskiWeb.SessionController do
            {:ok, conn} = Pow.Plug.clear_authenticated_user(conn)
 
            conn
-           |> put_flash(:info, gettext("Your subscription is inactive."))
+           |> put_flash(:error, gettext("Your subscription is inactive."))
            |> redirect(to: Routes.session_path(conn, :new))
        end
   end
@@ -45,7 +45,7 @@ defmodule PjeskiWeb.SessionController do
     changeset = Pow.Plug.change_user(conn, conn.params["user"])
 
     conn
-    |> put_flash(:info, gettext("Invalid e-mail or password"))
+    |> put_flash(:error, gettext("Invalid e-mail or password"))
     |> render("new.html", changeset: changeset)
   end
 

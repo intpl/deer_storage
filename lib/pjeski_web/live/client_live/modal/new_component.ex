@@ -30,12 +30,12 @@ defmodule PjeskiWeb.ClientLive.Modal.NewComponent do
   end
 
   def handle_event("save", %{"client" => client_attrs}, socket) do
-    send self(), {:save_new_modal, client_attrs, socket}
+    send self(), {:save_new, client_attrs}
     {:noreply, socket}
   end
 
   def handle_event("close", _, socket) do
-    send self(), :close_new_modal
+    send self(), :close_new
 
     {:noreply, socket}
   end
