@@ -2,3 +2,4 @@
 .overwrite-padding-top-60 {padding-top: 60px}
 .overwrite-fullwidth {width: 100%}
 .sticky {top: 0px; position: -webkit-sticky; position: sticky}
+.is-clickable {cursor: pointer}

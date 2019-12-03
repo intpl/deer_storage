@@ -69,17 +69,14 @@ end %>
         <% end %>
 
         <%= for client <- @clients do %>
-          <div class="box <%= if client.user_id != @user_id, do: "has-background-light" %>">
+          <div class="box <%= classes_for_client_box(@user_id, client, @current_client) %>" phx-click="show" phx-value-client_id="<%= client.id %>">
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <a phx-click="show"
-                     phx-value-client_id="<%= client.id %>">
-                    <strong> <%= client.name %> </strong>
-                    <small> <%= client.email %> </small>
-                    <small><%= client.phone %></small>
-                  </a>
-                  (<strong><%= client.city %></strong>)
+                  <b> <%= client.name %> </b>
+                  <small> <%= client.email %> </small>
+                  <small><%= client.phone %></small>
+                  <b><%= client.city %></b>
                 </div>
               </div>
             </article>
