@@ -1,5 +1,0 @@
-<h1>Edit Client</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.client_path(@conn, :update, @client)) %>
-
-<span><%= link "Back", to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index) %></span>
