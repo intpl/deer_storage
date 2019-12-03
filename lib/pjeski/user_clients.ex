@@ -22,7 +22,7 @@ defmodule Pjeski.UserClients do
 
   def get_client_for_subscription!(id, subscription_id), do: Repo.get_by!(Client, id: id, subscription_id: subscription_id)
 
-  def create_client_for_user(attrs \\ %{}, user) do
+  def create_client_for_user(attrs, user) do
     user_data = %{user_id: user.id, subscription_id: user.subscription_id}
 
     %Client{}

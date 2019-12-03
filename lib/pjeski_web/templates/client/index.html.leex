@@ -1,12 +1,18 @@
-<%= if @editing_client do %>
-  <%= live_component(@socket, PjeskiWeb.ClientLive.Modal.EditComponent, id: "#{@token}-#{@editing_client.data.id}", changeset: @editing_client) %>
-<% end %>
+<%= cond do
+    @editing_client ->
+      live_component(@socket, PjeskiWeb.ClientLive.Modal.EditComponent, id: "#{@token}-#{@editing_client.data.id}", changeset: @editing_client)
+    @new_client ->
+      live_component(@socket, PjeskiWeb.ClientLive.Modal.NewComponent, id: "new", changeset: @new_client)
+    true -> ""
+end %>
 
 <section class="section">
   <div class="columns has-background-white sticky">
     <div class="column is-2">
       <div class="field">
-        <%= link gettext("New Client"), to: Routes.client_path(PjeskiWeb.Endpoint, :new), class: "button is-primary" %>
+        <a phx-click="new" class="button is-primary">
+          <%= gettext("New client") %>
+        </a>
       </div>
     </div>
 

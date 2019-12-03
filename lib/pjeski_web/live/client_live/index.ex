@@ -7,9 +7,12 @@ defmodule PjeskiWeb.ClientLive.Index do
   import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
   import Pjeski.EctoHelpers, only: [reset_errors: 1]
 
+  alias Pjeski.UserClients.Client
+
   import Pjeski.UserClients, only: [
     change_client: 1,
     change_client: 2,
+    create_client_for_user: 2,
     delete_client_for_subscription: 2,
     get_client_for_subscription!: 2,
     list_clients_for_subscription_and_user: 3,
@@ -28,6 +31,7 @@ defmodule PjeskiWeb.ClientLive.Index do
     {:ok, assign(socket,
         current_client: nil,
         editing_client: nil,
+        new_client: nil,
         page: 1,
         per_page: per_page(),
         token: token,
@@ -65,12 +69,36 @@ defmodule PjeskiWeb.ClientLive.Index do
 
   def handle_info(:close_edit_modal, socket), do: {:noreply, socket |> assign(editing_client: nil)}
 
+  def handle_info({:save_new_modal, attrs, _}, %{assigns: %{token: token}} = socket) do
+    user = user_from_live_session(token)
+    case create_client_for_user(attrs, user) do
+      {:ok, client} ->
+        # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
+        redirect_to_index(
+          socket
+          |> put_flash(:info, gettext("Client updated successfully."))
+          |> assign(new_client: nil))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, socket |> assign(new_client: changeset)}
+    end
+
+  end
+
+  def handle_info(:close_new_modal, socket), do: {:noreply, socket |> assign(new_client: nil)}
+
   def handle_event("close_show", _, socket), do: {:noreply, socket |> assign(current_client: nil)}
   def handle_event("show", %{"client_id" => client_id}, %{assigns: %{clients: clients, token: token}} = socket) do
     user = user_from_live_session(token)
     client = find_client_in_list_or_database(client_id, clients, user.subscription_id)
 
     {:noreply, socket |> assign(current_client: client)}
+  end
+
+  def handle_event("new", _, %{assigns: %{token: token}} = socket) do
+    subscription_id = user_from_live_session(token).subscription_id
+
+    {:noreply, socket |> assign(new_client: change_client(%Client{subscription_id: subscription_id}))}
   end
 
   def handle_event("edit", %{"client_id" => client_id}, %{assigns: %{clients: clients, token: token}} = socket) do
