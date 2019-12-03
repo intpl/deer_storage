@@ -2,7 +2,6 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
-  import PjeskiWeb.ErrorHelpers
 
   def render(%{changeset: changeset} = assigns) do
     ~L"""

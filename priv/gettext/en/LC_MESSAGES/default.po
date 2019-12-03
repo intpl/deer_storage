@@ -303,8 +303,8 @@ msgid "Created at"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:42
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:31
+#: lib/pjeski_web/templates/client/_form_inputs.html.eex:23
 msgid "Email"
 msgstr ""
 
@@ -326,7 +326,6 @@ msgid "Manage Users"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:22
 #: lib/pjeski_web/templates/admin/user/show.html.eex:68
 msgid "Name"
 msgstr ""
@@ -376,7 +375,8 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:9
 #: lib/pjeski_web/templates/admin/user/index.html.eex:17 lib/pjeski_web/templates/admin/user/show.html.eex:53
-#: lib/pjeski_web/templates/registration/edit.html.eex:35 lib/pjeski_web/templates/registration/new.html.eex:59
+#: lib/pjeski_web/templates/client/_form_inputs.html.eex:3 lib/pjeski_web/templates/registration/edit.html.eex:35
+#: lib/pjeski_web/templates/registration/new.html.eex:59
 msgid "Name and surname"
 msgstr ""
 
@@ -506,17 +506,12 @@ msgid "Log user out"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:9
-msgid "New Client"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:40
+#: lib/pjeski_web/templates/client/index.html.leex:46
 msgid "Search"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:32
+#: lib/pjeski_web/templates/client/index.html.leex:38
 msgid "Search..."
 msgstr ""
 
@@ -531,52 +526,53 @@ msgid "Previous page"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:54
+#: lib/pjeski_web/templates/client/index.html.leex:60
 msgid "Could not find anything..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:59
+#: lib/pjeski_web/templates/client/index.html.leex:65
 msgid "This is the last page"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:20
+#: lib/pjeski_web/templates/client/index.html.leex:26
 msgid "Clear"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/client/index.html.leex:18
+#: lib/pjeski_web/templates/client/index.html.leex:24
 msgid "Refresh"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:62
+#: lib/pjeski_web/templates/client/_form_inputs.html.eex:43
 msgid "Address"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:88
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:27
+#: lib/pjeski_web/live/client_live/modal/new_component.ex:24
 msgid "Cancel"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:52
+#: lib/pjeski_web/templates/client/_form_inputs.html.eex:33
 msgid "City"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:72
+#: lib/pjeski_web/templates/client/_form_inputs.html.eex:53
 msgid "Notes"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:85
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:24
 msgid "Save changes"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:32
+#: lib/pjeski_web/templates/client/_form_inputs.html.eex:13
 msgid "Phone number"
 msgstr ""
 
@@ -591,16 +587,32 @@ msgid "Delete"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:14
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:13
 msgid "Edit client"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/index.ex:63
+#: lib/pjeski_web/live/client_live/index.ex:67
 msgid "Client updated successfully."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/index.ex:89
+#: lib/pjeski_web/live/client_live/index.ex:117
 msgid "User deleted successfully."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/new_component.ex:23
+msgid "Create client"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/client_live/modal/new_component.ex:13
+#: lib/pjeski_web/templates/client/index.html.leex:14
+msgid "New client"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/client_live/index.ex:79
+msgid "Client created successfully."
 msgstr ""

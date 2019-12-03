@@ -72,11 +72,11 @@ defmodule PjeskiWeb.ClientLive.Index do
   def handle_info({:save_new_modal, attrs, _}, %{assigns: %{token: token}} = socket) do
     user = user_from_live_session(token)
     case create_client_for_user(attrs, user) do
-      {:ok, client} ->
+      {:ok, _} ->
         # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
         redirect_to_index(
           socket
-          |> put_flash(:info, gettext("Client updated successfully."))
+          |> put_flash(:info, gettext("Client created successfully."))
           |> assign(new_client: nil))
 
       {:error, %Ecto.Changeset{} = changeset} ->
