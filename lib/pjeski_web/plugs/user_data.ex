@@ -9,6 +9,7 @@ defmodule Pjeski.UserData do
   def call(conn, _opts) do
     user = Pow.Plug.current_user(conn)
 
+    # FIXME: rewrite to use pow_session_metadata
     conn_with_locale_and_subscription(conn, user)
   end
 

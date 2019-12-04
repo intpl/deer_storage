@@ -4,7 +4,7 @@ defmodule PjeskiWeb.ClientLive.Index do
 
   import PjeskiWeb.Gettext
 
-  import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
+  import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1, renew_token: 2]
   import Pjeski.EctoHelpers, only: [reset_errors: 1]
 
   alias Pjeski.UserClients.Client
@@ -26,12 +26,15 @@ defmodule PjeskiWeb.ClientLive.Index do
   def mount(%{"pjeski_auth" => token}, socket) do
     user = user_from_live_session(token)
 
+    if connected?(socket), do: :timer.send_interval(1200000, self(), :renew_token) # 1200000ms = 20min
+
     user.locale |> Atom.to_string |> Gettext.put_locale
 
     {:ok, assign(socket,
         current_client: nil,
         editing_client: nil,
         new_client: nil,
+        renew_token_count: 0,
         page: 1,
         per_page: per_page(),
         token: token,
@@ -50,6 +53,13 @@ defmodule PjeskiWeb.ClientLive.Index do
         {:noreply, socket |> assign(clients: clients, query: query, count: length(clients))}
       false -> {:noreply, socket |> assign(query: query, clients: [], count: 0)}
     end
+  end
+
+  def handle_info(:renew_token, %{assigns: %{token: token, renew_token_count: renew_token_count}} = socket) do
+    incremented = renew_token_count + 1
+    renew_token(token, "clients_renew_#{incremented}")
+
+    {:noreply, socket |> assign(renew_token_count: incremented)}
   end
 
   def handle_info({:validate_edit, attrs}, %{assigns: %{editing_client: client}} = socket) do

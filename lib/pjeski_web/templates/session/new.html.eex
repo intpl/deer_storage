@@ -33,7 +33,7 @@
       </div>
 
       <div class="field">
-        <%= checkbox f, :persistent_session, class: 'checkbox' %>&nbsp;
+        <%= checkbox f, :persistent_session, class: 'checkbox', value: true %>&nbsp;
         <%= label f, :persistent_session, gettext("Remember me (for 30 days)"), class: 'checkbox' %>
       </div>
 
