@@ -14,6 +14,7 @@ window.$ = window.jQuery = require("jquery");
 
 import "phoenix_html"
 import "./navbar_burger"
+import Hooks from "./phx-hooks"
 
 // Import local files
 //
@@ -27,7 +28,7 @@ import {Socket} from "phoenix"
 import LiveSocket from "phoenix_live_view"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
 
 document.addEventListener('turbolinks:load', function() { liveSocket.connect() });
 document.addEventListener('turbolinks:request-start', function() { liveSocket.disconnect() });
