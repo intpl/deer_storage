@@ -133,7 +133,7 @@ defmodule PjeskiWeb.ClientLive.Index do
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
 
-  def change_page(new_page, %{assigns: %{token: token, query: query}} = socket) do
+  defp change_page(new_page, %{assigns: %{token: token, query: query}} = socket) do
     user = user_from_live_session(token)
     {:ok, clients} = search_clients(user.subscription_id, user.id, query, new_page)
 
