@@ -25,6 +25,7 @@ defmodule PjeskiWeb.Router do
     pipe_through [:browser, :protected]
 
     live "/clients", ClientLive.Index
+    live "/animal_kinds", AnimalKindLive.Index
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
     resources "/session", SessionController, singleton: true, only: [:delete]
