@@ -16,14 +16,10 @@
     <section class="row">
       <article class="column">
         <div>
-          <%= if @current_user do %>
-            <%= gettext("Welcome to Clinic Management System!!!") %>
-          <% else %>
           <p><%= gettext("Not logged in") %></p>
           <span><%= link gettext("Register"), to: Routes.registration_path(@conn, :new) %></span>
           |
           <span><%= link gettext("Sign in"), to: Routes.session_path(@conn, :new) %></span>
-          <% end %>
         </div>
       </article>
     </section>

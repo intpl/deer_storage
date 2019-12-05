@@ -1,0 +1,40 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <%= live_link(
+        "🐶 " <> @current_user.name,
+        to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index),
+        class: "navbar-item",
+        data_turbolinks: "false") %>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navigation" class="navbar-menu">
+    <div class="navbar-start">
+      <%= live_link(
+          gettext("Clients"),
+          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index),
+          class: "navbar-item",
+          data_turbolinks: "false") %>
+
+      <%= live_link(
+          gettext("Animal kinds"),
+          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalKindLive.Index),
+          class: "navbar-item",
+          data_turbolinks: "false") %>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <%= link gettext("Settings"), to: Routes.registration_path(@conn, :edit), method: :get, class: "button is-light navbar-item" %>
+          <%= link gettext("Sign out"), to: Routes.session_path(@conn, :delete), method: :delete, class: "button is-link navbar-item" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

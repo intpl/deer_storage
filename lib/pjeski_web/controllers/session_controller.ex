@@ -29,7 +29,7 @@ defmodule PjeskiWeb.SessionController do
     |> case do
          true ->
            conn
-           |> put_flash(:info, gettext("Welcome back!"))
+           #|> put_flash(:info, gettext("Welcome back!")) disabled because of liveview as root path
            |> redirect(to: Routes.page_path(conn, :index))
 
          false ->

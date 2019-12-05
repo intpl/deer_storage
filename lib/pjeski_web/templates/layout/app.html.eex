@@ -5,13 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tag() %>
-    <title><%= build_title_for_user(@current_user) %></title>
+    <title>🐶<%= gettext("Clinic Management System") %></title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
     <main role="main">
-      <%= render "navigation.html", current_user: @current_user, conn: @conn %>
+      <%= case @current_user do
+          %{role: "user"} -> render "navigation_user.html", current_user: @current_user, conn: @conn
+          %{role: "admin"} -> render "navigation_admin.html", current_user: @current_user, conn: @conn
+          nil -> render "navigation_guest.html", conn: @conn
+      end %>
+
       <div role="alert" class="help is-danger"><%= get_flash(@conn, :error) %></div>
       <div role="alert" class="help is-success"><%= get_flash(@conn, :info) %></div>
       <div role="alert" class="help is-info"><%= get_flash(@conn, :notice) %></div>

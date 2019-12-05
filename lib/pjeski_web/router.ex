@@ -24,6 +24,7 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
+    live "/", DashboardLive.Index
     live "/clients", ClientLive.Index
     live "/animal_kinds", AnimalKindLive.Index
 
