@@ -29,7 +29,7 @@ defmodule Pjeski.UserAnimalBreeds do
     |> Repo.insert()
   end
 
-  def update_animal_breed_for_user(%AnimalBreed{subscription_id: subscription_id} = animal_breed, attrs, %{subscription_id: subscription_id} = user) do
+  def update_animal_breed_for_user(%AnimalBreed{subscription_id: subscription_id} = animal_breed, attrs, %{subscription_id: subscription_id}) do
     animal_breed
     |> AnimalBreed.changeset(attrs)
     |> Repo.update()

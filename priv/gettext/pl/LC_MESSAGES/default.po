@@ -12,12 +12,12 @@ msgstr ""
 "Plural-Forms: nplurals=3\n"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:25
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:19
 msgid "Clients"
 msgstr "Klienci"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:22
+#: lib/pjeski_web/templates/page/index.html.eex:19
 msgid "Not logged in"
 msgstr "Niezalogowany"
 
@@ -29,14 +29,14 @@ msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:23
+#: lib/pjeski_web/templates/page/index.html.eex:20
 #: lib/pjeski_web/templates/registration/new.html.eex:5 lib/pjeski_web/templates/registration/new.html.eex:83
 msgid "Register"
 msgstr "Zarejestruj się"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:43
-#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/session/new.html.eex:5
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:21
+#: lib/pjeski_web/templates/page/index.html.eex:22 lib/pjeski_web/templates/session/new.html.eex:5
 #: lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
 msgstr "Zaloguj się"
@@ -75,8 +75,8 @@ msgid "Password"
 msgstr "Hasło"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:5
-#: lib/pjeski_web/views/layout_view.ex:5 lib/pjeski_web/views/layout_view.ex:13
+#: lib/pjeski_web/templates/layout/app.html.eex:8
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5 lib/pjeski_web/templates/page/index.html.eex:5
 msgid "Clinic Management System"
 msgstr "System Zarządzania Kliniką"
 
@@ -101,11 +101,6 @@ msgid "Edit your Clinic Management System account"
 msgstr "Edytuj swoje konto w Systemie Zarządzania Kliniką"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:20
-msgid "Welcome to Clinic Management System!!!"
-msgstr "Witamy w Centrum Zarządzania Kliniką!!!"
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:15
 #: lib/pjeski_web/templates/admin/user/form.html.eex:21 lib/pjeski_web/templates/registration/edit.html.eex:53
 #: lib/pjeski_web/templates/registration/new.html.eex:65
@@ -118,7 +113,8 @@ msgid "Sign in to Clinic Management System"
 msgstr "Zaloguj się do Systemu Zarządzania Kliniką"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:40
+#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:35
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -157,12 +153,13 @@ msgid "E-mail"
 msgstr "Adres E-mail"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:42
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:20
 msgid "Free demo"
 msgstr "Przetestuj za darmo"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:39
+#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:34
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -180,7 +177,7 @@ msgstr "Admin"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_header.html.eex:5
-#: lib/pjeski_web/templates/admin/user/_header.html.eex:5
+#: lib/pjeski_web/templates/admin/user/_header.html.eex:5 lib/pjeski_web/templates/layout/navigation_admin.html.eex:5
 msgid "Admin Panel"
 msgstr "Panel administracyjny"
 
@@ -203,11 +200,11 @@ msgid "Danger zone"
 msgstr "Strefa niebezpieczeństwa"
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/show_component.ex:15
-#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:12 lib/pjeski_web/templates/admin/subscription/index.html.eex:44
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:12 lib/pjeski_web/templates/admin/subscription/show.html.eex:103
-#: lib/pjeski_web/templates/admin/user/edit.html.eex:19 lib/pjeski_web/templates/admin/user/index.html.eex:41
-#: lib/pjeski_web/templates/admin/user/show.html.eex:19
+#: lib/pjeski_web/live/animal_kind_live/show_component.ex:15
+#: lib/pjeski_web/live/client_live/show_component.ex:15 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:44 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:103 lib/pjeski_web/templates/admin/user/edit.html.eex:19
+#: lib/pjeski_web/templates/admin/user/index.html.eex:41 lib/pjeski_web/templates/admin/user/show.html.eex:19
 msgid "Edit"
 msgstr "Edycja"
 
@@ -240,7 +237,7 @@ msgstr "Użytkownik"
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:21
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:40 lib/pjeski_web/templates/admin/subscription/show.html.eex:61
-#: lib/pjeski_web/templates/layout/navigation.html.eex:20
+#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:18
 msgid "Users"
 msgstr "Użytkownicy"
 
@@ -392,7 +389,7 @@ msgid "Subscription"
 msgstr "Subskrypcja"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation.html.eex:21
+#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:19
 msgid "Subscriptions"
 msgstr "Subskrypcje"
 
@@ -454,11 +451,6 @@ msgid "Invalid e-mail or password"
 msgstr "Zły e-mail lub hasło"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:32
-msgid "Welcome back!"
-msgstr "Witamy ponownie!"
-
-#, elixir-format
 #: lib/pjeski_web/controllers/registration_controller.ex:18
 msgid "Welcome!"
 msgstr "Witamy!"
@@ -507,11 +499,13 @@ msgid "Log user out"
 msgstr "Wyloguj tego użytkownika"
 
 #, elixir-format
+#: lib/pjeski_web/templates/animal_kind/index.html.leex:46
 #: lib/pjeski_web/templates/client/index.html.leex:46
 msgid "Search"
 msgstr "Szukaj"
 
 #, elixir-format
+#: lib/pjeski_web/templates/animal_kind/index.html.leex:38
 #: lib/pjeski_web/templates/client/index.html.leex:38
 msgid "Search..."
 msgstr "Szukaj..."
@@ -527,21 +521,25 @@ msgid "Previous page"
 msgstr "Poprzednia"
 
 #, elixir-format
+#: lib/pjeski_web/templates/animal_kind/index.html.leex:60
 #: lib/pjeski_web/templates/client/index.html.leex:60
 msgid "Could not find anything..."
 msgstr "Niczego nie znaleziono..."
 
 #, elixir-format
+#: lib/pjeski_web/templates/animal_kind/index.html.leex:65
 #: lib/pjeski_web/templates/client/index.html.leex:65
 msgid "This is the last page"
 msgstr "To już ostatnia strona"
 
 #, elixir-format
+#: lib/pjeski_web/templates/animal_kind/index.html.leex:26
 #: lib/pjeski_web/templates/client/index.html.leex:26
 msgid "Clear"
 msgstr "Wyczyść"
 
 #, elixir-format
+#: lib/pjeski_web/templates/animal_kind/index.html.leex:24
 #: lib/pjeski_web/templates/client/index.html.leex:24
 msgid "Refresh"
 msgstr "Odśwież"
@@ -552,7 +550,8 @@ msgid "Address"
 msgstr "Adres"
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/modal/edit_component.ex:27
+#: lib/pjeski_web/live/animal_kind_live/modal/edit_component.ex:27
+#: lib/pjeski_web/live/animal_kind_live/modal/new_component.ex:24 lib/pjeski_web/live/client_live/modal/edit_component.ex:27
 #: lib/pjeski_web/live/client_live/modal/new_component.ex:24
 msgid "Cancel"
 msgstr "Anuluj"
@@ -563,11 +562,13 @@ msgid "City"
 msgstr "Miasto"
 
 #, elixir-format
+#: lib/pjeski_web/templates/animal_kind/_form_inputs.html.eex:14
 #: lib/pjeski_web/templates/client/_form_inputs.html.eex:53
 msgid "Notes"
 msgstr "Notatki"
 
 #, elixir-format
+#: lib/pjeski_web/live/animal_kind_live/modal/edit_component.ex:24
 #: lib/pjeski_web/live/client_live/modal/edit_component.ex:24
 msgid "Save changes"
 msgstr "Zapisz zmiany"
@@ -583,6 +584,7 @@ msgid "Are you sure to REMOVE this client?"
 msgstr "Na pewno USUNĄĆ tego klienta?"
 
 #, elixir-format
+#: lib/pjeski_web/live/animal_kind_live/show_component.ex:19
 #: lib/pjeski_web/live/client_live/show_component.ex:19
 msgid "Delete"
 msgstr "Usuń"
@@ -593,12 +595,13 @@ msgid "Edit client"
 msgstr "Edytuj klienta"
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/index.ex:67
+#: lib/pjeski_web/live/client_live/index.ex:69
 msgid "Client updated successfully."
 msgstr "Klient zapisany poprawnie."
 
 #, elixir-format
-#: lib/pjeski_web/live/client_live/index.ex:117
+#: lib/pjeski_web/live/animal_kind_live/index.ex:119
+#: lib/pjeski_web/live/client_live/index.ex:119
 msgid "User deleted successfully."
 msgstr "Klient usunięty poprawnie."
 
@@ -613,7 +616,48 @@ msgstr "Utwórz klienta"
 msgid "New client"
 msgstr "Nowy klient"
 
-#, elixir-format, fuzzy
-#: lib/pjeski_web/live/client_live/index.ex:79
+#, elixir-format
+#: lib/pjeski_web/live/client_live/index.ex:81
 msgid "Client created successfully."
 msgstr "Klient utworzony poprawnie"
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:25
+msgid "Animal kinds"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/animal_kind/_form_inputs.html.eex:3
+msgid "Animal name"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_kind_live/show_component.ex:18
+msgid "Are you sure to REMOVE this animal_kind?"
+msgstr "Na pewno USUNĄĆ tego klienta?"
+
+#, elixir-format
+#: lib/pjeski_web/live/animal_kind_live/modal/new_component.ex:23
+msgid "Create animal kind"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/animal_kind_live/modal/edit_component.ex:13
+msgid "Edit animal kind"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/animal_kind_live/modal/new_component.ex:13
+#: lib/pjeski_web/templates/animal_kind/index.html.leex:14
+msgid "New animal kind"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_kind_live/index.ex:81
+msgid "animal_kind created successfully."
+msgstr "Klient utworzony poprawnie"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_kind_live/index.ex:69
+msgid "animal_kind updated successfully."
+msgstr "Klient zapisany poprawnie."
