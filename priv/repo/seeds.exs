@@ -2,7 +2,11 @@ alias Pjeski.Repo
 alias Pjeski.Users.User
 alias Pjeski.Subscriptions.Subscription
 alias Pjeski.UserClients.Client
+alias Pjeski.UserAnimalBreeds.AnimalBreed
+alias Pjeski.UserAnimalKinds.AnimalKind
 
+Repo.delete_all(AnimalBreed)
+Repo.delete_all(AnimalKind)
 Repo.delete_all(Client)
 Repo.delete_all(User)
 Repo.delete_all(Subscription)
@@ -45,7 +49,7 @@ Enum.map(Enum.uniq(subscription_emails), fn subscription_email ->
   IO.puts "Created user: #{first_user.name} (#{first_user.email})"
 
   Enum.map((0..:rand.uniform(30)), fn _ ->
-    user = Repo.insert!(
+    {_, user} = Repo.insert(
       User.admin_changeset(%User{},
         Map.merge(%{
               email: Faker.Internet.safe_email(),
@@ -53,7 +57,8 @@ Enum.map(Enum.uniq(subscription_emails), fn subscription_email ->
               locale: Enum.random([:en, :pl]),
               subscription_id: subscription.id
                   }, default_user_map)))
-    IO.puts "Created user: #{user.name} (#{user.email})"
+
+    IO.puts "Created user: #{user.name} (#{user.email}), state: #{Ecto.get_meta(user, :state)}"
 
     Enum.map((0..:rand.uniform(100)), fn _ ->
       client = Repo.insert!(%Client{
