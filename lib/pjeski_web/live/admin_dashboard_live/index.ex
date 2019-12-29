@@ -1,4 +1,4 @@
-defmodule PjeskiWeb.AdminDashboardLive.Index do
+defmodule PjeskiWeb.Admin.DashboardLive.Index do
   use Phoenix.LiveView
 
   def mount(%{"pjeski_auth" => token}, socket) do
@@ -12,4 +12,6 @@ defmodule PjeskiWeb.AdminDashboardLive.Index do
     Admin Dashboard<br>
     """
   end
+
+  def handle_params(_, _, socket), do: {:noreply, socket}
 end

@@ -24,7 +24,7 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
-    live "/", DashboardLive.Index
+    live "/dashboard", DashboardLive.Index
     live "/clients", ClientLive.Index
     live "/animal_kinds", AnimalKindLive.Index
 
@@ -33,6 +33,8 @@ defmodule PjeskiWeb.Router do
 
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]
+
+      live "/dashboard", DashboardLive.Index # this is in fact Admin.DashboardLive.Index
 
       resources "/users", UserController do
         put "/toggle_admin", UserController, :toggle_admin

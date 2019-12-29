@@ -1,6 +1,8 @@
 defmodule PjeskiWeb.RegistrationController do
   use PjeskiWeb, :controller
 
+  alias Pjeski.Users.User
+
   def new(conn, _params) do
     render(conn, "new.html", changeset: Pow.Plug.change_user(conn))
   end
@@ -14,9 +16,7 @@ defmodule PjeskiWeb.RegistrationController do
     |> Pow.Plug.create_user(user_params)
     |> case do
       {:ok, _user, conn} ->
-        conn
-        |> put_flash(:info, gettext("Welcome!"))
-        |> redirect(to: Routes.page_path(conn, :index))
+        conn |> redirect(to: dashboard_path_for(:user))
 
       {:error, changeset, conn} ->
         render(conn, "new.html", changeset: changeset)
@@ -27,10 +27,8 @@ defmodule PjeskiWeb.RegistrationController do
     conn
     |> Pow.Plug.update_user(user_params)
     |> case do
-      {:ok, _user, conn} ->
-        conn
-        |> put_flash(:info, gettext("Changed succesfully!"))
-        |> redirect(to: Routes.page_path(conn, :index))
+      {:ok, %User{role: role}, conn} ->
+        conn |> redirect(to: dashboard_path_for(role))
 
       {:error, changeset, conn} ->
         render(conn, "edit.html", changeset: changeset)

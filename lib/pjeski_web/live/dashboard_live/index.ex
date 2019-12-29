@@ -12,4 +12,6 @@ defmodule PjeskiWeb.DashboardLive.Index do
     Dashboard<br>
     """
   end
+
+  def handle_params(_, _, socket), do: {:noreply, socket}
 end

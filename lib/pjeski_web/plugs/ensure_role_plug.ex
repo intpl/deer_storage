@@ -38,8 +38,8 @@ defmodule PjeskiWeb.EnsureRolePlug do
   defp maybe_halt(true, conn), do: conn
   defp maybe_halt(_any, conn) do
     conn
-    |> Controller.put_flash(:error, "Unauthorized access")
-    |> Controller.redirect(to:  "/")
+    # |> Controller.put_flash(:error, "Unauthorized access") skip due to liveview
+    |> Controller.redirect(to: PjeskiWeb.Controllers.Helpers.dashboard_path_for(:user))
     |> halt()
   end
 end

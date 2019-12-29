@@ -27,12 +27,9 @@ defmodule PjeskiWeb.SessionController do
     |> Pow.Plug.current_user()
     |> subscription_valid?
     |> case do
-         true ->
-           conn
-           #|> put_flash(:info, gettext("Welcome back!")) disabled because of liveview as root path
-           |> redirect(to: Routes.page_path(conn, :index))
-
-         false ->
+         {true, user_role} ->
+           redirect(conn, to: dashboard_path_for(user_role))
+         _ ->
            {:ok, conn} = Pow.Plug.clear_authenticated_user(conn)
 
            conn
@@ -49,11 +46,14 @@ defmodule PjeskiWeb.SessionController do
     |> render("new.html", changeset: changeset)
   end
 
-  defp subscription_valid?(%User{role: "admin"}), do: true
-  defp subscription_valid?(%User{subscription_id: nil}), do: false
+  defp subscription_valid?(%User{role: "admin"}), do: { true, :admin }
+  defp subscription_valid?(%User{subscription_id: nil}), do: { false, :user }
   defp subscription_valid?(%User{subscription_id: subscription_id}) when is_number(subscription_id) do
-    subscription = Subscriptions.get_subscription!(subscription_id) # add time zone support
+    subscription = Subscriptions.get_subscription!(subscription_id) # FIXME add time zone support
 
-    Date.compare(Date.utc_today, subscription.expires_on) == :lt
+    {
+      Date.compare(Date.utc_today, subscription.expires_on) == :lt,
+      :user
+    }
   end
 end
