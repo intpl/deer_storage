@@ -1,8 +1,8 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <%= live_link(
-        "🐕 " <> @conn.assigns.current_user.name,
-        to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index),
+    <%= link(
+        gettext("⬅️ Go to application"),
+        to: dashboard_path_for(@conn.assigns.current_user.role),
         class: "navbar-item",
         data_turbolinks: "false") %>
 
@@ -12,21 +12,6 @@
       <span aria-hidden="true"></span>
     </a>
   </div>
-
-  <div id="navigation" class="navbar-menu">
-    <div class="navbar-start">
-      <%= live_link(
-          gettext("Clients"),
-          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index),
-          class: "navbar-item",
-          data_turbolinks: "false") %>
-
-      <%= live_link(
-          gettext("Animal kinds"),
-          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalKindLive.Index),
-          class: "navbar-item",
-          data_turbolinks: "false") %>
-    </div>
 
     <div class="navbar-end">
       <div class="navbar-item">

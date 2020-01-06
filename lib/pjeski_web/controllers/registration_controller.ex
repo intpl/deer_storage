@@ -8,7 +8,7 @@ defmodule PjeskiWeb.RegistrationController do
   end
 
   def edit(conn, _params) do
-    render(conn, "edit.html", changeset: Pow.Plug.change_user(conn))
+    render(conn, "edit.html", changeset: Pow.Plug.change_user(conn), navigation_template_always: "navigation_outside_app.html")
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -31,7 +31,7 @@ defmodule PjeskiWeb.RegistrationController do
         conn |> redirect(to: dashboard_path_for(role))
 
       {:error, changeset, conn} ->
-        render(conn, "edit.html", changeset: changeset)
+        render(conn, "edit.html", changeset: changeset, navigation_template_always: "navigation_outside_app.html")
     end
   end
 end

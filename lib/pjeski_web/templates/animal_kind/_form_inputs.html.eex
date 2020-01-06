@@ -1,6 +1,6 @@
 <div class"container">
   <div class="field is-horizontal">
-    <%= label @f, gettext("Animal name"), class: 'label field-label' %>
+    <%= label @f, gettext("Animal kind name"), class: 'label field-label' %>
     <div class="field-body">
       <div class="field">
         <%= text_input @f, :name, class: 'input' %>

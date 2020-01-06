@@ -40,6 +40,8 @@ defmodule PjeskiWeb do
         root: "lib/pjeski_web/templates",
         namespace: PjeskiWeb
 
+      import PjeskiWeb.Controllers.Helpers, only: [dashboard_path_for: 1]
+
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1, get_csrf_token: 0]
       import PhoenixActiveLink

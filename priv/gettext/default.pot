@@ -74,8 +74,8 @@ msgid "Password"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/app.html.eex:8
-#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5 lib/pjeski_web/templates/page/index.html.eex:5
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
+#: lib/pjeski_web/templates/page/index.html.eex:5 lib/pjeski_web/views/layout_view.ex:6
 msgid "Clinic Management System"
 msgstr ""
 
@@ -113,7 +113,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:35
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:20 lib/pjeski_web/templates/layout/navigation_user.html.eex:35
 msgid "Sign out"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:34
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:19 lib/pjeski_web/templates/layout/navigation_user.html.eex:34
 msgid "Settings"
 msgstr ""
 
@@ -176,7 +176,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_header.html.eex:5
-#: lib/pjeski_web/templates/admin/user/_header.html.eex:5 lib/pjeski_web/templates/layout/navigation_admin.html.eex:5
+#: lib/pjeski_web/templates/admin/user/_header.html.eex:5 lib/pjeski_web/templates/layout/navigation_admin.html.eex:4
 msgid "Admin Panel"
 msgstr ""
 
@@ -440,18 +440,8 @@ msgid "%{name} is now '%{role}'"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:32
-msgid "Changed succesfully!"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:48
+#: lib/pjeski_web/controllers/session_controller.ex:45
 msgid "Invalid e-mail or password"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:18
-msgid "Welcome!"
 msgstr ""
 
 #, elixir-format
@@ -465,7 +455,7 @@ msgid "You've to be authenticated first"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:39
+#: lib/pjeski_web/controllers/session_controller.ex:36
 msgid "Your subscription is inactive."
 msgstr ""
 
@@ -625,11 +615,6 @@ msgid "Animal kinds"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/animal_kind/_form_inputs.html.eex:3
-msgid "Animal name"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/live/animal_kind_live/show_component.ex:18
 msgid "Are you sure to REMOVE this animal_kind?"
 msgstr ""
@@ -658,4 +643,14 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/live/animal_kind_live/index.ex:69
 msgid "animal_kind updated successfully."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:4
+msgid "⬅️ Go to application"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/animal_kind/_form_inputs.html.eex:3
+msgid "Animal kind name"
 msgstr ""

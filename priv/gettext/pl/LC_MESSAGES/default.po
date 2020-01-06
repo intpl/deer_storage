@@ -75,8 +75,8 @@ msgid "Password"
 msgstr "Hasło"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/app.html.eex:8
-#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5 lib/pjeski_web/templates/page/index.html.eex:5
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
+#: lib/pjeski_web/templates/page/index.html.eex:5 lib/pjeski_web/views/layout_view.ex:6
 msgid "Clinic Management System"
 msgstr "System Zarządzania Kliniką"
 
@@ -114,7 +114,7 @@ msgstr "Zaloguj się do Systemu Zarządzania Kliniką"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:35
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:20 lib/pjeski_web/templates/layout/navigation_user.html.eex:35
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -159,7 +159,7 @@ msgstr "Przetestuj za darmo"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:34
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:19 lib/pjeski_web/templates/layout/navigation_user.html.eex:34
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -177,7 +177,7 @@ msgstr "Admin"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_header.html.eex:5
-#: lib/pjeski_web/templates/admin/user/_header.html.eex:5 lib/pjeski_web/templates/layout/navigation_admin.html.eex:5
+#: lib/pjeski_web/templates/admin/user/_header.html.eex:5 lib/pjeski_web/templates/layout/navigation_admin.html.eex:4
 msgid "Admin Panel"
 msgstr "Panel administracyjny"
 
@@ -441,19 +441,9 @@ msgid "%{name} is now '%{role}'"
 msgstr "%{name} ma teraz rolę '%{role}'"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:32
-msgid "Changed succesfully!"
-msgstr "Zmiana została wprowadzona"
-
-#, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:48
+#: lib/pjeski_web/controllers/session_controller.ex:45
 msgid "Invalid e-mail or password"
 msgstr "Zły e-mail lub hasło"
-
-#, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:18
-msgid "Welcome!"
-msgstr "Witamy!"
 
 #, elixir-format
 #: lib/pjeski_web/plugs/auth_error_handler.ex:15
@@ -466,7 +456,7 @@ msgid "You've to be authenticated first"
 msgstr "Musisz najpierw się zalogować"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:39
+#: lib/pjeski_web/controllers/session_controller.ex:36
 msgid "Your subscription is inactive."
 msgstr "Twoja subskrypcja jest nieaktywna"
 
@@ -624,14 +614,9 @@ msgstr "Klient utworzony poprawnie"
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_user.html.eex:25
 msgid "Animal kinds"
-msgstr ""
+msgstr "Rodzaje zwierząt"
 
 #, elixir-format
-#: lib/pjeski_web/templates/animal_kind/_form_inputs.html.eex:3
-msgid "Animal name"
-msgstr ""
-
-#, elixir-format, fuzzy
 #: lib/pjeski_web/live/animal_kind_live/show_component.ex:18
 msgid "Are you sure to REMOVE this animal_kind?"
 msgstr "Na pewno USUNĄĆ tego klienta?"
@@ -639,25 +624,35 @@ msgstr "Na pewno USUNĄĆ tego klienta?"
 #, elixir-format
 #: lib/pjeski_web/live/animal_kind_live/modal/new_component.ex:23
 msgid "Create animal kind"
-msgstr ""
+msgstr "Utwórz rodzaj zwierzęcia"
 
 #, elixir-format
 #: lib/pjeski_web/live/animal_kind_live/modal/edit_component.ex:13
 msgid "Edit animal kind"
-msgstr ""
+msgstr "Edytuj rodzaj zwierzęcia"
 
 #, elixir-format
 #: lib/pjeski_web/live/animal_kind_live/modal/new_component.ex:13
 #: lib/pjeski_web/templates/animal_kind/index.html.leex:14
 msgid "New animal kind"
-msgstr ""
+msgstr "Nowy rodzaj zwierzęcia"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/animal_kind_live/index.ex:81
 msgid "animal_kind created successfully."
 msgstr "Klient utworzony poprawnie"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/animal_kind_live/index.ex:69
 msgid "animal_kind updated successfully."
 msgstr "Klient zapisany poprawnie."
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:4
+msgid "⬅️ Go to application"
+msgstr "⬅️ Przejdź do aplikacji"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/animal_kind/_form_inputs.html.eex:3
+msgid "Animal kind name"
+msgstr "Nazwa"
