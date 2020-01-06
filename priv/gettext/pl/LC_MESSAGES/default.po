@@ -650,7 +650,7 @@ msgstr "Klient zapisany poprawnie."
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:4
 msgid "⬅️ Go to application"
-msgstr "⬅️ Przejdź do aplikacji"
+msgstr "⬅️ Wróć do aplikacji"
 
 #, elixir-format, fuzzy
 #: lib/pjeski_web/templates/animal_kind/_form_inputs.html.eex:3
