@@ -5,9 +5,17 @@ defmodule PjeskiWeb.Admin.UserController do
   alias Pjeski.Users.User
   alias Pjeski.Users.UserSessionUtils
 
-  def index(conn, _params) do
-    users = Users.list_users()
-    render(conn, "index.html", users: users)
+  def index(conn, params) do
+    per_page = 100
+    page = String.to_integer(params["page"] || "1")
+    users = Users.list_users(page, per_page)
+
+    rendered_pagination = Phoenix.View.render_to_string(
+      PjeskiWeb.Admin.UserView, "_index_pagination.html",
+      %{conn: conn, count: length(users), per_page: per_page, page: page}
+    )
+
+    render(conn, "index.html", users: users, rendered_pagination: rendered_pagination)
   end
 
   def new(conn, _params) do

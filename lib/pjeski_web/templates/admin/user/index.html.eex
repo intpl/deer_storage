@@ -11,6 +11,9 @@
   </ul>
 </nav>
 
+<%= raw @rendered_pagination %>
+<br>
+
 <table class="table is-fullwidth is-narrow responsive_index">
   <thead>
     <tr>
@@ -45,3 +48,5 @@
         <% end %>
   </tbody>
 </table>
+
+<%= raw @rendered_pagination %>

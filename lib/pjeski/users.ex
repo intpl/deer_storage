@@ -4,6 +4,16 @@ defmodule Pjeski.Users do
 
   alias Pjeski.Users.User
 
+  def list_users(page, per_page) when page > 0 do
+    offset = (page - 1) * per_page
+
+    User
+    |> offset(^offset)
+    |> limit(^per_page)
+    |> Repo.all()
+    |> Repo.preload(:subscription)
+  end
+
   def list_users do
     User
     |> Repo.all()

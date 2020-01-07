@@ -1,0 +1,15 @@
+<%= if @count == @per_page || @page != 1 do %>
+  <div class="is-vcentered" align="center">
+    <a class="button" <%= if @page == 1, do: "disabled", else: "href=" <> Routes.admin_user_path(@conn, :index, page: @page - 1) %>>
+      <%= gettext("Previous page") %>
+    </a>
+
+    <%= if @page > 1 do %>
+      <a class="button"><%= @page %></a>
+    <% end %>
+
+    <a class="button" <%= if @count < @per_page, do: "disabled", else: "href=" <> Routes.admin_user_path(@conn, :index, page: @page + 1) %>>
+       <%= gettext("Next page") %>
+    </a>
+  </div>
+<% end %>
