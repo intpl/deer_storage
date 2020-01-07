@@ -2,12 +2,25 @@ defmodule Pjeski.Users do
   import Ecto.Query, warn: false
   alias Pjeski.Repo
 
+  use Pjeski.DbHelpers.ComposeSearchQuery, [:name, :email]
+
   alias Pjeski.Users.User
 
-  def list_users(page, per_page) when page > 0 do
+  def list_users("", page, per_page) when page > 0 do
     offset = (page - 1) * per_page
 
     User
+    |> offset(^offset)
+    |> limit(^per_page)
+    |> Repo.all()
+    |> Repo.preload(:subscription)
+  end
+
+  def list_users(query_string, page, per_page) when page > 0 do
+    offset = (page - 1) * per_page
+
+    User
+    |> where(^compose_search_query(query_string))
     |> offset(^offset)
     |> limit(^per_page)
     |> Repo.all()
