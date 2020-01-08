@@ -78,6 +78,7 @@
             <%= length subscription.users %>
           </td>
           <td data-label="<%= gettext("Actions") %>: ">
+            <span><%= link gettext("Show"), to: Routes.admin_subscription_path(@conn, :show, subscription) %></span>
             <span><%= link gettext("Edit"), to: Routes.admin_subscription_path(@conn, :edit, subscription) %></span>
           </td>
         </tr>

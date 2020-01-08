@@ -76,6 +76,7 @@
             <%= subscription_expires_datetime_for(user) %>
           </td>
           <td data-label="<%= gettext("Actions") %>: ">
+            <span><%= link gettext("Show"), to: Routes.admin_user_path(@conn, :show, user) %></span>
             <span><%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user) %></span>
             <%= if user.role == "admin" do %> (Admin) <% end %>
           </td>

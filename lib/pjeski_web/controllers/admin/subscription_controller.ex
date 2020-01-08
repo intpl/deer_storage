@@ -8,7 +8,7 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
   def index(conn, params) do
     query = params["query"] || ""
 
-    per_page = 100
+    per_page = 50
     page = String.to_integer(params["page"] || "1")
     subscriptions = Subscriptions.list_subscriptions(query, page, per_page)
 
