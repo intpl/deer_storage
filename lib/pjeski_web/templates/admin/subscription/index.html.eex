@@ -11,6 +11,40 @@
   </ul>
 </nav>
 
+<div class="columns">
+  <div class="column is-2">
+  </div>
+  <div class="column is-8">
+    <div class="field has-addons">
+      <%= if @page != 1 || @query != "" do %>
+        <%= link to: Routes.admin_subscription_path(@conn, :index, page: 1, query: "") do %>
+        <button class="button is-inline" type="submit">
+          <%= gettext("Clear") %>
+        </button>
+        <% end %>
+      <% end %>
+
+      <form class="field has-addons overwrite-fullwidth">
+        <p class="control is-expanded">
+          <input
+            class="input"
+            type="text" name="query"
+            list="matches"
+            placeholder="<%= gettext("Search...") %>"
+            value="<%= @query %>" />
+        </p>
+
+        <p class="control">
+          <button class="button" type="submit">
+            <%= gettext("Search") %>
+          </button>
+        </p>
+      </form>
+    </div>
+  </div>
+  <div class="column is-2">
+  </div>
+</div>
 <%= raw @rendered_pagination %>
 <br>
 

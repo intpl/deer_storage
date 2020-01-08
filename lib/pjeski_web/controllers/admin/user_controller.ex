@@ -17,7 +17,7 @@ defmodule PjeskiWeb.Admin.UserController do
       %{conn: conn, count: length(users), per_page: per_page, page: page, query: query}
     )
 
-    render(conn, "index.html", users: users, rendered_pagination: rendered_pagination, query: query)
+    render(conn, "index.html", users: users, page: page, rendered_pagination: rendered_pagination, query: query)
   end
 
   def new(conn, _params) do

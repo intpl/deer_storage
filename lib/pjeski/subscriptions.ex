@@ -3,12 +3,25 @@ defmodule Pjeski.Subscriptions do
   import Ecto.Query, warn: false
   alias Pjeski.Repo
 
+  use Pjeski.DbHelpers.ComposeSearchQuery, [:name, :email, :time_zone, :admin_notes]
+
   alias Pjeski.Subscriptions.Subscription
 
-  def list_subscriptions(page, per_page) when page > 0 do
+  def list_subscriptions("", page, per_page) when page > 0 do
     offset = (page - 1) * per_page
 
     Subscription
+    |> offset(^offset)
+    |> limit(^per_page)
+    |> Repo.all
+    |> Repo.preload(:users)
+  end
+
+  def list_subscriptions(query_string, page, per_page) when page > 0 do
+    offset = (page - 1) * per_page
+
+    Subscription
+    |> where(^compose_search_query(query_string))
     |> offset(^offset)
     |> limit(^per_page)
     |> Repo.all

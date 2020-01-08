@@ -16,9 +16,9 @@
   </div>
   <div class="column is-8">
     <div class="field has-addons">
-      <%= if @query != "" do %>
+      <%= if @page != 1 || @query != "" do %>
         <%= link to: Routes.admin_user_path(@conn, :index, page: 1, query: "") do %>
-        <button class="button is-inline" type="submit" phx-click="clear" onclick="window.scrollTo(0,0)">
+        <button class="button is-inline" type="submit">
           <%= gettext("Clear") %>
         </button>
         <% end %>

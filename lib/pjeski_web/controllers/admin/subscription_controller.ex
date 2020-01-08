@@ -6,16 +6,18 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
   alias Pjeski.Subscriptions.Subscription
 
   def index(conn, params) do
+    query = params["query"] || ""
+
     per_page = 100
     page = String.to_integer(params["page"] || "1")
-    subscriptions = Subscriptions.list_subscriptions(page, per_page)
+    subscriptions = Subscriptions.list_subscriptions(query, page, per_page)
 
     rendered_pagination = Phoenix.View.render_to_string(
       PjeskiWeb.Admin.SubscriptionView, "_index_pagination.html",
-      %{conn: conn, count: length(subscriptions), per_page: per_page, page: page}
+      %{conn: conn, count: length(subscriptions), per_page: per_page, page: page, query: query}
     )
 
-    render(conn, "index.html", subscriptions: subscriptions, rendered_pagination: rendered_pagination)
+    render(conn, "index.html", subscriptions: subscriptions, page: page, rendered_pagination: rendered_pagination, query: query)
   end
 
   def new(conn, _params) do
