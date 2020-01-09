@@ -26,6 +26,12 @@
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalKindLive.Index),
           class: "navbar-item",
           data_turbolinks: "false") %>
+
+      <%= live_link(
+          gettext("Animal breeds"),
+          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalBreedLive.Index),
+          class: "navbar-item",
+          data_turbolinks: "false") %>
     </div>
 
     <div class="navbar-end">

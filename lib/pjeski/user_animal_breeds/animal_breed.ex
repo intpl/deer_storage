@@ -3,8 +3,8 @@ defmodule Pjeski.UserAnimalBreeds.AnimalBreed do
   import Ecto.Changeset
 
   alias Pjeski.Subscriptions.Subscription
-  alias Pjeski.Users.User
   alias Pjeski.UserAnimalKinds.AnimalKind
+  alias Pjeski.Users.User
 
   schema "animal_breeds" do
     field :name, :string
@@ -21,7 +21,7 @@ defmodule Pjeski.UserAnimalBreeds.AnimalBreed do
   @doc false
   def changeset(animal_breed, attrs) do
     animal_breed
-    |> cast(attrs, [:name, :notes])
+    |> cast(attrs, [:name, :notes, :animal_kind_id])
     |> validate_required([:name])
   end
 end

@@ -27,6 +27,7 @@ defmodule PjeskiWeb.Router do
     live "/dashboard", DashboardLive.Index
     live "/clients", ClientLive.Index
     live "/animal_kinds", AnimalKindLive.Index
+    live "/animal_breeds", AnimalBreedLive.Index
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
     resources "/session", SessionController, singleton: true, only: [:delete]

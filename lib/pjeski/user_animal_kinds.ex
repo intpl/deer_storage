@@ -20,18 +20,27 @@ defmodule Pjeski.UserAnimalKinds do
     |> Repo.all
   end
 
+  def pluck_animal_kinds_structs_for_subscription(subscription_id) do
+    query = from ak in AnimalKind,
+      where: ak.subscription_id == ^subscription_id,
+      limit: 1000,
+      select: struct(ak, [:name, :id])
+
+    Repo.all(query)
+  end
+
   def get_animal_kind_for_subscription!(id, subscription_id), do: Repo.get_by!(AnimalKind, id: id, subscription_id: subscription_id)
 
   def create_animal_kind_for_subscription(attrs, subscription_id) do
     %AnimalKind{}
-    |> AnimalKind.changeset(attrs)
+    |> change_animal_kind(attrs)
     |> Changeset.cast(%{subscription_id: subscription_id}, [:subscription_id])
     |> Repo.insert()
   end
 
   def update_animal_kind_for_user(%AnimalKind{subscription_id: subscription_id} = animal_kind, attrs, %{subscription_id: subscription_id}) do
     animal_kind
-    |> AnimalKind.changeset(attrs)
+    |> change_animal_kind(attrs)
     |> Repo.update()
   end
 
