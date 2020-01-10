@@ -3,7 +3,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Modal.NewComponent do
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
 
-  def render(%{changeset: changeset, animal_kinds_options: animal_kinds_options} = assigns) do
+  def render(%{changeset: changeset, animal_kinds_options: animal_kinds_options, selected: selected} = assigns) do
     ~L"""
       <div class="modal is-active" id="new_animal_breed">
         <div class="modal-background"></div>
@@ -16,7 +16,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Modal.NewComponent do
           </header>
           <%= form_for changeset, "#", [phx_submit: :save], fn f -> %>
             <section class="modal-card-body">
-              <%= PjeskiWeb.AnimalBreedView.render("_form_inputs.html", f: f, animal_kinds_options: animal_kinds_options) %>
+              <%= PjeskiWeb.AnimalBreedView.render("_form_inputs.html", f: f, animal_kinds_options: animal_kinds_options, selected: selected) %>
             </section>
 
             <footer class="modal-card-foot">

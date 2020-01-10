@@ -1,9 +1,23 @@
 <%= cond do
-    @editing_animal_breed ->
-      live_component(@socket, PjeskiWeb.AnimalBreedLive.Modal.EditComponent, id: "#{@token}-#{@editing_animal_breed.data.id}", changeset: @editing_animal_breed, animal_kinds_options: @animal_kinds_options)
-    @new_animal_breed ->
-      live_component(@socket, PjeskiWeb.AnimalBreedLive.Modal.NewComponent, id: "new", changeset: @new_animal_breed, animal_kinds_options: @animal_kinds_options)
-    true -> ""
+  @editing_animal_breed ->
+    live_component(
+      @socket,
+      PjeskiWeb.AnimalBreedLive.Modal.EditComponent,
+      id: "#{@token}-#{@editing_animal_breed.data.id}",
+      changeset: @editing_animal_breed,
+      animal_kinds_options: @animal_kinds_options
+    )
+
+  @new_animal_breed ->
+    live_component(
+      @socket,
+      PjeskiWeb.AnimalBreedLive.Modal.NewComponent,
+      id: "new",
+      changeset: @new_animal_breed,
+      animal_kinds_options: @animal_kinds_options,
+      selected: @selected_animal_kind_filter
+    )
+  true -> ""
 end %>
 
 <section class="section">
@@ -20,11 +34,7 @@ end %>
       <div class="field has-addons">
         <p class="control">
           <button class="button is-inline" type="submit" phx-click="clear" onclick="window.scrollTo(0,0)">
-            <%= if @query == nil || @query == "" do %>
-              <%= gettext("Refresh") %>
-            <% else %>
-              <%= gettext("Clear") %>
-            <% end %>
+            <%= clear_or_refresh(@query, @selected_animal_kind_filter) %>
           </button>
         </p>
 

@@ -13,7 +13,7 @@
     <%= label @f, gettext("Animal kind"), class: 'label field-label' %>
     <div class="field-body">
       <div class="field">
-        <%= select @f, :animal_kind_id, @animal_kinds_options, class: 'input' %>
+        <%= select @f, :animal_kind_id, @animal_kinds_options, selected: @selected, class: 'input' %>
         <%= error_tag @f, :name %>
       </div>
     </div>

@@ -85,7 +85,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
           socket
           # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
           |> put_flash(:info, gettext("Animal breed created successfully."))
-          |> assign(new_animal_breed: nil, query: nil))
+          |> assign(new_animal_breed: nil))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, socket |> assign(new_animal_breed: changeset)}
@@ -147,8 +147,8 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
           selected_animal_kind_filter: nil,
           page: 1
       ),
-      to: Routes.live_path(socket, PjeskiWeb.AnimalBreedLive.Index
-      ))}
+        to: Routes.live_path(socket, PjeskiWeb.AnimalBreedLive.Index)
+      )}
   end
 
   def handle_event("filter", %{"query" => query}, %{assigns: %{token: token, selected_animal_kind_filter: selected_animal_kind_filter, animal_kinds_options: animal_kinds_options}} = socket) when byte_size(query) <= 50 do
@@ -204,12 +204,12 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
     ak_id
   end
 
-  defp redirect_to_index(socket) do
+  defp redirect_to_index(%{assigns: %{query: query, selected_animal_kind_filter: selected_animal_kind_filter}} = socket) do
     {:noreply,
      live_redirect(assign(socket,
            current_animal_breed: nil,
            editing_animal_breed: nil,
            page: 1
-         ), to: Routes.live_path(socket, PjeskiWeb.AnimalBreedLive.Index, query: socket.assigns.query))}
+         ), to: Routes.live_path(socket, PjeskiWeb.AnimalBreedLive.Index, query: query, ak_id: selected_animal_kind_filter))}
   end
 end

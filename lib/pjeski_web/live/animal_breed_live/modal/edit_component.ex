@@ -16,7 +16,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Modal.EditComponent do
           </header>
           <%= form_for changeset, "#", [phx_change: :validate, phx_submit: :save], fn f -> %>
             <section class="modal-card-body">
-              <%= PjeskiWeb.AnimalBreedView.render("_form_inputs.html", f: f, animal_kinds_options: animal_kinds_options) %>
+              <%= PjeskiWeb.AnimalBreedView.render("_form_inputs.html", f: f, animal_kinds_options: animal_kinds_options, selected: changeset.data.animal_kind_id) %>
             </section>
 
             <footer class="modal-card-foot">
