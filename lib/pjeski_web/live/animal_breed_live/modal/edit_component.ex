@@ -12,9 +12,9 @@ defmodule PjeskiWeb.AnimalBreedLive.Modal.EditComponent do
             <p class="modal-card-title">
               <%= gettext("Edit animal breed") %>
             </p>
-            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close"></button>
+            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_edit"></button>
           </header>
-          <%= form_for changeset, "#", [phx_change: :validate, phx_submit: :save], fn f -> %>
+          <%= form_for changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn f -> %>
             <section class="modal-card-body">
               <%= PjeskiWeb.AnimalBreedView.render("_form_inputs.html", f: f, animal_kinds_options: animal_kinds_options, selected: changeset.data.animal_kind_id) %>
             </section>
@@ -24,27 +24,11 @@ defmodule PjeskiWeb.AnimalBreedLive.Modal.EditComponent do
                 <%= submit gettext("Save changes"), class: "button is-success", onclick: "window.scrollTo(0,0)" %>
               <% end %>
 
-              <a class="button" data-bulma-modal="close" phx-click="close"><%= gettext("Cancel") %></a>
+              <a class="button" data-bulma-modal="close" phx-click="close_edit"><%= gettext("Cancel") %></a>
             </footer>
           <% end %>
         </div>
       </div>
     """
-  end
-
-  def handle_event("save", %{"animal_breed" => animal_breed_attrs}, socket) do
-    send self(), {:save_edit, animal_breed_attrs}
-    {:noreply, socket}
-  end
-
-  def handle_event("validate", %{"animal_breed" => animal_breed_attrs}, socket) do
-    send self(), {:validate_edit, animal_breed_attrs}
-    {:noreply, socket}
-  end
-
-  def handle_event("close", _, socket) do
-    send self(), :close_edit
-
-    {:noreply, socket}
   end
 end
