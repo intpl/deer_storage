@@ -12,9 +12,9 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
             <p class="modal-card-title">
               <%= gettext("Edit client") %>
             </p>
-            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close"></button>
+            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_edit"></button>
           </header>
-          <%= form_for changeset, "#", [phx_change: :validate, phx_submit: :save], fn f -> %>
+          <%= form_for changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn f -> %>
             <section class="modal-card-body">
               <%= PjeskiWeb.ClientView.render("_form_inputs.html", f: f) %>
             </section>
@@ -24,7 +24,7 @@ defmodule PjeskiWeb.ClientLive.Modal.EditComponent do
                 <%= submit gettext("Save changes"), class: "button is-success", onclick: "window.scrollTo(0,0)" %>
               <% end %>
 
-              <a class="button" data-bulma-modal="close" phx-click="close"><%= gettext("Cancel") %></a>
+              <a class="button" data-bulma-modal="close" phx-click="close_edit"><%= gettext("Cancel") %></a>
             </footer>
           <% end %>
         </div>

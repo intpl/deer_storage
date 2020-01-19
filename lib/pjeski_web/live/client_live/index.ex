@@ -54,12 +54,16 @@ defmodule PjeskiWeb.ClientLive.Index do
     end
   end
 
-  def handle_info({:validate_edit, attrs}, %{assigns: %{editing_client: client}} = socket) do
+  def handle_event("close_show", _, socket), do: {:noreply, socket |> assign(current_client: nil)}
+  def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_client: nil)}
+  def handle_event("close_edit", _, socket), do: {:noreply, socket |> assign(editing_client: nil)}
+
+  def handle_event("validate_edit", %{"client" => attrs}, %{assigns: %{editing_client: client}} = socket) do
     {_, client_or_changeset} = reset_errors(client) |> change_client(attrs) |> Ecto.Changeset.apply_action(:update)
     {:noreply, socket |> assign(editing_client: change_client(client_or_changeset))}
   end
 
-  def handle_info({:save_edit, attrs}, %{assigns: %{editing_client: %{data: %{id: client_id}}, token: token}} = socket) do
+  def handle_event("save_edit", %{"client" => attrs}, %{assigns: %{editing_client: %{data: %{id: client_id}}, token: token}} = socket) do
     user = user_from_live_session(token)
     client = find_client_in_database(client_id, user.subscription_id)
 
@@ -69,9 +73,7 @@ defmodule PjeskiWeb.ClientLive.Index do
     redirect_to_index(socket |> put_flash(:info, gettext("Client updated successfully.")))
   end
 
-  def handle_info(:close_edit, socket), do: {:noreply, socket |> assign(editing_client: nil)}
-
-  def handle_info({:save_new, attrs}, %{assigns: %{token: token}} = socket) do
+  def handle_event("save_new", %{"client" => attrs}, %{assigns: %{token: token}} = socket) do
     user = user_from_live_session(token)
     case create_client_for_user(attrs, user) do
       {:ok, _} ->
@@ -87,9 +89,6 @@ defmodule PjeskiWeb.ClientLive.Index do
 
   end
 
-  def handle_info(:close_new, socket), do: {:noreply, socket |> assign(new_client: nil)}
-
-  def handle_event("close_show", _, socket), do: {:noreply, socket |> assign(current_client: nil)}
   def handle_event("show", %{"client_id" => client_id}, %{assigns: %{clients: clients, token: token}} = socket) do
     user = user_from_live_session(token)
     client = find_client_in_list_or_database(client_id, clients, user.subscription_id)
@@ -160,6 +159,7 @@ defmodule PjeskiWeb.ClientLive.Index do
            current_client: nil,
            editing_client: nil,
            page: 1
-         ), to: Routes.live_path(socket, PjeskiWeb.ClientLive.Index, query: socket.assigns.query))}
+         ), to: Routes.live_path(socket, PjeskiWeb.ClientLive.Index, query: socket.assigns.query)
+     )}
   end
 end
