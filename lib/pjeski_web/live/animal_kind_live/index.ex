@@ -54,12 +54,16 @@ defmodule PjeskiWeb.AnimalKindLive.Index do
     end
   end
 
-  def handle_info({:validate_edit, attrs}, %{assigns: %{editing_animal_kind: animal_kind}} = socket) do
+  def handle_event("close_show", _, socket), do: {:noreply, socket |> assign(current_animal_kind: nil)}
+  def handle_event("close_edit", _, socket), do: {:noreply, socket |> assign(editing_animal_kind: nil)}
+  def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_animal_kind: nil)}
+
+  def handle_event("validate_edit", %{"animal_kind" => attrs}, %{assigns: %{editing_animal_kind: animal_kind}} = socket) do
     {_, animal_kind_or_changeset} = reset_errors(animal_kind) |> change_animal_kind(attrs) |> Ecto.Changeset.apply_action(:update)
     {:noreply, socket |> assign(editing_animal_kind: change_animal_kind(animal_kind_or_changeset))}
   end
 
-  def handle_info({:save_edit, attrs}, %{assigns: %{editing_animal_kind: %{data: %{id: animal_kind_id}}, token: token}} = socket) do
+  def handle_event("save_edit", %{"animal_kind" => attrs}, %{assigns: %{editing_animal_kind: %{data: %{id: animal_kind_id}}, token: token}} = socket) do
     user = user_from_live_session(token)
     animal_kind = find_animal_kind_in_database(animal_kind_id, user.subscription_id)
 
@@ -69,9 +73,7 @@ defmodule PjeskiWeb.AnimalKindLive.Index do
     redirect_to_index(socket |> put_flash(:info, gettext("animal_kind updated successfully.")))
   end
 
-  def handle_info(:close_edit, socket), do: {:noreply, socket |> assign(editing_animal_kind: nil)}
-
-  def handle_info({:save_new, attrs}, %{assigns: %{token: token}} = socket) do
+  def handle_event("save_new", %{"animal_kind" => attrs}, %{assigns: %{token: token}} = socket) do
     user = user_from_live_session(token)
     case create_animal_kind_for_subscription(attrs, user.subscription_id) do
       {:ok, _} ->
@@ -87,9 +89,7 @@ defmodule PjeskiWeb.AnimalKindLive.Index do
 
   end
 
-  def handle_info(:close_new, socket), do: {:noreply, socket |> assign(new_animal_kind: nil)}
 
-  def handle_event("close_show", _, socket), do: {:noreply, socket |> assign(current_animal_kind: nil)}
   def handle_event("show", %{"animal_kind_id" => animal_kind_id}, %{assigns: %{animal_kinds: animal_kinds, token: token}} = socket) do
     user = user_from_live_session(token)
     animal_kind = find_animal_kind_in_list_or_database(animal_kind_id, animal_kinds, user.subscription_id)

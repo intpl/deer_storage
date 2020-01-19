@@ -12,31 +12,20 @@ defmodule PjeskiWeb.AnimalKindLive.Modal.NewComponent do
             <p class="modal-card-title">
               <%= gettext("New animal kind") %>
             </p>
-            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close"></button>
+            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_new"></button>
           </header>
-          <%= form_for changeset, "#", [phx_submit: :save], fn f -> %>
+          <%= form_for changeset, "#", [phx_submit: :save_new], fn f -> %>
             <section class="modal-card-body">
               <%= PjeskiWeb.AnimalKindView.render("_form_inputs.html", f: f) %>
             </section>
 
             <footer class="modal-card-foot">
               <%= submit gettext("Create animal kind"), class: "button is-success", onclick: "window.scrollTo(0,0)" %>
-              <a class="button" data-bulma-modal="close" phx-click="close"><%= gettext("Cancel") %></a>
+              <a class="button" data-bulma-modal="close" phx-click="close_new"><%= gettext("Cancel") %></a>
             </footer>
           <% end %>
         </div>
       </div>
     """
-  end
-
-  def handle_event("save", %{"animal_kind" => animal_kind_attrs}, socket) do
-    send self(), {:save_new, animal_kind_attrs}
-    {:noreply, socket}
-  end
-
-  def handle_event("close", _, socket) do
-    send self(), :close_new
-
-    {:noreply, socket}
   end
 end
