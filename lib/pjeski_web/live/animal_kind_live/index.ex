@@ -70,14 +70,14 @@ defmodule PjeskiWeb.AnimalKindLive.Index do
     {:ok, _} = update_animal_kind_for_user(animal_kind, attrs, user_from_live_session(token))
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    redirect_to_index(socket |> put_flash(:info, gettext("animal_kind updated successfully.")))
+    patch_to_index(socket |> put_flash(:info, gettext("animal_kind updated successfully.")))
   end
 
   def handle_event("save_new", %{"animal_kind" => attrs}, %{assigns: %{token: token}} = socket) do
     user = user_from_live_session(token)
     case create_animal_kind_for_subscription(attrs, user.subscription_id) do
       {:ok, _} ->
-        redirect_to_index(
+        patch_to_index(
           socket
           # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
           |> put_flash(:info, gettext("animal_kind created successfully."))
@@ -116,7 +116,7 @@ defmodule PjeskiWeb.AnimalKindLive.Index do
     {:ok, _} = delete_animal_kind_for_subscription(animal_kind, user.subscription_id)
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    redirect_to_index(socket |> put_flash(:info, gettext("User deleted successfully.")))
+    patch_to_index(socket |> put_flash(:info, gettext("User deleted successfully.")))
   end
 
   def handle_event("clear", _, socket) do
@@ -153,7 +153,7 @@ defmodule PjeskiWeb.AnimalKindLive.Index do
     Enum.find(animal_kinds, fn animal_kind -> animal_kind.id == id end) || find_animal_kind_in_database(id, subscription_id)
   end
 
-  defp redirect_to_index(socket) do
+  defp patch_to_index(socket) do
     {:noreply,
      push_patch(assign(socket,
            current_animal_kind: nil,

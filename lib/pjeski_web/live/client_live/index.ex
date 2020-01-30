@@ -70,14 +70,14 @@ defmodule PjeskiWeb.ClientLive.Index do
     {:ok, _} = update_client_for_user(client, attrs, user_from_live_session(token))
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    redirect_to_index(socket |> put_flash(:info, gettext("Client updated successfully.")))
+    patch_to_index(socket |> put_flash(:info, gettext("Client updated successfully.")))
   end
 
   def handle_event("save_new", %{"client" => attrs}, %{assigns: %{token: token}} = socket) do
     user = user_from_live_session(token)
     case create_client_for_user(attrs, user) do
       {:ok, _} ->
-        redirect_to_index(
+        patch_to_index(
           socket
           # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
           |> put_flash(:info, gettext("Client created successfully."))
@@ -115,7 +115,7 @@ defmodule PjeskiWeb.ClientLive.Index do
     {:ok, _} = delete_client_for_subscription(client, user.subscription_id)
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    redirect_to_index(socket |> put_flash(:info, gettext("User deleted successfully.")))
+    patch_to_index(socket |> put_flash(:info, gettext("User deleted successfully.")))
   end
 
   def handle_event("clear", _, socket) do
@@ -153,7 +153,7 @@ defmodule PjeskiWeb.ClientLive.Index do
     Enum.find(clients, fn client -> client.id == id end) || find_client_in_database(id, subscription_id)
   end
 
-  defp redirect_to_index(socket) do
+  defp patch_to_index(socket) do
     {:noreply,
      push_patch(assign(socket,
            current_client: nil,

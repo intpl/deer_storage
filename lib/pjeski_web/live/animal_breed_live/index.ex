@@ -76,14 +76,14 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
     {:ok, _} = update_animal_breed_for_user(animal_breed, attrs, user_from_live_session(token))
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    redirect_to_index(socket |> put_flash(:info, gettext("Animal breed updated successfully.")))
+    patch_to_index(socket |> put_flash(:info, gettext("Animal breed updated successfully.")))
   end
 
   def handle_event("save_new", %{"animal_breed" => attrs}, %{assigns: %{token: token}} = socket) do
     user = user_from_live_session(token)
     case create_animal_breed_for_subscription(attrs, user.subscription_id) do
       {:ok, _} ->
-        redirect_to_index(
+        patch_to_index(
           socket
           # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
           |> put_flash(:info, gettext("Animal breed created successfully."))
@@ -122,7 +122,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
     {:ok, _} = delete_animal_breed_for_subscription(animal_breed, user.subscription_id)
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    redirect_to_index(socket |> put_flash(:info, gettext("animal breed deleted successfully.")))
+    patch_to_index(socket |> put_flash(:info, gettext("animal breed deleted successfully.")))
   end
 
   def handle_event("select_animal_kind_filter", %{"value" => animal_kind_id_string}, %{assigns: %{token: token, animal_kinds_options: animal_kinds_options, query: query}} = socket) do
@@ -204,7 +204,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
     ak_id
   end
 
-  defp redirect_to_index(%{assigns: %{query: query, selected_animal_kind_filter: selected_animal_kind_filter}} = socket) do
+  defp patch_to_index(%{assigns: %{query: query, selected_animal_kind_filter: selected_animal_kind_filter}} = socket) do
     {:noreply,
      push_patch(assign(socket,
            current_animal_breed: nil,
