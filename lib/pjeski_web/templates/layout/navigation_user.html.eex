@@ -1,6 +1,6 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <%= live_link(
+    <%= live_patch(
         "🐕 " <> @conn.assigns.current_user.name,
         to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index),
         class: "navbar-item",
@@ -15,19 +15,19 @@
 
   <div id="navigation" class="navbar-menu">
     <div class="navbar-start">
-      <%= live_link(
+      <%= live_patch(
           gettext("Clients"),
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index),
           class: "navbar-item",
           data_turbolinks: "false") %>
 
-      <%= live_link(
+      <%= live_patch(
           gettext("Animal kinds"),
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalKindLive.Index),
           class: "navbar-item",
           data_turbolinks: "false") %>
 
-      <%= live_link(
+      <%= live_patch(
           gettext("Animal breeds"),
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalBreedLive.Index),
           class: "navbar-item",

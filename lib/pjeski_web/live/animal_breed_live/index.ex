@@ -26,7 +26,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
 
   def render(assigns), do: PjeskiWeb.AnimalBreedView.render("index.html", assigns)
 
-  def mount(%{"pjeski_auth" => token}, socket) do
+  def mount(_params, %{"pjeski_auth" => token}, socket) do
     user = user_from_live_session(token)
 
     if connected?(socket), do: :timer.send_interval(1200000, self(), :renew_token) # 1200000ms = 20min
@@ -141,7 +141,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
   end
 
   def handle_event("clear", _, %{assigns: %{token: token}} = socket) do
-    {:noreply, live_redirect(
+    {:noreply, push_patch(
       socket |> assign(
           animal_kinds_options: user_from_live_session(token).subscription_id |> load_animal_kinds_options,
           selected_animal_kind_filter: nil,
@@ -206,7 +206,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
 
   defp redirect_to_index(%{assigns: %{query: query, selected_animal_kind_filter: selected_animal_kind_filter}} = socket) do
     {:noreply,
-     live_redirect(assign(socket,
+     push_patch(assign(socket,
            current_animal_breed: nil,
            editing_animal_breed: nil,
            page: 1

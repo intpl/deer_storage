@@ -34,7 +34,7 @@ defmodule Pjeski.MixProject do
   defp deps do
     [
       # Default
-      {:phoenix, "~> 1.4.10"},
+      {:phoenix, "~> 1.4.11"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.1"},
