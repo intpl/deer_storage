@@ -41,7 +41,7 @@ end %>
         <p class="is-fullwidth">
           <form phx-change="filter" class="field has-addons overwrite-fullwidth">
             <p class="control">
-              <select class="input is-inline" type="select" phx-click="select_animal_kind_filter" onclick="window.scrollTo(0,0)" name="ak_id"">
+              <select class="input is-inline" type="select" onclick="window.scrollTo(0,0)" name="ak_id"">
                 <option value=""><%= gettext("All") %></option>
                 <%= for {ak_name, ak_id} <- @animal_kinds_options do %>
                   <option value="<%= ak_id %>" <%= if @selected_animal_kind_filter == ak_id, do: "selected" %>>

@@ -125,21 +125,6 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
     patch_to_index(socket |> put_flash(:info, gettext("animal breed deleted successfully.")))
   end
 
-  def handle_event("select_animal_kind_filter", %{"value" => animal_kind_id_string}, %{assigns: %{token: token, animal_kinds_options: animal_kinds_options, query: query}} = socket) do
-    user = user_from_live_session(token)
-    ak_id = id_from_options(animal_kinds_options, animal_kind_id_string)
-
-    {:ok, animal_breeds} = search_animal_breeds_for_animal_kind(ak_id, user.subscription_id, query, 1)
-
-    {:noreply, socket |> assign(
-        animal_breeds: animal_breeds,
-        query: query,
-        page: 1,
-        count: length(animal_breeds),
-        selected_animal_kind_filter: ak_id
-      )}
-  end
-
   def handle_event("clear", _, %{assigns: %{token: token}} = socket) do
     {:noreply, push_patch(
       socket |> assign(
@@ -151,13 +136,19 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
       )}
   end
 
-  def handle_event("filter", %{"query" => query}, %{assigns: %{token: token, selected_animal_kind_filter: selected_animal_kind_filter, animal_kinds_options: animal_kinds_options}} = socket) when byte_size(query) <= 50 do
+  def handle_event("filter", %{"query" => query, "ak_id" => animal_kind_id_string}, %{assigns: %{token: token, selected_animal_kind_filter: selected_animal_kind_filter, animal_kinds_options: animal_kinds_options}} = socket) when byte_size(query) <= 50 do
     user = user_from_live_session(token)
-    ak_id = id_from_options(animal_kinds_options, selected_animal_kind_filter)
+    ak_id = id_from_options(animal_kinds_options, (animal_kind_id_string ||selected_animal_kind_filter))
 
     {:ok, animal_breeds} = search_animal_breeds_for_animal_kind(ak_id, user.subscription_id, query, 1)
 
-    {:noreply, socket |> assign(animal_breeds: animal_breeds, query: query, page: 1, count: length(animal_breeds))}
+    {:noreply, socket |> assign(
+        animal_breeds: animal_breeds,
+        count: length(animal_breeds),
+        page: 1,
+        query: query,
+        selected_animal_kind_filter: ak_id
+      )}
   end
 
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
