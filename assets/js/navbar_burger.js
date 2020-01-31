@@ -1,4 +1,4 @@
-document.addEventListener('turbolinks:load', function() {
+window.addEventListener('load', function() {
   // Close mobile & tablet menu on item click
   $('.navbar-item').each(function(e) {
     $(this).click(function(){

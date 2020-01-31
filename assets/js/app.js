@@ -21,14 +21,9 @@ import Hooks from "./phx-hooks"
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-import Turbolinks from 'turbolinks'
-Turbolinks.start()
-
 import {Socket} from "phoenix"
 import LiveSocket from "phoenix_live_view"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
-
-document.addEventListener('turbolinks:load', function() { liveSocket.connect() });
-document.addEventListener('turbolinks:request-start', function() { liveSocket.disconnect() });
+liveSocket.connect();

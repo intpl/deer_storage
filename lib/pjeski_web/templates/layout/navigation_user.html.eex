@@ -3,8 +3,7 @@
     <%= live_redirect(
         "🐕 " <> @conn.assigns.current_user.name,
         to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index),
-        class: "navbar-item",
-        data_turbolinks: "false") %>
+        class: "navbar-item") %>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
       <span aria-hidden="true"></span>
@@ -18,20 +17,17 @@
       <%= live_redirect(
           gettext("Clients"),
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index),
-          class: "navbar-item",
-          data_turbolinks: "false") %>
+          class: "navbar-item") %>
 
       <%= live_redirect(
           gettext("Animal kinds"),
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalKindLive.Index),
-          class: "navbar-item",
-          data_turbolinks: "false") %>
+          class: "navbar-item") %>
 
       <%= live_redirect(
           gettext("Animal breeds"),
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalBreedLive.Index),
-          class: "navbar-item",
-          data_turbolinks: "false") %>
+          class: "navbar-item") %>
     </div>
 
     <div class="navbar-end">

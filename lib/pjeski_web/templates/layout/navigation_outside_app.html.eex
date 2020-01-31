@@ -3,8 +3,7 @@
     <%= link(
         gettext("⬅️ Go to application"),
         to: dashboard_path_for(@conn.assigns.current_user.role),
-        class: "navbar-item",
-        data_turbolinks: "false") %>
+        class: "navbar-item") %>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
       <span aria-hidden="true"></span>

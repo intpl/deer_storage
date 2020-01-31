@@ -48,7 +48,6 @@ defmodule Pjeski.MixProject do
       # Non-default
       {:pow, "~> 1.0.15"},
       {:ecto_enum, "~> 1.4"},
-      {:turbolinks, "~> 1.0"},
       {:navigation_history, "~> 0.3"},
       {:phoenix_active_link, "~> 0.3.0"},
       {:timex, "~> 3.5"},

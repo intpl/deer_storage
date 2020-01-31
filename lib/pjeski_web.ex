@@ -20,7 +20,6 @@ defmodule PjeskiWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: PjeskiWeb
-      use Turbolinks
 
       import Plug.Conn
       import PjeskiWeb.Gettext
