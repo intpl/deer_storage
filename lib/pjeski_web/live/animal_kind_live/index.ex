@@ -120,7 +120,7 @@ defmodule PjeskiWeb.AnimalKindLive.Index do
   end
 
   def handle_event("clear", _, socket) do
-    {:noreply, push_patch(socket |> assign(page: 1), to: Routes.live_path(socket, PjeskiWeb.AnimalKindLive.Index))}
+    {:noreply, push_redirect(socket |> assign(page: 1), to: Routes.live_path(socket, PjeskiWeb.AnimalKindLive.Index))}
   end
 
   def handle_event("filter", %{"query" => query}, %{assigns: %{token: token}} = socket) when byte_size(query) <= 50 do

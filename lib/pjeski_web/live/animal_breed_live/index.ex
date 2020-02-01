@@ -126,7 +126,7 @@ defmodule PjeskiWeb.AnimalBreedLive.Index do
   end
 
   def handle_event("clear", _, %{assigns: %{token: token}} = socket) do
-    {:noreply, push_patch(
+    {:noreply, push_redirect(
       socket |> assign(
           animal_kinds_options: user_from_live_session(token).subscription_id |> load_animal_kinds_options,
           selected_animal_kind_filter: nil,
