@@ -20,6 +20,11 @@
           class: "navbar-item") %>
 
       <%= live_redirect(
+          gettext("Animals"),
+          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalLive.Index),
+          class: "navbar-item") %>
+
+      <%= live_redirect(
           gettext("Animal kinds"),
           to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalKindLive.Index),
           class: "navbar-item") %>

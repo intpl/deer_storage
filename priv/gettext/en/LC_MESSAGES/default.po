@@ -114,7 +114,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
-#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:19 lib/pjeski_web/templates/layout/navigation_user.html.eex:37
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:19 lib/pjeski_web/templates/layout/navigation_user.html.eex:42
 msgid "Sign out"
 msgstr ""
 
@@ -159,7 +159,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:24
-#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:18 lib/pjeski_web/templates/layout/navigation_user.html.eex:36
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:18 lib/pjeski_web/templates/layout/navigation_user.html.eex:41
 msgid "Settings"
 msgstr ""
 
@@ -201,11 +201,11 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/animal_breed_live/show_component.ex:15
-#: lib/pjeski_web/live/animal_kind_live/show_component.ex:15 lib/pjeski_web/live/client_live/show_component.ex:15
-#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:12 lib/pjeski_web/templates/admin/subscription/index.html.eex:82
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:12 lib/pjeski_web/templates/admin/subscription/show.html.eex:103
-#: lib/pjeski_web/templates/admin/user/edit.html.eex:19 lib/pjeski_web/templates/admin/user/index.html.eex:80
-#: lib/pjeski_web/templates/admin/user/show.html.eex:19
+#: lib/pjeski_web/live/animal_kind_live/show_component.ex:15 lib/pjeski_web/live/animal_live/show_component.ex:15
+#: lib/pjeski_web/live/client_live/show_component.ex:15 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:82 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:103 lib/pjeski_web/templates/admin/user/edit.html.eex:19
+#: lib/pjeski_web/templates/admin/user/index.html.eex:80 lib/pjeski_web/templates/admin/user/show.html.eex:19
 msgid "Edit"
 msgstr ""
 
@@ -491,15 +491,17 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:39
-#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/animal_breed/index.html.leex:67
-#: lib/pjeski_web/templates/animal_kind/index.html.leex:46 lib/pjeski_web/templates/client/index.html.leex:46
+#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/animal/index.html.leex:78
+#: lib/pjeski_web/templates/animal_breed/index.html.leex:67 lib/pjeski_web/templates/animal_kind/index.html.leex:46
+#: lib/pjeski_web/templates/client/index.html.leex:46
 msgid "Search"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:33
-#: lib/pjeski_web/templates/admin/user/index.html.eex:33 lib/pjeski_web/templates/animal_breed/index.html.leex:59
-#: lib/pjeski_web/templates/animal_kind/index.html.leex:38 lib/pjeski_web/templates/client/index.html.leex:38
+#: lib/pjeski_web/templates/admin/user/index.html.eex:33 lib/pjeski_web/templates/animal/index.html.leex:70
+#: lib/pjeski_web/templates/animal_breed/index.html.leex:59 lib/pjeski_web/templates/animal_kind/index.html.leex:38
+#: lib/pjeski_web/templates/client/index.html.leex:38
 msgid "Search..."
 msgstr ""
 
@@ -516,14 +518,16 @@ msgid "Previous page"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/animal_breed/index.html.leex:81
-#: lib/pjeski_web/templates/animal_kind/index.html.leex:60 lib/pjeski_web/templates/client/index.html.leex:60
+#: lib/pjeski_web/templates/animal/index.html.leex:92
+#: lib/pjeski_web/templates/animal_breed/index.html.leex:81 lib/pjeski_web/templates/animal_kind/index.html.leex:60
+#: lib/pjeski_web/templates/client/index.html.leex:60
 msgid "Could not find anything..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/animal_breed/index.html.leex:86
-#: lib/pjeski_web/templates/animal_kind/index.html.leex:65 lib/pjeski_web/templates/client/index.html.leex:65
+#: lib/pjeski_web/templates/animal/index.html.leex:97
+#: lib/pjeski_web/templates/animal_breed/index.html.leex:86 lib/pjeski_web/templates/animal_kind/index.html.leex:65
+#: lib/pjeski_web/templates/client/index.html.leex:65
 msgid "This is the last page"
 msgstr ""
 
@@ -531,14 +535,14 @@ msgstr ""
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:22
 #: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/animal_kind/index.html.leex:26
 #: lib/pjeski_web/templates/client/index.html.leex:26 lib/pjeski_web/views/animal_breed_view.ex:4
-#: lib/pjeski_web/views/animal_breed_view.ex:7
+#: lib/pjeski_web/views/animal_breed_view.ex:7 lib/pjeski_web/views/animal_view.ex:4 lib/pjeski_web/views/animal_view.ex:7
 msgid "Clear"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/animal_kind/index.html.leex:24
 #: lib/pjeski_web/templates/client/index.html.leex:24 lib/pjeski_web/views/animal_breed_view.ex:5
-#: lib/pjeski_web/views/animal_breed_view.ex:6
+#: lib/pjeski_web/views/animal_breed_view.ex:6 lib/pjeski_web/views/animal_view.ex:5 lib/pjeski_web/views/animal_view.ex:6
 msgid "Refresh"
 msgstr ""
 
@@ -550,7 +554,8 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/live/animal_breed_live/modal/edit_component.ex:27
 #: lib/pjeski_web/live/animal_breed_live/modal/new_component.ex:24 lib/pjeski_web/live/animal_kind_live/modal/edit_component.ex:27
-#: lib/pjeski_web/live/animal_kind_live/modal/new_component.ex:24 lib/pjeski_web/live/client_live/modal/edit_component.ex:27
+#: lib/pjeski_web/live/animal_kind_live/modal/new_component.ex:24 lib/pjeski_web/live/animal_live/modal/edit_component.ex:27
+#: lib/pjeski_web/live/animal_live/modal/new_component.ex:24 lib/pjeski_web/live/client_live/modal/edit_component.ex:27
 #: lib/pjeski_web/live/client_live/modal/new_component.ex:24
 msgid "Cancel"
 msgstr ""
@@ -562,6 +567,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/animal_breed_live/show_component.ex:29
+#: lib/pjeski_web/live/animal_live/show_component.ex:29 lib/pjeski_web/templates/animal/_form_inputs.html.eex:33
 #: lib/pjeski_web/templates/animal_breed/_form_inputs.html.eex:23 lib/pjeski_web/templates/animal_kind/_form_inputs.html.eex:14
 #: lib/pjeski_web/templates/client/_form_inputs.html.eex:53
 msgid "Notes"
@@ -569,7 +575,8 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/animal_breed_live/modal/edit_component.ex:24
-#: lib/pjeski_web/live/animal_kind_live/modal/edit_component.ex:24 lib/pjeski_web/live/client_live/modal/edit_component.ex:24
+#: lib/pjeski_web/live/animal_kind_live/modal/edit_component.ex:24 lib/pjeski_web/live/animal_live/modal/edit_component.ex:24
+#: lib/pjeski_web/live/client_live/modal/edit_component.ex:24
 msgid "Save changes"
 msgstr ""
 
@@ -585,7 +592,8 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/animal_breed_live/show_component.ex:19
-#: lib/pjeski_web/live/animal_kind_live/show_component.ex:19 lib/pjeski_web/live/client_live/show_component.ex:19
+#: lib/pjeski_web/live/animal_kind_live/show_component.ex:19 lib/pjeski_web/live/animal_live/show_component.ex:19
+#: lib/pjeski_web/live/client_live/show_component.ex:19
 msgid "Delete"
 msgstr ""
 
@@ -622,7 +630,7 @@ msgid "Client created successfully."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:23
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:28
 msgid "Animal kinds"
 msgstr ""
 
@@ -669,6 +677,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/animal_breed_live/show_component.ex:24
+#: lib/pjeski_web/live/animal_live/show_component.ex:24
 msgid "Animal Kind"
 msgstr ""
 
@@ -678,11 +687,12 @@ msgid "Animal breed name"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:28
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:33
 msgid "Animal breeds"
 msgstr ""
 
 #, elixir-format
+#: lib/pjeski_web/templates/animal/_form_inputs.html.eex:13
 #: lib/pjeski_web/templates/animal_breed/_form_inputs.html.eex:13
 msgid "Animal kind"
 msgstr ""
@@ -724,11 +734,63 @@ msgid "Are you sure to REMOVE this animal breed?"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/animal_breed/index.html.leex:45
+#: lib/pjeski_web/templates/animal/index.html.leex:48
+#: lib/pjeski_web/templates/animal/index.html.leex:56 lib/pjeski_web/templates/animal_breed/index.html.leex:45
 msgid "All"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:20
 msgid "Logged in"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/animal/_form_inputs.html.eex:23
+msgid "Animal breed"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_live/index.ex:94
+msgid "Animal created successfully."
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_live/index.ex:130
+msgid "Animal deleted successfully."
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/animal/_form_inputs.html.eex:3
+msgid "Animal name"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_live/index.ex:84
+msgid "Animal updated successfully."
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:23
+msgid "Animals"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_live/show_component.ex:18
+msgid "Are you sure to REMOVE this animal"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_live/modal/new_component.ex:23
+msgid "Create animal"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_live/modal/edit_component.ex:13
+msgid "Edit animal"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/animal_live/modal/new_component.ex:13
+#: lib/pjeski_web/templates/animal/index.html.leex:31
+msgid "New animal"
 msgstr ""

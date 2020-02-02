@@ -13,5 +13,6 @@ defmodule Pjeski.Repo.Migrations.CreateTableAnimalBreeds do
     end
 
     create index(:animal_breeds, [:subscription_id])
+    create index(:animal_breeds, [:animal_kind_id, :subscription_id])
   end
 end

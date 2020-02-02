@@ -16,7 +16,11 @@ defmodule Pjeski.Repo.Migrations.CreateTableAnimals do
       timestamps()
     end
 
+    create index(:animals, [:animal_breed_id])
+    create index(:animals, [:animal_kind_id])
+
     create index(:animals, [:subscription_id])
     create index(:animals, [:subscription_id, :user_id])
+    create index(:animals, [:subscription_id, :user_id, :client_id])
   end
 end

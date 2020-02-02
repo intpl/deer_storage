@@ -26,7 +26,7 @@ defmodule Pjeski.UserAnimals.Animal do
   @doc false
   def changeset(animal, attrs) do
     animal
-    |> cast(attrs, [:name, :notes, :birth_year])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :notes, :birth_year, :animal_kind_id, :animal_breed_id])
+    |> validate_required([:name, :animal_kind_id])
   end
 end

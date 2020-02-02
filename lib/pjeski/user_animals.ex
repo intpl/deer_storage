@@ -9,15 +9,50 @@ defmodule Pjeski.UserAnimals do
 
   defmacro per_page, do: 30
 
+  # TODO: remove preloads from all of the following methods
+  def list_animals_for_animal_kind_and_subscription(ak_id, subscription_id, query_string, page) do
+    compose_search_query(query_string)
+    |> build_search_query(subscription_id, page)
+    |> where([a], a.animal_kind_id == ^ak_id)
+    |> Repo.all
+    |> Repo.preload(:animal_kind)
+  end
+
+  def list_animals_for_animal_kind_and_subscription(ak_id, subscription_id, page) do
+    build_search_query(true, subscription_id, page)
+    |> where([a], a.animal_kind_id == ^ak_id)
+    |> Repo.all
+    |> Repo.preload(:animal_kind)
+  end
+
+  def list_animals_for_animal_kind_and_breed_and_subscription(ak_id, ab_id, subscription_id, query_string, page) do
+    compose_search_query(query_string)
+    |> build_search_query(subscription_id, page)
+    |> where([a], a.animal_breed_id == ^ab_id)
+    |> where([a], a.animal_kind_id == ^ak_id)
+    |> Repo.all
+    |> Repo.preload(:animal_kind)
+  end
+
+  def list_animals_for_animal_kind_and_breed_and_subscription(ak_id, ab_id, subscription_id, page) do
+    build_search_query(true, subscription_id, page)
+    |> where([a], a.animal_breed_id == ^ab_id)
+    |> where([a], a.animal_kind_id == ^ak_id)
+    |> Repo.all
+    |> Repo.preload(:animal_kind)
+  end
+
   def list_animals_for_subscription(subscription_id, query_string, page) do
     compose_search_query(query_string)
     |> build_search_query(subscription_id, page)
     |> Repo.all
+    |> Repo.preload(:animal_kind)
   end
 
   def list_animals_for_subscription(subscription_id, page) do
     build_search_query(true, subscription_id, page)
     |> Repo.all
+    |> Repo.preload(:animal_kind)
   end
 
   def get_animal_for_subscription!(id, subscription_id), do: Repo.get_by!(Animal, id: id, subscription_id: subscription_id)

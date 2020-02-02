@@ -25,6 +25,7 @@ defmodule PjeskiWeb.Router do
 
     live "/dashboard", DashboardLive.Index
     live "/clients", ClientLive.Index
+    live "/animals", AnimalLive.Index
     live "/animal_kinds", AnimalKindLive.Index
     live "/animal_breeds", AnimalBreedLive.Index
 

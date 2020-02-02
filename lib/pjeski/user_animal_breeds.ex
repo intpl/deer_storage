@@ -39,6 +39,15 @@ defmodule Pjeski.UserAnimalBreeds do
     |> Repo.preload(:animal_kind)
   end
 
+  def pluck_animal_breeds_structs_for_animal_kind_and_subscription(ak_id, subscription_id) do
+    query = from ab in AnimalBreed,
+      where: ab.subscription_id == ^subscription_id and ab.animal_kind_id == ^ ak_id,
+      limit: 1000,
+      select: struct(ab, [:name, :id])
+
+    Repo.all(query)
+  end
+
   def get_animal_breed_for_subscription!(id, subscription_id) do
     Repo.get_by!(AnimalBreed, id: id, subscription_id: subscription_id) |> Repo.preload(:animal_kind)
   end
