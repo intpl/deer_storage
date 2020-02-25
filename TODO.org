@@ -1,0 +1,15 @@
+#+TITLE: TODO
+
+* Bugfixes
+** Animals Live
+*** Isolate animal kind and breed forms from search
+*** Display animal breed in animal 'show'
+* Refactor
+*** AnimalBreed and Animals refactor into macro+module
+* Tech debt
+** Update packages
+* Features
+** Link to register for subscription
+** Select2 on everything
+** UserDashboard
+** AdminDashboard
