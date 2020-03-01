@@ -5,7 +5,7 @@
         <%= gettext("Register") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Register to Clinic Management System") %>
+        <%= gettext("Register to StorageDeer") %>
       </h2>
     </div>
   </div>
@@ -22,23 +22,23 @@
     <% end %>
 
     <div class="form-group">
-      <h3 class="title"><%= gettext("Clinic details") %></h3>
+      <h3 class="title"><%= gettext("Subscription details") %></h3>
 
       <%= inputs_for f, :subscription, fn sf -> %>
         <div class="field">
-          <%= label sf, :name, gettext("Clinic Name"), class: 'label' %>
+          <%= label sf, :name, gettext("Subscription Name"), class: 'label' %>
           <%= text_input sf, :name, class: 'input' %>
           <%= error_tag sf, :name %>
         </div>
 
         <div class="field">
-          <%= label sf, :email, gettext("Clinic E-mail"), class: 'label' %>
+          <%= label sf, :email, gettext("Subscription E-mail"), class: 'label' %>
           <%= text_input sf, :email, class: 'input' %>
           <%= error_tag sf, :email %>
         </div>
 
         <div class="field">
-          <%= label sf, :time_zone, gettext("Clinic time zone"), class: 'label' %>
+          <%= label sf, :time_zone, gettext("Subscription time zone"), class: 'label' %>
           <%= select sf, :time_zone, time_zones_select_options(), class: 'input' %>
           <%= error_tag sf, :time_zone %>
         </div>

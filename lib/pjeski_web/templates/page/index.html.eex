@@ -2,10 +2,10 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= gettext("Clinic Management System") %>
+        <%= gettext("Welcome to StorageDeer") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Welcome to Clinic Management System") %>
+        <%= gettext("Your group files' deer-ectory!") %>
       </h2>
     </div>
   </div>

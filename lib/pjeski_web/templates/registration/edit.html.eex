@@ -5,7 +5,7 @@
         <%= gettext("Edit account") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Edit your Clinic Management System account") %>
+        <%= gettext("Edit your StorageDeer account") %>
       </h2>
     </div>
   </div>

@@ -3,7 +3,7 @@ defmodule PjeskiWeb.LayoutView do
 
   def title(conn) do
     case conn.assigns[:title] do
-      nil -> gettext("Clinic Management System")
+      nil -> gettext("StorageDeer")
       title -> title
     end
   end
