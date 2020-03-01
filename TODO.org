@@ -1,5 +1,26 @@
 #+TITLE: TODO
 
+* TODO [0%] [0/14] DEADLINE: <2020-03-31 Tue>
+** STRT Clean up everything related to Animals, create new git repo if necessary
+** TODO Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
+** TODO Select2 for timezones, write abstraction for everything else
+** TODO Migrate database, write seeds with a proper structure
+** TODO START WRITING TESTS in 3..2..1..
+** TODO Write tests for registration process, updating user/subscription, restricted nested attributes
+** TODO Write invitation mechanism and display subscription's users in Settings page + TESTS
+** TODO Allow User to change their subscription. Decide what to do with remaining/empty subscription + TESTS
+** TODO Write high level logging mechanism + TEST
+** TODO Write RestrictSubscription + TESTS
+** TODO Adapt layout to subscription's tables
+** TODO CRUD controller/views/js for Settings->Tables + TESTS
+** TODO UserRecords::IndexLive + TESTS
+- UserRecords::SearchComponent + TESTS
+- UserRecords::IndexComponent + TESTS
+- UserRecords::DisplayComponent + TESTS
+- UserRecords::EditComponent + TESTS
+- UserRecords::NewComponent + TESTS
+** TODO UserRecords::ShowLive + TESTS
+
 * Bugfixes
 ** Animals Live
 *** Isolate animal kind and breed forms from search
