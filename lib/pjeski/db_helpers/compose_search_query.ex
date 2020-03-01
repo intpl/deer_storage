@@ -27,7 +27,6 @@ defmodule Pjeski.DbHelpers.ComposeSearchQuery do
         filters = string
         |> String.replace("*", "%")
         |> String.split
-        |> Enum.uniq
         |> Enum.map(fn word ->
           wrapped_word = "%#{word}%"
           Keyword.new unquote(columns), (fn key -> {key, wrapped_word} end)
