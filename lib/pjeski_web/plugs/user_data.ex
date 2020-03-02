@@ -27,7 +27,6 @@ defmodule Pjeski.UserData do
   end
 
   defp conn_with_locale_and_subscription(conn, locale, subscription) do
-    locale = Atom.to_string(locale)
     Gettext.put_locale(PjeskiWeb.Gettext, locale)
 
     %{conn | assigns: Map.merge(conn.assigns, %{current_user_locale: locale, current_user_subscription: subscription})}

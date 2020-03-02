@@ -8,7 +8,7 @@ defmodule Pjeski.Users.User do
   alias Pjeski.Subscriptions.Subscription
 
   schema "users" do
-    field :locale, LocaleEnum
+    field :locale, :string
     field :name, :string
     field :admin_notes, :string
     field :role, :string, default: "user"
@@ -26,7 +26,7 @@ defmodule Pjeski.Users.User do
     |> new_password_changeset(params, @pow_config)
     |> user_id_field_changeset(params, @pow_config)
     |> validate_required([:name])
-    |> validate_inclusion(:locale, available_locales_atoms())
+    |> validate_inclusion(:locale, available_locales_strings())
     |> validate_role()
   end
 
@@ -41,7 +41,7 @@ defmodule Pjeski.Users.User do
     |> validate_length(:name, max: 100)
     |> validate_length(:email, min: 3)
     |> validate_length(:email, max: 100)
-    |> validate_inclusion(:locale, available_locales_atoms())
+    |> validate_inclusion(:locale, available_locales_strings())
   end
 
   def changeset_role(user_or_changeset, attrs) do
@@ -54,9 +54,7 @@ defmodule Pjeski.Users.User do
     Ecto.Changeset.validate_inclusion(changeset, :role, ~w(user admin))
   end
 
-  defp available_locales_atoms do
-    PjeskiWeb.Gettext
-    |> Gettext.known_locales()
-    |> Enum.map(&String.to_atom/1)
+  defp available_locales_strings do
+    PjeskiWeb.Gettext |> Gettext.known_locales()
   end
 end

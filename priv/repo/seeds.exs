@@ -15,7 +15,7 @@ Enum.map((admin_emails), fn admin_email ->
       Map.merge(%{
             email: admin_email,
             name: "Admin " <> Faker.Name.name(),
-            locale: :pl,
+            locale: "pl",
             role: "admin"},
         default_user_map)))
 end)
@@ -36,7 +36,7 @@ Enum.map(Enum.uniq(subscription_emails), fn subscription_email ->
       Map.merge(%{
               email: subscription_email,
               name: Faker.Name.name(),
-              locale: Enum.random([:en, :pl]),
+              locale: Enum.random(["en", "pl"]),
               subscription_id: subscription.id
                   }, default_user_map)))
 
@@ -48,7 +48,7 @@ Enum.map(Enum.uniq(subscription_emails), fn subscription_email ->
         Map.merge(%{
               email: Faker.Internet.safe_email(),
               name: Faker.Name.name(),
-              locale: Enum.random([:en, :pl]),
+              locale: Enum.random(["en", "pl"]),
               subscription_id: subscription.id
                   }, default_user_map)))
 
