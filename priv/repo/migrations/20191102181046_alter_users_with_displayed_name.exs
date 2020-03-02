@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AlterUsersWithClinicName do
+defmodule Pjeski.Repo.Migrations.AlterUsersWithDisplayedName do
   use Ecto.Migration
 
   def change do

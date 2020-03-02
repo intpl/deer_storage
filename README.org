@@ -20,64 +20,6 @@ mix gettext.extract --merge
 #+END_SRC
 edit LC_MESSAGES files
 
-* Modules/Features to enable or disable
-- animals
-- patients
-By default predefined user sets (veterinary or doctor) will enable either of them, but not both
-
-* Database structure plan
-
-** users
-  email: string [index] [non-null]
-  name: string [non-null]
-  encrypted_password: string [non-null]
-  subscription_ending_date: datetime [non-null]
-  admin: boolean - [default:false] [index] [non-null]
-  preferences: jsonb [non-null]
-  language: enum [default:PL] [non-null]
-  timezone: string ? [default:GMT+1 warsaw]
-
-** patients
-  name: string [non-null]
-  description: text
-  user_id: references[user] [index] [non-null]
-
-** animals
-  name: string [non-null]
-  animal_kind: references[animal_kind]
-  animal_owner: references[animal_owner]
-  user_id: references[user] [index] [non-null]
-
-animal_kinds:
-  name: string [non-null]
-  user_id: references[user] [index] [non-null]
-
-animal_owners:
-  name: string [non-null]
-  user_id: references[user] [index] [non-null]
-
-** visits
-  name: string [non-null]
-  description: text
-  date: datetime (changable) [non-null]
-  user_id: references[user] [non-null]
-
-** files
-  name: string [non-null]
-  attachable_id: references[polymorphic] [index] [non-null]
-  attachable_type: referenced_type[polymorphic] [index] [non-null]
-  (+ index on pair attachable_type/attachable_id)
-
-** prescriptions
-  note: string
-  name: string (optional, inherited from medicine_id if not filled-in)
-  (only to inherit `name` on creation) medicine_id
-  (one of two is required name or medicine_id)
-
-** medicines
-  mame: string
-
-
 * Phoenix
 ** Usage
 

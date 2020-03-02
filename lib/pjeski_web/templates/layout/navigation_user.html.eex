@@ -14,25 +14,7 @@
 
   <div id="navigation" class="navbar-menu">
     <div class="navbar-start">
-      <%= live_redirect(
-          gettext("Clients"),
-          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.ClientLive.Index),
-          class: "navbar-item") %>
-
-      <%= live_redirect(
-          gettext("Animals"),
-          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalLive.Index),
-          class: "navbar-item") %>
-
-      <%= live_redirect(
-          gettext("Animal kinds"),
-          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalKindLive.Index),
-          class: "navbar-item") %>
-
-      <%= live_redirect(
-          gettext("Animal breeds"),
-          to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.AnimalBreedLive.Index),
-          class: "navbar-item") %>
+        Do something here
     </div>
 
     <div class="navbar-end">

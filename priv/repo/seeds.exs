@@ -1,17 +1,11 @@
 alias Pjeski.Repo
 alias Pjeski.Users.User
 alias Pjeski.Subscriptions.Subscription
-alias Pjeski.UserClients.Client
-alias Pjeski.UserAnimalBreeds.AnimalBreed
-alias Pjeski.UserAnimalKinds.AnimalKind
 
-Repo.delete_all(AnimalBreed)
-Repo.delete_all(AnimalKind)
-Repo.delete_all(Client)
 Repo.delete_all(User)
 Repo.delete_all(Subscription)
 
-admin_emails = ["marek@wesolowski.eu.org", "bgladecki@gmail.com"]
+admin_emails = ["bgladecki@gmail.com"]
 subscription_emails = ["roman@dmowski.pl", "roman@polanski.pl"] ++ Enum.map((1..100), fn _ -> Faker.Internet.safe_email() end)
 default_user_map = %{password: "dupadupa", admin_notes: "Generated automatically"}
 
@@ -61,17 +55,7 @@ Enum.map(Enum.uniq(subscription_emails), fn subscription_email ->
     IO.puts "Created user: #{user.name} (#{user.email}), state: #{Ecto.get_meta(user, :state)}"
 
     Enum.map((0..:rand.uniform(100)), fn _ ->
-      client = Repo.insert!(%Client{
-          address: Faker.Address.street_address(),
-          city: Faker.Address.city(),
-          email: Faker.Internet.safe_email(),
-          name: Faker.Name.name(),
-          notes: Faker.Lorem.Shakespeare.as_you_like_it(),
-          phone: Faker.Phone.EnGb.mobile_number(),
-          user_id: user.id,
-          subscription_id: subscription.id
-                            })
-      IO.puts "Created client: #{client.name} (#{client.email})"
+      IO.puts "Seed something here"
     end)
   end)
 end)
