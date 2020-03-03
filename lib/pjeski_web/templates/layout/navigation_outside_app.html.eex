@@ -1,7 +1,7 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <%= link(
-        gettext("⬅️ Go to application"),
+        gettext("⬅️ Go back to the application"),
         to: dashboard_path_for(@conn.assigns.current_user.role),
         class: "navbar-item") %>
 

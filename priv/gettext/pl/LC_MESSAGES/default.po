@@ -466,11 +466,6 @@ msgid "Clear"
 msgstr "Wyczyść"
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:4
-msgid "⬅️ Go to application"
-msgstr "⬅️ Wróć do aplikacji"
-
-#, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:20
 msgid "Logged in"
 msgstr "Zalogowany"
@@ -525,3 +520,8 @@ msgstr "Witamy w StorageDeer"
 #: lib/pjeski_web/templates/page/index.html.eex:8
 msgid "Your group files' deer-ectory!"
 msgstr "Baza danych plików nie dla jeleni!"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:4
+msgid "⬅️ Go back to the application"
+msgstr "⬅️ Powrót do aplikacji"
