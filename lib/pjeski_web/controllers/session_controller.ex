@@ -17,9 +17,9 @@ defmodule PjeskiWeb.SessionController do
   end
 
   def delete(conn, _params) do
-    {:ok, conn} = Pow.Plug.clear_authenticated_user(conn)
-
-    redirect(conn, to: Routes.page_path(conn, :index))
+    conn
+    |> Pow.Plug.delete
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 
   defp verify_subscription_valid?({:ok, conn}) do
@@ -30,9 +30,8 @@ defmodule PjeskiWeb.SessionController do
          {true, user_role} ->
            redirect(conn, to: dashboard_path_for(user_role))
          _ ->
-           {:ok, conn} = Pow.Plug.clear_authenticated_user(conn)
-
            conn
+           |> Pow.Plug.delete
            |> put_flash(:error, gettext("Your subscription is inactive."))
            |> redirect(to: Routes.session_path(conn, :new))
        end

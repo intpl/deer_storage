@@ -1,10 +1,10 @@
 #+TITLE: TODO
 
-* TODO [15%] [3/20] DEADLINE: <2020-03-31 Tue>
+* TODO [20%] [4/20] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
-** TODO Pow.Plug.clear_authenticated_user/1 is deprecated. Use `delete/1` instead
+** DONE Pow.Plug.clear_authenticated_user/1 is deprecated. Use `delete/1` instead
 Found at 2 locations:
   lib/pjeski_web/controllers/session_controller.ex:20: PjeskiWeb.SessionController.delete/2
   lib/pjeski_web/controllers/session_controller.ex:33: PjeskiWeb.SessionController.verify_subscription_valid?/1
