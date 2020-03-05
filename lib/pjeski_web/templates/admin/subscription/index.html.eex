@@ -51,11 +51,14 @@
 <table class="table is-fullwidth is-narrow responsive_index">
   <thead>
     <tr>
-      <th><%= gettext("Subscription name") %></th>
-      <th><%= gettext("E-mail") %></th>
-      <th><%= gettext("Time zone") %></th>
-      <th><%= gettext("Expires on") %></th>
-      <th><%= gettext("Users") %></th>
+      <th><%= determine_if_sorted(gettext("Subscription name"), "name", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Time zone"), "time_zone", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Expires on"), "expires_on", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Users"), "users_count", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Admin notes"), "admin_notes", @sort_by, @query) %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
   </thead>
@@ -74,8 +77,20 @@
           <td data-label="<%= gettext("Expires on") %>: ">
             <%= subscription.expires_on %>
           </td>
+          <td data-label="<%= gettext("Inserted at") %>: ">
+            <%= subscription.inserted_at %>
+          </td>
+          <td data-label="<%= gettext("Updated at") %>: ">
+            <%= subscription.updated_at %>
+          </td>
           <td data-label="<%= gettext("Users") %>: ">
             <%= length subscription.users %>
+          </td>
+          <td data-label="<%= gettext("Admin notes") %>: ">
+              <%= case subscription.admin_notes do
+                nil -> gettext("No")
+                _ -> gettext("Yes")
+              end %>
           </td>
           <td data-label="<%= gettext("Actions") %>: ">
             <span><%= link gettext("Show"), to: Routes.admin_subscription_path(@conn, :show, subscription) %></span>
