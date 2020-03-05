@@ -3,7 +3,8 @@ defmodule PjeskiWeb.Admin.UserView do
 
   import PjeskiWeb.RegistrationView, only: [ languages_select_options: 0 ]
   import PjeskiWeb.Admin.SubscriptionView, only: [
-    all_subscriptions_options_with_empty: 0
+    all_subscriptions_options_with_empty: 0,
+    determine_if_sorted: 4
   ]
 
   def toggle_admin_button(conn, user) do

@@ -52,10 +52,15 @@
 <table class="table is-fullwidth is-narrow responsive_index">
   <thead>
     <tr>
-      <th><%= gettext("Name and surname") %></th>
-      <th><%= gettext("E-mail") %></th>
-      <th><%= gettext("Subscription") %></th>
-      <th><%= gettext("Subscription ends") %></th>
+      <th><%= determine_if_sorted(gettext("Name and surname"), "name", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Subscription"), "subscription_name", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Subscription ends"), "subscription_expires_on", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Locale"), "locale", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Admin notes"), "admin_notes", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Role"), "role", @sort_by, @query) %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
   </thead>
@@ -64,7 +69,6 @@
         <tr>
           <td>
             <%= link user.name, to: Routes.admin_user_path(@conn, :show, user) %>
-            (<%= user.locale %>)
           </td>
           <td data-label="<%= gettext("E-mail") %>: ">
             <%= link user.email, to: Routes.admin_user_path(@conn, :show, user) %>
@@ -75,10 +79,27 @@
           <td data-label="<%= gettext("Subscription ends") %>: ">
             <%= subscription_expires_datetime_for(user) %>
           </td>
+          <td data-label="<%= gettext("Inserted at") %>: ">
+            <%= user.inserted_at %>
+          </td>
+          <td data-label="<%= gettext("Locale") %>: ">
+            <%= user.inserted_at %>
+          </td>
+          <td data-label="<%= gettext("Locale") %>: ">
+            <%= user.locale %>
+          </td>
+          <td data-label="<%= gettext("Admin notes") %>: ">
+              <%= case user.admin_notes do
+                nil -> gettext("No")
+                _ -> gettext("Yes")
+              end %>
+          </td>
+          <td data-label="<%= gettext("Role") %>: ">
+            <%= user.role %>
+          </td>
           <td data-label="<%= gettext("Actions") %>: ">
             <span><%= link gettext("Show"), to: Routes.admin_user_path(@conn, :show, user) %></span>
             <span><%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user) %></span>
-            <%= if user.role == "admin" do %> (Admin) <% end %>
           </td>
         </tr>
         <% end %>
