@@ -21,6 +21,6 @@ defmodule Pjeski.DbHelpers.ComposeSearchQuery do
   defp recursive_dynamic_query([first | rest]) when length(rest) < 5 do
     dynamic(^recursive_dynamic_query(first) and ^recursive_dynamic_query(rest))
   end
-  defp recursive_dynamic_query(key, value), do: dynamic([q], ilike(field(q, ^key), ^value))
   defp recursive_dynamic_query(_), do: nil
+  defp recursive_dynamic_query(key, value), do: dynamic([q], ilike(field(q, ^key), ^value))
 end
