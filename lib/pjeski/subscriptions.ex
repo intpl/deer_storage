@@ -94,14 +94,14 @@ defmodule Pjeski.Subscriptions do
   defp sort_subscriptions_by(q, "email_asc"), do: q |> order_by(asc: :email)
   defp sort_subscriptions_by(q, "time_zone_desc"), do: q |> order_by(desc: :time_zone)
   defp sort_subscriptions_by(q, "time_zone_asc"), do: q |> order_by(asc: :time_zone)
-  defp sort_subscriptions_by(q, "expires_on_desc"), do: q |> order_by(desc: :expires_on)
-  defp sort_subscriptions_by(q, "expires_on_asc"), do: q |> order_by(asc: :expires_on)
+  defp sort_subscriptions_by(q, "expires_on_desc"), do: q |> order_by(desc: :expires_on) # FIXME
+  defp sort_subscriptions_by(q, "expires_on_asc"), do: q |> order_by(asc: :expires_on) # FIXME
   defp sort_subscriptions_by(q, "admin_notes_desc"), do: q |> order_by(desc: :admin_notes)
   defp sort_subscriptions_by(q, "admin_notes_asc"), do: q |> order_by(asc: :admin_notes)
-  defp sort_subscriptions_by(q, "inserted_at_desc"), do: q |> order_by(desc: :inserted_at)
-  defp sort_subscriptions_by(q, "inserted_at_asc"), do: q |> order_by(asc: :inserted_at)
-  defp sort_subscriptions_by(q, "updated_at_desc"), do: q |> order_by(desc: :updated_at)
-  defp sort_subscriptions_by(q, "updated_at_asc"), do: q |> order_by(asc: :updated_at)
+  defp sort_subscriptions_by(q, "inserted_at_desc"), do: q |> order_by(desc: :inserted_at) # FIXME
+  defp sort_subscriptions_by(q, "inserted_at_asc"), do: q |> order_by(asc: :inserted_at) # FIXME
+  defp sort_subscriptions_by(q, "updated_at_desc"), do: q |> order_by(desc: :updated_at) # FIXME
+  defp sort_subscriptions_by(q, "updated_at_asc"), do: q |> order_by(asc: :updated_at) # FIXME
 
   defp sort_subscriptions_by(q, "users_count_desc") do
     from s in q,
