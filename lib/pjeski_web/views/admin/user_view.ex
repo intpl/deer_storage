@@ -42,4 +42,31 @@ defmodule PjeskiWeb.Admin.UserView do
 
   def subscription_expires_datetime_for(%Pjeski.Users.User{subscription: nil}), do: gettext("empty")
   def subscription_expires_datetime_for(%Pjeski.Users.User{subscription: subscription}), do: subscription.expires_on
+
+  def users_sorting_options do
+    descending = " (#{gettext("descending")})"
+    ascending = " (#{gettext("ascending")})"
+
+    [
+      ["", gettext("No sorting")],
+      ["name_desc", gettext("Name and surname") <> descending],
+      ["name_asc", gettext("Name and surname") <> ascending],
+      ["email_desc", gettext("E-mail") <> descending],
+      ["email_asc", gettext("E-mail") <> ascending],
+      ["locale_desc", gettext("Locale") <> descending],
+      ["locale_asc", gettext("Locale") <> ascending],
+      ["role_desc", gettext("Role") <> descending],
+      ["role_asc", gettext("Role") <> ascending],
+      ["admin_notes_desc", gettext("Admin notes") <> descending],
+      ["admin_notes_asc", gettext("Admin notes") <> ascending],
+      ["inserted_at_desc", gettext("Inserted at") <> descending],
+      ["inserted_at_asc", gettext("Inserted at") <> ascending],
+      ["updated_at_desc", gettext("Updated at") <> descending],
+      ["updated_at_asc", gettext("Updated at") <> ascending],
+      ["subscription_name_desc", gettext("Subscription") <> descending],
+      ["subscription_name_asc", gettext("Subscription") <> ascending],
+      ["subscription_expires_on_desc", gettext("Subscription ends") <> descending],
+      ["subscription_expires_on_asc", gettext("Subscription ends") <> ascending]
+    ]
+  end
 end
