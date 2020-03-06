@@ -1,6 +1,6 @@
 <%= if @count == @per_page || @page != 1 do %>
   <div class="is-vcentered" align="center">
-    <a class="button" <%= if @page == 1, do: "disabled", else: "href=" <> Routes.admin_user_path(@conn, :index, page: @page - 1, query: @query, sort_by: @sort_by) %>>
+    <a class="button" <%= if @page == 1, do: "disabled", else: "href=" <> Routes.admin_user_path(@conn, :index, page: @page - 1, query: @query, sort_by: @sort_by, search_by: @search_by) %>>
       <%= gettext("Previous page") %>
     </a>
 
@@ -8,7 +8,7 @@
       <a class="button"><%= @page %></a>
     <% end %>
 
-    <a class="button" <%= if @count < @per_page, do: "disabled", else: "href=" <> Routes.admin_user_path(@conn, :index, page: @page + 1, query: @query, sort_by: @sort_by) %>>
+    <a class="button" <%= if @count < @per_page, do: "disabled", else: "href=" <> Routes.admin_user_path(@conn, :index, page: @page + 1, query: @query, sort_by: @sort_by, search_by: @search_by) %>>
        <%= gettext("Next page") %>
     </a>
   </div>

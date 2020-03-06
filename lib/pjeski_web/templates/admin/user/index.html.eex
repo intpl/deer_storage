@@ -24,21 +24,37 @@
         <% end %>
       <% end %>
 
-      <form class="field has-addons overwrite-fullwidth">
+      <form class="field overwrite-fullwidth">
         <p class="control is-expanded">
           <input
             class="input"
-            type="text" name="query"
+            type="text"
+            name="query"
             list="matches"
             placeholder="<%= gettext("Search...") %>"
             value="<%= @query %>" />
         </p>
 
-        <p class="control">
-          <button class="button" type="submit">
-            <%= gettext("Search") %>
-          </button>
-        </p>
+        <br>
+
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <div class="select is-fullwidth">
+              <select name="search_by">
+                <option value="subscriptions_and_users" <%= if @search_by == "subscriptions_and_users", do: "selected" %>>
+                  <%= gettext("Search by subscriptions and users") %>
+                </option>
+
+                <option value="users" <%= if @search_by == "users", do: "selected" %>>
+                  <%= gettext("Search by users only") %>
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="control">
+            <button type="submit" class="button"><%= gettext("Search") %></button>
+          </div>
+        </div>
       </form>
     </div>
   </div>
@@ -52,15 +68,15 @@
 <table class="table is-fullwidth is-narrow responsive_index">
   <thead>
     <tr>
-      <th><%= determine_if_sorted(gettext("Name and surname"), "name", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Subscription"), "subscription_name", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Subscription ends"), "subscription_expires_on", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Locale"), "locale", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Admin notes"), "admin_notes", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Role"), "role", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Name and surname"), "name", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Subscription"), "subscription_name", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Subscription ends"), "subscription_expires_on", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Locale"), "locale", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Admin notes"), "admin_notes", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Role"), "role", @sort_by, @search_by, @query) %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
   </thead>

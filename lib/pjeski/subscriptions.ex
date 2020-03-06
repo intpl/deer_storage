@@ -2,7 +2,7 @@ defmodule Pjeski.Subscriptions do
   import Ecto.Query, warn: false
   alias Pjeski.Repo
 
-  use Pjeski.DbHelpers.ComposeSearchQuery, [:name, :email, :time_zone, :admin_notes]
+  import Pjeski.DbHelpers.ComposeSearchQuery
 
   alias Pjeski.Subscriptions.Subscription
 
@@ -22,7 +22,7 @@ defmodule Pjeski.Subscriptions do
 
     Subscription
     |> sort_subscriptions_by(sort_by)
-    |> where(^compose_search_query(query_string))
+    |> where(^compose_search_query([:name, :email, :time_zone, :admin_notes], query_string))
     |> offset(^offset)
     |> limit(^per_page)
     |> Repo.all

@@ -2,11 +2,12 @@ defmodule Pjeski.Users do
   import Ecto.Query, warn: false
   alias Pjeski.Repo
 
-  use Pjeski.DbHelpers.ComposeSearchQuery, [:name, :email]
+  import Pjeski.DbHelpers.ComposeSearchQuery
 
   alias Pjeski.Users.User
+  alias Pjeski.Subscriptions.Subscription
 
-  def list_users("", page, per_page, sort_by) when page > 0 do
+  def list_users("", page, per_page, sort_by, _search_by) when page > 0 do
     offset = (page - 1) * per_page
 
     User
@@ -17,16 +18,28 @@ defmodule Pjeski.Users do
     |> Repo.preload(:subscription)
   end
 
-  def list_users(query_string, page, per_page, sort_by) when page > 0 do
+  def list_users(query_string, page, per_page, sort_by, search_by) when page > 0 do
     offset = (page - 1) * per_page
-
-    User
+    query = User
     |> sort_users_by(sort_by)
-    |> where(^compose_search_query(query_string))
+    |> where(^compose_search_query([:name, :email, :admin_notes], query_string))
     |> offset(^offset)
     |> limit(^per_page)
-    |> Repo.all()
-    |> Repo.preload(:subscription)
+
+    query = case search_by do
+              "users" -> query
+              "subscriptions_and_users" ->
+                subscriptions_ids = Subscription
+                |> where(^compose_search_query([:name, :email, :time_zone, :admin_notes], query_string))
+                |> select([:id])
+                |> Repo.all()
+                |> Enum.map(fn s -> s.id end)
+
+                query |> or_where([u], u.subscription_id in ^subscriptions_ids)
+            end
+
+
+    query |> Repo.all() |> Repo.preload(:subscription)
   end
 
   def list_users do

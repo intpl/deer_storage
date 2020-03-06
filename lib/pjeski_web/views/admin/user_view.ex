@@ -2,10 +2,18 @@ defmodule PjeskiWeb.Admin.UserView do
   use PjeskiWeb, :view
 
   import PjeskiWeb.RegistrationView, only: [ languages_select_options: 0 ]
-  import PjeskiWeb.Admin.SubscriptionView, only: [
-    all_subscriptions_options_with_empty: 0,
-    determine_if_sorted: 4
-  ]
+  import PjeskiWeb.Admin.SubscriptionView, only: [all_subscriptions_options_with_empty: 0]
+
+  def determine_if_sorted(title, field, sort_by, search_by, query) do
+    case Regex.scan(~r/(.*)_(.*)$/, sort_by) do
+      [[_match, ^field, order]] ->
+        case order do
+            "asc" -> link("⮟ " <> title, to: "?sort_by=#{field}_desc&query=#{query}&search_by=#{search_by}")
+            "desc" -> link("⮝ " <> title, to: "?sort_by=#{field}_asc&query=#{query}&search_by=#{search_by}")
+        end
+      _ -> link(title, to: "?sort_by=#{field}_asc&query=#{query}&search_by=#{search_by}")
+    end
+  end
 
   def toggle_admin_button(conn, user) do
     text = if user.role == "admin" do
