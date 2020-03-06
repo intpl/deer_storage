@@ -16,11 +16,11 @@
   </div>
   <div class="column is-8">
     <div class="field has-addons">
-      <%= if @page != 1 || @query != "" do %>
-        <%= link to: Routes.admin_subscription_path(@conn, :index, page: 1, query: "") do %>
-        <button class="button is-inline" type="submit">
-          <%= gettext("Clear") %>
-        </button>
+      <%= if @page != 1 || @query != "" || @sort_by != "" do %>
+        <%= link to: Routes.admin_subscription_path(@conn, :index) do %>
+          <button class="button is-inline" type="submit">
+            <%= gettext("Clear") %>
+          </button>
         <% end %>
       <% end %>
 
@@ -47,6 +47,23 @@
 </div>
 <%= raw @rendered_pagination %>
 <br>
+
+<div class="content">
+  <form class="field is-pulled-right" method="get">
+    <div class="control">
+      <div class="select">
+        <input type="hidden" name="query" value="<%= @query %>" />
+        <select name="sort_by" onchange='this.form.submit()'>
+          <%= for [value, description] <- subscriptions_sorting_options() do %>
+            <option value="<%= value %>" <%= if @sort_by == value, do: "selected" %>>
+              <%= description %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>
 
 <table class="table is-fullwidth is-narrow responsive_index">
   <thead>
