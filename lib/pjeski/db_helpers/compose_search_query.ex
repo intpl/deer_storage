@@ -22,5 +22,8 @@ defmodule Pjeski.DbHelpers.ComposeSearchQuery do
     dynamic(^recursive_dynamic_query(first) and ^recursive_dynamic_query(rest))
   end
   defp recursive_dynamic_query(_), do: nil
-  defp recursive_dynamic_query(key, value), do: dynamic([q], ilike(field(q, ^key), ^value))
+  defp recursive_dynamic_query(key, value) do
+    dynamic([q], fragment("unaccent(?) ILIKE unaccent(?)", field(q, ^key), ^value))
+  end
+
 end
