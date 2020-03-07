@@ -106,14 +106,14 @@ defmodule Pjeski.Subscriptions do
   defp sort_subscriptions_by(q, "users_count_desc") do
     from s in q,
     left_join: u in assoc(s, :users),
-    order_by: [asc: count(u.id)],
+    order_by: [desc: count(u.id)],
     group_by: s.id
   end
 
   defp sort_subscriptions_by(q, "users_count_asc") do
     from s in q,
     left_join: u in assoc(s, :users),
-    order_by: [desc: count(u.id)],
+    order_by: [asc: count(u.id)],
     group_by: s.id
   end
 end
