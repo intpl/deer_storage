@@ -2,60 +2,80 @@ alias Pjeski.Repo
 alias Pjeski.Users.User
 alias Pjeski.Subscriptions.Subscription
 
+import Ecto.Changeset
+import Ecto.Query, warn: false
+
 Repo.delete_all(User)
 Repo.delete_all(Subscription)
 
-admin_emails = ["bgladecki@gmail.com"]
-subscription_emails = ["roman@dmowski.pl", "roman@polanski.pl"] ++ Enum.map((1..100), fn _ -> Faker.Internet.safe_email() end)
+Logger.configure([level: :warning])
+
+admin_emails = ["bgladecki@gmail.com", "marek@weczmarski.com"]
+subscription_emails = ["roman@dmowski.pl", "roman@polanski.pl"] ++ Enum.map((500..1000), fn _ -> Faker.Internet.safe_email() end) |> Enum.uniq
 default_user_map = %{password: "dupadupa", admin_notes: "Generated automatically"}
 
-Enum.map((admin_emails), fn admin_email ->
-  Repo.insert!(
-    User.admin_changeset(%User{},
-      Map.merge(%{
-            email: admin_email,
-            name: "Admin " <> Faker.Name.name(),
-            locale: "pl",
-            role: "admin"},
-        default_user_map)))
+built_admin_structs = Enum.map(admin_emails, fn admin_email ->
+  params = Map.merge(%{email: admin_email, name: "Admin " <> Faker.Name.name(), locale: "pl", role: "admin"}, default_user_map)
+
+  User.admin_changeset(%User{}, params).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: NaiveDateTime.local_now(), updated_at: NaiveDateTime.local_now()})
 end)
 
-Enum.map(Enum.uniq(subscription_emails), fn subscription_email ->
-  subscription = Repo.insert!(
-    Subscription.admin_changeset(%Subscription{}, %{
+IO.write "Inserting Admin structs"
+Repo.insert_all(User, built_admin_structs)
+IO.puts " OK"
+
+built_subscription_structs = Enum.map(subscription_emails, fn subscription_email ->
+  Subscription.admin_changeset(%Subscription{},
+    %{
       email: subscription_email,
       name: Faker.Company.catch_phrase(),
       time_zone: Enum.random(Tzdata.zone_list),
-      admin_notes: "Generated automatically"
-    }))
+      admin_notes: "Generated automatically",
+      expires_on: Date.add(Date.utc_today, 90)
+    }).changes |> Map.merge(%{inserted_at: NaiveDateTime.local_now(), updated_at: NaiveDateTime.local_now()})
+end)
 
-  IO.puts "Created subscription: #{subscription.name} (#{subscription.email})"
+IO.write "Inserting Subscription structs"
+Repo.insert_all(Subscription, built_subscription_structs)
+IO.puts " OK"
 
-  first_user = Repo.insert!(
-      User.admin_changeset(%User{},
-      Map.merge(%{
-              email: subscription_email,
+subscriptions = Subscription |> select([:id, :email]) |> Repo.all
+
+for %Subscription{id: sub_id, email: sub_email} <- subscriptions do
+    IO.write "Generating users structs for subscription #{sub_id}"
+
+    built_users_for_current_subscription = [
+      User.admin_changeset(%User{}, Map.merge(
+            %{
+              email: sub_email,
               name: Faker.Name.name(),
               locale: Enum.random(["en", "pl"]),
-              subscription_id: subscription.id
-                  }, default_user_map)))
+              subscription_id: sub_id
+            }, default_user_map
+          )
+      ).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: NaiveDateTime.local_now(), updated_at: NaiveDateTime.local_now()})
+    ] ++ Enum.map((0..:rand.uniform(100)), fn _ ->
+      IO.write(".")
 
-  IO.puts "Created user: #{first_user.name} (#{first_user.email})"
-
-  Enum.map((0..:rand.uniform(30)), fn _ ->
-    {_, user} = Repo.insert(
-      User.admin_changeset(%User{},
-        Map.merge(%{
+      User.admin_changeset(%User{}, Map.merge(
+            %{
               email: Faker.Internet.safe_email(),
               name: Faker.Name.name(),
               locale: Enum.random(["en", "pl"]),
-              subscription_id: subscription.id
-                  }, default_user_map)))
-
-    IO.puts "Created user: #{user.name} (#{user.email}), state: #{Ecto.get_meta(user, :state)}"
-
-    Enum.map((0..:rand.uniform(100)), fn _ ->
-      IO.puts "Seed something here"
+              subscription_id: sub_id
+            }, default_user_map)
+      ).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: NaiveDateTime.local_now(), updated_at: NaiveDateTime.local_now()})
     end)
-  end)
-end)
+    |> List.flatten
+
+    IO.puts " OK"
+    IO.write "Inserting users structs for subscription #{sub_id}"
+
+    Repo.insert_all(User, built_users_for_current_subscription, on_conflict: :nothing)
+    IO.puts " OK"
+    IO.puts "Current User count: #{Pjeski.Repo.aggregate(from(u in "users"), :count, :id)}"
+end
+
+IO.puts "Done!"
+IO.puts "TOTAL Subscription count: #{Pjeski.Repo.aggregate(from(s in "subscriptions"), :count, :id)}"
+IO.puts "TOTAL User count: #{Pjeski.Repo.aggregate(from(u in "users"), :count, :id)}"
