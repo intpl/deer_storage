@@ -105,8 +105,12 @@
           </td>
           <td data-label="<%= gettext("Admin notes") %>: ">
               <%= case subscription.admin_notes do
-                nil -> gettext("No")
-                _ -> gettext("Yes")
+                nil -> ""
+                notes ->
+                  case String.length(notes) > 20 do
+                    true -> (notes |> String.slice(0..20)) <> "..."
+                    false -> notes
+                  end
               end %>
           </td>
           <td data-label="<%= gettext("Actions") %>: ">
