@@ -106,12 +106,12 @@ defmodule Pjeski.Users do
   defp sort_users_by(q, "locale_asc"), do: q |> order_by(asc: :locale)
   defp sort_users_by(q, "role_desc"), do: q |> order_by(desc: :role)
   defp sort_users_by(q, "role_asc"), do: q |> order_by(asc: :role)
-  defp sort_users_by(q, "admin_notes_desc"), do: q |> order_by(desc: :admin_notes)
-  defp sort_users_by(q, "admin_notes_asc"), do: q |> order_by(asc: :admin_notes)
-  defp sort_users_by(q, "inserted_at_desc"), do: q |> order_by(desc: :inserted_at) # FIXME
-  defp sort_users_by(q, "inserted_at_asc"), do: q |> order_by(asc: :inserted_at) # FIXME
-  defp sort_users_by(q, "updated_at_desc"), do: q |> order_by(desc: :updated_at) # FIXME
-  defp sort_users_by(q, "updated_at_asc"), do: q |> order_by(asc: :updated_at) # FIXME
+  defp sort_users_by(q, "admin_notes_desc"), do: q |> order_by(desc_nulls_last: :admin_notes)
+  defp sort_users_by(q, "admin_notes_asc"), do: q |> order_by(asc_nulls_first: :admin_notes)
+  defp sort_users_by(q, "inserted_at_desc"), do: q |> order_by(desc: :inserted_at)
+  defp sort_users_by(q, "inserted_at_asc"), do: q |> order_by(asc: :inserted_at)
+  defp sort_users_by(q, "updated_at_desc"), do: q |> order_by(desc: :updated_at)
+  defp sort_users_by(q, "updated_at_asc"), do: q |> order_by(asc: :updated_at)
 
   defp sort_users_by(q, "subscription_name_desc") do
     from u in q,

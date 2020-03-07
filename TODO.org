@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [26%] [7/26] DEADLINE: <2020-03-31 Tue>
+* TODO [25%] [7/27] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -14,6 +14,7 @@ Found at 2 locations:
 ** DONE Add select box in Admin#index (users and subscriptions) - responsive reasons
 ** STRT Soring in admin indexes: |> order_by([p], fragment("?::time", p.inserted_at))
 ** TODO unaccent in CSQ
+** TODO use jaro_distance to colorize fields
 ** TODO Migrate time zone to user and modify Admin users and subscriptions controllers
 ** TODO Select2 for timezones, write abstraction for everything else
 ** TODO Migrate database, write seeds with a proper structure
