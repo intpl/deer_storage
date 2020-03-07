@@ -8,10 +8,10 @@ defmodule PjeskiWeb.Admin.UserView do
     case Regex.scan(~r/(.*)_(.*)$/, sort_by) do
       [[_match, ^field, order]] ->
         case order do
-            "asc" -> link("⮟ " <> title, to: "?sort_by=#{field}_desc&query=#{query}&search_by=#{search_by}")
-            "desc" -> link("⮝ " <> title, to: "?sort_by=#{field}_asc&query=#{query}&search_by=#{search_by}")
+            "asc" -> link("⮝ " <> title, to: "?sort_by=#{field}_desc&query=#{query}&search_by=#{search_by}")
+            "desc" -> link("⮟ " <> title, to: "?sort_by=#{field}_asc&query=#{query}&search_by=#{search_by}")
         end
-      _ -> link(title, to: "?sort_by=#{field}_asc&query=#{query}&search_by=#{search_by}")
+      _ -> link(title, to: "?sort_by=#{field}_desc&query=#{query}&search_by=#{search_by}")
     end
   end
 

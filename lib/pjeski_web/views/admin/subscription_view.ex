@@ -10,10 +10,10 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
     case Regex.scan(~r/(.*)_(.*)$/, sort_by) do
       [[_match, ^field, order]] ->
         case order do
-            "asc" -> link("⮟ " <> title, to: "?sort_by=#{field}_desc&query=#{query}")
-            "desc" -> link("⮝ " <> title, to: "?sort_by=#{field}_asc&query=#{query}")
+            "asc" -> link("⮝ " <> title, to: "?sort_by=#{field}_desc&query=#{query}")
+            "desc" -> link("⮟ " <> title, to: "?sort_by=#{field}_asc&query=#{query}")
         end
-      _ -> link(title, to: "?sort_by=#{field}_asc&query=#{query}")
+      _ -> link(title, to: "?sort_by=#{field}_desc&query=#{query}")
     end
   end
 
