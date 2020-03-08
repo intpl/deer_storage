@@ -62,7 +62,14 @@
     </div>
 
     <div class="field">
-      <%= label f, gettext("E-mail address"), class: 'label' %>
+      <label for="user_email" class="label">
+          <%= gettext("E-mail address") %>
+          <span class="help is-inline">
+              <a onClick="$('#user_email').val($('#user_subscription_email').val());">
+                  <%= gettext("Copy from subscription") %>
+              </a>
+          </span>
+      </label>
       <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
     </div>

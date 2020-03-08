@@ -25,7 +25,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:23
-#: lib/pjeski_web/templates/registration/new.html.eex:5 lib/pjeski_web/templates/registration/new.html.eex:83
+#: lib/pjeski_web/templates/registration/new.html.eex:5 lib/pjeski_web/templates/registration/new.html.eex:90
 msgid "Register"
 msgstr ""
 
@@ -59,12 +59,12 @@ msgid "Polish"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/new.html.eex:77
+#: lib/pjeski_web/templates/registration/new.html.eex:84
 msgid "Confirm password"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/new.html.eex:71
+#: lib/pjeski_web/templates/registration/new.html.eex:78
 #: lib/pjeski_web/templates/session/new.html.eex:30
 msgid "Password"
 msgstr ""
@@ -77,7 +77,7 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:15
 #: lib/pjeski_web/templates/admin/user/form.html.eex:21 lib/pjeski_web/templates/registration/edit.html.eex:53
-#: lib/pjeski_web/templates/registration/new.html.eex:65
+#: lib/pjeski_web/templates/registration/new.html.eex:66
 msgid "E-mail address"
 msgstr ""
 
@@ -136,8 +136,8 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:79
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:112 lib/pjeski_web/templates/admin/user/index.html.eex:98
-#: lib/pjeski_web/templates/admin/user/index.html.eex:134
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:116 lib/pjeski_web/templates/admin/user/index.html.eex:98
+#: lib/pjeski_web/templates/admin/user/index.html.eex:138
 msgid "Actions"
 msgstr ""
 
@@ -172,9 +172,9 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:114 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:118 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:103 lib/pjeski_web/templates/admin/user/edit.html.eex:19
-#: lib/pjeski_web/templates/admin/user/index.html.eex:136 lib/pjeski_web/templates/admin/user/show.html.eex:19
+#: lib/pjeski_web/templates/admin/user/index.html.eex:140 lib/pjeski_web/templates/admin/user/show.html.eex:19
 msgid "Edit"
 msgstr ""
 
@@ -190,7 +190,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/index.html.eex:97
-#: lib/pjeski_web/templates/admin/user/index.html.eex:131 lib/pjeski_web/templates/admin/user/show.html.eex:59
+#: lib/pjeski_web/templates/admin/user/index.html.eex:135 lib/pjeski_web/templates/admin/user/show.html.eex:59
 #: lib/pjeski_web/views/admin/user_view.ex:58 lib/pjeski_web/views/admin/user_view.ex:59
 msgid "Role"
 msgstr ""
@@ -373,8 +373,8 @@ msgid "All users"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:113
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:102 lib/pjeski_web/templates/admin/user/index.html.eex:135
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:117
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:102 lib/pjeski_web/templates/admin/user/index.html.eex:139
 msgid "Show"
 msgstr ""
 
@@ -561,18 +561,6 @@ msgid "Locale"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:108
-#: lib/pjeski_web/templates/admin/user/index.html.eex:127
-msgid "No"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:109
-#: lib/pjeski_web/templates/admin/user/index.html.eex:128
-msgid "Yes"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/user/index.html.eex:45
 msgid "Search by subscriptions and users"
 msgstr ""
@@ -598,4 +586,9 @@ msgstr ""
 #: lib/pjeski_web/views/admin/subscription_view.ex:29
 #: lib/pjeski_web/views/admin/user_view.ex:47
 msgid "descending"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/registration/new.html.eex:69
+msgid "Copy from subscription"
 msgstr ""
