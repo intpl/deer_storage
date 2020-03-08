@@ -69,8 +69,8 @@
 
           <div class="field">
             <%= label f, gettext("Confirm new password"), class: 'label' %>
-            <%= password_input f, :confirm_password, class: 'input' %>
-            <%= error_tag f, :confirm_password %>
+            <%= password_input f, :password_confirmation, class: 'input' %>
+            <%= error_tag f, :password_confirmation %>
           </div>
         </div>
       </div>

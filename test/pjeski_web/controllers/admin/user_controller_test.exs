@@ -3,7 +3,7 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
 
   alias Pjeski.Users
 
-  @create_attrs %{email: "test@test.eu", name: "Henryk Testowny", password: "secret123", confirm_password: "secret123", locale: "pl"}
+  @create_attrs %{email: "test@test.eu", name: "Henryk Testowny", password: "secret123", password_confirmation: "secret123", locale: "pl"}
   @update_attrs %{email: "test2@test.eu"}
 
   def fixture(:user) do

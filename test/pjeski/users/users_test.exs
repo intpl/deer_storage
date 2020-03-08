@@ -6,7 +6,7 @@ defmodule Pjeski.UsersTest do
   describe "users" do
     alias Pjeski.Users.User
 
-    @valid_attrs %{email: "some bio", email: "test@example.org", name: "Henryk Testowny", password: "secret123", confirm_password: "secret123", locale: "pl"}
+    @valid_attrs %{email: "some bio", email: "test@example.org", name: "Henryk Testowny", password: "secret123", password_confirmation: "secret123", locale: "pl"}
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
