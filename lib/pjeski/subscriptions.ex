@@ -6,6 +6,8 @@ defmodule Pjeski.Subscriptions do
 
   alias Pjeski.Subscriptions.Subscription
 
+  def total_count(), do: Pjeski.Repo.aggregate(from(s in "subscriptions"), :count, :id)
+
   def list_subscriptions("", page, per_page, sort_by) when page > 0 do
     offset = (page - 1) * per_page
 

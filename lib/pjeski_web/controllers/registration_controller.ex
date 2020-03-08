@@ -1,6 +1,7 @@
 defmodule PjeskiWeb.RegistrationController do
   use PjeskiWeb, :controller
 
+  alias Pjeski.Users
   alias Pjeski.Users.User
 
   def new(conn, _params) do
@@ -15,9 +16,10 @@ defmodule PjeskiWeb.RegistrationController do
     conn
     |> Pow.Plug.create_user(user_params)
     |> case do
-      {:ok, _user, conn} ->
-        conn |> redirect(to: dashboard_path_for(:user))
+      {:ok, user, conn} ->
+        Users.notify_subscribers({:ok, user}, [:user, :created])
 
+        conn |> redirect(to: dashboard_path_for(:user))
       {:error, changeset, conn} ->
         render(conn, "new.html", changeset: changeset)
     end

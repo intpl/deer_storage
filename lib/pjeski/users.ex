@@ -7,6 +7,10 @@ defmodule Pjeski.Users do
   alias Pjeski.Users.User
   alias Pjeski.Subscriptions.Subscription
 
+  use Pjeski.AllowSubscribers, Pjeski.Users
+
+  def total_count(), do: Pjeski.Repo.aggregate(from(u in "users"), :count, :id)
+
   def list_users("", page, per_page, sort_by, _search_by) when page > 0 do
     offset = (page - 1) * per_page
 

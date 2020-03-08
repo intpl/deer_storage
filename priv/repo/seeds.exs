@@ -1,4 +1,8 @@
 alias Pjeski.Repo
+
+alias Pjeski.Users
+alias Pjeski.Subscriptions
+
 alias Pjeski.Users.User
 alias Pjeski.Subscriptions.Subscription
 
@@ -86,5 +90,5 @@ for %Subscription{id: sub_id, email: sub_email} <- subscriptions do
 end
 
 IO.puts "Done!"
-IO.puts "TOTAL Subscription count: #{Pjeski.Repo.aggregate(from(s in "subscriptions"), :count, :id)}"
-IO.puts "TOTAL User count: #{Pjeski.Repo.aggregate(from(u in "users"), :count, :id)}"
+IO.puts "TOTAL Subscription count: #{Subscriptions.total_count}"
+IO.puts "TOTAL User count: #{Users.total_count}"
