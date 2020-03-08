@@ -13,6 +13,8 @@ window.$ = window.jQuery = require("jquery");
 // Import dependencies
 
 import "phoenix_html"
+import "./select2.min.js"
+
 import "./navbar_burger"
 import Hooks from "./phx-hooks"
 

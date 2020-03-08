@@ -44,8 +44,8 @@
           </div>
 
           <div class="field">
-            <%= label f, :time_zone, gettext("Display dates in time zone"), class: 'label' %>
-            <%= select f, :time_zone, time_zones_select_options(), class: 'input' %>
+            <%= label f, :time_zone, gettext("Display dates in the following time zone"), class: 'label' %>
+            <%= select f, :time_zone, time_zones_select_options(), class: 'input use-select2' %>
             <%= error_tag f, :time_zone %>
           </div>
         </div>
@@ -93,3 +93,5 @@
     <% end %>
   </div>
 </section>
+
+<script type="text/javascript"> $('.use-select2').select2(); </script>

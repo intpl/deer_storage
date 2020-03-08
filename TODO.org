@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [37%] [11/29] DEADLINE: <2020-03-31 Tue>
+* TODO [40%] [12/30] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -13,7 +13,7 @@
 ** DONE unaccent in CSQ
 ** DONE Add "copy e-mail from subscription" link in form
 ** DONE Migrate time zone to user and modify Admin users and subscriptions controllers
-** TODO Select2 for timezones, write abstraction for everything else
+** DONE Select2 for time zones
 ** TODO AdminDashboard at least counts LIVE
 ** TODO Migrate database, write seeds with a proper structure
 ** TODO START WRITING TESTS in 3..2..1..
@@ -31,6 +31,7 @@
 - UserRecords::DisplayComponent + TESTS
 - UserRecords::EditComponent + TESTS
 - UserRecords::NewComponent + TESTS
+** TODO write Select2 abstraction for Live components
 ** TODO use jaro_distance to colorize fields
 ** TODO UserRecords::ShowLive + TESTS
 ** TODO "Notes" markdown everywhere
