@@ -56,10 +56,19 @@
         <td><%= gettext("E-mail") %></td><td><%= @user.email %></td>
       </tr>
       <tr>
+        <td><%= gettext("Time zone") %></td><td><%= @user.time_zone %></td>
+      </tr>
+      <tr>
         <td><%= gettext("Role") %></td><td><%= @user.role %></td>
       </tr>
       <tr>
         <td><%= gettext("Language") %></td><td><%= @user.locale %></td>
+      </tr>
+      <tr>
+        <td><%= gettext("Inserted at") %></td><td><time datetime="<%= dt @conn, @user.inserted_at %>"><%= dt @conn, @user.inserted_at %></time></td>
+      </tr>
+      <tr>
+        <td><%= gettext("Updated at") %></td><td><time datetime="<%= dt @conn, @user.updated_at %>"><%= dt @conn, @user.updated_at %></time></td>
       </tr>
     </table>
     <h4 class="title is-4"><%= gettext("Subscription") %></h4>
@@ -69,7 +78,6 @@
           <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
       </td></tr>
       <tr><td><%= gettext("E-mail") %></td><td><%= @user.subscription.email %></td></tr>
-      <tr><td><%= gettext("Time zone") %></td><td><%= @user.subscription.time_zone %></td></tr>
       <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.subscription.expires_on %></td></tr>
     </table>
     <% else %>

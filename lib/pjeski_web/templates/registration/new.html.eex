@@ -36,12 +36,6 @@
           <%= text_input sf, :email, class: 'input' %>
           <%= error_tag sf, :email %>
         </div>
-
-        <div class="field">
-          <%= label sf, :time_zone, gettext("Subscription time zone"), class: 'label' %>
-          <%= select sf, :time_zone, time_zones_select_options(), class: 'input' %>
-          <%= error_tag sf, :time_zone %>
-        </div>
       <% end %>
     </div>
 
@@ -72,6 +66,12 @@
       </label>
       <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    </div>
+
+    <div class="field">
+      <%= label f, :time_zone, gettext("Display dates in time zone"), class: 'label' %>
+      <%= select f, :time_zone, time_zones_select_options(), class: 'input' %>
+      <%= error_tag f, :time_zone %>
     </div>
 
     <div class="field">

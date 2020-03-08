@@ -1,14 +1,14 @@
 defmodule PjeskiWeb.DateHelpers do
   use Timex
-  alias Pjeski.Subscriptions.Subscription
+  alias Pjeski.Users.User
 
   @default_time_zone "Europe/Warsaw"
 
-  def dt(%Plug.Conn{assigns: %{current_user_subscription: %Subscription{time_zone: time_zone}, current_user_locale: locale}}, datetime) do
+  def dt(%Plug.Conn{assigns: %{current_user: %User{time_zone: time_zone}, current_user_locale: locale}}, datetime) do
     convert_datetime(datetime, time_zone, locale)
   end
 
-  def dt(%Plug.Conn{assigns: %{current_user_subscription: nil, current_user_locale: locale}}, datetime) do
+  def dt(%Plug.Conn{assigns: %{current_user_locale: locale}}, datetime) do
     convert_datetime(datetime, @default_time_zone, locale)
   end
 

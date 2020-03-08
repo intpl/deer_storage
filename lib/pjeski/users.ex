@@ -22,7 +22,7 @@ defmodule Pjeski.Users do
     offset = (page - 1) * per_page
     query = User
     |> sort_users_by(sort_by)
-    |> where(^compose_search_query([:name, :email, :admin_notes], query_string))
+    |> where(^compose_search_query([:name, :email, :admin_notes, :time_zone], query_string))
     |> offset(^offset)
     |> limit(^per_page)
 
@@ -30,7 +30,7 @@ defmodule Pjeski.Users do
               "users" -> query
               "subscriptions_and_users" ->
                 subscriptions_ids = Subscription
-                |> where(^compose_search_query([:name, :email, :time_zone, :admin_notes], query_string))
+                |> where(^compose_search_query([:name, :email, :admin_notes], query_string))
                 |> select([:id])
                 |> Repo.all()
                 |> Enum.map(fn s -> s.id end)
@@ -106,6 +106,8 @@ defmodule Pjeski.Users do
   defp sort_users_by(q, "locale_asc"), do: q |> order_by(asc: :locale)
   defp sort_users_by(q, "role_desc"), do: q |> order_by(desc: :role)
   defp sort_users_by(q, "role_asc"), do: q |> order_by(asc: :role)
+  defp sort_users_by(q, "time_zone_desc"), do: q |> order_by(desc: :time_zone)
+  defp sort_users_by(q, "time_zone_asc"), do: q |> order_by(asc: :time_zone)
   defp sort_users_by(q, "admin_notes_desc"), do: q |> order_by(desc_nulls_last: :admin_notes)
   defp sort_users_by(q, "admin_notes_asc"), do: q |> order_by(asc_nulls_first: :admin_notes)
   defp sort_users_by(q, "inserted_at_desc"), do: q |> order_by(desc: :inserted_at)

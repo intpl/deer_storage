@@ -2,10 +2,6 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
   alias PjeskiWeb.Router.Helpers, as: Routes
   use PjeskiWeb, :view
 
-  import PjeskiWeb.RegistrationView, only: [
-    time_zones_select_options: 0
-  ]
-
   def determine_if_sorted(title, field, sort_by, query) do
     case Regex.scan(~r/(.*)_(.*)$/, sort_by) do
       [[_match, ^field, order]] ->
@@ -35,8 +31,6 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
       ["name_asc", gettext("Name") <> ascending],
       ["email_desc", gettext("E-mail") <> descending],
       ["email_asc", gettext("E-mail") <> ascending],
-      ["time_zone_desc", gettext("Time zone") <> descending],
-      ["time_zone_asc", gettext("Time zone") <> ascending],
       ["expires_on_desc", gettext("Expires on") <> descending],
       ["expires_on_asc", gettext("Expires on") <> ascending],
       ["admin_notes_desc", gettext("Admin notes") <> descending],

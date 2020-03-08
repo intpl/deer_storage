@@ -42,6 +42,12 @@
             <%= select f, :locale, languages_select_options(), class: 'input' %>
             <%= error_tag f, :locale %>
           </div>
+
+          <div class="field">
+            <%= label f, :time_zone, gettext("Display dates in time zone"), class: 'label' %>
+            <%= select f, :time_zone, time_zones_select_options(), class: 'input' %>
+            <%= error_tag f, :time_zone %>
+          </div>
         </div>
 
         <div class="column">

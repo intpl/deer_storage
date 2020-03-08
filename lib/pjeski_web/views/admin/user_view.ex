@@ -1,7 +1,7 @@
 defmodule PjeskiWeb.Admin.UserView do
   use PjeskiWeb, :view
 
-  import PjeskiWeb.RegistrationView, only: [ languages_select_options: 0 ]
+  import PjeskiWeb.RegistrationView, only: [ languages_select_options: 0, time_zones_select_options: 0 ]
   import PjeskiWeb.Admin.SubscriptionView, only: [all_subscriptions_options_with_empty: 0]
 
   def determine_if_sorted(title, field, sort_by, search_by, query) do
@@ -37,9 +37,6 @@ defmodule PjeskiWeb.Admin.UserView do
     link subscription.name, to: Routes.admin_subscription_path(conn, :show, subscription.id)
   end
 
-  def subscription_time_zone_for(%Pjeski.Users.User{subscription: nil}), do: gettext("empty")
-  def subscription_time_zone_for(%Pjeski.Users.User{subscription: subscription}), do: subscription.time_zone
-
   def subscription_expires_datetime_for(%Pjeski.Users.User{subscription: nil}), do: gettext("empty")
   def subscription_expires_datetime_for(%Pjeski.Users.User{subscription: subscription}), do: subscription.expires_on
 
@@ -53,6 +50,8 @@ defmodule PjeskiWeb.Admin.UserView do
       ["name_asc", gettext("Name and surname") <> ascending],
       ["email_desc", gettext("E-mail") <> descending],
       ["email_asc", gettext("E-mail") <> ascending],
+      ["time_zone_desc", gettext("Time zone") <> descending],
+      ["time_zone_asc", gettext("Time zone") <> ascending],
       ["locale_desc", gettext("Locale") <> descending],
       ["locale_asc", gettext("Locale") <> ascending],
       ["role_desc", gettext("Role") <> descending],

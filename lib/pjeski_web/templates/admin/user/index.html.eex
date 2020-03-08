@@ -90,6 +90,7 @@
       <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Subscription"), "subscription_name", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Subscription ends"), "subscription_expires_on", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Time zone"), "time_zone", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Locale"), "locale", @sort_by, @search_by, @query) %></th>
@@ -108,16 +109,19 @@
             <%= link user.email, to: Routes.admin_user_path(@conn, :show, user) %>
           </td>
           <td data-label="<%= gettext("Subscription") %>: ">
-            <%= subscription_name_link_for(@conn, user) %> (<%= subscription_time_zone_for(user) %>)
+            <%= subscription_name_link_for(@conn, user) %>
           </td>
           <td data-label="<%= gettext("Subscription ends") %>: ">
             <%= subscription_expires_datetime_for(user) %>
           </td>
+          <td data-label="<%= gettext("Time zone") %>: ">
+            <%= user.time_zone %>
+          </td>
           <td data-label="<%= gettext("Inserted at") %>: ">
-            <%= user.inserted_at %>
+            <%= dt @conn, user.inserted_at %>
           </td>
           <td data-label="<%= gettext("Updated at") %>: ">
-            <%= user.updated_at %>
+            <%= dt @conn, user.updated_at %>
           </td>
           <td data-label="<%= gettext("Locale") %>: ">
             <%= user.locale %>

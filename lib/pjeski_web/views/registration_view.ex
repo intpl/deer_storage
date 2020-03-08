@@ -4,9 +4,7 @@ defmodule PjeskiWeb.RegistrationView do
   alias Pjeski.Subscriptions
   alias Pjeski.Users.User
 
-  def time_zones_select_options do
-     Tzdata.zone_list
-  end
+  def time_zones_select_options, do: Tzdata.zone_list
 
   def languages_select_options do
     [
