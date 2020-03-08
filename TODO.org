@@ -15,6 +15,7 @@
 ** DONE Migrate time zone to user and modify Admin users and subscriptions controllers
 ** DONE Select2 for time zones
 ** TODO AdminDashboard at least counts LIVE
+** TODO VALIDATE SUBSCRIPTION FIELDS PRESENCE IN REGISTRATION CONTROLLER
 ** TODO Migrate database, write seeds with a proper structure
 ** TODO START WRITING TESTS in 3..2..1..
 ** TODO Change redirects in registration
