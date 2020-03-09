@@ -1,13 +1,22 @@
 defmodule PjeskiWeb.Admin.DashboardLive.Index do
   use Phoenix.LiveView
+  use PjeskiWeb.LiveHelpers.RenewTokenHandler
+
+  import PjeskiWeb.Gettext
+  import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
 
   alias Pjeski.Users
   alias Pjeski.Subscriptions
 
   def mount(_params, %{"pjeski_auth" => token}, socket) do
-    #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
+    user = user_from_live_session(token)
 
-    if connected?(socket), do: Users.subscribe
+    if connected?(socket) do
+      :timer.send_interval(1200000, self(), :renew_token) # 1200000ms = 20min
+      Users.subscribe
+    end
+
+    Gettext.put_locale(user.locale)
 
     {:ok, assign(socket, token: token)}
   end
@@ -18,13 +27,10 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
       <div class="hero-body">
         <div class="container">
           <p class="title">
-            Subscriptions: <%= assigns.subscriptions_count %><br>
+            <%= gettext("Subscriptions") %>: <%= assigns.subscriptions_count %><br>
           </p>
           <p class="subtitle">
-            Users: <%= assigns.users_count %>
-          </p>
-          <p class="subtitle">
-          (reloads <b>LIVE</b>!)
+            <%= gettext("Users") %>: <%= assigns.users_count %>
           </p>
         </div>
       </div>

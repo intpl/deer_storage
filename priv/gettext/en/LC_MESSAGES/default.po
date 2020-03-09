@@ -207,10 +207,10 @@ msgid "User"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:76
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:99 lib/pjeski_web/templates/admin/subscription/show.html.eex:56
-#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:17 lib/pjeski_web/views/admin/subscription_view.ex:42
-#: lib/pjeski_web/views/admin/subscription_view.ex:43
+#: lib/pjeski_web/live/admin_dashboard_live/index.ex:33
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:76 lib/pjeski_web/templates/admin/subscription/index.html.eex:99
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:56 lib/pjeski_web/templates/layout/navigation_admin.html.eex:17
+#: lib/pjeski_web/views/admin/subscription_view.ex:42 lib/pjeski_web/views/admin/subscription_view.ex:43
 msgid "Users"
 msgstr ""
 
@@ -348,6 +348,7 @@ msgid "Subscription"
 msgstr ""
 
 #, elixir-format
+#: lib/pjeski_web/live/admin_dashboard_live/index.ex:30
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:18
 msgid "Subscriptions"
 msgstr ""
@@ -588,7 +589,7 @@ msgstr ""
 msgid "Copy from subscription"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/registration/edit.html.eex:47
 #: lib/pjeski_web/templates/registration/new.html.eex:72
 msgid "Display dates in the following time zone"
