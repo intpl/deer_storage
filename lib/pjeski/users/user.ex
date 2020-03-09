@@ -38,7 +38,7 @@ defmodule Pjeski.Users.User do
     |> pow_changeset(params)
     |> cast(params, [:locale, :name, :time_zone])
     |> cast_assoc(:subscription, with: &Subscription.changeset/2)
-    |> validate_required([:name, :email])
+    |> validate_required([:name, :email, :subscription])
     |> validate_length(:name, min: 3)
     |> validate_length(:name, max: 100)
     |> validate_length(:email, min: 3)
