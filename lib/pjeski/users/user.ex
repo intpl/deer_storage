@@ -32,19 +32,14 @@ defmodule Pjeski.Users.User do
     |> validate_role()
   end
 
-  # TODO extract validations in separate common function
+  def changeset(%{role: "admin"} = existing_user, params), do: user_changeset(existing_user, params)
+  def changeset(%{subscription_id: subscription_id} = existing_user, params) when is_number(subscription_id) do
+    user_changeset(existing_user, params)
+  end
   def changeset(user_or_changeset, params) do
-    user_or_changeset
-    |> pow_changeset(params)
-    |> cast(params, [:locale, :name, :time_zone])
+    user_changeset(user_or_changeset, params)
     |> cast_assoc(:subscription, with: &Subscription.changeset/2)
-    |> validate_required([:name, :email, :subscription])
-    |> validate_length(:name, min: 3)
-    |> validate_length(:name, max: 100)
-    |> validate_length(:email, min: 3)
-    |> validate_length(:email, max: 100)
-    |> validate_inclusion(:locale, available_locales_strings())
-    |> validate_inclusion(:time_zone, Tzdata.zone_list)
+    |> validate_required(:subscription)
   end
 
   def changeset_role(user_or_changeset, attrs) do
@@ -59,5 +54,18 @@ defmodule Pjeski.Users.User do
 
   defp available_locales_strings do
     PjeskiWeb.Gettext |> Gettext.known_locales()
+  end
+
+  defp user_changeset(user_or_changeset, params) do
+    user_or_changeset
+    |> pow_changeset(params)
+    |> cast(params, [:locale, :name, :time_zone])
+    |> validate_required([:name, :email])
+    |> validate_length(:name, min: 3)
+    |> validate_length(:name, max: 100)
+    |> validate_length(:email, min: 3)
+    |> validate_length(:email, max: 100)
+    |> validate_inclusion(:locale, available_locales_strings())
+    |> validate_inclusion(:time_zone, Tzdata.zone_list)
   end
 end

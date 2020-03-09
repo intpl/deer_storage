@@ -47,6 +47,7 @@ defmodule Pjeski.Subscriptions do
     |> Repo.preload(:users)
   end
 
+  def get_subscription!(nil), do: nil
   def get_subscription!(id) do
     Subscription
     |> Repo.get!(id)
