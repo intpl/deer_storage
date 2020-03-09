@@ -23,11 +23,16 @@ defmodule PjeskiWeb.SessionController do
   end
 
   defp verify_subscription_valid?({:ok, conn}) do
-    conn
-    |> Pow.Plug.current_user()
+    user = conn |> Pow.Plug.current_user()
+
+    user
     |> subscription_valid?
     |> case do
          {true, user_role} ->
+           pow_config = Pow.Plug.fetch_config(conn)
+
+           Pow.Plug.assign_current_user(conn, Pjeski.Repo.preload(user, :subscription), pow_config)
+
            redirect(conn, to: dashboard_path_for(user_role))
          _ ->
            conn

@@ -10,7 +10,7 @@ defmodule PjeskiWeb.Router do
     plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug Pjeski.UserDataPlug
+    plug Pjeski.LocalePlug
     plug NavigationHistory.Tracker
   end
 

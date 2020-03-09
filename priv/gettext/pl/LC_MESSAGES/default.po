@@ -398,7 +398,7 @@ msgid "%{name} is now '%{role}'"
 msgstr "%{name} ma teraz rolę '%{role}'"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:44
+#: lib/pjeski_web/controllers/session_controller.ex:49
 msgid "Invalid e-mail or password"
 msgstr "Zły e-mail lub hasło"
 
@@ -413,7 +413,7 @@ msgid "You've to be authenticated first"
 msgstr "Musisz najpierw się zalogować"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:35
+#: lib/pjeski_web/controllers/session_controller.ex:40
 msgid "Your subscription is inactive."
 msgstr "Twoja subskrypcja jest nieaktywna"
 

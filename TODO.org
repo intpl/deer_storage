@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [46%] [15/32] DEADLINE: <2020-03-31 Tue>
+* TODO [50%] [16/32] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -16,11 +16,11 @@
 ** DONE AdminDashboard at least counts LIVE
 ** DONE VALIDATE SUBSCRIPTION FIELDS PRESENCE IN REGISTRATION CONTROLLER
 ** DONE Fix preload subscription for registration edit
-** TODO sessions in ~/code/pjeski/lib/pjeski_web/plugs/user_data.ex + PRELOAD
-** TODO Migrate database, write seeds with a proper structure
+** DONE sessions in ~/code/pjeski/lib/pjeski_web/plugs/user_data.ex + PRELOAD
 ** TODO START WRITING TESTS in 3..2..1..
 ** TODO Change redirects in registration
 ** TODO Write tests for registration process, updating user/subscription, restricted nested attributes
+** TODO Migrate database, write seeds with a proper structure
 ** TODO POW Invitation and display subscription's users in Settings page + TESTS
 ** TODO Allow User to change their subscription. Decide what to do with remaining/empty subscription + TESTS
 ** TODO Write high level logging/history mechanism + TEST
