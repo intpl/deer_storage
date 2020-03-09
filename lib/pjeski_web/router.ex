@@ -2,6 +2,8 @@ defmodule PjeskiWeb.Router do
   use PjeskiWeb, :router
   use Pow.Phoenix.Router
 
+  alias PjeskiWeb.LayoutView
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -22,7 +24,7 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
-    live "/dashboard", DashboardLive.Index
+    live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
     resources "/session", SessionController, singleton: true, only: [:delete]
@@ -30,7 +32,7 @@ defmodule PjeskiWeb.Router do
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]
 
-      live "/dashboard", DashboardLive.Index # this is in fact Admin.DashboardLive.Index
+      live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}  # this is in fact Admin.DashboardLive.Index
 
       resources "/users", UserController do
         put "/toggle_admin", UserController, :toggle_admin
