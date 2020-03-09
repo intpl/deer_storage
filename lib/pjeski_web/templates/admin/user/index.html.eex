@@ -16,7 +16,7 @@
   </div>
   <div class="column is-8">
     <div class="field has-addons">
-      <%= if @page != 1 || @query != "" || @sort_by != "" || @search_by != "" do %>
+      <%= if @page != 1 || @query != "" || @sort_by != "" || @search_by != "subscriptions_and_users" do %>
         <%= link to: Routes.admin_user_path(@conn, :index) do %>
           <button class="button is-inline" type="submit">
             <%= gettext("Clear") %>
