@@ -33,7 +33,7 @@
 - UserRecords::DisplayComponent + TESTS
 - UserRecords::EditComponent + TESTS
 - UserRecords::NewComponent + TESTS
-** TODO write Select2 abstraction for Live components
+** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** TODO use jaro_distance to colorize fields
 ** TODO UserRecords::ShowLive + TESTS
 ** TODO "Notes" markdown everywhere
