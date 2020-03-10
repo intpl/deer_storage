@@ -59,8 +59,8 @@ defmodule Pjeski.Users.User do
   defp user_changeset(user_or_changeset, params) do
     user_or_changeset
     |> pow_changeset(params)
-    |> cast(params, [:locale, :name, :time_zone])
-    |> validate_required([:name, :email])
+    |> cast(params, [:name, :time_zone, :locale])
+    |> validate_required([:name, :time_zone, :locale])
     |> validate_length(:name, min: 3)
     |> validate_length(:name, max: 100)
     |> validate_length(:email, min: 3)

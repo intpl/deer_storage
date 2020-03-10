@@ -17,9 +17,9 @@
 ** DONE VALIDATE SUBSCRIPTION FIELDS PRESENCE IN REGISTRATION CONTROLLER
 ** DONE Fix preload subscription for registration edit
 ** DONE sessions in ~/code/pjeski/lib/pjeski_web/plugs/user_data.ex + PRELOAD
-** TODO START WRITING TESTS in 3..2..1..
+** STRT START WRITING TESTS in 3..2..1..
+** STRT Write tests for registration process, updating user/subscription, restricted nested attributes
 ** TODO Change redirects in registration
-** TODO Write tests for registration process, updating user/subscription, restricted nested attributes
 ** TODO Migrate database, write seeds with a proper structure
 ** TODO POW Invitation and display subscription's users in Settings page + TESTS
 ** TODO Allow User to change their subscription. Decide what to do with remaining/empty subscription + TESTS

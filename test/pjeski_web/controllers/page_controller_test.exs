@@ -3,6 +3,6 @@ defmodule PjeskiWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
-    assert html_response(conn, 200) =~ "System Zarządzania Kliniką"
+    assert html_response(conn, 200) =~ "StorageDeer"
   end
 end

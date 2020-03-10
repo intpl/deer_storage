@@ -3,7 +3,17 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
 
   alias Pjeski.Users
 
-  @create_attrs %{email: "test@test.eu", name: "Henryk Testowny", password: "secret123", password_confirmation: "secret123", locale: "pl"}
+  @create_attrs %{email: "test@test.eu",
+                  name: "Henryk Testowny",
+                  password: "secret123",
+                  password_confirmation: "secret123",
+                  locale: "pl",
+                  subscription: %{
+                    name: "Test",
+                    email: "test@example.org"
+                  }
+  }
+
   @update_attrs %{email: "test2@test.eu"}
 
   def fixture(:user) do
@@ -12,9 +22,12 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
   end
 
   describe "index" do
+    setup [:create_user]
+
     test "lists all users", %{admin_conn: admin_conn} do
       conn = get(admin_conn, Routes.admin_user_path(admin_conn, :index))
       assert html_response(conn, 200) =~ "All users"
+      assert html_response(conn, 200) =~ "Henryk Testowny"
     end
   end
 
