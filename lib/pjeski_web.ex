@@ -23,10 +23,7 @@ defmodule PjeskiWeb do
 
       import Plug.Conn
       import PjeskiWeb.Gettext
-      import PjeskiWeb.Controllers.Helpers, only: [
-        redirect_back: 2,
-        dashboard_path_for: 1
-      ]
+      import PjeskiWeb.Controllers.Helpers, only: [dashboard_path_for: 1]
       import Phoenix.LiveView.Controller
 
       alias PjeskiWeb.Router.Helpers, as: Routes
