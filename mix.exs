@@ -46,7 +46,7 @@ defmodule Pjeski.MixProject do
       {:plug_cowboy, "~> 2.0"},
 
       # Non-default
-      {:pow, "~> 1.0.15"},
+      {:pow, "~> 1.0.18"},
       {:phoenix_active_link, "~> 0.3.0"},
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.0.1"},
