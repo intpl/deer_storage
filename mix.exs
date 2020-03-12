@@ -52,7 +52,7 @@ defmodule Pjeski.MixProject do
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.0.1"},
       {:quantum, "~> 2.3"},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"}, # FIXME before release
+      {:phoenix_live_view, "~> 0.9.0"},
       {:floki, ">= 0.0.0", only: :test},
       {:faker, "~> 0.13", only: [:test, :dev]}
     ]
