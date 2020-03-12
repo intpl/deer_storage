@@ -1,6 +1,7 @@
 defmodule PjeskiWeb.Router do
   use PjeskiWeb, :router
   use Pow.Phoenix.Router
+  use Pow.Extension.Phoenix.Router, extensions: [PowResetPassword, PowEmailConfirmation]
 
   alias PjeskiWeb.LayoutView
 
@@ -42,24 +43,20 @@ defmodule PjeskiWeb.Router do
     end
   end
 
-  scope "/" do
+  scope "/", PjeskiWeb do
     pipe_through [:browser, :not_authenticated]
 
-    resources "/session",
-      PjeskiWeb.SessionController,
-      singleton: true,
-      only: [:new, :create]
+    resources "/session", SessionController, singleton: true, only: [:new, :create]
 
-    resources "/registration",
-      PjeskiWeb.RegistrationController,
-      singleton: true,
-      only: [:new, :create]
+    resources "/registration", RegistrationController, singleton: true, only: [:new, :create]
+
+    resources "/reset-password", ResetPasswordController, only: [:new, :create]
+    resources "/reset-password/:id", ResetPasswordController, only: [:edit, :update]
+
   end
 
   scope "/" do
     pipe_through :browser
-
-    # pow_extension_routes()
 
     get "/", PjeskiWeb.PageController, :index
   end

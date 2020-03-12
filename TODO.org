@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [51%] [16/31] DEADLINE: <2020-03-31 Tue>
+* TODO [47%] [17/36] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -18,8 +18,11 @@
 ** DONE Fix preload subscription for registration edit
 ** DONE sessions in ~/code/pjeski/lib/pjeski_web/plugs/user_data.ex + PRELOAD
 ** STRT START WRITING TESTS in 3..2..1..
-** STRT Write tests for registration process, updating user/subscription, restricted nested attributes
-** TODO POW Invitation and display subscription's users in Settings page + TESTS
+** TODO Write tests for registration process, updating user/subscription, restricted nested attributes
+** DONE Pow Reset password
+** TODO Test resetting password
+** STRT POW Invitation and display subscription's users in Settings page + TESTS
+** TODO Pow Email Confirmation
 ** TODO Migrate database, write seeds with a proper structure
 ** TODO Allow User to change their subscription. Decide what to do with remaining/empty subscription + TESTS
 ** TODO Write high level logging/history mechanism + TEST
@@ -37,3 +40,5 @@
 ** TODO UserRecords::ShowLive + TESTS
 ** TODO "Notes" markdown everywhere
 ** TODO Add caching for records, Dashboards
+** TODO Pow from github signed tokens
+** TODO Add "Enterprise" to the database and allow certain users to switch subscriptions

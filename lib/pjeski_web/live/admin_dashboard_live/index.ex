@@ -3,13 +3,13 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
   use PjeskiWeb.LiveHelpers.RenewTokenHandler
 
   import PjeskiWeb.Gettext
-  import Pjeski.Users.UserSessionUtils, only: [user_from_live_session: 1]
+  import Pjeski.Users.UserSessionUtils, only: [user_from_auth_token: 1]
 
   alias Pjeski.Users
   alias Pjeski.Subscriptions
 
-  def mount(_params, %{"pjeski_auth" => token}, socket) do
-    user = user_from_live_session(token)
+  def mount(%{}, %{"pjeski_auth" => token}, socket) do
+    user = user_from_auth_token(token)
 
     if connected?(socket) do
       :timer.send_interval(1200000, self(), :renew_token) # 1200000ms = 20min

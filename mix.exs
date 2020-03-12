@@ -20,7 +20,7 @@ defmodule Pjeski.MixProject do
   def application do
     [
       mod: {Pjeski.Application, []},
-      extra_applications: [:logger, :runtime_tools, :timex, :phoenix_ecto]
+      extra_applications: [:logger, :runtime_tools, :timex, :phoenix_ecto, :bamboo]
     ]
   end
 
@@ -47,6 +47,7 @@ defmodule Pjeski.MixProject do
 
       # Non-default
       {:pow, "~> 1.0.18"},
+      {:bamboo, "~> 1.4"},
       {:phoenix_active_link, "~> 0.3.0"},
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.0.1"},

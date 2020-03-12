@@ -1,6 +1,7 @@
 defmodule Pjeski.Users.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
+  use Pow.Extension.Ecto.Schema, extensions: [PowEmailConfirmation, PowResetPassword]
 
   import Pow.Ecto.Schema.Changeset, only: [new_password_changeset: 3, user_id_field_changeset: 3]
   import Ecto.Changeset
@@ -59,6 +60,7 @@ defmodule Pjeski.Users.User do
   defp user_changeset(user_or_changeset, params) do
     user_or_changeset
     |> pow_changeset(params)
+    |> pow_extension_changeset(params)
     |> cast(params, [:name, :time_zone, :locale])
     |> validate_required([:name, :time_zone, :locale])
     |> validate_length(:name, min: 3)

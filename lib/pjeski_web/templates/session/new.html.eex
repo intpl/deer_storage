@@ -41,5 +41,8 @@
         <%= submit gettext("Sign in"), class: 'button' %>
       </div>
     <% end %>
+    <br>
+
+    <%= link(gettext("Reset password"), to: Routes.reset_password_path(@conn, :new)) %>
   </div>
 </section>

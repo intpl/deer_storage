@@ -8,14 +8,14 @@ defmodule Pjeski.Users.UserSessionUtils do
       @credentials_cache_config,
       token,
       {
-        user_from_live_session(token),
+        user_from_auth_token(token),
         inserted_at: :os.system_time(:millisecond),
         fingerprint: fingerprint
       }
     )
   end
 
-  def user_from_live_session(token) do
+  def user_from_auth_token(token) do
     # returns :not_found if no user session, but let's keep it failing/unmatched for security reasons
     {user, _} = CredentialsCache.get(@credentials_cache_config, token)
 
