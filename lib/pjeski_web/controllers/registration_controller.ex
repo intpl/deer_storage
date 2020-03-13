@@ -33,10 +33,11 @@ defmodule PjeskiWeb.RegistrationController do
 
   def update(conn, %{"user" => user_params}) do
     conn |> Pow.Plug.update_user(user_params) |> case do
-      {:ok, %User{role: role}, conn} ->
+      {:ok, %User{}, conn} ->
         conn
         |> maybe_send_confirmation_email
-        |> redirect(to: dashboard_path_for(role))
+        |> put_flash(:info, gettext("Account updated"))
+        |> render("edit.html", changeset: Pow.Plug.change_user(conn), navigation_template_always: "navigation_outside_app.html")
 
       {:error, changeset, conn} ->
         render(conn, "edit.html", changeset: changeset, navigation_template_always: "navigation_outside_app.html")

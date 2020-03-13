@@ -26,7 +26,7 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
 
     test "lists all users", %{admin_conn: admin_conn} do
       conn = get(admin_conn, Routes.admin_user_path(admin_conn, :index))
-      assert html_response(conn, 200) =~ "All users"
+      assert html_response(conn, 200) =~ "Użytkownicy"
       assert html_response(conn, 200) =~ "Henryk Testowny"
     end
   end
@@ -34,7 +34,7 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
   describe "new user" do
     test "renders form", %{admin_conn: admin_conn} do
       conn = get(admin_conn, Routes.admin_user_path(admin_conn, :new))
-      assert html_response(conn, 200) =~ "New User"
+      assert html_response(conn, 200) =~ "Nowy Użytkownik"
     end
   end
 
@@ -55,7 +55,7 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
 
     test "renders form for editing chosen user", %{admin_conn: admin_conn, user: user} do
       conn = get(admin_conn, Routes.admin_user_path(admin_conn, :edit, user))
-      assert html_response(conn, 200) =~ "Name and surname"
+      assert html_response(conn, 200) =~ "Imię i nazwisko"
     end
   end
 

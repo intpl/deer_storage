@@ -16,3 +16,5 @@ config :pjeski, PjeskiWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :pjeski, PjeskiWeb.PowMailer, adapter: Bamboo.TestAdapter

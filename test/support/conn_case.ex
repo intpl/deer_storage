@@ -37,10 +37,13 @@ defmodule PjeskiWeb.ConnCase do
   end
 
   setup %{conn: conn} do
-    user = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "admin", locale: "en"}
-    admin_conn = Pow.Plug.assign_current_user(conn, user, [])
+    admin = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "admin", locale: "pl"}
+    user = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "user", locale: "pl"}
 
-    {:ok, conn: conn, admin_conn: admin_conn}
+    admin_conn = Pow.Plug.assign_current_user(conn, admin, [])
+    user_conn = Pow.Plug.assign_current_user(conn, user, [])
+
+    {:ok, guest_conn: conn, admin_conn: admin_conn, user_conn: user_conn}
   end
 
 end

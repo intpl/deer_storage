@@ -16,7 +16,7 @@ defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
 
     test "lists all subscriptions", %{admin_conn: admin_conn} do
       conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :index))
-      assert html_response(conn, 200) =~ "Subscription name"
+      assert html_response(conn, 200) =~ "Nazwa subskrypcji"
       assert html_response(conn, 200) =~ "example name"
     end
   end
@@ -24,7 +24,7 @@ defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
   describe "new subscription" do
     test "renders form", %{admin_conn: admin_conn} do
       conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :new))
-      assert html_response(conn, 200) =~ "New Subscription"
+      assert html_response(conn, 200) =~ "Nowa Subskrypcja"
     end
   end
 
