@@ -23,11 +23,11 @@
 ** TODO Test resetting password
 ** STRT POW Invitation and display subscription's users in Settings page + TESTS
 ** DONE Pow Email Confirmation
-** TODO Pow Email Confirmation: changing email, sending token
+** TODO Pow Email Confirmation fields in admin panel
 ** TODO Migrate database, write seeds with a proper structure
 ** TODO Allow User to change their subscription. Decide what to do with remaining/empty subscription + TESTS
 ** TODO Write high level logging/history mechanism + TEST
-** TODO Write RestrictSubscription + TESTS
+** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation) + TESTS
 ** TODO Adapt layout to subscription's tables
 ** TODO CRUD controller/views/js for Settings->Tables + TESTS
 ** TODO UserRecords::IndexLive + TESTS
