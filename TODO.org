@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [47%] [19/40] DEADLINE: <2020-03-31 Tue>
+* TODO [50%] [20/40] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -20,7 +20,7 @@
 ** STRT START WRITING TESTS in 3..2..1..
 ** DONE Write tests for registration process, updating user/subscription, restricted nested attributes
 ** DONE Pow Reset password
-** STRT Test registration controller + Email sending
+** DONE Test registration controller + Email sending
 ** TODO Test resetting password controller + Email sending
 ** TODO Test session controller
 ** STRT POW Invitation and display subscription's users in Settings page + TESTS

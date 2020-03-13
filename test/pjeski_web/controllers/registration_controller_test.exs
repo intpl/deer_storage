@@ -1,6 +1,8 @@
 defmodule PjeskiWeb.RegistrationControllerTest do
   use PjeskiWeb.ConnCase
 
+  use Bamboo.Test
+
   alias Pjeski.{Repo, Users, Users.User, Subscriptions}
 
   @valid_attrs %{email: "test@storagedeer.com",
@@ -18,7 +20,6 @@ defmodule PjeskiWeb.RegistrationControllerTest do
 
     user
   end
-
 
   describe "new" do
     test "[guest] GET /registration/new", %{guest_conn: conn} do
@@ -44,6 +45,13 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       assert html_response(conn, 200) =~ "Musisz potwierdzić swój adres e-mail przed pierwszym zalogowaniem"
       assert Subscriptions.total_count == 1
       assert Users.total_count == 1
+
+      {:ok, email_confirmation_token} = Users.last_user |> Map.fetch(:email_confirmation_token)
+
+      assert_email_delivered_with(
+        to: [nil: @valid_attrs.email], # TODO: czy to w ogole dziala? :O
+        text_body: ~r/#{email_confirmation_token}/
+      )
     end
 
     test "[guest] [invalid attrs] POST /registration", %{guest_conn: conn} do
@@ -91,6 +99,12 @@ defmodule PjeskiWeb.RegistrationControllerTest do
 
       {:ok, reloaded_user} = Repo.get(User, user.id) |> Map.fetch(:email)
       refute reloaded_user == new_email
+
+      {:ok, email_confirmation_token} = Users.last_user |> Map.fetch(:email_confirmation_token)
+      assert_email_delivered_with(
+        to: [nil: new_email], # TODO: czy to w ogole dziala? :O
+        text_body: ~r/#{email_confirmation_token}/
+      )
     end
   end
 end

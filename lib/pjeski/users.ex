@@ -9,7 +9,8 @@ defmodule Pjeski.Users do
 
   use Pjeski.AllowSubscribers, Pjeski.Users
 
-  def total_count(), do: Pjeski.Repo.aggregate(from(u in "users"), :count, :id)
+  def total_count(), do: Pjeski.Repo.aggregate(from(u in User), :count, :id)
+  def last_user(), do: from(u in User, limit: 1, order_by: [desc: u.inserted_at]) |> Repo.one
 
   def list_users("", page, per_page, sort_by, _search_by) when page > 0 do
     offset = (page - 1) * per_page
