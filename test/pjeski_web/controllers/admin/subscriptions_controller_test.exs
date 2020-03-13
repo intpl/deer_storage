@@ -12,9 +12,12 @@ defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
   end
 
   describe "index" do
+    setup [:create_subscription]
+
     test "lists all subscriptions", %{admin_conn: admin_conn} do
       conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :index))
       assert html_response(conn, 200) =~ "Subscription name"
+      assert html_response(conn, 200) =~ "example name"
     end
   end
 
