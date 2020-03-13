@@ -32,14 +32,23 @@ defmodule PjeskiWeb.RegistrationController do
   end
 
   def update(conn, %{"user" => user_params}) do
-    conn
-    |> Pow.Plug.update_user(user_params)
-    |> case do
+    conn |> Pow.Plug.update_user(user_params) |> case do
       {:ok, %User{role: role}, conn} ->
-        conn |> redirect(to: dashboard_path_for(role))
+        conn
+        |> maybe_send_confirmation_email
+        |> redirect(to: dashboard_path_for(role))
 
       {:error, changeset, conn} ->
         render(conn, "edit.html", changeset: changeset, navigation_template_always: "navigation_outside_app.html")
     end
+  end
+
+  def maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: email, unconfirmed_email: email}}} = conn), do: conn
+  def maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: nil}}} = conn), do: conn
+  def maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: _} = user}} = conn) do
+    send_confirmation_email(user, conn)
+
+    conn
+    |> put_flash(:info, gettext("Click the link in the confirmation email to change your email."))
   end
 end

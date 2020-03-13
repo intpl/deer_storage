@@ -25,6 +25,12 @@
         <%= gettext("Your subscription ends in %{days} days", days: days_to_expire(@current_user)) %>
       </div>
 
+      <%= if @changeset.data.unconfirmed_email do %>
+        <div class="notification">
+          <p><%= gettext("Click the link in the confirmation email to change your email to:") %> <%= content_tag(:span, @changeset.data.unconfirmed_email) %></p>
+        </div>
+      <% end %>
+
       <div class="columns">
         <div class="column">
           <h4 class="title is-4">

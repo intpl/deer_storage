@@ -39,7 +39,7 @@ msgid "Sign in"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:89
+#: lib/pjeski_web/templates/registration/edit.html.eex:95
 msgid "Update"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:21
-#: lib/pjeski_web/templates/admin/user/show.html.eex:65 lib/pjeski_web/templates/registration/edit.html.eex:41
+#: lib/pjeski_web/templates/admin/user/show.html.eex:65 lib/pjeski_web/templates/registration/edit.html.eex:47
 #: lib/pjeski_web/templates/registration/new.html.eex:47
 msgid "Language"
 msgstr ""
@@ -78,7 +78,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/form.html.eex:15
-#: lib/pjeski_web/templates/admin/user/form.html.eex:27 lib/pjeski_web/templates/registration/edit.html.eex:59
+#: lib/pjeski_web/templates/admin/user/form.html.eex:27 lib/pjeski_web/templates/registration/edit.html.eex:65
 #: lib/pjeski_web/templates/registration/new.html.eex:60
 msgid "E-mail address"
 msgstr ""
@@ -90,28 +90,28 @@ msgid "Sign out"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:55
+#: lib/pjeski_web/templates/registration/edit.html.eex:61
 msgid "Change sign-in credentials"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:71
+#: lib/pjeski_web/templates/registration/edit.html.eex:77
 msgid "Confirm new password"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:84
+#: lib/pjeski_web/templates/registration/edit.html.eex:90
 msgid "Enter current password"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:31
+#: lib/pjeski_web/templates/registration/edit.html.eex:37
 msgid "General settings"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:33
-#: lib/pjeski_web/templates/registration/edit.html.eex:65
+#: lib/pjeski_web/templates/registration/edit.html.eex:71
 msgid "New password"
 msgstr ""
 
@@ -332,7 +332,7 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:9
 #: lib/pjeski_web/templates/admin/user/index.html.eex:89 lib/pjeski_web/templates/admin/user/show.html.eex:53
-#: lib/pjeski_web/templates/registration/edit.html.eex:35 lib/pjeski_web/templates/registration/new.html.eex:53
+#: lib/pjeski_web/templates/registration/edit.html.eex:41 lib/pjeski_web/templates/registration/new.html.eex:53
 #: lib/pjeski_web/views/admin/user_view.ex:49 lib/pjeski_web/views/admin/user_view.ex:50
 msgid "Name and surname"
 msgstr ""
@@ -592,7 +592,7 @@ msgid "Copy from subscription"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:47
+#: lib/pjeski_web/templates/registration/edit.html.eex:53
 #: lib/pjeski_web/templates/registration/new.html.eex:72
 msgid "Display dates in the following time zone"
 msgstr ""
@@ -634,7 +634,7 @@ msgstr ""
 msgid "User not found"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/controllers/confirmation_controller.ex:8
 msgid "E-mail has been confirmed"
 msgstr ""
@@ -650,6 +650,16 @@ msgid "Failed to confirm e-mail"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:28
+#: lib/pjeski_web/controllers/registration_controller.ex:27
 msgid "Please confirm your e-mail before logging in"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/registration/edit.html.eex:30
+msgid "Click the link in the confirmation email to change your email to:"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/controllers/registration_controller.ex:52
+msgid "Click the link in the confirmation email to change your email."
 msgstr ""

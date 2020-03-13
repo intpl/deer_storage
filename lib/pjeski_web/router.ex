@@ -52,13 +52,13 @@ defmodule PjeskiWeb.Router do
 
     resources "/reset-password", ResetPasswordController, only: [:new, :create]
     resources "/reset-password/:id", ResetPasswordController, only: [:edit, :update]
-
-    resources "/confirm-email", ConfirmationController, only: [:show]
   end
 
-  scope "/" do
+  scope "/", PjeskiWeb do
     pipe_through :browser
 
-    get "/", PjeskiWeb.PageController, :index
+    resources "/confirm-email", ConfirmationController, only: [:show]
+
+    get "/", PageController, :index
   end
 end
