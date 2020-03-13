@@ -34,8 +34,9 @@ config :phoenix, :json_library, Jason
 config :pjeski, :pow,
   user: Pjeski.Users.User,
   repo: Pjeski.Repo,
-  web_module: PjeskiWeb,
   mailer_backend: PjeskiWeb.PowMailer,
+  web_module: PjeskiWeb,
+  web_mailer_module: PjeskiWeb,
   cache_store_backend: Pow.Store.Backend.MnesiaCache,
   extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks

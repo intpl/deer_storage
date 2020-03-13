@@ -1,6 +1,8 @@
 defmodule PjeskiWeb.SessionController do
   use PjeskiWeb, :controller
 
+  import PjeskiWeb.ConfirmationHelpers, only: [send_confirmation_email: 2]
+
   alias Pjeski.Users.User
   alias Pjeski.Subscriptions
 
@@ -31,9 +33,19 @@ defmodule PjeskiWeb.SessionController do
          {true, user_role} ->
            pow_config = Pow.Plug.fetch_config(conn)
 
-           Pow.Plug.assign_current_user(conn, Pjeski.Repo.preload(user, :subscription), pow_config)
+           case email_confirmed?(user) do
+             true ->
+               Pow.Plug.assign_current_user(conn, Pjeski.Repo.preload(user, :subscription), pow_config)
+               conn |> redirect(to: dashboard_path_for(user_role))
+             false ->
+               send_confirmation_email(user, conn)
 
-           redirect(conn, to: dashboard_path_for(user_role))
+               conn
+               |> Pow.Plug.delete
+               |> put_flash(:info, gettext("E-mail not confirmed. Confirmation e-mail has been sent again"))
+               |> redirect(to: Routes.session_path(conn, :new))
+           end
+
          _ ->
            conn
            |> Pow.Plug.delete
@@ -60,4 +72,7 @@ defmodule PjeskiWeb.SessionController do
       :user
     }
   end
+
+  defp email_confirmed?(%{email_confirmed_at: nil, email_confirmation_token: token, unconfirmed_email: nil}) when not is_nil(token), do: false
+  defp email_confirmed?(_user), do: true
 end

@@ -4,6 +4,8 @@ defmodule PjeskiWeb.RegistrationController do
   alias Pjeski.Users
   alias Pjeski.Users.User
 
+  import PjeskiWeb.ConfirmationHelpers, only: [send_confirmation_email: 2]
+
   def new(conn, _params) do
     render(conn, "new.html", changeset: Pow.Plug.change_user(conn))
   end
@@ -18,8 +20,12 @@ defmodule PjeskiWeb.RegistrationController do
     |> case do
       {:ok, user, conn} ->
         Users.notify_subscribers({:ok, user}, [:user, :created])
+        send_confirmation_email(user, conn)
 
-        conn |> redirect(to: dashboard_path_for(:user))
+        conn
+        |> Pow.Plug.delete
+        |> put_flash(:info, gettext("Please confirm your e-mail before logging in"))
+        |> redirect(to: Routes.session_path(conn, :new))
       {:error, changeset, conn} ->
         render(conn, "new.html", changeset: changeset)
     end

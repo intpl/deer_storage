@@ -1,7 +1,7 @@
 defmodule PjeskiWeb.Router do
   use PjeskiWeb, :router
   use Pow.Phoenix.Router
-  use Pow.Extension.Phoenix.Router, extensions: [PowResetPassword, PowEmailConfirmation]
+  use Pow.Extension.Phoenix.Router, extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession]
 
   alias PjeskiWeb.LayoutView
 
@@ -53,6 +53,7 @@ defmodule PjeskiWeb.Router do
     resources "/reset-password", ResetPasswordController, only: [:new, :create]
     resources "/reset-password/:id", ResetPasswordController, only: [:edit, :update]
 
+    resources "/confirm-email", ConfirmationController, only: [:show]
   end
 
   scope "/" do

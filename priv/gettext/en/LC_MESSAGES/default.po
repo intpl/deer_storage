@@ -27,6 +27,7 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:23
 #: lib/pjeski_web/templates/registration/new.html.eex:5 lib/pjeski_web/templates/registration/new.html.eex:90
+#: lib/pjeski_web/templates/session/new.html.eex:46
 msgid "Register"
 msgstr ""
 
@@ -399,7 +400,7 @@ msgid "%{name} is now '%{role}'"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:49
+#: lib/pjeski_web/controllers/session_controller.ex:61
 msgid "Invalid e-mail or password"
 msgstr ""
 
@@ -414,7 +415,7 @@ msgid "You've to be authenticated first"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:40
+#: lib/pjeski_web/controllers/session_controller.ex:52
 msgid "Your subscription is inactive."
 msgstr ""
 
@@ -612,9 +613,9 @@ msgstr ""
 msgid "Password has been reset"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/reset_password/edit.html.eex:5
-#: lib/pjeski_web/templates/reset_password/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:46
+#: lib/pjeski_web/templates/reset_password/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:47
 msgid "Reset password"
 msgstr ""
 
@@ -631,4 +632,24 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/controllers/reset_password_controller.ex:39
 msgid "User not found"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/controllers/confirmation_controller.ex:8
+msgid "E-mail has been confirmed"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/session_controller.ex:45
+msgid "E-mail not confirmed. Confirmation e-mail has been sent again"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/confirmation_controller.ex:12
+msgid "Failed to confirm e-mail"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/registration_controller.ex:28
+msgid "Please confirm your e-mail before logging in"
 msgstr ""
