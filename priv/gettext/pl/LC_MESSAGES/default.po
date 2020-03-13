@@ -658,9 +658,9 @@ msgstr "Musisz potwierdzić swój adres e-mail przed pierwszym zalogowaniem"
 #, elixir-format
 #: lib/pjeski_web/templates/registration/edit.html.eex:30
 msgid "Click the link in the confirmation email to change your email to:"
-msgstr "Na poprzednią skrzynkę wysłano e-mail potwierdzający zmianę adresu e-mail na:"
+msgstr "Na poprzednią skrzynkę wysłano e-mail do potwierdzenia zmiany adresu e-mail na:"
 
 #, elixir-format, fuzzy
 #: lib/pjeski_web/controllers/registration_controller.ex:52
 msgid "Click the link in the confirmation email to change your email."
-msgstr "Na poprzednią skrzynkę wysłano e-mail potwierdzający zmianę adresu e-mail"
+msgstr "Na poprzednią skrzynkę wysłano e-mail do potwierdzenia zmiany adresu e-mail"
