@@ -4,6 +4,8 @@ defmodule PjeskiWeb.DateHelpers do
 
   @default_time_zone "Europe/Warsaw"
 
+  def dt(_, nil), do: ""
+
   def dt(%Plug.Conn{assigns: %{current_user: %User{time_zone: time_zone}, locale: locale}}, datetime) do
     convert_datetime(datetime, time_zone, locale)
   end

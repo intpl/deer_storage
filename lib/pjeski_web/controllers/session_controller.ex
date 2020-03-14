@@ -65,7 +65,7 @@ defmodule PjeskiWeb.SessionController do
   defp subscription_valid?(%User{role: "admin"}), do: { true, :admin }
   defp subscription_valid?(%User{subscription_id: nil}), do: { false, :user }
   defp subscription_valid?(%User{subscription_id: subscription_id}) when is_number(subscription_id) do
-    subscription = Subscriptions.get_subscription!(subscription_id) # FIXME add time zone support
+    subscription = Subscriptions.get_subscription!(subscription_id)
 
     {
       Date.compare(Date.utc_today, subscription.expires_on) == :lt,
@@ -73,6 +73,7 @@ defmodule PjeskiWeb.SessionController do
     }
   end
 
+  defp email_confirmed?(%{role: "admin"}), do: true
   defp email_confirmed?(%{email_confirmed_at: nil, email_confirmation_token: token, unconfirmed_email: nil}) when not is_nil(token), do: false
   defp email_confirmed?(_user), do: true
 end

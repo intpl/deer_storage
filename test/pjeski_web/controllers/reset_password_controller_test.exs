@@ -33,10 +33,7 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
     test "[guest] GET /reset-password/edit", %{guest_conn: conn} do
       user_fixture()
 
-      {:ok, %{token: token}, conn} =
-        conn
-        |> Pow.Plug.put_config([otp_app: :pjeski])
-        |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
+      {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
 
       conn = get(conn, "/reset-password/#{token}/edit")
 
@@ -95,10 +92,7 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
     test "[guest] [valid attrs] POST /reset-password", %{guest_conn: conn} do
       user = user_fixture()
 
-      {:ok, %{token: token}, conn} =
-        conn
-        |> Pow.Plug.put_config([otp_app: :pjeski])
-        |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
+      {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
 
       user_params = %{password: "secret999", password_confirmation: "secret999"}
       conn = put(conn, "/reset-password/#{token}", %{user: user_params})
@@ -117,10 +111,7 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
     test "[guest] [invalid attrs: no password_confirmation] POST /reset-password", %{guest_conn: conn} do
       user = user_fixture()
 
-      {:ok, %{token: token}, conn} =
-        conn
-        |> Pow.Plug.put_config([otp_app: :pjeski])
-        |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
+      {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
 
       # Make sure password didn't change
       {:ok, reloaded_user_password_hash} = Repo.get(User, user.id) |> Map.fetch(:password_hash)

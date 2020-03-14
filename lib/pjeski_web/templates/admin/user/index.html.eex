@@ -93,6 +93,7 @@
       <th><%= determine_if_sorted(gettext("Time zone"), "time_zone", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Confirmed at"), "email_confirmed_at", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Locale"), "locale", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Admin notes"), "admin_notes", @sort_by, @search_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Role"), "role", @sort_by, @search_by, @query) %></th>
@@ -122,6 +123,9 @@
           </td>
           <td data-label="<%= gettext("Updated at") %>: ">
             <%= dt @conn, user.updated_at %>
+          </td>
+          <td data-label="<%= gettext("Confirmed at") %>: ">
+            <%= dt @conn, user.email_confirmed_at %>
           </td>
           <td data-label="<%= gettext("Locale") %>: ">
             <%= user.locale %>

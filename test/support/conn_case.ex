@@ -39,6 +39,8 @@ defmodule PjeskiWeb.ConnCase do
   end
 
   setup %{conn: conn} do
+    conn = conn |> Pow.Plug.put_config([otp_app: :pjeski])
+
     admin = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "admin", locale: "pl"}
     user = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "user", locale: "pl"}
 

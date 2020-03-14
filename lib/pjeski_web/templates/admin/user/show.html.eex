@@ -70,6 +70,9 @@
       <tr>
         <td><%= gettext("Updated at") %></td><td><time datetime="<%= dt @conn, @user.updated_at %>"><%= dt @conn, @user.updated_at %></time></td>
       </tr>
+      <tr>
+        <td><%= gettext("Email confirmed at") %></td><td><time datetime="<%= dt @conn, @user.email_confirmed_at %>"><%= dt @conn, @user.email_confirmed_at %></time></td>
+      </tr>
     </table>
     <h4 class="title is-4"><%= gettext("Subscription") %></h4>
     <%= if @user.subscription do %>

@@ -14,7 +14,8 @@ Repo.delete_all(Subscription)
 
 Logger.configure([level: :warning])
 
-datetime = fn -> NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second) end
+datetime = fn -> DateTime.truncate(DateTime.utc_now(), :second) end
+naive_datetime = fn -> NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second) end
 
 admin_emails = ["bgladecki@gmail.com", "marek@weczmarski.com"]
 subscription_emails = ["roman@dmowski.pl", "roman@polanski.pl"] ++ Enum.map((500..1000), fn _ -> Faker.Internet.safe_email() end) |> Enum.uniq
@@ -28,7 +29,7 @@ built_admin_structs = Enum.map(admin_emails, fn admin_email ->
     locale: "pl",
     role: "admin"}, default_user_map)
 
-  User.admin_changeset(%User{}, params).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: datetime.(), updated_at: datetime.()})
+  User.admin_changeset(%User{}, params).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: naive_datetime.(), updated_at: naive_datetime.(), email_confirmed_at: datetime.()})
 end)
 
 IO.write "Inserting Admin structs"
@@ -43,7 +44,7 @@ built_subscription_structs = Enum.map(subscription_emails, fn subscription_email
       time_zone: Enum.random(Tzdata.zone_list),
       admin_notes: "Generated automatically",
       expires_on: Date.add(Date.utc_today, 90)
-    }).changes |> Map.merge(%{inserted_at: datetime.(), updated_at: datetime.()})
+    }).changes |> Map.merge(%{inserted_at: naive_datetime.(), updated_at: naive_datetime.()})
 end)
 
 IO.write "Inserting Subscription structs"
@@ -62,10 +63,11 @@ for %Subscription{id: sub_id, email: sub_email} <- subscriptions do
               name: Faker.Name.name(),
               time_zone: Enum.random(Tzdata.zone_list),
               locale: Enum.random(["en", "pl"]),
-              subscription_id: sub_id
+              subscription_id: sub_id,
+              email_confirmed_at: datetime.()
             }, default_user_map
           )
-      ).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: datetime.(), updated_at: datetime.()})
+      ).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: naive_datetime.(), updated_at: naive_datetime.()})
     ] ++ Enum.map((0..:rand.uniform(100)), fn _ ->
       IO.write(".")
 
@@ -75,9 +77,10 @@ for %Subscription{id: sub_id, email: sub_email} <- subscriptions do
               name: Faker.Name.name(),
               time_zone: Enum.random(Tzdata.zone_list),
               locale: Enum.random(["en", "pl"]),
-              subscription_id: sub_id
+              subscription_id: sub_id,
+              email_confirmed_at: datetime.()
             }, default_user_map)
-      ).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: datetime.(), updated_at: datetime.()})
+      ).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: naive_datetime.(), updated_at: naive_datetime.()})
     end)
     |> List.flatten
 

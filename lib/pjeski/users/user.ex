@@ -24,7 +24,15 @@ defmodule Pjeski.Users.User do
   # TODO extract validations in separate common function
   def admin_changeset(user_or_changeset, params) do
     user_or_changeset
-    |> cast(params, [:locale, :name, :role, :admin_notes, :subscription_id, :time_zone])
+    |> cast(params, [
+          :locale,
+          :name,
+          :role,
+          :admin_notes,
+          :subscription_id,
+          :time_zone,
+          :email_confirmation_token,
+          :email_confirmed_at])
     |> new_password_changeset(params, @pow_config)
     |> user_id_field_changeset(params, @pow_config)
     |> validate_required([:name])
