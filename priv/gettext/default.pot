@@ -667,3 +667,8 @@ msgstr ""
 #: lib/pjeski_web/controllers/registration_controller.ex:39
 msgid "Account updated"
 msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/reset_password/edit.html.eex:24
+msgid "New Password"
+msgstr ""

@@ -21,7 +21,7 @@
 ** DONE Write tests for registration process, updating user/subscription, restricted nested attributes
 ** DONE Pow Reset password
 ** DONE Test registration controller + Email sending
-** TODO Test resetting password controller + Email sending
+** STRT Test resetting password controller + Email sending
 ** TODO Test session controller
 ** STRT POW Invitation and display subscription's users in Settings page + TESTS
 ** DONE Pow Email Confirmation
