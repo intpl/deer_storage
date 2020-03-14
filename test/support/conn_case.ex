@@ -12,6 +12,7 @@ defmodule PjeskiWeb.ConnCase do
   inside a transaction which is reset at the beginning
   of the test unless the test case is marked as async.
   """
+  alias PjeskiWeb.EtsCacheMock
 
   use ExUnit.CaseTemplate
 
@@ -27,13 +28,14 @@ defmodule PjeskiWeb.ConnCase do
   end
 
   setup tags do
+    EtsCacheMock.init()
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Pjeski.Repo)
 
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Pjeski.Repo, {:shared, self()})
     end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    {:ok, conn: Phoenix.ConnTest.build_conn(), ets: EtsCacheMock}
   end
 
   setup %{conn: conn} do

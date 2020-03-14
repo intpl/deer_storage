@@ -1,5 +1,5 @@
 defmodule PjeskiWeb.PageControllerTest do
-  use PjeskiWeb.ConnCase, async: true
+  use PjeskiWeb.ConnCase
 
   test "GET /", %{guest_conn: conn} do
     conn = get(conn, "/")

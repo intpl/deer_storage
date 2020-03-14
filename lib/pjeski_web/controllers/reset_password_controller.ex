@@ -54,7 +54,7 @@ defmodule PjeskiWeb.ResetPasswordController do
     case Plug.update_user_password(conn, user_params) do
       {:ok, _user, conn} ->
         conn
-        |> put_flash(:info, gettext("Password has been reset"))
+        |> put_flash(:info, gettext("Password has been changed"))
         |> redirect(to: Routes.session_path(conn, :new))
       {:error, changeset, conn} ->
         conn

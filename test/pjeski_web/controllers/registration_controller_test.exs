@@ -71,8 +71,8 @@ defmodule PjeskiWeb.RegistrationControllerTest do
 
       assert html_response(conn, 200) =~ "Konto zaktualizowane"
 
-      {:ok, reloaded_user} = Repo.get(User, user.id) |> Map.fetch(:name)
-      assert reloaded_user == new_name
+      {:ok, reloaded_user_name} = Repo.get(User, user.id) |> Map.fetch(:name)
+      assert reloaded_user_name == new_name
     end
 
     test "[user] PUT /registration - renders error when missing current_password", %{guest_conn: guest_conn} do
@@ -84,8 +84,8 @@ defmodule PjeskiWeb.RegistrationControllerTest do
 
       assert html_response(conn, 200) =~ "Coś poszło nie tak. Sprawdź błędy poniżej"
 
-      {:ok, reloaded_user} = Repo.get(User, user.id) |> Map.fetch(:name)
-      refute reloaded_user == new_name
+      {:ok, reloaded_user_name} = Repo.get(User, user.id) |> Map.fetch(:name)
+      refute reloaded_user_name == new_name
     end
 
     test "[user] PUT /registration - changing email sends e-mail", %{guest_conn: guest_conn} do
@@ -97,8 +97,8 @@ defmodule PjeskiWeb.RegistrationControllerTest do
 
       assert html_response(conn, 200) =~ "Wysłano e-mail w celu potwierdzenia na adres: <span>#{new_email}</span>"
 
-      {:ok, reloaded_user} = Repo.get(User, user.id) |> Map.fetch(:email)
-      refute reloaded_user == new_email
+      {:ok, reloaded_user_email} = Repo.get(User, user.id) |> Map.fetch(:email)
+      refute reloaded_user_email == new_email
 
       {:ok, email_confirmation_token} = Users.last_user |> Map.fetch(:email_confirmation_token)
       assert_email_delivered_with(

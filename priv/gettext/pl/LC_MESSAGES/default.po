@@ -610,11 +610,6 @@ msgid "Invalid token"
 msgstr "Nieprawidłowy token"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/reset_password_controller.ex:57
-msgid "Password has been reset"
-msgstr "Hasło zresetowane"
-
-#, elixir-format
 #: lib/pjeski_web/templates/reset_password/edit.html.eex:5
 #: lib/pjeski_web/templates/reset_password/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:47
 msgid "Reset password"
@@ -670,7 +665,12 @@ msgstr "Wysłano e-mail na nowy adres w celu potwierdzenia."
 msgid "Account updated"
 msgstr "Konto zaktualizowane"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/reset_password/edit.html.eex:24
 msgid "New Password"
 msgstr "Nowe hasło"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/controllers/reset_password_controller.ex:57
+msgid "Password has been changed"
+msgstr "Hasło zmienione"

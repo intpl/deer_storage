@@ -18,3 +18,5 @@ config :pjeski, PjeskiWeb.Endpoint,
 config :logger, level: :warn
 
 config :pjeski, PjeskiWeb.PowMailer, adapter: Bamboo.TestAdapter
+
+config :pjeski, :pow, cache_store_backend: PjeskiWeb.EtsCacheMock

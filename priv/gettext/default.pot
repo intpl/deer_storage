@@ -608,11 +608,6 @@ msgid "Invalid token"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/reset_password_controller.ex:57
-msgid "Password has been reset"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/reset_password/edit.html.eex:5
 #: lib/pjeski_web/templates/reset_password/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:47
 msgid "Reset password"
@@ -671,4 +666,9 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/reset_password/edit.html.eex:24
 msgid "New Password"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/reset_password_controller.ex:57
+msgid "Password has been changed"
 msgstr ""

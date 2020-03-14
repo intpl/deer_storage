@@ -47,11 +47,8 @@ defmodule PjeskiWeb.Router do
     pipe_through [:browser, :not_authenticated]
 
     resources "/session", SessionController, singleton: true, only: [:new, :create]
-
     resources "/registration", RegistrationController, singleton: true, only: [:new, :create]
-
-    resources "/reset-password", ResetPasswordController, only: [:new, :create]
-    resources "/reset-password/:id", ResetPasswordController, only: [:edit, :update]
+    resources "/reset-password", ResetPasswordController, only: [:new, :create, :edit, :update]
   end
 
   scope "/", PjeskiWeb do
