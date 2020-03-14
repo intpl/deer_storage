@@ -70,8 +70,27 @@
       <tr>
         <td><%= gettext("Updated at") %></td><td><time datetime="<%= dt @conn, @user.updated_at %>"><%= dt @conn, @user.updated_at %></time></td>
       </tr>
+    </table>
+
+    <table class="table">
       <tr>
-        <td><%= gettext("Email confirmed at") %></td><td><time datetime="<%= dt @conn, @user.email_confirmed_at %>"><%= dt @conn, @user.email_confirmed_at %></time></td>
+        <td> <%= gettext("Confirmed at") %> </td>
+        <td> <%= dt(@conn, @user.email_confirmed_at) || gettext("empty") %> </td>
+      </tr>
+      <tr>
+        <td> <%= gettext("Unconfirmed email") %> </td>
+        <td> <%= @user.unconfirmed_email || gettext("empty") %> </td>
+      </tr>
+      <tr>
+        <td> <%= gettext("Email confirmation url") %> </td>
+        <td>
+          <%= if @user.email_confirmation_token do %>
+            <% confirmation_url = Routes.confirmation_path(@conn, :show, @user.email_confirmation_token) %>
+            <%=  link confirmation_url, to: confirmation_url %>
+          <% else %>
+          <%= gettext("empty") %>
+          <% end %>
+        </td>
       </tr>
     </table>
     <h4 class="title is-4"><%= gettext("Subscription") %></h4>

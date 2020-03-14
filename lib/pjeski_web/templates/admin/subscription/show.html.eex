@@ -106,6 +106,14 @@
                            </time>
                          </td>
                        </tr>
+                       <tr>
+                         <td><%= gettext("Confirmed at") %></td>
+                         <td>
+                           <time datetime="<%= dt @conn, user.updated_at %>">
+                               <%= dt(@conn, user.email_confirmed_at) || gettext("empty") %>
+                           </time>
+                         </td>
+                       </tr>
                      </table>
 
                     <%= link gettext("Show"), to: Routes.admin_user_path(@conn, :show, user), class: "button" %>
