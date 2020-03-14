@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [50%] [20/40] DEADLINE: <2020-03-31 Tue>
+* TODO [48%] [20/41] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -46,3 +46,4 @@
 ** TODO Add caching for records, Dashboards
 ** TODO Pow from github signed tokens (maybe this will help:) https://hexdocs.pm/pow/README.html#authorization-plug
 ** TODO Add "Enterprise" to the database and allow certain users to switch subscriptions
+** TODO Upload files, sharing (both just file and entire record) + TESTS
