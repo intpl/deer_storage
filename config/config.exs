@@ -36,7 +36,7 @@ config :pjeski, :pow,
   repo: Pjeski.Repo,
   mailer_backend: PjeskiWeb.PowMailer,
   cache_store_backend: Pow.Store.Backend.MnesiaCache,
-  extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession],
+  extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession, PowInvitation],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
 
 config :pjeski, Pjeski.Scheduler, jobs: []

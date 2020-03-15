@@ -10,10 +10,8 @@ defmodule PjeskiWeb.ResetPasswordController do
   plug :assign_update_path when action in [:edit, :update]
 
   def new(conn, _params) do
-    changeset = Plug.change_user(conn)
-
     conn
-    |> assign(:changeset, changeset)
+    |> assign(:changeset, Plug.change_user(conn))
     |> render("new.html")
   end
 

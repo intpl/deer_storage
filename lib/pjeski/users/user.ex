@@ -1,7 +1,7 @@
 defmodule Pjeski.Users.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
-  use Pow.Extension.Ecto.Schema, extensions: [PowEmailConfirmation, PowResetPassword]
+  use Pow.Extension.Ecto.Schema, extensions: [PowEmailConfirmation, PowResetPassword, PowInvitation]
 
   import Pow.Ecto.Schema.Changeset, only: [new_password_changeset: 3, user_id_field_changeset: 3]
   import Ecto.Changeset
@@ -19,6 +19,12 @@ defmodule Pjeski.Users.User do
     pow_user_fields()
 
     timestamps()
+  end
+
+  def invite_changeset(user_or_changeset, invited_by, attrs) do
+    user_or_changeset
+    |> pow_invite_changeset(invited_by, attrs)
+    |> put_change(:subscription_id, invited_by.subscription_id)
   end
 
   # TODO extract validations in separate common function

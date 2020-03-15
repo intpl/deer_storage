@@ -28,6 +28,7 @@ defmodule PjeskiWeb.Router do
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
     resources "/session", SessionController, singleton: true, only: [:delete]
+    resources "/invitation", InvitationController, only: [:new, :create, :show]
 
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]
@@ -49,6 +50,7 @@ defmodule PjeskiWeb.Router do
     resources "/session", SessionController, singleton: true, only: [:new, :create]
     resources "/registration", RegistrationController, singleton: true, only: [:new, :create]
     resources "/reset-password", ResetPasswordController, only: [:new, :create, :edit, :update]
+    resources "/invitation", InvitationController, only: [:edit, :update]
   end
 
   scope "/", PjeskiWeb do
