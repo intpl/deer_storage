@@ -53,6 +53,12 @@ defmodule Pjeski.Users do
     |> Repo.preload(:subscription)
   end
 
+  def list_users_for_subscription_id(subscription_id) when is_number(subscription_id) do
+    User
+    |> where(subscription_id: ^subscription_id)
+    |> Repo.all()
+  end
+
   def get_user!(id) do
     User
     |> Repo.get!(id)

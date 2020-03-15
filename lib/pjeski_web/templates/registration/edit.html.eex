@@ -11,6 +11,10 @@
   </div>
 </section>
 
+<%= if @changeset.data.subscription_id do %>
+  <br>
+  <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
+<% end %>
 
 <section class="section">
   <div class="container">

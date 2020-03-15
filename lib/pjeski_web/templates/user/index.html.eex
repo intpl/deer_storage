@@ -1,0 +1,27 @@
+<section class="hero is-warning">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <%= gettext("Manage users") %>
+      </h1>
+      <h2 class="subtitle">
+        <%= gettext("Invite or remove connected StorageDeer users") %>
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container">
+    <%= link(gettext("Invite new user"), to: Routes.invitation_path(@conn, :new)) %>
+  </div>
+
+  <br>
+
+  <div class="container">
+    <%= for user <- @users do %>
+      <%= user.name || gettext("empty") %> (<%= user.email %>)<br>
+    <% end %>
+  </div>
+</section>

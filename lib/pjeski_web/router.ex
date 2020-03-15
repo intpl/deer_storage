@@ -29,6 +29,7 @@ defmodule PjeskiWeb.Router do
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
     resources "/session", SessionController, singleton: true, only: [:delete]
     resources "/invitation", InvitationController, only: [:new, :create, :show]
+    resources "/users", UserController, only: [:index]
 
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]
