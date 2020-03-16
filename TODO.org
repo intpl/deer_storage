@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [56%] [23/41] DEADLINE: <2020-03-31 Tue>
+* TODO [54%] [23/42] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -43,6 +43,7 @@
 ** TODO use jaro_distance to colorize fields
 ** TODO UserRecords::ShowLive + TESTS
 ** TODO "Notes" markdown everywhere
+** TODO Ensure "non-admin" controllers errors
 ** TODO Add caching for records, Dashboards
 ** TODO Pow from github signed tokens (maybe this will help:) https://hexdocs.pm/pow/README.html#authorization-plug
 ** TODO Add "Enterprise" to the database and allow certain users to switch subscriptions

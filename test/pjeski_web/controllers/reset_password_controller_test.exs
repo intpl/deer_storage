@@ -1,6 +1,5 @@
 defmodule PjeskiWeb.ResetPasswordControllerTest do
   use PjeskiWeb.ConnCase
-
   use Bamboo.Test
 
   alias Pjeski.{Repo, Users, Users.User}

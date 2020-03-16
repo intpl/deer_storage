@@ -21,9 +21,7 @@ defmodule PjeskiWeb.InvitationController do
 
         conn
         |> put_flash(:info, gettext("Invitation e-mail sent"))
-        |> redirect(to: Routes.invitation_path(conn, :new))
-      {:ok, user, conn} ->
-        redirect(conn, to: Routes.invitation_path(conn, :show, user.invitation_token))
+        |> redirect(to: Routes.user_path(conn, :index))
       {:error, changeset, conn} ->
         conn
         |> assign(:changeset, changeset)
