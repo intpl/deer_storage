@@ -31,12 +31,6 @@ defmodule PjeskiWeb.InvitationController do
     end
   end
 
-  def show(%{assigns: %{invited_user: user}} = conn, _params) do
-    conn
-    |> assign(:url, invitation_url(conn, user))
-    |> render("show.html")
-  end
-
   def edit(conn, _params) do
     changeset = Plug.change_user(conn)
 
