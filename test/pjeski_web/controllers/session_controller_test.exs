@@ -15,26 +15,26 @@ defmodule PjeskiWeb.SessionControllerTest do
 
   describe "create" do
     test "[guest -> user] [valid] POST /session", %{guest_conn: conn} do
-      create_valid_user_with_subscription()
+      user = create_valid_user_with_subscription()
 
-      conn = post(conn, "/session", user: %{email: user_attrs().email, password: user_attrs().password})
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
       assert "/dashboard" = redirected_path
     end
 
-    test "[guest -> user] [invalid - empty params] POST /session", %{guest_conn: conn} do
-      create_valid_user_with_subscription()
+    test "[guest -> user] [invalid - wrong password] POST /session", %{guest_conn: conn} do
+      user = create_valid_user_with_subscription()
 
-      conn = post(conn, "/session", user: %{})
+      conn = post(conn, "/session", user: %{email: user.email, password: "wrong"})
 
       assert html_response(conn, 200) =~ "Zły e-mail lub hasło"
     end
 
     test "[guest -> user] [invalid - expired subscription] POST /session", %{guest_conn: conn} do
-      create_user_with_expired_subscription()
+      user = create_user_with_expired_subscription()
 
-      conn = post(conn, "/session", user: %{email: user_attrs().email, password: user_attrs().password})
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
 
       redirected_path = redirected_to(conn, 302)
@@ -45,9 +45,8 @@ defmodule PjeskiWeb.SessionControllerTest do
     end
 
     test "[guest -> user] [invalid - empty subscription] POST /session", %{guest_conn: conn} do
-      create_user_without_subscription()
-
-      conn = post(conn, "/session", user: %{email: user_attrs().email, password: user_attrs().password})
+      user = create_user_without_subscription()
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
       assert "/session/new" = redirected_path
@@ -57,9 +56,9 @@ defmodule PjeskiWeb.SessionControllerTest do
     end
 
     test "[guest -> user] [invalid - unconfirmed email] POST /session", %{guest_conn: conn} do
-      create_valid_user_with_unconfirmed_email()
+      user = create_valid_user_with_unconfirmed_email()
 
-      conn = post(conn, "/session", user: %{email: user_attrs().email, password: user_attrs().password})
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
       assert "/session/new" = redirected_path
@@ -69,40 +68,39 @@ defmodule PjeskiWeb.SessionControllerTest do
     end
 
     test "[guest -> admin] [valid] POST /session", %{guest_conn: conn} do
-      {:ok, user} = create_valid_user_with_subscription()
+      user = create_valid_user_with_subscription()
       user |> Users.toggle_admin
 
-      conn = post(conn, "/session", user: %{email: user_attrs().email, password: user_attrs().password})
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
       assert "/admin/dashboard" = redirected_path
     end
 
     test "[guest -> admin] [valid / expired subscription] POST /session", %{guest_conn: conn} do
-      {:ok, user} = create_user_with_expired_subscription()
+      user = create_user_with_expired_subscription()
       user |> Users.toggle_admin
 
-      conn = post(conn, "/session", user: %{email: user_attrs().email, password: user_attrs().password})
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
       assert "/admin/dashboard" = redirected_path
     end
 
     test "[guest -> admin] [valid / no subscription] POST /session", %{guest_conn: conn} do
-      {:ok, user} = create_user_without_subscription()
-      user |> Users.toggle_admin
+      user = create_user_without_subscription()
+      user |> Users.toggle_admin # FIXME refactor
 
-      conn = post(conn, "/session", user: %{email: user_attrs().email, password: user_attrs().password})
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
       assert "/admin/dashboard" = redirected_path
     end
 
     test "[guest -> admin] [valid / unconfirmed email] POST /session", %{guest_conn: conn} do
-      {:ok, user} = create_valid_user_with_unconfirmed_email()
-      user |> Users.toggle_admin
+      {:ok, user} = create_valid_user_with_unconfirmed_email() |> Users.toggle_admin
 
-      conn = post(conn, "/session", user: %{email: user_attrs().email, password: user_attrs().password})
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
       assert "/admin/dashboard" = redirected_path

@@ -15,7 +15,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
     # TODO: somehow redirects to /session/new, therefore checking flash only
 
     test "[user] [valid params - new email] POST /invitation", %{guest_conn: guest_conn} do
-      {:ok, user} = create_valid_user_with_subscription()
+      user = create_valid_user_with_subscription()
 
       conn = Pow.Plug.assign_current_user(guest_conn, user, [])
       |> post("/invitation", user: %{email: "invited_user@storagedeer.com"})
@@ -31,7 +31,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
     test "[user] [valid params - email already exists] POST /invitation"
 
     test "[user] [invalid params] POST /invitation", %{guest_conn: guest_conn} do
-      {:ok, user} = create_valid_user_with_subscription()
+      user = create_valid_user_with_subscription()
 
       Pow.Plug.assign_current_user(guest_conn, user, [])
       |> post("/invitation", user: %{email: "invalid_email.gmail"})
