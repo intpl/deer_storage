@@ -44,8 +44,6 @@ defmodule PjeskiWeb.InvitationController do
         |> put_flash(:info, gettext("User has been created"))
         |> redirect(to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index))
       {:error, changeset, conn} ->
-        IO.inspect changeset
-
         conn
         |> assign(:changeset, changeset)
         |> render("edit.html")

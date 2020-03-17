@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [54%] [23/42] DEADLINE: <2020-03-31 Tue>
+* TODO [53%] [24/45] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -25,12 +25,13 @@
 ** DONE Test session controller
 ** DONE Pow Email Confirmation
 ** DONE Pow Email Confirmation fields in admin panel (TOKEN)
-** STRT POW Invitation and display subscription's users in Settings page + TESTS
+** DONE POW Invitation and display subscription's users in Settings page + TESTS
 ** TODO Field labels 'for' translated!
+** TODO Users permissions, control panel to change them
+** TODO Allow User to change their subscription. Allow users to invite to their subscription + TESTS
 ** TODO Migrate database, write seeds with a proper structure
-** TODO Allow User to change their subscription. Decide what to do with remaining/empty subscription + TESTS
-** TODO Write high level logging/history mechanism + TEST
-** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation) + TESTS
+** WAIT Write high level logging/history mechanism + TEST
+** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
 ** TODO Adapt layout to subscription's tables
 ** TODO CRUD controller/views/js for Settings->Tables + TESTS
 ** TODO UserRecords::IndexLive + TESTS
@@ -39,12 +40,14 @@
 - UserRecords::DisplayComponent + TESTS
 - UserRecords::EditComponent + TESTS
 - UserRecords::NewComponent + TESTS
+** TODO Add logout PubSub callback
+** TODO Add "changed subscription" PubSub callback
 ** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** TODO use jaro_distance to colorize fields
 ** TODO UserRecords::ShowLive + TESTS
 ** TODO "Notes" markdown everywhere
 ** TODO Ensure "non-admin" controllers errors
 ** TODO Add caching for records, Dashboards
-** TODO Pow from github signed tokens (maybe this will help:) https://hexdocs.pm/pow/README.html#authorization-plug
+** TODO Pow v1.0.19 signed tokens (maybe this will help:) https://hexdocs.pm/pow/README.html#authorization-plug
 ** TODO Add "Enterprise" to the database and allow certain users to switch subscriptions
 ** TODO Upload files, sharing (both just file and entire record) + TESTS
