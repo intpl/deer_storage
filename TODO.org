@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [53%] [24/45] DEADLINE: <2020-03-31 Tue>
+* TODO [55%] [25/45] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -26,7 +26,7 @@
 ** DONE Pow Email Confirmation
 ** DONE Pow Email Confirmation fields in admin panel (TOKEN)
 ** DONE POW Invitation and display subscription's users in Settings page + TESTS
-** TODO Field labels 'for' translated!
+** DONE Field labels 'for' translated!
 ** TODO Users permissions, control panel to change them
 ** TODO Allow User to change their subscription. Allow users to invite to their subscription + TESTS
 ** TODO Migrate database, write seeds with a proper structure

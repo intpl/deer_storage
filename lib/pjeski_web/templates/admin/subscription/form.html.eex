@@ -6,19 +6,19 @@
   <% end %>
 
   <div class="field">
-    <%= label f, gettext("Subscription name"), class: 'label' %>
+    <%= label f, :name, gettext("Subscription name"), class: 'label' %>
     <%= text_input f, :name, class: 'input' %>
     <%= error_tag f, :name %>
   </div>
 
   <div class="field">
-    <%= label f, gettext("E-mail address"), class: 'label' %>
+    <%= label f, :email, gettext("E-mail address"), class: 'label' %>
     <%= text_input f, :email, class: 'input' %>
     <%= error_tag f, :email %>
   </div>
 
   <div class="field">
-    <%= label f, gettext("Expires on"), class: 'label' %>
+    <%= label f, :expires_on, gettext("Expires on"), class: 'label' %>
 
     <div class="control">
       <%= date_select f, :expires_on, builder: fn b ->  %>
@@ -31,7 +31,7 @@
     <br>
 
     <div class="field">
-      <%= label f, gettext("Admin notes"), class: 'label' %>
+      <%= label f, :admin_notes, gettext("Admin notes"), class: 'label' %>
       <%= textarea f, :admin_notes, class: 'textarea' %>
       <%= error_tag f, :admin_notes %>
     </div>

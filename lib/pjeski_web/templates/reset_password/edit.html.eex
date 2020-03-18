@@ -21,7 +21,7 @@
       <% end %>
 
         <div class="field">
-          <%= label f, gettext("New Password"), class: 'label' %>
+          <%= label f, :password, gettext("New Password"), class: 'label' %>
           <%= password_input f, :password, class: 'input' %>
           <%= error_tag f, :password %>
         </div>

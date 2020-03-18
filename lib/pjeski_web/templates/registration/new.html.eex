@@ -75,13 +75,13 @@
     </div>
 
     <div class="field">
-      <%= label f, gettext("Password"), class: 'label' %>
+      <%= label f, :password, gettext("Password"), class: 'label' %>
       <%= password_input f, :password, class: 'input' %>
       <%= error_tag f, :password %>
     </div>
 
     <div class="field">
-      <%= label f, gettext("Confirm password"), class: 'label' %>
+      <%= label f, :password_confirmation, gettext("Confirm password"), class: 'label' %>
       <%= password_input f, :password_confirmation, class: 'input' %>
       <%= error_tag f, :password_confirmation %>
     </div>

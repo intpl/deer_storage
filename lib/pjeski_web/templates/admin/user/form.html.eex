@@ -12,7 +12,7 @@
   </div>
 
   <div class="field">
-    <%= label f, gettext("Time zone"), class: 'label' %>
+    <%= label f, :time_zone, gettext("Time zone"), class: 'label' %>
     <%= select f, :time_zone, time_zones_select_options(), class: 'input use-select2' %>
     <%= error_tag f, :email %>
   </div>
@@ -24,25 +24,25 @@
   </div>
 
   <div class="field">
-    <%= label f, gettext("E-mail address"), class: 'label' %>
+    <%= label f, :email, gettext("E-mail address"), class: 'label' %>
     <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
     <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
   </div>
 
   <div class="field">
-    <%= label f, gettext("New password"), class: 'label' %>
+    <%= label f, :password, gettext("New password"), class: 'label' %>
     <%= password_input f, :password, class: 'input' %>
     <%= error_tag f, :password %>
   </div>
 
   <div class="field">
-    <%= label f, gettext("Admin notes"), class: 'label' %>
+    <%= label f, :admin_notes, gettext("Admin notes"), class: 'label' %>
     <%= textarea f, :admin_notes, class: 'textarea' %>
     <%= error_tag f, :admin_notes %>
   </div>
 
   <div class="field">
-    <%= label f, gettext("Attached Subscription"), class: 'label' %>
+    <%= label f, :subscription_id, gettext("Attached Subscription"), class: 'label' %>
     <%= select f, :subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
     <%= error_tag f, :subscription_id %>
   </div>

@@ -66,19 +66,19 @@
           </h4>
 
           <div class="field">
-            <%= label f, gettext("E-mail address"), class: 'label' %>
+            <%= label f, :email, gettext("E-mail address"), class: 'label' %>
             <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input disabled' %>
             <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
           </div>
 
           <div class="field">
-            <%= label f, gettext("New password"), class: 'label' %>
+            <%= label f, :password, gettext("New password"), class: 'label' %>
             <%= password_input f, :password, class: 'input' %>
             <%= error_tag f, :password %>
           </div>
 
           <div class="field">
-            <%= label f, gettext("Confirm new password"), class: 'label' %>
+            <%= label f, :password_confirmation, gettext("Confirm new password"), class: 'label' %>
             <%= password_input f, :password_confirmation, class: 'input' %>
             <%= error_tag f, :password_confirmation %>
           </div>
@@ -91,7 +91,7 @@
         <div class="column is-one-third"></div>
         <div class="column is-one-third has-text-centered">
           <div class="field">
-            <%= label f, gettext("Enter current password"), class: 'label' %>
+            <%= label f, :current_password, gettext("Enter current password"), class: 'label' %>,
             <%= password_input f, :current_password, class: 'input' %>
             <%= error_tag f, :current_password %>
           </div>
