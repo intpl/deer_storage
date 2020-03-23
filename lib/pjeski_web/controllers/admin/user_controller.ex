@@ -49,7 +49,7 @@ defmodule PjeskiWeb.Admin.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
+    user = Users.get_user!(id) |> Pjeski.Repo.preload(:available_subscriptions)
     count = length(UserSessionUtils.user_sessions_keys(user))
 
     render(conn, "show.html", user: user, user_log_in_sessions_count: count)

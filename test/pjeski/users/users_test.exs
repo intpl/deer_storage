@@ -18,12 +18,16 @@ defmodule Pjeski.UsersTest do
   }
 
   describe "changeset/2" do
-    test "create_user/1 with valid data creates a user" do
+    test "create_user/1 with valid data creates a user, subscription, link" do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
       assert user.email == "test@example.org"
       assert user.name == "Henryk Testowny"
       assert user.password == "secret123"
       assert user.locale == "pl"
+
+      user = user |> Pjeski.Repo.preload([:user_subscription_links, :available_subscriptions])
+
+      assert user.available_subscriptions == [user.subscription]
     end
 
     test "create_user/1 without name returns error changeset" do

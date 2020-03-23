@@ -3,6 +3,7 @@ defmodule PjeskiWeb.RegistrationController do
 
   alias Pjeski.Users
   alias Pjeski.Users.User
+  alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   import PjeskiWeb.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
@@ -19,6 +20,7 @@ defmodule PjeskiWeb.RegistrationController do
     |> Pow.Plug.create_user(user_params)
     |> case do
       {:ok, user, conn} ->
+        insert_subscription_link(user)
         Users.notify_subscribers({:ok, user}, [:user, :created])
         send_confirmation_email(user, conn)
 
@@ -44,9 +46,13 @@ defmodule PjeskiWeb.RegistrationController do
     end
   end
 
-  def maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: email, unconfirmed_email: email}}} = conn), do: conn
-  def maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: nil}}} = conn), do: conn
-  def maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: _} = user}} = conn) do
+  defp insert_subscription_link(%User{id: user_id, subscription_id: subscription_id}) do
+    Pjeski.Repo.insert(%UserAvailableSubscriptionLink{user_id: user_id, subscription_id: subscription_id})
+  end
+
+  defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: email, unconfirmed_email: email}}} = conn), do: conn
+  defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: nil}}} = conn), do: conn
+  defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: _} = user}} = conn) do
     send_confirmation_email(user, conn)
 
     conn

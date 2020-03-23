@@ -3,13 +3,17 @@ defmodule Pjeski.Subscriptions.Subscription do
   import Ecto.Changeset
 
   alias Pjeski.Users.User
+  alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   schema "subscriptions" do
     field :admin_notes, :string
     field :email, :string
     field :name, :string
     field :expires_on, :date, default: Date.add(Date.utc_today, 14)
-    has_many :users, User
+
+    has_many :user_subscription_links, UserAvailableSubscriptionLink
+    many_to_many :users, User, join_through: UserAvailableSubscriptionLink
+    # has_many :current_users, User
 
     timestamps()
   end

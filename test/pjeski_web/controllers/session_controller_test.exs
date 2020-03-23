@@ -67,29 +67,27 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert html_response(conn, 200) =~ "Adres e-mail nie został potwierdzony. Wysłano linka ponownie"
     end
 
-    test "[guest -> admin] [valid] POST /session", %{guest_conn: conn} do
-      user = create_valid_user_with_subscription()
-      user |> Users.toggle_admin
+    test "[guest -> admin] [valid / assigned subscription] POST /session", %{guest_conn: conn} do
+      {:ok, user} = create_valid_user_with_subscription() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
-      assert "/admin/dashboard" = redirected_path
+      assert "/dashboard" = redirected_path
     end
 
     test "[guest -> admin] [valid / expired subscription] POST /session", %{guest_conn: conn} do
-      user = create_user_with_expired_subscription()
-      user |> Users.toggle_admin
+      # FIXME
+      {:ok, user} = create_user_with_expired_subscription() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
-      assert "/admin/dashboard" = redirected_path
+      assert "/dashboard" = redirected_path
     end
 
     test "[guest -> admin] [valid / no subscription] POST /session", %{guest_conn: conn} do
-      user = create_user_without_subscription()
-      user |> Users.toggle_admin # FIXME refactor
+      {:ok, user} = create_user_without_subscription() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
@@ -97,13 +95,13 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert "/admin/dashboard" = redirected_path
     end
 
-    test "[guest -> admin] [valid / unconfirmed email] POST /session", %{guest_conn: conn} do
+    test "[guest -> admin] [valid / assigned subscription, unconfirmed email] POST /session", %{guest_conn: conn} do
       {:ok, user} = create_valid_user_with_unconfirmed_email() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
-      assert "/admin/dashboard" = redirected_path
+      assert "/dashboard" = redirected_path
     end
   end
 

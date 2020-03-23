@@ -42,7 +42,7 @@
   </div>
 
   <div class="field">
-    <%= label f, :subscription_id, gettext("Attached Subscription"), class: 'label' %>
+    <%= label f, :subscription_id, ~s/#{gettext("Current subscription")} #{gettext("(will keep previous one available on change)")}/, class: 'label' %>
     <%= select f, :subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
     <%= error_tag f, :subscription_id %>
   </div>
@@ -51,4 +51,4 @@
   </div>
 <% end %>
 
-<script type="text/javascript"> $('.use-select2').select2(); </script>
+<script type="text/javascript"> $('.use-select2').select2({placeholder: "<%= gettext("Empty") %>"}); </script>

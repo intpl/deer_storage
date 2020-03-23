@@ -1,15 +1,19 @@
 defmodule Pjeski.Users do
   import Ecto.Query, warn: false
+  import Ecto.Changeset, only: [change: 2]
+
   alias Pjeski.Repo
+  alias Pjeski.Subscriptions
 
   import Pjeski.DbHelpers.ComposeSearchQuery
 
   alias Pjeski.Users.User
   alias Pjeski.Subscriptions.Subscription
+  alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   use Pjeski.AllowSubscribers, Pjeski.Users
 
-  def total_count(), do: Pjeski.Repo.aggregate(from(u in User), :count, :id)
+  def total_count(), do: Pjeski.Repo.aggregate(User, :count, :id)
   def last_user(), do: from(u in User, limit: 1, order_by: [desc: u.inserted_at]) |> Repo.one
 
   def list_users("", page, per_page, sort_by, _search_by) when page > 0 do
@@ -54,9 +58,7 @@ defmodule Pjeski.Users do
   end
 
   def list_users_for_subscription_id(subscription_id) when is_number(subscription_id) do
-    User
-    |> where(subscription_id: ^subscription_id)
-    |> Repo.all()
+    Subscriptions.get_subscription!(subscription_id).users
   end
 
   def get_user!(id) do
@@ -66,9 +68,12 @@ defmodule Pjeski.Users do
   end
 
   def create_user(attrs \\ %{}) do
-    %User{}
+    user = %User{}
     |> User.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert!()
+    |> maybe_upsert_subscription_link
+
+    {:ok, user}
   end
 
   def update_user(%User{} = user, attrs) do
@@ -78,15 +83,21 @@ defmodule Pjeski.Users do
   end
 
   def admin_create_user(attrs \\ %{}) do
-    %User{}
+    user = %User{}
     |> User.admin_changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert!()
+    |> maybe_upsert_subscription_link
+
+    {:ok, user}
   end
 
   def admin_update_user(%User{} = user, attrs) do
-    user
+    user = user
     |> User.admin_changeset(attrs)
-    |> Repo.update()
+    |> Repo.update!()
+    |> maybe_upsert_subscription_link
+
+    {:ok, user}
   end
 
   def delete_user(%User{} = user) do
@@ -106,6 +117,51 @@ defmodule Pjeski.Users do
     user
     |> User.changeset_role(%{role: role})
     |> Repo.update()
+  end
+
+  def maybe_upsert_subscription_link(%User{id: _user_id, subscription_id: nil} = user), do: user
+  def maybe_upsert_subscription_link(%User{id: user_id, subscription_id: subscription_id} = user) do
+    upsert_subscription_link(user_id, subscription_id, :nothing)
+
+    user
+  end
+
+  def insert_subscription_link_and_maybe_change_id(%User{id: user_id, subscription_id: nil} = user, subscription_id) when is_integer(subscription_id) do
+    upsert_subscription_link(user_id, subscription_id, :raise)
+
+    Repo.update!(change(user, subscription_id: subscription_id))
+  end
+
+  def insert_subscription_link_and_maybe_change_id(%User{id: user_id}, subscription_id) when is_integer(subscription_id) do
+    upsert_subscription_link(user_id, subscription_id, :raise)
+  end
+
+  def remove_subscription_link_and_maybe_change_id(%User{id: user_id, subscription_id: subscription_id} = user, subscription_id) do
+    # TODO: find another subscription from available_subscriptions and assign it's id to the user
+
+    Repo.transaction(fn ->
+      remove_user_subscription_link(user_id, subscription_id)
+      Repo.update!(change(user, subscription_id: nil))
+    end)
+  end
+
+  def remove_subscription_link_and_maybe_change_id(%User{id: user_id}, subscription_id) when is_number(subscription_id) do
+    remove_user_subscription_link(user_id, subscription_id)
+  end
+
+  defp upsert_subscription_link(user_id, subscription_id, on_conflict) do
+    Repo.insert(
+      %UserAvailableSubscriptionLink{
+        user_id: user_id,
+        subscription_id: subscription_id
+      },
+      on_conflict: on_conflict
+    )
+  end
+
+  defp remove_user_subscription_link(user_id, subscription_id) do
+    Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user_id, subscription_id: subscription_id])
+    |> Repo.delete!
   end
 
   defp sort_users_by(q, ""), do: q

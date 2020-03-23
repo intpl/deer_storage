@@ -27,8 +27,10 @@
 ** DONE Pow Email Confirmation fields in admin panel (TOKEN)
 ** DONE POW Invitation and display subscription's users in Settings page + TESTS
 ** DONE Field labels 'for' translated!
-** TODO Allow User to change their subscription. Allow users to invite to their subscription + TESTS
+** STRT Allow User to change their subscription. Allow users to invite to their subscription + TESTS
 *** Migrations: available_subscriptions+has_many_through[users<->subscriptions]
+*** Remove "email" from subscription
+*** Counter cache for subscriptions.users_count
 *** sign in: ensure current_subscription_id is in available_subscriptions, if not: overwrite current_subscription_id with last (sort by inserted_at) from available_subscriptions
 *** invitation: if user exists: add subscription to available_subscriptions, if not: don't forget to create available_subscriptions link
 *** users: + disconnect from subscription

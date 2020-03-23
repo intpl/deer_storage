@@ -2,11 +2,11 @@ alias Pjeski.Repo
 
 alias Pjeski.Users
 alias Pjeski.Subscriptions
+alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
 alias Pjeski.Users.User
 alias Pjeski.Subscriptions.Subscription
 
-import Ecto.Changeset
 import Ecto.Query, warn: false
 
 Repo.delete_all(User)
@@ -68,7 +68,7 @@ for %Subscription{id: sub_id, email: sub_email} <- subscriptions do
             }, default_user_map
           )
       ).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: naive_datetime.(), updated_at: naive_datetime.()})
-    ] ++ Enum.map((0..:rand.uniform(100)), fn _ ->
+    ] ++ Enum.map((0..:rand.uniform(60)), fn _ ->
       IO.write(".")
 
       User.admin_changeset(%User{}, Map.merge(
@@ -87,7 +87,17 @@ for %Subscription{id: sub_id, email: sub_email} <- subscriptions do
     IO.puts " OK"
     IO.write "Inserting users structs for subscription #{sub_id}"
 
-    Repo.insert_all(User, built_users_for_current_subscription, on_conflict: :nothing)
+    {count, users} = Repo.insert_all(User, built_users_for_current_subscription, on_conflict: :nothing, returning: true)
+
+    IO.puts " OK (inserted #{count} users)"
+    IO.write "Inserting user<->subscription links"
+
+    user_subscription_links = Enum.map(users, fn user ->
+      %{user_id: user.id, subscription_id: user.subscription_id, inserted_at: naive_datetime.(), updated_at: naive_datetime.()}
+    end)
+
+    Repo.insert_all(UserAvailableSubscriptionLink, user_subscription_links)
+
     IO.puts " OK"
     IO.puts "Current User count: #{Pjeski.Repo.aggregate(from(u in "users"), :count, :id)}"
 end

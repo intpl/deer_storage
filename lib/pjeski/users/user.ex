@@ -7,6 +7,7 @@ defmodule Pjeski.Users.User do
   import Ecto.Changeset
 
   alias Pjeski.Subscriptions.Subscription
+  alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   schema "users" do
     field :locale, :string
@@ -16,15 +17,20 @@ defmodule Pjeski.Users.User do
     field :role, :string, default: "user"
     belongs_to :subscription, Subscription
 
+    has_many :user_subscription_links, UserAvailableSubscriptionLink
+    many_to_many :available_subscriptions, Subscription, join_through: UserAvailableSubscriptionLink
+
     pow_user_fields()
 
     timestamps()
   end
 
   def invite_changeset(user_or_changeset, invited_by, attrs) do
+    subscription_id = invited_by.subscription_id
+
     user_or_changeset
     |> pow_invite_changeset(invited_by, attrs)
-    |> put_change(:subscription_id, invited_by.subscription_id)
+    |> put_change(:subscription_id, subscription_id)
   end
 
   # TODO extract validations in separate common function

@@ -48,62 +48,101 @@
       </article>
     <% end %>
 
-    <table class="table">
-      <tr>
-        <td><%= gettext("Name and surname") %></td><td><%= @user.name %></td>
-      </tr>
-      <tr>
-        <td><%= gettext("E-mail") %></td><td><%= @user.email %></td>
-      </tr>
-      <tr>
-        <td><%= gettext("Time zone") %></td><td><%= @user.time_zone %></td>
-      </tr>
-      <tr>
-        <td><%= gettext("Role") %></td><td><%= @user.role %></td>
-      </tr>
-      <tr>
-        <td><%= gettext("Language") %></td><td><%= @user.locale %></td>
-      </tr>
-      <tr>
-        <td><%= gettext("Inserted at") %></td><td><time datetime="<%= dt @conn, @user.inserted_at %>"><%= dt @conn, @user.inserted_at %></time></td>
-      </tr>
-      <tr>
-        <td><%= gettext("Updated at") %></td><td><time datetime="<%= dt @conn, @user.updated_at %>"><%= dt @conn, @user.updated_at %></time></td>
-      </tr>
-    </table>
-
-    <table class="table">
-      <tr>
-        <td> <%= gettext("Confirmed at") %> </td>
-        <td> <%= dt(@conn, @user.email_confirmed_at) || gettext("empty") %> </td>
-      </tr>
-      <tr>
-        <td> <%= gettext("Unconfirmed email") %> </td>
-        <td> <%= @user.unconfirmed_email || gettext("empty") %> </td>
-      </tr>
-      <tr>
-        <td> <%= gettext("Email confirmation url") %> </td>
-        <td>
-          <%= if @user.email_confirmation_token do %>
-            <% confirmation_url = Routes.confirmation_path(@conn, :show, @user.email_confirmation_token) %>
-            <%=  link confirmation_url, to: confirmation_url %>
+    <div class="columns">
+        <div class="column">
+          <table class="table">
+            <tr>
+              <td><%= gettext("Name and surname") %></td><td><%= @user.name %></td>
+            </tr>
+            <tr>
+              <td><%= gettext("E-mail") %></td><td><%= @user.email %></td>
+            </tr>
+            <tr>
+              <td><%= gettext("Time zone") %></td><td><%= @user.time_zone %></td>
+            </tr>
+            <tr>
+              <td><%= gettext("Role") %></td><td><%= @user.role %></td>
+            </tr>
+            <tr>
+              <td><%= gettext("Language") %></td><td><%= @user.locale %></td>
+            </tr>
+            <tr>
+              <td><%= gettext("Inserted at") %></td><td><time datetime="<%= dt @conn, @user.inserted_at %>"><%= dt @conn, @user.inserted_at %></time></td>
+            </tr>
+            <tr>
+              <td><%= gettext("Updated at") %></td><td><time datetime="<%= dt @conn, @user.updated_at %>"><%= dt @conn, @user.updated_at %></time></td>
+            </tr>
+            <tr>
+              <td> <%= gettext("Confirmed email at") %> </td>
+              <td> <%= dt(@conn, @user.email_confirmed_at) || gettext("empty") %> </td>
+            </tr>
+            <tr>
+              <td> <%= gettext("Unconfirmed email") %> </td>
+              <td> <%= @user.unconfirmed_email || gettext("empty") %> </td>
+            </tr>
+            <tr>
+              <td> <%= gettext("Email confirmation url") %> </td>
+              <td>
+                <%= if @user.email_confirmation_token do %>
+                  <% confirmation_url = Routes.confirmation_path(@conn, :show, @user.email_confirmation_token) %>
+                  <%=  link confirmation_url, to: confirmation_url %>
+                <% else %>
+                <%= gettext("empty") %>
+                <% end %>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="column">
+          <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
+          <%= if @user.subscription do %>
+          <table class="table">
+            <tr><td><%= gettext("Name") %></td><td>
+                <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
+            </td></tr>
+            <tr><td><%= gettext("E-mail") %></td><td><%= @user.subscription.email %></td></tr>
+            <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.subscription.expires_on %></td></tr>
+          </table>
           <% else %>
-          <%= gettext("empty") %>
+            <%= gettext("This user has no subscription attached") %>
+            <br>
+            <br>
           <% end %>
-        </td>
-      </tr>
-    </table>
-    <h4 class="title is-4"><%= gettext("Subscription") %></h4>
-    <%= if @user.subscription do %>
-    <table class="table">
-      <tr><td><%= gettext("Name") %></td><td>
-          <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
-      </td></tr>
-      <tr><td><%= gettext("E-mail") %></td><td><%= @user.subscription.email %></td></tr>
-      <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.subscription.expires_on %></td></tr>
-    </table>
-    <% else %>
-      <%= gettext("This user has no subscription attached") %>
-    <% end %>
+
+          <h4 class="title is-4"><%= gettext("Available subscriptions") %></h4>
+
+          <table class="table">
+              <%= for subscription <- @user.available_subscriptions do %>
+                <tr>
+                  <td>
+                    <%= subscription.name %>
+                  </td>
+                  <td>
+                      <%= link gettext("Disconnect"),
+                      to: Routes.admin_user_user_subscription_link_path(@conn, :delete, @user.id, subscription.id),
+                      method: :delete,
+                      data: [confirm: gettext("Are you sure?")],
+                      class: "button is-danger is-small" %>
+                  </td>
+                </tr>
+              <% end %>
+          </table>
+
+          <h4 class="title is-4"><%= gettext("Connect new subscription") %></h4>
+            <%= form_for @conn, Routes.admin_user_user_subscription_link_path(@conn, :create, @user.id), fn f -> %>
+          <div class="columns">
+              <div class="column is-half">
+                <%= select f, :subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
+              </div>
+              <div class="column is-half">
+                <%= submit gettext("Connect"), class: 'button is-primary is-pulled-left' %>
+              </div>
+          </div>
+            <% end %>
+          </form>
+        </div>
+    </div>
   </div>
 </section>
+
+<script type="text/javascript"> $('.use-select2').select2({placeholder: "<%= gettext("Empty") %>"}); </script>

@@ -62,7 +62,7 @@ defmodule PjeskiWeb.SessionController do
     |> render("new.html", changeset: changeset)
   end
 
-  defp subscription_valid?(%User{role: "admin"}), do: { true, :admin }
+  defp subscription_valid?(%User{subscription_id: nil, role: "admin"}), do: { true, :admin }
   defp subscription_valid?(%User{subscription_id: nil}), do: { false, :user }
   defp subscription_valid?(%User{subscription_id: subscription_id}) when is_number(subscription_id) do
     subscription = Subscriptions.get_subscription!(subscription_id)

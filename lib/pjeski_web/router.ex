@@ -37,6 +37,7 @@ defmodule PjeskiWeb.Router do
       live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}  # this is in fact Admin.DashboardLive.Index
 
       resources "/users", UserController do
+        resources "/subscription_links", UserSubscriptionLinkController, only: [:delete, :create]
         put "/toggle_admin", UserController, :toggle_admin
         put "/log_out_from_devices", UserController, :log_out_from_devices
       end
