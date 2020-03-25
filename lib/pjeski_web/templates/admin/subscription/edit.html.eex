@@ -18,15 +18,23 @@
   <div class="container">
     <%= render "form.html", Map.put(assigns, :action, Routes.admin_subscription_path(@conn, :update, @subscription)) %>
 
-    <%= if (length @subscription.users) == 0 do %>
-      <br>
-      <br>
-      <%= gettext("No users are attached to this subscription. ") %>
-      <br>
-      <%= link gettext("Delete this subscription"),
+      <% delete_button = link gettext("Delete this subscription"),
           to: Routes.admin_subscription_path(@conn, :delete, @subscription),
           method: :delete,
           data: [confirm: gettext("Are you sure?")] %>
+
+    <br>
+
+    <%= if (length @subscription.users) == 0 do %>
+        <div class="notification is-info">
+          <%= gettext("No users attached.") %>
+          <%= delete_button %>
+        </div>
+    <% else %>
+        <div class="notification is-danger">
+          <%= gettext("There are users attached to this subscription. You can still delete it and keep the users without a subscription.") %>
+          <%= delete_button %>
+        </div>
     <% end %>
   </div>
 </section>

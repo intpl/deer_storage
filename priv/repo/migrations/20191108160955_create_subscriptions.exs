@@ -12,7 +12,7 @@ defmodule Pjeski.Repo.Migrations.CreateSubscriptions do
     end
 
     alter table(:users) do
-      add :subscription_id, references(:subscriptions)
+      add :subscription_id, references(:subscriptions, on_delete: :nilify_all)
     end
 
     create index(:users, [:subscription_id])
