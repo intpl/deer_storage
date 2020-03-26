@@ -119,6 +119,10 @@ defmodule Pjeski.Users do
     |> Repo.update()
   end
 
+  def change_subscription_id(%User{} = user, subscription_id) do
+    Repo.update!(change(user, subscription_id: subscription_id))
+  end
+
   def maybe_upsert_subscription_link(%User{id: _user_id, subscription_id: nil} = user), do: user
   def maybe_upsert_subscription_link(%User{id: user_id, subscription_id: subscription_id} = user) do
     upsert_subscription_link(user_id, subscription_id, :nothing)
@@ -129,7 +133,7 @@ defmodule Pjeski.Users do
   def insert_subscription_link_and_maybe_change_id(%User{id: user_id, subscription_id: nil} = user, subscription_id) when is_integer(subscription_id) do
     upsert_subscription_link(user_id, subscription_id, :raise)
 
-    Repo.update!(change(user, subscription_id: subscription_id))
+    change_subscription_id(user, subscription_id)
   end
 
   def insert_subscription_link_and_maybe_change_id(%User{id: user_id}, subscription_id) when is_integer(subscription_id) do
@@ -141,7 +145,7 @@ defmodule Pjeski.Users do
 
     Repo.transaction(fn ->
       remove_user_subscription_link(user_id, subscription_id)
-      Repo.update!(change(user, subscription_id: nil))
+      change_subscription_id(user, nil)
     end)
   end
 
@@ -149,7 +153,7 @@ defmodule Pjeski.Users do
     remove_user_subscription_link(user_id, subscription_id)
   end
 
-  defp upsert_subscription_link(user_id, subscription_id, on_conflict) do
+  def upsert_subscription_link(user_id, subscription_id, on_conflict) do
     Repo.insert(
       %UserAvailableSubscriptionLink{
         user_id: user_id,

@@ -1,9 +1,9 @@
 defmodule PjeskiWeb.RegistrationController do
   use PjeskiWeb, :controller
 
+  alias Pjeski.Repo
   alias Pjeski.Users
   alias Pjeski.Users.User
-  alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   import PjeskiWeb.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
@@ -12,7 +12,7 @@ defmodule PjeskiWeb.RegistrationController do
   end
 
   def edit(conn, _params) do
-    render(conn, "edit.html", changeset: Pow.Plug.change_user(conn), navigation_template_always: "navigation_outside_app.html")
+    render_edit_for_current_user(conn, Pow.Plug.change_user(conn))
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -20,7 +20,7 @@ defmodule PjeskiWeb.RegistrationController do
     |> Pow.Plug.create_user(user_params)
     |> case do
       {:ok, user, conn} ->
-        insert_subscription_link(user)
+        Users.upsert_subscription_link(user.id, user.subscription_id, :raise)
         Users.notify_subscribers({:ok, user}, [:user, :created])
         send_confirmation_email(user, conn)
 
@@ -35,19 +35,56 @@ defmodule PjeskiWeb.RegistrationController do
 
   def update(conn, %{"user" => user_params}) do
     conn |> Pow.Plug.update_user(user_params) |> case do
-      {:ok, %User{}, conn} ->
+      {:ok, _user, conn} ->
         conn
         |> maybe_send_confirmation_email
         |> put_flash(:info, gettext("Account updated"))
-        |> render("edit.html", changeset: Pow.Plug.change_user(conn), navigation_template_always: "navigation_outside_app.html")
+        |> render_edit_for_current_user(Pow.Plug.change_user(conn))
 
       {:error, changeset, conn} ->
-        render(conn, "edit.html", changeset: changeset, navigation_template_always: "navigation_outside_app.html")
+        render_edit_for_current_user(conn, changeset)
     end
   end
 
-  defp insert_subscription_link(%User{id: user_id, subscription_id: subscription_id}) do
-    Pjeski.Repo.insert(%UserAvailableSubscriptionLink{user_id: user_id, subscription_id: subscription_id})
+  def switch_subscription_id(conn, %{"subscription_id" => requested_subscription_id}) do
+    user = current_user_with_preloaded_subscriptions(conn)
+    requested_subscription_id = requested_subscription_id |> String.to_integer
+
+    is_subscription_id_valid? = user.available_subscriptions
+    |> Enum.map(fn subscription -> subscription.id end)
+    |> Enum.member?(requested_subscription_id)
+
+    case is_subscription_id_valid? do
+      true ->
+        Users.change_subscription_id(user, requested_subscription_id)
+
+        conn
+        |> Pow.Plug.delete
+        |> put_flash(:info, gettext("Successfully changed subscription. Please log back in."))
+        |> redirect(to: Routes.registration_path(conn, :edit))
+      false ->
+        conn
+        |> put_flash(:error, "Illegal action. Reported") # TODO
+        |> redirect(to: Routes.registration_path(conn, :edit))
+    end
+  end
+
+  defp render_edit_for_current_user(conn, changeset) do
+    user = current_user_with_preloaded_subscriptions(conn)
+    available_subscriptions = Enum.reject(
+      user.available_subscriptions, fn s -> s.id == user.subscription_id end
+    )
+
+    render(conn, "edit.html",
+      changeset: changeset,
+      navigation_template_always: "navigation_outside_app.html",
+      available_subscriptions: available_subscriptions,
+      current_subscription: user.subscription
+    )
+  end
+
+  defp current_user_with_preloaded_subscriptions(%{assigns: %{current_user: user}}) do
+    user |> Repo.preload([:available_subscriptions, :subscription])
   end
 
   defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: email, unconfirmed_email: email}}} = conn), do: conn

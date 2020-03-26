@@ -11,11 +11,6 @@
   </div>
 </section>
 
-<%= if @changeset.data.subscription_id do %>
-  <br>
-  <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
-<% end %>
-
 <section class="section">
   <div class="container">
     <%= form_for @changeset, Routes.registration_path(@conn, :update), [as: :user], fn f -> %>
@@ -25,10 +20,6 @@
       </div>
       <% end %>
 
-      <div class="notification">
-        <%= gettext("Your subscription ends in %{days} days", days: days_to_expire(@current_user)) %>
-      </div>
-
       <%= if @changeset.data.unconfirmed_email do %>
         <div class="notification">
           <p><%= gettext("Click the link in the confirmation email to change your email to:") %> <%= content_tag(:span, @changeset.data.unconfirmed_email) %></p>
@@ -36,6 +27,42 @@
       <% end %>
 
       <div class="columns">
+        <div class="column">
+            <%= if @current_subscription do %>
+              <h4 class="title is-4"><%= @current_subscription.name %></h4>
+
+              <div class="notification">
+                  <%= gettext("Your subscription ends in %{days} days", days: days_to_expire(@current_user)) %>
+              </div>
+
+              <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
+            <% else %>
+              <%= gettext("No subscription assigned") %>
+            <% end %>
+
+          <br><br>
+          <%= if length(@available_subscriptions) == 0 do %>
+            <%= gettext("No available subscriptions") %>
+          <% else %>
+          <h4 class="title is-4"><%= gettext("Available subscriptions") %></h4>
+            <table class="table">
+            <%= for available_subscription <- @available_subscriptions do %>
+                <tr>
+                  <td>
+                    <%= available_subscription.name %>
+                  </td>
+                  <td>
+                      <%= link gettext("Switch"),
+                      to: Routes.registration_path(@conn, :switch_subscription_id, available_subscription.id),
+                      method: :put,
+                      data: [confirm: gettext("You will be logged out. Are you sure?")],
+                      class: "button is-primary is-small" %>
+                  </td>
+                </tr>
+            <% end %>
+            </table>
+          <% end %>
+        </div>
         <div class="column">
           <h4 class="title is-4">
             <%= gettext("General settings") %>

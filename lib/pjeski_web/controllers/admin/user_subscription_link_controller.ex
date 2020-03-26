@@ -3,6 +3,27 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
 
   alias Pjeski.Users
 
+  def reset(conn, %{"user_id" => user_id}) do
+    user = Users.get_user!(user_id)
+
+    Users.change_subscription_id(user, nil)
+
+    conn
+    |> put_flash(:info, gettext("User current subscription has been reset"))
+    |> redirect(to: Routes.admin_user_path(conn, :show, user))
+  end
+
+  def make_current(conn, %{"user_id" => user_id, "subscription_id" => subscription_id}) do
+    user = Users.get_user!(user_id)
+    subscription_id = subscription_id |> String.to_integer
+
+    Users.change_subscription_id(user, subscription_id)
+
+    conn
+    |> put_flash(:info, gettext("User current subscription has been changed"))
+    |> redirect(to: Routes.admin_user_path(conn, :show, user))
+  end
+
   def delete(conn, %{"user_id" => user_id, "id" => subscription_id}) do
     user = Users.get_user!(user_id)
     subscription_id = subscription_id |> String.to_integer

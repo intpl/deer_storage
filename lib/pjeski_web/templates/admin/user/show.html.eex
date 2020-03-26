@@ -96,13 +96,18 @@
         <div class="column">
           <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
           <%= if @user.subscription do %>
-          <table class="table">
-            <tr><td><%= gettext("Name") %></td><td>
-                <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
-            </td></tr>
-            <tr><td><%= gettext("E-mail") %></td><td><%= @user.subscription.email %></td></tr>
-            <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.subscription.expires_on %></td></tr>
-          </table>
+            <%= link gettext("Reset"),
+            to: Routes.admin_user_user_subscription_link_path(@conn, :reset, @user.id),
+            method: :put,
+            class: "button is-warning is-small" %>
+
+            <table class="table">
+              <tr><td><%= gettext("Name") %></td><td>
+                  <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
+              </td></tr>
+              <tr><td><%= gettext("E-mail") %></td><td><%= @user.subscription.email %></td></tr>
+              <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.subscription.expires_on %></td></tr>
+            </table>
           <% else %>
             <%= gettext("This user has no subscription attached") %>
             <br>
@@ -123,6 +128,12 @@
                       method: :delete,
                       data: [confirm: gettext("Are you sure?")],
                       class: "button is-danger is-small" %>
+
+                      <%= link gettext("Make current"),
+                      to: Routes.admin_user_user_subscription_link_path(@conn, :make_current, @user.id, subscription.id),
+                      method: :put,
+                      class: "button is-success is-small" %>
+
                   </td>
                 </tr>
               <% end %>

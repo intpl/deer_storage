@@ -27,6 +27,9 @@ defmodule PjeskiWeb.Router do
     live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
+
+    put "/registration/switch_subscription_id/:subscription_id", RegistrationController, :switch_subscription_id
+
     resources "/session", SessionController, singleton: true, only: [:delete]
     resources "/invitation", InvitationController, only: [:new, :create]
     resources "/users", UserController, only: [:index]
@@ -38,6 +41,9 @@ defmodule PjeskiWeb.Router do
 
       resources "/users", UserController do
         resources "/subscription_links", UserSubscriptionLinkController, only: [:delete, :create]
+        put "/subscription_links/reset", UserSubscriptionLinkController, :reset
+        put "/subscription_links/make_current/:subscription_id", UserSubscriptionLinkController, :make_current
+
         put "/toggle_admin", UserController, :toggle_admin
         put "/log_out_from_devices", UserController, :log_out_from_devices
       end
