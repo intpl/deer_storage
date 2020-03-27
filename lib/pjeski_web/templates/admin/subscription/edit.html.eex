@@ -28,11 +28,13 @@
     <%= if (length @subscription.users) == 0 do %>
         <div class="notification is-info">
           <%= gettext("No users attached.") %>
+          <br>
           <%= delete_button %>
         </div>
     <% else %>
         <div class="notification is-danger">
           <%= gettext("There are users attached to this subscription. You can still delete it and keep the users without a subscription.") %>
+          <br>
           <%= delete_button %>
         </div>
     <% end %>

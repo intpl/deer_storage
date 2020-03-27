@@ -47,17 +47,19 @@ defmodule PjeskiWeb.InvitationControllerTest do
 
     test "[user] [valid params - email already exists] POST /invitation", %{guest_conn: guest_conn} do
       user = create_valid_user_with_subscription()
-      user2 = create_valid_user_with_subscription()
+      user2 = create_valid_user_with_subscription() |> Repo.preload(:available_subscriptions)
+
+      assert length(user2.available_subscriptions) == 1
 
       Pow.Plug.assign_current_user(guest_conn, user, [])
       |> post("/invitation", user: %{email: user2.email})
 
       assert_no_emails_delivered()
 
-      reloaded_user2 = Repo.get(User, user2.id)
+      reloaded_user2 = Repo.get(User, user2.id) |> Repo.preload(:available_subscriptions)
 
-      refute user.subscription_id == reloaded_user2.subscription_id # pointless, but let's be explicit
       assert user2.subscription_id == reloaded_user2.subscription_id
+      assert length(reloaded_user2.available_subscriptions) == 2
 
       # TODO: add available_subscriptions_ids
     end

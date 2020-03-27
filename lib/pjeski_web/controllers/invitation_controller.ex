@@ -3,6 +3,7 @@ defmodule PjeskiWeb.InvitationController do
   import Plug.Conn, only: [assign: 3]
 
   alias PowInvitation.{Phoenix.Mailer, Plug}
+  alias Pjeski.{Repo, Users, Users.User}
 
   plug :load_user_from_invitation_token when action in [:show, :edit, :update]
   plug :assign_create_path when action in [:new, :create]
@@ -23,9 +24,20 @@ defmodule PjeskiWeb.InvitationController do
         |> put_flash(:info, gettext("Invitation e-mail sent"))
         |> redirect(to: Routes.user_path(conn, :index))
       {:error, changeset, conn} ->
-        conn
-        |> assign(:changeset, changeset)
-        |> render("new.html")
+        case changeset.errors[:email] do
+          {_text, [constraint: :unique, constraint_name: "users_email_index"]} ->
+            user = Repo.get_by!(User, [email: changeset.changes.email])
+
+            Users.insert_subscription_link_and_maybe_change_id(user, Pow.Plug.current_user(conn).subscription_id)
+
+            conn
+            |> put_flash(:info, gettext("Added user to your subscription"))
+            |> redirect(to: Routes.user_path(conn, :index))
+          _ ->
+            conn
+            |> assign(:changeset, changeset)
+            |> render("new.html")
+        end
     end
   end
 
@@ -58,7 +70,7 @@ defmodule PjeskiWeb.InvitationController do
         |> redirect(to: Routes.session_path(conn, :new))
 
       user ->
-        Plug.assign_invited_user(conn, user |> Pjeski.Repo.preload(:subscription))
+        Plug.assign_invited_user(conn, user |> Repo.preload(:subscription))
     end
   end
 
