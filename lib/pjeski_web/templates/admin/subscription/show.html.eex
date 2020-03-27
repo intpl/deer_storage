@@ -28,11 +28,6 @@
 
     <ul>
       <li>
-        <strong><%= gettext("Email") %>:</strong>
-        <%= @subscription.email %>
-      </li>
-
-      <li>
         <strong><%= gettext("Expires on") %>:</strong>
         <%= @subscription.expires_on %>
       </li>

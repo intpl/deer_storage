@@ -12,12 +12,6 @@
   </div>
 
   <div class="field">
-    <%= label f, :email, gettext("E-mail address"), class: 'label' %>
-    <%= text_input f, :email, class: 'input' %>
-    <%= error_tag f, :email %>
-  </div>
-
-  <div class="field">
     <%= label f, :expires_on, gettext("Expires on"), class: 'label' %>
 
     <div class="control">

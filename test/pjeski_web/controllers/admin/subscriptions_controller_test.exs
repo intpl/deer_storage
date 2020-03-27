@@ -4,7 +4,7 @@ defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
   alias Pjeski.Subscriptions
 
   @create_attrs %{name: "example name", email: "test@test.eu"}
-  @update_attrs %{email: "test2@test.eu"}
+  @update_attrs %{name: "example2 name"}
 
   def fixture(:subscription) do
     {:ok, subscription} = Subscriptions.create_subscription(@create_attrs)
@@ -57,7 +57,7 @@ defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
       assert redirected_to(conn) == Routes.admin_subscription_path(admin_conn, :show, subscription)
 
       conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :show, subscription))
-      assert html_response(conn, 200) =~ "test2@test.eu"
+      assert html_response(conn, 200) =~ "example2 name"
     end
   end
 

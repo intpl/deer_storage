@@ -67,27 +67,7 @@ defmodule Pjeski.UsersTest do
       assert user.role, "user"
     end
 
-    test "changeset is invalid if subscription email is used already" do
-      %User{} |> User.changeset(@valid_attrs) |> Pjeski.Repo.insert!
-
-      assert {:error, changeset} = User.changeset(%User{}, %{@valid_attrs | email: "valid_new_user_email@example.org"}) |> Repo.insert
-      assert { "has already been taken", _ } = changeset.changes.subscription.errors[:email]
-    end
-
     # Below is validates by Pow anyway, but let's be sure by writing simple tests
-
-    test "changeset is invalid if user email is used already" do
-      %User{} |> User.changeset(@valid_attrs) |> Pjeski.Repo.insert!
-
-      user2 = User.changeset(
-        %User{},
-        %{@valid_attrs | subscription: %{@valid_attrs | email: "valid_new_subscription_email@example.org"}}
-      )
-
-      assert {:error, changeset} = Repo.insert(user2)
-
-      assert { "has already been taken", _ } = changeset.errors[:email]
-    end
 
     test "create_user/1 without email returns error changeset" do
       changeset = User.changeset(%User{}, Map.delete(@valid_attrs, :email))

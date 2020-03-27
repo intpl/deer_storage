@@ -24,7 +24,7 @@ defmodule Pjeski.Subscriptions do
 
     Subscription
     |> sort_subscriptions_by(sort_by)
-    |> where(^compose_search_query([:name, :email, :admin_notes], query_string))
+    |> where(^compose_search_query([:name, :admin_notes], query_string))
     |> offset(^offset)
     |> limit(^per_page)
     |> Repo.all
@@ -93,8 +93,6 @@ defmodule Pjeski.Subscriptions do
   defp sort_subscriptions_by(q, ""), do: q
   defp sort_subscriptions_by(q, "name_desc"), do: q |> order_by(desc: :name)
   defp sort_subscriptions_by(q, "name_asc"), do: q |> order_by(asc: :name)
-  defp sort_subscriptions_by(q, "email_desc"), do: q |> order_by(desc: :email)
-  defp sort_subscriptions_by(q, "email_asc"), do: q |> order_by(asc: :email)
   defp sort_subscriptions_by(q, "expires_on_desc"), do: q |> order_by(desc: :expires_on)
   defp sort_subscriptions_by(q, "expires_on_asc"), do: q |> order_by(asc: :expires_on)
   defp sort_subscriptions_by(q, "admin_notes_desc"), do: q |> order_by(desc_nulls_last: :admin_notes)

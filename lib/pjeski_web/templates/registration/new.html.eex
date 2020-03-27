@@ -22,7 +22,6 @@
     <% end %>
 
     <div class="form-group">
-      <h3 class="title"><%= gettext("Subscription details") %></h3>
 
       <%= inputs_for f, :subscription, fn sf -> %>
         <div class="field">
@@ -30,18 +29,10 @@
           <%= text_input sf, :name, class: 'input' %>
           <%= error_tag sf, :name %>
         </div>
-
-        <div class="field">
-          <%= label sf, :email, gettext("Subscription E-mail"), class: 'label' %>
-          <%= text_input sf, :email, class: 'input' %>
-          <%= error_tag sf, :email %>
-        </div>
       <% end %>
     </div>
 
     <br>
-
-    <h3 class="title is-3"><%= gettext("User details") %></h3>
 
     <div class="field">
       <%= label f, :locale, gettext("Language"), class: 'label' %>
@@ -57,12 +48,7 @@
 
     <div class="field">
       <label for="user_email" class="label">
-          <%= gettext("E-mail address") %>
-          <span class="help is-inline">
-              <a onClick="$('#user_email').val($('#user_subscription_email').val());">
-                  <%= gettext("Copy from subscription") %>
-              </a>
-          </span>
+        <%= gettext("E-mail address") %>
       </label>
       <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>

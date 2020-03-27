@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [48%] [29/60] DEADLINE: <2020-03-31 Tue>
+* TODO [55%] [33/60] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -27,14 +27,14 @@
 ** DONE Pow Email Confirmation fields in admin panel (TOKEN)
 ** DONE POW Invitation and display subscription's users in Settings page + TESTS
 ** DONE Field labels 'for' translated!
-** STRT Allow User to change their subscription. Allow users to invite to their subscription + TESTS
+** DONE Allow User to change their subscription. Allow users to invite to their subscription + TESTS
 *** DONE Migrations: available_subscriptions+has_many_through[users<->subscriptions]
-*** TODO Remove "email" from subscription
-*** TODO Counter cache for subscriptions.users_count
-*** TODO sign in: ensure current_subscription_id is in available_subscriptions, if not: overwrite current_subscription_id with last (sort by inserted_at) from available_subscriptions
 *** DONE invitation: if user exists: add subscription to available_subscriptions, if not: don't forget to create available_subscriptions link
 *** DONE users: + disconnect from subscription
 *** DONE user settings: change subscription (if more than one link) - select box: "name (email)"
+** KILL Counter cache for subscriptions.users_count
+** KILL sign in: ensure current_subscription_id is in available_subscriptions, if not: overwrite current_subscription_id with last (sort by inserted_at) from available_subscriptions
+** DONE Remove "email" from subscription
 ** TODO Allow users without subscription to log in and see that they do not have any subscription, maybe buy?
 ** TODO Allow users with expired subscription to log in
 ** TODO Enable administrators to edit users' available_subscriptions

@@ -17,7 +17,7 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
 
   def all_subscriptions_options do
     Pjeski.Subscriptions.list_subscriptions()
-      |> Enum.map(fn subscription -> ["#{subscription.name} (#{subscription.email})", subscription.id]  end)
+      |> Enum.map(fn subscription -> ["#{subscription.name}", subscription.id]  end)
       |> Map.new(fn [k, v] -> {k, v} end)
   end
 
@@ -29,8 +29,6 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
       ["", gettext("No sorting")],
       ["name_desc", gettext("Name") <> descending],
       ["name_asc", gettext("Name") <> ascending],
-      ["email_desc", gettext("E-mail") <> descending],
-      ["email_asc", gettext("E-mail") <> ascending],
       ["expires_on_desc", gettext("Expires on") <> descending],
       ["expires_on_asc", gettext("Expires on") <> ascending],
       ["admin_notes_desc", gettext("Admin notes") <> descending],

@@ -39,7 +39,7 @@ defmodule Pjeski.Users do
               "users" -> query
               "subscriptions_and_users" ->
                 subscriptions_ids = Subscription
-                |> where(^compose_search_query([:name, :email, :admin_notes], query_string))
+                |> where(^compose_search_query([:name, :admin_notes], query_string))
                 |> select([:id])
                 |> Repo.all()
                 |> Enum.map(fn s -> s.id end)

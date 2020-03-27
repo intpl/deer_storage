@@ -6,9 +6,9 @@ defmodule Pjeski.SubscriptionTest do
     alias Pjeski.Subscriptions.Subscription
     alias Pjeski.Subscriptions
 
-    @valid_attrs %{email: "asd@asd.pl", name: "Example"}
-    @update_attrs %{email: "qwe2@qwe.pl", name: "Example2"}
-    @invalid_attrs %{email: "invalid format nanana", expires_on: ~N[2011-05-18 15:01:01]}
+    @valid_attrs %{name: "Example"}
+    @update_attrs %{name: "Example2"}
+    @invalid_attrs %{name: "", expires_on: ~N[2011-05-18 15:01:01]}
 
     def subscription_fixture(attrs \\ %{}) do
       {:ok, subscription} =
@@ -31,7 +31,7 @@ defmodule Pjeski.SubscriptionTest do
 
     test "create_subscription/1 with valid data creates a subscription" do
       assert {:ok, %Subscription{} = subscription} = Subscriptions.create_subscription(@valid_attrs)
-      assert subscription.email == "asd@asd.pl"
+      assert subscription.name == "Example"
     end
 
     test "create_subscription/1 with invalid data returns error changeset" do
@@ -41,7 +41,7 @@ defmodule Pjeski.SubscriptionTest do
     test "update_subscription/2 with valid data updates the subscription" do
       subscription = subscription_fixture()
       assert {:ok, %Subscription{} = subscription} = Subscriptions.update_subscription(subscription, @update_attrs)
-      assert subscription.email == "qwe2@qwe.pl"
+      assert subscription.name == "Example2"
     end
 
     test "update_subscription/2 with invalid data returns error changeset" do

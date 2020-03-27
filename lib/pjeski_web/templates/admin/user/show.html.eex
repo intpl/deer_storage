@@ -105,7 +105,6 @@
               <tr><td><%= gettext("Name") %></td><td>
                   <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
               </td></tr>
-              <tr><td><%= gettext("E-mail") %></td><td><%= @user.subscription.email %></td></tr>
               <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.subscription.expires_on %></td></tr>
             </table>
           <% else %>

@@ -16,7 +16,7 @@
 
 <section class="section">
   <div class="container">
-    <%= render "form.html", Map.put(assigns, :action, Routes.admin_subscription_path(@conn, :update, @subscription)) %>
+    <%= render "_form.html", Map.put(assigns, :action, Routes.admin_subscription_path(@conn, :update, @subscription)) %>
 
       <% delete_button = link gettext("Delete this subscription"),
           to: Routes.admin_subscription_path(@conn, :delete, @subscription),

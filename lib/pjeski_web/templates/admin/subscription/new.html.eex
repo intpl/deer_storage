@@ -18,6 +18,6 @@
     </h4>
     <br>
 
-    <%= render "form.html", Map.put(assigns, :action, Routes.admin_subscription_path(@conn, :create)) %>
+    <%= render "_form.html", Map.put(assigns, :action, Routes.admin_subscription_path(@conn, :create)) %>
   </div>
 </section>

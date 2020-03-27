@@ -18,7 +18,7 @@ datetime = fn -> DateTime.truncate(DateTime.utc_now(), :second) end
 naive_datetime = fn -> NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second) end
 
 admin_emails = ["bgladecki@gmail.com", "marek@weczmarski.com"]
-subscription_emails = ["roman@dmowski.pl", "roman@polanski.pl"] ++ Enum.map((500..1000), fn _ -> Faker.Internet.safe_email() end) |> Enum.uniq
+subscription_names = Enum.map((500..1000), fn _ -> Faker.Company.catch_phrase() end) |> Enum.uniq
 default_user_map = %{password: "dupadupa", admin_notes: "Generated automatically"}
 
 built_admin_structs = Enum.map(admin_emails, fn admin_email ->
@@ -36,11 +36,10 @@ IO.write "Inserting Admin structs"
 Repo.insert_all(User, built_admin_structs)
 IO.puts " OK"
 
-built_subscription_structs = Enum.map(subscription_emails, fn subscription_email ->
+built_subscription_structs = Enum.map(subscription_names, fn subscription_name ->
   Subscription.admin_changeset(%Subscription{},
     %{
-      email: subscription_email,
-      name: Faker.Company.catch_phrase(),
+      name: subscription_name,
       time_zone: Enum.random(Tzdata.zone_list),
       admin_notes: "Generated automatically",
       expires_on: Date.add(Date.utc_today, 90)
@@ -51,15 +50,15 @@ IO.write "Inserting Subscription structs"
 Repo.insert_all(Subscription, built_subscription_structs)
 IO.puts " OK"
 
-subscriptions = Subscription |> select([:id, :email]) |> Repo.all
+subscriptions = Subscription |> select([:id]) |> Repo.all
 
-for %Subscription{id: sub_id, email: sub_email} <- subscriptions do
+for %Subscription{id: sub_id} <- subscriptions do
     IO.write "Generating users structs for subscription #{sub_id}"
 
     built_users_for_current_subscription = [
       User.admin_changeset(%User{}, Map.merge(
             %{
-              email: sub_email,
+              email: Faker.Internet.safe_email(),
               name: Faker.Name.name(),
               time_zone: Enum.random(Tzdata.zone_list),
               locale: Enum.random(["en", "pl"]),

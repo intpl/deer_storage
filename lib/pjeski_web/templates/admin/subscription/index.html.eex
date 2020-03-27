@@ -69,7 +69,6 @@
   <thead>
     <tr>
       <th><%= determine_if_sorted(gettext("Subscription name"), "name", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Expires on"), "expires_on", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @query) %></th>
@@ -83,9 +82,6 @@
         <tr>
           <td>
             <%= link subscription.name, to: Routes.admin_subscription_path(@conn, :show, subscription) %>
-          </td>
-          <td data-label="<%= gettext("E-mail") %>: ">
-            <%= link subscription.email, to: Routes.admin_subscription_path(@conn, :show, subscription) %>
           </td>
           <td data-label="<%= gettext("Expires on") %>: ">
             <%= subscription.expires_on %>
