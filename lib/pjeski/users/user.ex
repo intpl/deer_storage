@@ -58,6 +58,7 @@ defmodule Pjeski.Users.User do
     user_changeset(existing_user, params)
   end
   def changeset(user_or_changeset, params) do
+    # FIXME allow subscription_id: nil OR DIE
     user_changeset(user_or_changeset, params)
     |> cast_assoc(:subscription, with: &Subscription.changeset/2)
     |> validate_required(:subscription)

@@ -31,11 +31,19 @@
             <%= if @current_subscription do %>
               <h4 class="title is-4"><%= @current_subscription.name %></h4>
 
-              <div class="notification">
-                  <%= gettext("Your subscription ends in %{days} days", days: days_to_expire(@current_user)) %>
-              </div>
+                  <% days = days_to_expire(@current_user) %>
+                  <%= if days < 1 do %>
+                    <div class="notification is-danger">
+                      <%= gettext("Your subscription expired") %>
+                    </div>
+                  <% else %>
+                    <div class="notification">
+                      <%= gettext("Your subscription ends in %{days} days", days: days) %>
+                    </div>
 
-              <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
+                    <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
+                  <% end %>
+
             <% else %>
               <%= gettext("No subscription assigned") %>
             <% end %>

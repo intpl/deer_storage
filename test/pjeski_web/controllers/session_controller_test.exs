@@ -31,17 +31,14 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert html_response(conn, 200) =~ "Zły e-mail lub hasło"
     end
 
-    test "[guest -> user] [invalid - expired subscription] POST /session", %{guest_conn: conn} do
+    test "[guest -> user] [valid - expired subscription] POST /session", %{guest_conn: conn} do
       user = create_user_with_expired_subscription()
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
 
       redirected_path = redirected_to(conn, 302)
-      assert "/session/new" = redirected_path
-      conn = get(recycle(conn), redirected_path)
-
-      assert html_response(conn, 200) =~ "Twoja subskrypcja jest nieaktywna"
+      assert "/dashboard" = redirected_path
     end
 
     test "[guest -> user] [invalid - empty subscription] POST /session", %{guest_conn: conn} do
@@ -49,10 +46,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
-      assert "/session/new" = redirected_path
-      conn = get(recycle(conn), redirected_path)
-
-      assert html_response(conn, 200) =~ "Twoja subskrypcja jest nieaktywna"
+      assert "/dashboard" = redirected_path
     end
 
     test "[guest -> user] [invalid - unconfirmed email] POST /session", %{guest_conn: conn} do
@@ -77,7 +71,6 @@ defmodule PjeskiWeb.SessionControllerTest do
     end
 
     test "[guest -> admin] [valid / expired subscription] POST /session", %{guest_conn: conn} do
-      # FIXME
       {:ok, user} = create_user_with_expired_subscription() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})

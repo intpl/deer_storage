@@ -22,8 +22,10 @@ defmodule PjeskiWeb.InvitationControllerTest do
   end
 
   describe "new" do
-    test "[user] [logged in] GET /invitation", %{user_conn: conn} do
-      conn = get(conn, "/invitation/new")
+    test "[user] [logged in] GET /invitation", %{guest_conn: guest_conn} do
+      user = create_valid_user_with_subscription()
+      conn = Pow.Plug.assign_current_user(guest_conn, user, []) |> get("/invitation/new")
+
       assert html_response(conn, 200) =~ "Zaproś użytkownika do StorageDeer!"
     end
   end

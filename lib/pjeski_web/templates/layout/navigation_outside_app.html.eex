@@ -2,7 +2,7 @@
   <div class="navbar-brand">
     <%= link(
         gettext("⬅️ Go back to the application"),
-        to: dashboard_path_for(@conn.assigns.current_user.role),
+        to: dashboard_path_for(@conn.assigns.current_user),
         class: "navbar-item") %>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">

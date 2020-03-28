@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [55%] [33/60] DEADLINE: <2020-03-31 Tue>
+* TODO [61%] [37/60] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -35,10 +35,10 @@
 ** KILL Counter cache for subscriptions.users_count
 ** KILL sign in: ensure current_subscription_id is in available_subscriptions, if not: overwrite current_subscription_id with last (sort by inserted_at) from available_subscriptions
 ** DONE Remove "email" from subscription
-** TODO Allow users without subscription to log in and see that they do not have any subscription, maybe buy?
-** TODO Allow users with expired subscription to log in
-** TODO Enable administrators to edit users' available_subscriptions
-** TODO Enable administrators to delete subscriptions and reset all their users' subscription_id and join tables
+** DONE Allow users without subscription to log in and see that they do not have any subscription, maybe buy?
+** DONE Allow users with expired subscription to log in
+** DONE Enable administrators to edit users' available_subscriptions
+** DONE Enable administrators to delete subscriptions and reset all their users' subscription_id and join tables
 ** TODO Users permissions, control panel to change them
 ** TODO Migrate database, write seeds with a proper structure
 ** WAIT Write high level logging/history mechanism + TEST
