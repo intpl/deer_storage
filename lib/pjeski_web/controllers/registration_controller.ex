@@ -56,7 +56,7 @@ defmodule PjeskiWeb.RegistrationController do
 
     case is_subscription_id_valid? do
       true ->
-        Users.change_subscription_id(user, requested_subscription_id)
+        Users.update_subscription_id!(user, requested_subscription_id)
 
         conn
         |> Pow.Plug.delete

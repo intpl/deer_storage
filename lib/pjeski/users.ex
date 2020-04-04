@@ -119,7 +119,7 @@ defmodule Pjeski.Users do
     |> Repo.update()
   end
 
-  def change_subscription_id(%User{} = user, subscription_id) do
+  def update_subscription_id!(%User{} = user, subscription_id) do
     Repo.update!(change(user, subscription_id: subscription_id))
   end
 
@@ -133,7 +133,7 @@ defmodule Pjeski.Users do
   def insert_subscription_link_and_maybe_change_id(%User{id: user_id, subscription_id: nil} = user, subscription_id) when is_integer(subscription_id) do
     upsert_subscription_link(user_id, subscription_id, :raise)
 
-    change_subscription_id(user, subscription_id)
+    update_subscription_id!(user, subscription_id)
   end
 
   def insert_subscription_link_and_maybe_change_id(%User{id: user_id}, subscription_id) when is_integer(subscription_id) do
@@ -145,7 +145,7 @@ defmodule Pjeski.Users do
 
     Repo.transaction(fn ->
       remove_user_subscription_link(user_id, subscription_id)
-      change_subscription_id(user, nil)
+      update_subscription_id!(user, nil)
     end)
   end
 

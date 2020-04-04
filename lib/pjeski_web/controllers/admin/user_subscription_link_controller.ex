@@ -6,7 +6,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
   def reset(conn, %{"user_id" => user_id}) do
     user = Users.get_user!(user_id)
 
-    Users.change_subscription_id(user, nil)
+    Users.update_subscription_id!(user, nil)
 
     conn
     |> put_flash(:info, gettext("User current subscription has been reset"))
@@ -17,7 +17,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
     user = Users.get_user!(user_id)
     subscription_id = subscription_id |> String.to_integer
 
-    Users.change_subscription_id(user, subscription_id)
+    Users.update_subscription_id!(user, subscription_id)
 
     conn
     |> put_flash(:info, gettext("User current subscription has been changed"))
