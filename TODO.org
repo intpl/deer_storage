@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [61%] [37/60] DEADLINE: <2020-03-31 Tue>
+* TODO [59%] [37/62] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -39,6 +39,8 @@
 ** DONE Allow users with expired subscription to log in
 ** DONE Enable administrators to edit users' available_subscriptions
 ** DONE Enable administrators to delete subscriptions and reset all their users' subscription_id and join tables
+** TODO Pow - enable to switch subscriptions on the fly (without the need to relogin -> no kurwa nie do zrobienia)
+** TODO Optimizing IEx for Ecto (book)
 ** TODO Users permissions, control panel to change them
 ** TODO Migrate database, write seeds with a proper structure
 ** WAIT Write high level logging/history mechanism + TEST
