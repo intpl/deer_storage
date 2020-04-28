@@ -568,8 +568,8 @@ msgid "Email has been sent"
 msgstr "Wysłano adres e-mail"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:81
-#: lib/pjeski_web/controllers/reset_password_controller.ex:69
+#: lib/pjeski_web/controllers/invitation_controller.ex:70
+#: lib/pjeski_web/controllers/reset_password_controller.ex:68
 msgid "Invalid token"
 msgstr "Nieprawidłowy token"
 
@@ -656,7 +656,7 @@ msgid "Unconfirmed email"
 msgstr "Niepotwierdzony e-mail"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:25
+#: lib/pjeski_web/controllers/invitation_controller.ex:109
 msgid "Invitation e-mail sent"
 msgstr "Wysłano e-mail potwierdzający"
 
@@ -696,7 +696,7 @@ msgid "Sends a link to a desired email allowing them to join your subscription"
 msgstr "Wysyła link na wskazany e-mail w celu dołączenia do subskrypcji"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:57
+#: lib/pjeski_web/controllers/invitation_controller.ex:46
 msgid "User has been created"
 msgstr "Użytkownik utworzony"
 
@@ -708,7 +708,7 @@ msgstr "Zostałeś zaproszony do subskrypcji w StorageDeer!"
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:45
 msgid "(will keep previous one available on change)"
-msgstr ""
+msgstr "(zachowa poprzednią w dostępnych subskrypcjach)"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:116
@@ -814,12 +814,12 @@ msgid "You will be logged out. Are you sure?"
 msgstr "Zostaniesz wylogowany. Na pewno kontynuować?"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:35
+#: lib/pjeski_web/controllers/invitation_controller.ex:115
 msgid "Added user to your subscription"
 msgstr "Dodano użytkownika do Twojej subskrypcji"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:72
+#: lib/pjeski_web/controllers/invitation_controller.ex:61
 #: lib/pjeski_web/templates/registration/edit.html.eex:37
 msgid "Your subscription expired"
 msgstr "Twoja subskrypcja jest nieaktywna"

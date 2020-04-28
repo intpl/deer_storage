@@ -566,8 +566,8 @@ msgid "Email has been sent"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:81
-#: lib/pjeski_web/controllers/reset_password_controller.ex:69
+#: lib/pjeski_web/controllers/invitation_controller.ex:70
+#: lib/pjeski_web/controllers/reset_password_controller.ex:68
 msgid "Invalid token"
 msgstr ""
 
@@ -654,7 +654,7 @@ msgid "Unconfirmed email"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:25
+#: lib/pjeski_web/controllers/invitation_controller.ex:109
 msgid "Invitation e-mail sent"
 msgstr ""
 
@@ -694,7 +694,7 @@ msgid "Sends a link to a desired email allowing them to join your subscription"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:57
+#: lib/pjeski_web/controllers/invitation_controller.ex:46
 msgid "User has been created"
 msgstr ""
 
@@ -812,12 +812,12 @@ msgid "You will be logged out. Are you sure?"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:35
+#: lib/pjeski_web/controllers/invitation_controller.ex:115
 msgid "Added user to your subscription"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:72
+#: lib/pjeski_web/controllers/invitation_controller.ex:61
 #: lib/pjeski_web/templates/registration/edit.html.eex:37
 msgid "Your subscription expired"
 msgstr ""
