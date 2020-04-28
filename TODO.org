@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [57%] [38/66] DEADLINE: <2020-03-31 Tue>
+* TODO [59%] [39/66] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -78,7 +78,7 @@ warning: PowInvitation.Plug.assign_invited_user/2 is deprecated. No longer used
 warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_invited_user_by_token/2` instead
   lib/pjeski_web/controllers/invitation_controller.ex:78: PjeskiWeb.InvitationController.load_user_from_invitation_token/2
 
-** TODO Unconfirmed invited user resend invitation email
+** DONE Unconfirmed invited user resend invitation email
 ** TODO Migrate database, write seeds with a proper structure
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS

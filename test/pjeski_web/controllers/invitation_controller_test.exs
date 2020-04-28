@@ -36,18 +36,20 @@ defmodule PjeskiWeb.InvitationControllerTest do
     test "[user] [valid params - new email] POST /invitation", %{guest_conn: guest_conn} do
       user = create_valid_user_with_subscription()
 
-      conn = Pow.Plug.assign_current_user(guest_conn, user, [])
-      |> post("/invitation", user: %{email: "invited_user@storagedeer.com"})
+      for _ <- [1,2] do # ensure resends
+        conn = Pow.Plug.assign_current_user(guest_conn, user, [])
+        |> post("/invitation", user: %{email: "invited_user@storagedeer.com"})
 
-      assert_email_delivered_with(
-        to: [nil: "invited_user@storagedeer.com"] # TODO: czy to w ogole dziala? :O
-        # text_body: ~r/TODO: TOKEN/
-      )
+        assert_email_delivered_with(
+          to: [nil: "invited_user@storagedeer.com"] # TODO: czy to w ogole dziala? :O
+          # text_body: ~r/TODO: TOKEN/
+        )
 
-      assert Phoenix.Controller.get_flash(conn, :info) == "Wysłano e-mail potwierdzający"
+        assert Phoenix.Controller.get_flash(conn, :info) == "Wysłano e-mail potwierdzający"
+       end
     end
 
-    test "[user] [valid params - email already exists] POST /invitation", %{guest_conn: guest_conn} do
+    test "[user] [valid params - email already exists - add to another subscription] POST /invitation", %{guest_conn: guest_conn} do
       user = create_valid_user_with_subscription()
       user2 = create_valid_user_with_subscription() |> Repo.preload(:available_subscriptions)
 
@@ -127,6 +129,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
 
       assert Repo.get(User, new_user.id).email == new_user.email
     end
+
     test "[guest] [invalid params - different subscription id] PUT /invitation", %{guest_conn: guest_conn} do
       user = create_valid_user_with_subscription()
       new_user = invite_user(guest_conn, user)

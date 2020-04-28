@@ -18,27 +18,16 @@ defmodule PjeskiWeb.InvitationController do
 
   def create(conn, %{"user" => user_params}) do
     case Plug.create_user(conn, user_params) do
-      {:ok, %{email: email} = user, conn} when is_binary(email) ->
-        deliver_email(conn, user)
+      {:ok, %{email: email} = user, conn} when is_binary(email) -> maybe_send_email_and_respond_success(conn, user)
+      {:error, %{errors: [email: {_msg, [constraint: :unique, constraint_name: "users_email_index"]}]} = changeset, conn} ->
+        user = Repo.get_by!(User, [email: changeset.changes.email])
 
-        conn
-        |> put_flash(:info, gettext("Invitation e-mail sent"))
-        |> redirect(to: Routes.user_path(conn, :index))
+        Users.insert_subscription_link_and_maybe_change_id(user, Pow.Plug.current_user(conn).subscription_id)
+        maybe_send_email_and_respond_success(conn, user)
       {:error, changeset, conn} ->
-        case changeset.errors[:email] do
-          {_text, [constraint: :unique, constraint_name: "users_email_index"]} ->
-            user = Repo.get_by!(User, [email: changeset.changes.email])
-
-            Users.insert_subscription_link_and_maybe_change_id(user, Pow.Plug.current_user(conn).subscription_id)
-
-            conn
-            |> put_flash(:info, gettext("Added user to your subscription"))
-            |> redirect(to: Routes.user_path(conn, :index))
-          _ ->
-            conn
-            |> assign(:changeset, changeset)
-            |> render("new.html")
-        end
+        conn
+        |> assign(:changeset, changeset)
+        |> render("new.html")
     end
   end
 
@@ -86,6 +75,8 @@ defmodule PjeskiWeb.InvitationController do
     end
   end
 
+
+
   defp deliver_email(conn, user) do
     url        = invitation_url(conn, user)
     invited_by = Pow.Plug.current_user(conn)
@@ -110,4 +101,19 @@ defmodule PjeskiWeb.InvitationController do
     path = Routes.invitation_path(conn, :update, token)
     assign(conn, :action, path)
   end
+
+  def maybe_send_email_and_respond_success(conn, %{email_confirmed_at: nil} = user) do
+    deliver_email(conn, user)
+
+    conn
+    |> put_flash(:info, gettext("Invitation e-mail sent"))
+    |> redirect(to: Routes.user_path(conn, :index))
+  end
+
+  def maybe_send_email_and_respond_success(conn, _user) do
+    conn
+    |> put_flash(:info, gettext("Added user to your subscription"))
+    |> redirect(to: Routes.user_path(conn, :index))
+  end
+
 end
