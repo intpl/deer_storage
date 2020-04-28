@@ -22,7 +22,8 @@ defmodule PjeskiWeb.InvitationController do
       {:error, %{errors: [email: {_msg, [constraint: :unique, constraint_name: "users_email_index"]}]} = changeset, conn} ->
         user = Repo.get_by!(User, [email: changeset.changes.email])
 
-        Users.insert_subscription_link_and_maybe_change_id(user, Pow.Plug.current_user(conn).subscription_id)
+        Users.upsert_subscription_link!(user.id, Pow.Plug.current_user(conn).subscription_id, :raise)
+
         maybe_send_email_and_respond_success(conn, user)
       {:error, changeset, conn} ->
         conn
