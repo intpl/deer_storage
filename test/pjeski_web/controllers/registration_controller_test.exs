@@ -33,6 +33,14 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       conn = get(conn, "/registration/edit")
       assert html_response(conn, 200) =~ "Edytuj swoje konto w StorageDeer"
     end
+
+    test "[user without subscription] GET /registration/edit", %{guest_conn: guest_conn} do
+      user = user_fixture() |> Pjeski.Users.update_subscription_id!(nil)
+      conn = Pow.Plug.assign_current_user(guest_conn, user, [])
+
+      conn = get(conn, "/registration/edit")
+      assert html_response(conn, 200) =~ "Edytuj swoje konto w StorageDeer"
+    end
   end
 
   describe "create" do

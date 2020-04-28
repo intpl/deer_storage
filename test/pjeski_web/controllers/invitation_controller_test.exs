@@ -147,7 +147,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       new_user = invite_user(guest_conn, user)
       params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{subscription: %{name: "Hacked", email: "hacked"}})}
 
-      assert_raise(RuntimeError, fn -> put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", params) end)
+      put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", params)
 
       refute Repo.get(Subscription, new_user.subscription_id).name == "Hacked"
     end

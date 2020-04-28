@@ -53,16 +53,15 @@ defmodule Pjeski.Users.User do
     |> validate_role()
   end
 
-  def changeset(%{role: "admin"} = existing_user, params), do: user_changeset(existing_user, params)
   def changeset(%{subscription_id: subscription_id} = existing_user, params) when is_number(subscription_id) do
     user_changeset(existing_user, params)
   end
-  def changeset(user_or_changeset, params) do
-    # FIXME allow subscription_id: nil OR DIE
+  def changeset(%{inserted_at: nil} = user_or_changeset, params) do
     user_changeset(user_or_changeset, params)
     |> cast_assoc(:subscription, with: &Subscription.changeset/2)
     |> validate_required(:subscription)
   end
+  def changeset(user_or_changeset, params), do: user_changeset(user_or_changeset, params)
 
   def changeset_role(user_or_changeset, attrs) do
     user_or_changeset

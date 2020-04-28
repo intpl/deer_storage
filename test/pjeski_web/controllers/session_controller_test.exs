@@ -41,7 +41,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert "/dashboard" = redirected_path
     end
 
-    test "[guest -> user] [invalid - empty subscription] POST /session", %{guest_conn: conn} do
+    test "[guest -> user] [valid - empty subscription] POST /session", %{guest_conn: conn} do
       user = create_user_without_subscription()
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 

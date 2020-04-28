@@ -79,7 +79,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
   lib/pjeski_web/controllers/invitation_controller.ex:78: PjeskiWeb.InvitationController.load_user_from_invitation_token/2
 
 ** DONE Unconfirmed invited user resend invitation email
-** TODO When user's subscription_id is nil...
+** STRT When user's subscription_id is nil...
 ** TODO user_from_auth_token(token) -> research better method
 ** TODO Migrate database, write seeds with a proper structure
 ** WAIT Write high level logging/history mechanism + TEST
