@@ -17,7 +17,7 @@ config :pjeski, PjeskiWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "Kkpy/olWADIHhc0fK7C/K2YuBOE3u2BTzJZAnqeI59WAH33cl57Snvee6xGETJfm",
   render_errors: [view: PjeskiWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Pjeski.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: Pjeski.PubSub,
   live_view: [
     signing_salt: "Cx4+NQzV+jnvqWiZKk+v0u1YPxyS/vIg" # overwrite in production
   ]

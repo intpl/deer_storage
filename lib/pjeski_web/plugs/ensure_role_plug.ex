@@ -4,11 +4,11 @@ defmodule PjeskiWeb.EnsureRolePlug do
 
   ## Example
 
-      plug Pjeski.EnsureRolePlug, [:user, :admin]
+      plug PjeskiWeb.EnsureRolePlug, [:user, :admin]
 
-      plug Pjeski.EnsureRolePlug, :admin
+      plug PjeskiWeb.EnsureRolePlug, :admin
 
-      plug Pjeski.EnsureRolePlug, ~w(user admin)a
+      plug PjeskiWeb.EnsureRolePlug, ~w(user admin)a
   """
   import Plug.Conn, only: [halt: 1]
 

@@ -75,14 +75,14 @@ defmodule PjeskiWeb.InvitationController do
   end
 
   defp load_user_from_invitation_token(%{params: %{"id" => token}} = conn, _opts) do
-    case Plug.invited_user_from_token(conn, token) do
-      nil  ->
+    case Plug.load_invited_user_by_token(conn, token) do
+      {:error, conn}  ->
         conn
         |> put_flash(:error, gettext("Invalid token"))
         |> redirect(to: Routes.session_path(conn, :new))
 
-      user ->
-        Plug.assign_invited_user(conn, user |> Repo.preload(:subscription))
+      {:ok, conn} ->
+        assign(conn, :invited_user, conn.assigns.invited_user |> Repo.preload(:subscription))
     end
   end
 
@@ -95,7 +95,9 @@ defmodule PjeskiWeb.InvitationController do
   end
 
   defp invitation_url(conn, user) do
-    Routes.invitation_path(conn, :edit, user.invitation_token)
+    token = PowInvitation.Plug.sign_invitation_token(conn, user)
+
+    Routes.invitation_path(conn, :edit, token)
   end
 
   defp assign_create_path(conn, _opts) do

@@ -85,7 +85,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       assert new_user.subscription_id == user.subscription_id
       assert new_user.password_hash == nil
 
-      conn = get(guest_conn, "/invitation/#{new_user.invitation_token}/edit")
+      conn = get(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}/edit")
       assert html_response(conn, 200) =~ "Zostałeś zaproszony do subskrypcji w StorageDeer!"
     end
 
@@ -103,7 +103,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       user = create_valid_user_with_subscription()
       new_user = invite_user(guest_conn, user)
 
-      conn = put(guest_conn, "/invitation/#{new_user.invitation_token}", %{user: valid_update_params_for(new_user.email)})
+      conn = put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", %{user: valid_update_params_for(new_user.email)})
 
       assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony" # TODO change this to something like "Welcome"
     end
@@ -112,7 +112,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       user = create_valid_user_with_subscription()
       new_user = invite_user(guest_conn, user)
 
-      conn = put(guest_conn, "/invitation/#{new_user.invitation_token}", %{user: valid_update_params_for("invalid")})
+      conn = put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", %{user: valid_update_params_for("invalid")})
 
       assert html_response(conn, 200) =~ "ma niepoprawny format" # TODO: capitalized?
     end
@@ -121,7 +121,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       user = create_valid_user_with_subscription()
       new_user = invite_user(guest_conn, user)
 
-      conn = put(guest_conn, "/invitation/#{new_user.invitation_token}", %{user: valid_update_params_for("something_entirely_different@storagedeer.com")})
+      conn = put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", %{user: valid_update_params_for("something_entirely_different@storagedeer.com")})
 
       assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony" # TODO change this to something like "Welcome"
 
@@ -132,7 +132,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       new_user = invite_user(guest_conn, user)
       params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{subscription_id: 1337})}
 
-      conn = put(guest_conn, "/invitation/#{new_user.invitation_token}", params)
+      conn = put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", params)
 
       assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony" # TODO change this to something like "Welcome"
 
@@ -144,7 +144,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       new_user = invite_user(guest_conn, user)
       params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{subscription: %{name: "Hacked", email: "hacked"}})}
 
-      assert_raise(RuntimeError, fn -> put(guest_conn, "/invitation/#{new_user.invitation_token}", params) end)
+      assert_raise(RuntimeError, fn -> put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", params) end)
 
       refute Repo.get(Subscription, new_user.subscription_id).name == "Hacked"
     end
@@ -154,11 +154,16 @@ defmodule PjeskiWeb.InvitationControllerTest do
       new_user = invite_user(guest_conn, user)
       params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{role: "admin"})}
 
-      conn = put(guest_conn, "/invitation/#{new_user.invitation_token}", params)
+      conn = put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", params)
 
       assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony" # TODO change this to something like "Welcome"
 
       assert Repo.get(User, new_user.id).role == "user"
     end
+  end
+
+  defp sign_token(conn, token) do
+    conn
+    |> PowInvitation.Plug.sign_invitation_token(%{invitation_token: token})
   end
 end

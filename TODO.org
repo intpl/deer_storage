@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [59%] [37/62] DEADLINE: <2020-03-31 Tue>
+* TODO [57%] [38/66] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -39,9 +39,46 @@
 ** DONE Allow users with expired subscription to log in
 ** DONE Enable administrators to edit users' available_subscriptions
 ** DONE Enable administrators to delete subscriptions and reset all their users' subscription_id and join tables
-** TODO Pow - enable to switch subscriptions on the fly (without the need to relogin -> no kurwa nie do zrobienia)
-** TODO Optimizing IEx for Ecto (book)
-** TODO Users permissions, control panel to change them
+** HOLD Pow - enable to switch subscriptions on the fly (without the need to relogin -> no kurwa nie do zrobienia)
+** TODO :pow_session_metadata
+  The assigned private `:pow_session_metadata` key in the conn can be populated
+  with custom metadata. This data will be stored in the session metadata when
+  the session is created, and fetched in subsequent requests.
+
+  Here's an example of how one could add sign in timestamp, IP, and user agent
+  information to the session metadata:
+
+#+BEGIN_SRC elixir
+      def append_to_session_metadata(conn) do
+        client_ip  = to_string(:inet_parse.ntoa(conn.remote_ip))
+        user_agent = get_req_header(conn, "user-agent")
+
+        metadata =
+          conn.private
+          |> Map.get(:pow_session_metadata, [])
+          |> Keyword.put_new(:first_seen_at, DateTime.utc_now())
+          |> Keyword.put(:ip, client_ip)
+          |> Keyword.put(:user_agent, user_agent)
+
+        Plug.Conn.put_private(conn, :pow_session_metadata, metadata)
+      end
+#+END_SRC
+** WAIT Optimizing IEx for Ecto (book)
+** WAIT Users permissions, control panel to change them
+** DONE Pow updated, fix all
+warning: PowResetPassword.Plug.assign_reset_password_user/2 is deprecated. No longer used
+  lib/pjeski_web/controllers/reset_password_controller.ex:74: PjeskiWeb.ResetPasswordController.load_user_from_reset_token/2
+
+warning: PowResetPassword.Plug.user_from_token/2 is deprecated. Use `load_user_by_token/2` instead
+  lib/pjeski_web/controllers/reset_password_controller.ex:66: PjeskiWeb.ResetPasswordController.load_user_from_reset_token/2
+
+warning: PowInvitation.Plug.assign_invited_user/2 is deprecated. No longer used
+  lib/pjeski_web/controllers/invitation_controller.ex:85: PjeskiWeb.InvitationController.load_user_from_invitation_token/2
+
+warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_invited_user_by_token/2` instead
+  lib/pjeski_web/controllers/invitation_controller.ex:78: PjeskiWeb.InvitationController.load_user_from_invitation_token/2
+
+** TODO Unconfirmed invited user resend invitation email
 ** TODO Migrate database, write seeds with a proper structure
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
@@ -54,6 +91,7 @@
 - UserRecords::DisplayComponent + TESTS
 - UserRecords::EditComponent + TESTS
 - UserRecords::NewComponent + TESTS
+** TODO Temporary assigns
 ** TODO Add logout PubSub callback
 ** TODO Add "changed subscription" PubSub callback
 ** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/

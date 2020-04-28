@@ -21,9 +21,9 @@
         </div>
       <% end %>
 
-      <%= label f, :email, Pow.Ecto.Schema.user_id_field(@changeset), class: "label" %>
-      <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: "input", disabled: true %>
-      <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+      <%= label f, :email, class: "label" %>
+      <%= text_input f, :email, class: "input", disabled: true %>
+      <%= error_tag f, :email %>
 
       <%= label f, :name, class: "label" %>
       <%= text_input f, :name, class: "input" %>

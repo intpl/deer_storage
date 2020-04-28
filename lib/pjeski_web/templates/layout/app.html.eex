@@ -16,7 +16,8 @@
       <div role="alert" class="help is-danger"><%= get_flash(@conn, :error) %></div>
       <div role="alert" class="help is-success"><%= get_flash(@conn, :info) %></div>
       <div role="alert" class="help is-info"><%= get_flash(@conn, :notice) %></div>
-      <%= render @view_module, @view_template, assigns %>
+
+      <%= @inner_content %>
     </main>
 
     <br>

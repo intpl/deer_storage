@@ -62,16 +62,15 @@ defmodule PjeskiWeb.ResetPasswordController do
   end
 
   defp load_user_from_reset_token(%{params: %{"id" => token}} = conn, _opts) do
-    # TODO: this is deprecated in v1.0.19
-    case Plug.user_from_token(conn, token) do
-      nil ->
+    case Plug.load_user_by_token(conn, token) do
+      {:error, conn} ->
         conn
         |> put_flash(:error, gettext("Invalid token"))
         |> redirect(to: Routes.reset_password_path(conn, :new))
         |> halt()
 
-      user ->
-        Plug.assign_reset_password_user(conn, user)
+      {:ok, conn} ->
+        conn
     end
   end
 

@@ -2,6 +2,7 @@
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
 import css from "../css/app.scss"
+import NProgress from "nprogress"
 
 // Import jQuery
 window.$ = window.jQuery = require("jquery");
@@ -28,4 +29,8 @@ import LiveSocket from "phoenix_live_view"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {hooks: Hooks, params: {_csrf_token: csrfToken}})
+
+// Show progress bar on live navigation and form submits
+window.addEventListener("phx:page-loading-start", info => NProgress.start())
+window.addEventListener("phx:page-loading-stop", info => NProgress.done())
 liveSocket.connect();
