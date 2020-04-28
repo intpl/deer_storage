@@ -120,7 +120,10 @@ defmodule Pjeski.Users do
   end
 
   def update_subscription_id!(%User{} = user, subscription_id) do
-    Repo.update!(change(user, subscription_id: subscription_id))
+    case Repo.update!(change(user, subscription_id: subscription_id)) do
+      %{subscription_id: nil} = user -> Map.merge(user, %{subscription: nil})
+      user -> user |> Repo.preload(:subscription)
+    end
   end
 
   def maybe_upsert_subscription_link(%User{id: _user_id, subscription_id: nil} = user), do: user
