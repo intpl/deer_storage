@@ -39,7 +39,7 @@ defmodule PjeskiWeb.Router do
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]
 
-      live_dashboard "/phoenix"
+      live_dashboard "/phoenix", metrics: PjeskiWeb.Telemetry
 
       live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}  # this is in fact Admin.DashboardLive.Index
 

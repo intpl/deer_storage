@@ -20,7 +20,7 @@ defmodule Pjeski.MixProject do
   def application do
     [
       mod: {Pjeski.Application, []},
-      extra_applications: [:logger, :runtime_tools, :timex, :phoenix_ecto, :bamboo]
+      extra_applications: [:logger, :runtime_tools, :timex, :phoenix_ecto, :bamboo, :os_mon]
     ]
   end
 
@@ -55,7 +55,9 @@ defmodule Pjeski.MixProject do
       {:phoenix_live_view, "~> 0.12.1"},
       {:floki, ">= 0.0.0", only: :test},
       {:faker, "~> 0.13", only: [:test, :dev]},
-      {:phoenix_live_dashboard, "~> 0.1"}
+      {:phoenix_live_dashboard, "~> 0.1"},
+      {:telemetry_poller, "~> 0.4"},
+      {:telemetry_metrics, "~> 0.4"}
     ]
   end
 
