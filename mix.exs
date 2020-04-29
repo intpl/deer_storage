@@ -54,7 +54,8 @@ defmodule Pjeski.MixProject do
       {:quantum, "~> 2.3"},
       {:phoenix_live_view, "~> 0.12.1"},
       {:floki, ">= 0.0.0", only: :test},
-      {:faker, "~> 0.13", only: [:test, :dev]}
+      {:faker, "~> 0.13", only: [:test, :dev]},
+      {:phoenix_live_dashboard, "~> 0.1"}
     ]
   end
 

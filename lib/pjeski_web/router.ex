@@ -3,6 +3,8 @@ defmodule PjeskiWeb.Router do
   use Pow.Phoenix.Router
   use Pow.Extension.Phoenix.Router, extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession]
 
+  import Phoenix.LiveDashboard.Router
+
   alias PjeskiWeb.LayoutView
 
   pipeline :browser do
@@ -36,6 +38,8 @@ defmodule PjeskiWeb.Router do
 
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]
+
+      live_dashboard "/phoenix"
 
       live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}  # this is in fact Admin.DashboardLive.Index
 
