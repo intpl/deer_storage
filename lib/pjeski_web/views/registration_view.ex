@@ -13,8 +13,6 @@ defmodule PjeskiWeb.RegistrationView do
     ] |> Map.new(fn [k, v] -> {k, v} end)
   end
 
-  def days_to_expire(%User{subscription_id: nil}), do: "???"
-  def days_to_expire(%User{subscription_id: subscription_id}) do
-    Date.diff Subscriptions.get_subscription!(subscription_id).expires_on, Date.utc_today
-  end
+  def days_to_expire(nil), do: "???"
+  def days_to_expire(subscription), do: Date.diff subscription.expires_on, Date.utc_today
 end

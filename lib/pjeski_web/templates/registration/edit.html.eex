@@ -31,7 +31,7 @@
             <%= if @current_subscription do %>
               <h4 class="title is-4"><%= @current_subscription.name %></h4>
 
-                  <% days = days_to_expire(@current_user) %>
+                  <% days = days_to_expire(@current_subscription) %>
                   <%= if days < 1 do %>
                     <div class="notification is-danger">
                       <%= gettext("Your subscription expired") %>
