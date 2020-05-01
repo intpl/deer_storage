@@ -1,9 +1,10 @@
 defmodule PjeskiWeb.InvitationController do
   use PjeskiWeb, :controller
   import Plug.Conn, only: [assign: 3]
+  import Pjeski.Users.UserSessionUtils, only: [get_current_subscription_id_from_conn: 1]
 
   alias PowInvitation.{Phoenix.Mailer, Plug}
-  alias Pjeski.{Repo, Users, Users.User}
+  alias Pjeski.{Repo, Users, Users.User, Subscriptions}
 
   plug :verify_if_subscription_is_expired when action in [:new, :create]
   plug :load_user_from_invitation_token when action in [:show, :edit, :update]
@@ -53,9 +54,10 @@ defmodule PjeskiWeb.InvitationController do
     end
   end
 
-  defp verify_if_subscription_is_expired(%{assigns: %{current_user: current_user}} = conn, _opts) do
-    user = current_user |> Repo.preload(:subscription) # let it fail if subscription_id is nil
-    case Date.compare(Date.utc_today, user.subscription.expires_on) == :lt do
+  defp verify_if_subscription_is_expired(conn, _opts) do
+    subscription = get_current_subscription_id_from_conn(conn) |> Subscriptions.get_subscription!
+
+    case Date.compare(Date.utc_today, subscription.expires_on) == :lt do
       true -> conn
       false ->
         conn

@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [63%] [43/68] DEADLINE: <2020-03-31 Tue>
+* TODO [61%] [43/70] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -88,6 +88,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 *** edge cases - when no available_subscriptions, when not present in available_subscriptions, etc.
 *** pubsub - disconnecting from subscriptions, logout if last_used_subscription
 ** TODO Migrate database, write seeds with a proper structure
+** TODO Invitation can block e-mail
 ** TODO CRUD Dashboard->Tables + TESTS
 ** TODO Add "changed subscription" PubSub callback
 ** TODO Adapt layout to subscription's tables
@@ -103,6 +104,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 ** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
+** TODO Invitation can enumerate users
 ** WAIT use jaro_distance to colorize fields
 ** TODO "Notes" markdown everywhere
 ** TODO Ensure displayed "DB-inconsistency" errors
