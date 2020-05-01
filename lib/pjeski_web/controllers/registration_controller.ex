@@ -1,20 +1,16 @@
 defmodule PjeskiWeb.RegistrationController do
   use PjeskiWeb, :controller
 
+  alias Pjeski.Users.UserSessionUtils
   alias Pjeski.Repo
   alias Pjeski.Users
   alias Pjeski.Users.User
+  alias Pjeski.Subscriptions
 
   import PjeskiWeb.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
-  def new(conn, _params) do
-    render(conn, "new.html", changeset: Pow.Plug.change_user(conn))
-  end
-
-  def edit(conn, _params) do
-    render_edit_for_current_user(conn, Pow.Plug.change_user(conn))
-  end
-
+  def new(conn, _params), do: render(conn, "new.html", changeset: Pow.Plug.change_user(conn))
+  def edit(conn, _params), do: render_edit_for_current_user(conn, Pow.Plug.change_user(conn))
   def create(conn, %{"user" => user_params}) do
     conn
     |> Pow.Plug.create_user(user_params)
@@ -50,36 +46,35 @@ defmodule PjeskiWeb.RegistrationController do
     user = current_user_with_preloaded_subscriptions(conn)
     requested_subscription_id = requested_subscription_id |> String.to_integer
 
-    is_subscription_id_valid? = user.available_subscriptions
+    user.available_subscriptions
     |> Enum.map(fn subscription -> subscription.id end)
     |> Enum.member?(requested_subscription_id)
+    |> maybe_update_user_and_put_subscription_into_session(conn, user, requested_subscription_id)
+    |> redirect(to: Routes.registration_path(conn, :edit))
+  end
 
-    case is_subscription_id_valid? do
-      true ->
-        Users.update_subscription_id!(user, requested_subscription_id)
+  # let it fail if false is unmatched
+  defp maybe_update_user_and_put_subscription_into_session(true, conn, user, requested_subscription_id) do
+    token = UserSessionUtils.get_token_from_conn(conn)
+    Users.update_subscription_id!(user, requested_subscription_id)
+    Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", {:subscription_changed, requested_subscription_id})
 
-        conn
-        |> Pow.Plug.delete
-        |> put_flash(:info, gettext("Successfully changed subscription. Please log back in."))
-        |> redirect(to: Routes.registration_path(conn, :edit))
-      false ->
-        conn
-        |> put_flash(:error, "Illegal action. Reported") # TODO
-        |> redirect(to: Routes.registration_path(conn, :edit))
-    end
+    conn |> put_session(:current_subscription_id, requested_subscription_id)
   end
 
   defp render_edit_for_current_user(conn, changeset) do
     user = current_user_with_preloaded_subscriptions(conn)
+    current_subscription_id = UserSessionUtils.get_current_subscription_id_from_conn(conn)
+
     available_subscriptions = Enum.reject(
-      user.available_subscriptions, fn s -> s.id == user.subscription_id end
+      user.available_subscriptions, fn s -> s.id == current_subscription_id end
     )
 
     render(conn, "edit.html",
       changeset: changeset,
       navigation_template_always: "navigation_outside_app.html",
       available_subscriptions: available_subscriptions,
-      current_subscription: user.subscription
+      current_subscription: current_subscription_id |> Subscriptions.get_subscription!
     )
   end
 

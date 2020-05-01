@@ -63,7 +63,6 @@
                       <%= link gettext("Switch"),
                       to: Routes.registration_path(@conn, :switch_subscription_id, available_subscription.id),
                       method: :put,
-                      data: [confirm: gettext("You will be logged out. Are you sure?")],
                       class: "button is-primary is-small" %>
                   </td>
                 </tr>

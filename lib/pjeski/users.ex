@@ -121,6 +121,8 @@ defmodule Pjeski.Users do
     |> Repo.update()
   end
 
+  # TODO: don't need that preload
+  # TODO: don't need that merge except for tests
   def update_subscription_id!(%User{} = user, subscription_id) do
     case Repo.update!(change(user, subscription_id: subscription_id)) do
       %{subscription_id: nil} = user -> Map.merge(user, %{subscription: nil})

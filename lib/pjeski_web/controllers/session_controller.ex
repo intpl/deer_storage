@@ -1,5 +1,7 @@
 defmodule PjeskiWeb.SessionController do
   use PjeskiWeb, :controller
+  alias Pjeski.Users.UserSessionUtils
+  alias Pjeski.Repo
 
   import PjeskiWeb.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
@@ -16,12 +18,11 @@ defmodule PjeskiWeb.SessionController do
 
         case email_confirmed?(user) do
             true ->
-              current_user = Pjeski.Repo.preload(user, :subscription)
-
               conn
-              |> Pow.Plug.assign_current_user(current_user, Pow.Plug.fetch_config(conn))
-              |> put_session(:current_user_id, current_user.id)
-              |> put_session(:locale, current_user.locale)
+              |> Pow.Plug.assign_current_user(user |> Repo.preload(:available_subscriptions), Pow.Plug.fetch_config(conn))
+              |> UserSessionUtils.maybe_put_subscription_into_session
+              |> put_session(:current_user_id, user.id)
+              |> put_session(:locale, user.locale)
               |> redirect(to: dashboard_path_for(user))
 
             false ->
@@ -41,7 +42,9 @@ defmodule PjeskiWeb.SessionController do
     end
   end
 
-  def delete(%{private: %{plug_session: %{"pjeski_auth" => token}}} = conn, _params) do
+
+  def delete(conn, _params) do
+    token = UserSessionUtils.get_token_from_conn(conn)
     Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", :logout)
 
     conn
