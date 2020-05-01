@@ -53,7 +53,7 @@ defmodule Pjeski.Users.UserSessionUtils do
   defp users_first_available_subscription_id_or_nil(user) do
     case List.last(user.available_subscriptions) do
       nil -> nil
-      [subscription] -> subscription.id
+      subscription -> subscription.id
     end
   end
 end
