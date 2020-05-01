@@ -21,7 +21,7 @@ defmodule PjeskiWeb.RegistrationController do
     |> case do
       {:ok, user, conn} ->
         Users.upsert_subscription_link!(user.id, user.subscription_id, :raise)
-        Users.notify_subscribers({:ok, user}, [:user, :created])
+        Users.notify_subscribers!([:user, :created], user)
         send_confirmation_email(user, conn)
 
         conn

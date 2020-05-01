@@ -11,7 +11,9 @@ defmodule Pjeski.Users do
   alias Pjeski.Subscriptions.Subscription
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
-  use Pjeski.AllowSubscribers, Pjeski.Users
+  def notify_subscribers!(event, result) do
+    Phoenix.PubSub.broadcast!(Pjeski.PubSub, "Users", {event, result})
+  end
 
   def total_count(), do: Pjeski.Repo.aggregate(User, :count, :id)
   def last_user(), do: from(u in User, limit: 1, order_by: [desc: u.inserted_at]) |> Repo.one

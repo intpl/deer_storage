@@ -1,18 +1,19 @@
 defmodule PjeskiWeb.Admin.DashboardLive.Index do
   use Phoenix.LiveView
+  alias Phoenix.PubSub
 
   import PjeskiWeb.Gettext
 
   alias Pjeski.Users
   alias Pjeski.Subscriptions
 
-  def mount(%{}, %{"pjeski_auth" => token, "locale" => locale, "current_user_id" => current_user_id} = session, socket) do
+  def mount(%{}, %{"pjeski_auth" => token, "locale" => locale, "current_user_id" => current_user_id}, socket) do
     socket = case connected?(socket) do
                true ->
                  # TODO: Renewing tokens
-                 Users.subscribe
-                 Phoenix.PubSub.subscribe(Pjeski.PubSub, "session_#{token}")
-                 Phoenix.PubSub.subscribe(Pjeski.PubSub, "user_#{current_user_id}")
+                 PubSub.subscribe(Pjeski.PubSub, "Users")
+                 PubSub.subscribe(Pjeski.PubSub, "session_#{token}")
+                 PubSub.subscribe(Pjeski.PubSub, "user_#{current_user_id}")
                  fetch(socket)
                false -> socket |> assign(users_count: "", subscriptions_count: "")
              end
@@ -46,9 +47,7 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
     socket |> assign(users_count: users, subscriptions_count: subscriptions)
   end
 
-  def handle_info({Users, [:user | _], _}, socket) do
-    {:noreply, socket |> fetch}
-  end
+  def handle_info({[:user | _], _}, socket), do: {:noreply, socket |> fetch}
 
   # TODO: determine if this can actually be intercepted as it only calls window.location in JS
   def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
