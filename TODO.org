@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [58%] [40/68] DEADLINE: <2020-03-31 Tue>
+* TODO [60%] [41/68] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -80,7 +80,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 
 ** DONE Unconfirmed invited user resend invitation email
 ** DONE When user's subscription_id is nil...
-** TODO user_from_auth_token(token) -> research better method
+** DONE user_from_auth_token(token) -> research better method
 ** TODO Migrate database, write seeds with a proper structure
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS

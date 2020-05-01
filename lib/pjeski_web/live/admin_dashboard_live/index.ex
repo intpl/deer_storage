@@ -1,22 +1,23 @@
 defmodule PjeskiWeb.Admin.DashboardLive.Index do
   use Phoenix.LiveView
-  use PjeskiWeb.LiveHelpers.RenewTokenHandler
 
   import PjeskiWeb.Gettext
-  import Pjeski.Users.UserSessionUtils, only: [user_from_auth_token: 1]
 
   alias Pjeski.Users
   alias Pjeski.Subscriptions
 
-  def mount(%{}, %{"pjeski_auth" => token}, socket) do
-    user = user_from_auth_token(token)
+  def mount(%{}, %{"pjeski_auth" => token, "locale" => locale, "current_user_id" => current_user_id} = session, socket) do
+    socket = case connected?(socket) do
+               true ->
+                 # TODO: Renewing tokens
+                 Users.subscribe
+                 Phoenix.PubSub.subscribe(Pjeski.PubSub, "session_#{token}")
+                 Phoenix.PubSub.subscribe(Pjeski.PubSub, "user_#{current_user_id}")
+                 fetch(socket)
+               false -> socket |> assign(users_count: "", subscriptions_count: "")
+             end
 
-    if connected?(socket) do
-      :timer.send_interval(1200000, self(), :renew_token) # 1200000ms = 20min
-      Users.subscribe
-    end
-
-    Gettext.put_locale(user.locale)
+    Gettext.put_locale(locale)
 
     {:ok, assign(socket, token: token)}
   end
@@ -27,19 +28,15 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
       <div class="hero-body">
         <div class="container">
           <p class="title">
-            <%= gettext("Subscriptions") %>: <%= assigns.subscriptions_count %><br>
+            <%= gettext("Subscriptions") %>: <%= @subscriptions_count %><br>
           </p>
           <p class="subtitle">
-            <%= gettext("Users") %>: <%= assigns.users_count %>
+            <%= gettext("Users") %>: <%= @users_count %>
           </p>
         </div>
       </div>
     </section>
     """
-  end
-
-  def handle_params(_params, _url, socket) do
-    {:noreply, socket |> fetch}
   end
 
   defp fetch(socket) do
@@ -52,4 +49,9 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
   def handle_info({Users, [:user | _], _}, socket) do
     {:noreply, socket |> fetch}
   end
+
+  # TODO: determine if this can actually be intercepted as it only calls window.location in JS
+  def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
+
+  # TODO: renew tokens
 end
