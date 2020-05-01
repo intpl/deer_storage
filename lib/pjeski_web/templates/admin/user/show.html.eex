@@ -94,6 +94,9 @@
           </table>
         </div>
         <div class="column">
+            <%= gettext("Changing current subscription requires new session") %>
+            <br />
+            <br />
           <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
           <%= if @user.subscription do %>
             <%= link gettext("Reset"),
