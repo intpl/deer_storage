@@ -99,9 +99,11 @@ defmodule PjeskiWeb.SessionControllerTest do
   end
 
   describe "delete" do
-    test "[user] POST /session", %{user_conn: conn} do
-      conn = delete(conn, "/session")
+    test "[user] DELETE /session", %{guest_conn: conn} do
+      user = create_valid_user_with_subscription()
+      conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
+      conn = delete(conn, "/session")
       redirected_path = redirected_to(conn, 302)
       assert "/" = redirected_path
     end
