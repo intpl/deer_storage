@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [60%] [41/68] DEADLINE: <2020-03-31 Tue>
+* TODO [64%] [43/67] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -17,7 +17,6 @@
 ** DONE VALIDATE SUBSCRIPTION FIELDS PRESENCE IN REGISTRATION CONTROLLER
 ** DONE Fix preload subscription for registration edit
 ** DONE sessions in ~/code/pjeski/lib/pjeski_web/plugs/user_data.ex + PRELOAD
-** STRT START WRITING TESTS in 3..2..1..
 ** DONE Write tests for registration process, updating user/subscription, restricted nested attributes
 ** DONE Pow Reset password
 ** DONE Test registration controller + Email sending
@@ -39,8 +38,7 @@
 ** DONE Allow users with expired subscription to log in
 ** DONE Enable administrators to edit users' available_subscriptions
 ** DONE Enable administrators to delete subscriptions and reset all their users' subscription_id and join tables
-** HOLD Pow - enable to switch subscriptions on the fly (without the need to relogin -> no kurwa nie do zrobienia)
-** TODO :pow_session_metadata
+** HOLD :pow_session_metadata
   The assigned private `:pow_session_metadata` key in the conn can be populated
   with custom metadata. This data will be stored in the session metadata when
   the session is created, and fetched in subsequent requests.
@@ -65,6 +63,7 @@
 #+END_SRC
 ** WAIT Optimizing IEx for Ecto (book)
 ** WAIT Users permissions, control panel to change them
+** DONE Pow v1.0.19 signed tokens (maybe this will help:) https://hexdocs.pm/pow/README.html#authorization-plug
 ** DONE Pow updated, fix all
 warning: PowResetPassword.Plug.assign_reset_password_user/2 is deprecated. No longer used
   lib/pjeski_web/controllers/reset_password_controller.ex:74: PjeskiWeb.ResetPasswordController.load_user_from_reset_token/2
@@ -81,12 +80,18 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 ** DONE Unconfirmed invited user resend invitation email
 ** DONE When user's subscription_id is nil...
 ** DONE user_from_auth_token(token) -> research better method
+** DONE Add logout PubSub callback
+** STRT START WRITING TESTS in 3..2..1..
+** TODO Rename 'subscription_id' to 'last_used_subscription_id' and keep real 'subscription_id' in the session
+*** on changing subscription - update 'last_used_subscription_id' and store 'subscription_id' in the session
+*** on sign in - pass last_used_subscription_id to session:subscription_id if in available_subscriptions
+*** edge cases - when no available_subscriptions, when not present in available_subscriptions, etc.
+*** pubsub - disconnecting from subscriptions, logout if last_used_subscription
 ** TODO Migrate database, write seeds with a proper structure
-** WAIT Write high level logging/history mechanism + TEST
-** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
+** TODO CRUD Dashboard->Tables + TESTS
+** TODO Add "changed subscription" PubSub callback
 ** TODO Adapt layout to subscription's tables
 ** TODO Counter cache for subscription tables, records, files
-** TODO CRUD controller/views/js for Settings->Tables + TESTS
 ** TODO UserRecords::IndexLive + TESTS
 - UserRecords::SearchComponent + TESTS
 - UserRecords::IndexComponent + TESTS
@@ -94,17 +99,15 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 - UserRecords::EditComponent + TESTS
 - UserRecords::NewComponent + TESTS
 ** TODO Temporary assigns
-** TODO Add logout PubSub callback
-** TODO Add "changed subscription" PubSub callback
-** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
-** TODO use jaro_distance to colorize fields
 ** TODO UserRecords::ShowLive + TESTS
+** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
+** WAIT Write high level logging/history mechanism + TEST
+** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
+** WAIT use jaro_distance to colorize fields
 ** TODO "Notes" markdown everywhere
-** TODO Ensure "non-admin" controllers errors
-** TODO Add caching for records, Dashboards
+** TODO Ensure displayed "DB-inconsistency" errors
 ** TODO Add "failed login attempts" to user: https://elixirforum.com/t/how-to-increment-database-table-column/15457/2
-** TODO Pow v1.0.19 signed tokens (maybe this will help:) https://hexdocs.pm/pow/README.html#authorization-plug
-** TODO Add "Enterprise" to the database and allow certain users to switch subscriptions
 ** TODO Upload files, sharing (both just file and entire record) + TESTS
+** TODO Add "Enterprise" to the database
 ** TODO Deploy using Ansible: https://www.cogini.com/blog/deploying-elixir-apps-with-ansible/
 ** TODO Use Docker: https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html
