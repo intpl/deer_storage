@@ -55,17 +55,14 @@
                   </div>
                 </article>
               </div>
-
-
             <% else %>
               <%= gettext("No subscription assigned") %>
-              <br><br>
             <% end %>
 
-          <%= if length(@available_subscriptions) == 0 do %>
-            <%= gettext("No available subscriptions") %>
-          <% else %>
-          <h4 class="title is-4"><%= gettext("Available subscriptions") %></h4>
+            <br><br>
+
+          <%= if length(@available_subscriptions) != 0 do %>
+            <h4 class="title is-4"><%= gettext("Available subscriptions") %></h4>
             <table class="table">
             <%= for available_subscription <- @available_subscriptions do %>
                 <tr>
