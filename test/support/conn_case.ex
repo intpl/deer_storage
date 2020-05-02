@@ -44,12 +44,9 @@ defmodule PjeskiWeb.ConnCase do
     conn = conn |> Pow.Plug.put_config([otp_app: :pjeski])
 
     admin = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "admin", locale: "pl"}
-    user = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "user", locale: "pl"}
-
     admin_conn = Pow.Plug.assign_current_user(conn, admin, [])
-    user_conn = Pow.Plug.assign_current_user(conn, user, [])
 
-    {:ok, guest_conn: conn, admin_conn: admin_conn, user_conn: user_conn}
+    {:ok, guest_conn: conn, admin_conn: admin_conn}
   end
 
 end

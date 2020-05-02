@@ -4,7 +4,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
 
   alias Pjeski.{Repo, Users, Users.User, Subscriptions}
 
-  import Pjeski.Users.UserSessionUtils, only: [maybe_put_subscription_into_session: 1]
+  import Pjeski.Test.SessionHelpers, only: [assign_user_to_session: 2]
 
   @valid_attrs %{email: "test@storagedeer.com",
                   name: "Henryk Testowny",
@@ -32,7 +32,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
   describe "edit" do
     test "[user with subscription] GET /registration/edit", %{guest_conn: guest_conn} do
       user = user_fixture()
-      conn = guest_conn |> init_test_session(%{}) |> Pow.Plug.assign_current_user(user, []) |> maybe_put_subscription_into_session
+      conn = assign_user_to_session(guest_conn, user)
 
       conn = get(conn, "/registration/edit")
       assert html_response(conn, 200) =~ "Edytuj swoje konto w StorageDeer"
@@ -43,7 +43,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       {:ok, user} = @valid_attrs |> Map.merge(%{subscription: nil}) |> Users.admin_create_user
       user = user |> Repo.preload(:available_subscriptions)
 
-      conn = guest_conn |> init_test_session(%{}) |> Pow.Plug.assign_current_user(user, []) |> maybe_put_subscription_into_session
+      conn = assign_user_to_session(guest_conn, user)
 
       conn = get(conn, "/registration/edit")
       assert html_response(conn, 200) =~ "Edytuj swoje konto w StorageDeer"
@@ -81,7 +81,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       user = user_fixture()
       new_name = "New example name"
 
-      conn = guest_conn |> init_test_session(%{}) |> Pow.Plug.assign_current_user(user, []) |> maybe_put_subscription_into_session
+      conn = assign_user_to_session(guest_conn, user)
       |> put("/registration", user: @valid_attrs |> Map.merge(%{name: new_name, current_password: "secret123"}))
 
       assert html_response(conn, 200) =~ "Konto zaktualizowane"
@@ -94,7 +94,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       user = user_fixture()
       new_name = "New example name"
 
-      conn = guest_conn |> init_test_session(%{}) |> Pow.Plug.assign_current_user(user, []) |> maybe_put_subscription_into_session
+      conn = assign_user_to_session(guest_conn, user)
       |> put("/registration", user: @valid_attrs |> Map.merge(%{name: new_name}))
 
       assert html_response(conn, 200) =~ "Coś poszło nie tak. Sprawdź błędy poniżej"
@@ -107,7 +107,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       user = user_fixture()
       new_email = "test_new@storagedeer.com"
 
-      conn = guest_conn |> init_test_session(%{}) |> Pow.Plug.assign_current_user(user, []) |> maybe_put_subscription_into_session
+      conn = assign_user_to_session(guest_conn, user)
       |> put("/registration", user: @valid_attrs |> Map.merge(%{email: new_email, current_password: "secret123"}))
 
       assert html_response(conn, 200) =~ "Wysłano e-mail w celu potwierdzenia na adres: <span>#{new_email}</span>"

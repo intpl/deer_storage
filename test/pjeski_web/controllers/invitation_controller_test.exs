@@ -3,10 +3,11 @@ defmodule PjeskiWeb.InvitationControllerTest do
   use Bamboo.Test
 
   import Pjeski.Fixtures
+  import Pjeski.Test.SessionHelpers, only: [assign_user_to_session: 2]
   alias Pjeski.{Repo, Users.User, Subscriptions.Subscription}
 
   def invite_user(conn, inviting_user, email \\ "invited_user@storagedeer.com") do
-      {:ok, new_user, _conn} = Pow.Plug.assign_current_user(conn, inviting_user, [])
+      {:ok, new_user, _conn} = assign_user_to_session(conn, inviting_user)
       |> PowInvitation.Plug.create_user(%{email: email})
 
       new_user
@@ -24,7 +25,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
   describe "new" do
     test "[user] [logged in] GET /invitation", %{guest_conn: guest_conn} do
       user = create_valid_user_with_subscription()
-      conn = Pow.Plug.assign_current_user(guest_conn, user, []) |> get("/invitation/new")
+      conn = assign_user_to_session(guest_conn, user) |> get("/invitation/new")
 
       assert html_response(conn, 200) =~ "Zaproś użytkownika do StorageDeer!"
     end
@@ -37,7 +38,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       user = create_valid_user_with_subscription()
 
       for _ <- [1,2] do # ensure resends
-        conn = Pow.Plug.assign_current_user(guest_conn, user, [])
+        conn = assign_user_to_session(guest_conn, user)
         |> post("/invitation", user: %{email: "invited_user@storagedeer.com"})
 
         assert_email_delivered_with(
@@ -55,7 +56,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
 
       assert length(user2.available_subscriptions) == 1
 
-      Pow.Plug.assign_current_user(guest_conn, user, [])
+      assign_user_to_session(guest_conn, user)
       |> post("/invitation", user: %{email: user2.email})
 
       assert_no_emails_delivered()
@@ -70,9 +71,9 @@ defmodule PjeskiWeb.InvitationControllerTest do
 
     test "[user] [invalid params] POST /invitation", %{guest_conn: guest_conn} do
       user = create_valid_user_with_subscription()
+      conn = assign_user_to_session(guest_conn, user)
 
-      Pow.Plug.assign_current_user(guest_conn, user, [])
-      |> post("/invitation", user: %{email: "invalid_email.gmail"})
+      post(conn, "/invitation", user: %{email: "invalid_email.gmail"})
 
       assert_no_emails_delivered()
     end
