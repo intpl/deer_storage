@@ -3,7 +3,7 @@ defmodule PjeskiWeb.SessionController do
   alias Pjeski.Users.UserSessionUtils
   alias Pjeski.Repo
 
-  import PjeskiWeb.ConfirmationHelpers, only: [send_confirmation_email: 2]
+  import PjeskiWeb.ControllerHelpers.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
   def new(conn, _params) do
     changeset = Pow.Plug.change_user(conn)

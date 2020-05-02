@@ -1,4 +1,4 @@
-defmodule PjeskiWeb.ConfirmationHelpers do
+defmodule PjeskiWeb.ControllerHelpers.ConfirmationHelpers do
   alias PjeskiWeb.Router.Helpers, as: Routes
   alias PowEmailConfirmation.Phoenix.Mailer
 

@@ -7,7 +7,7 @@ defmodule PjeskiWeb.RegistrationController do
   alias Pjeski.Users.User
   alias Pjeski.Subscriptions
 
-  import PjeskiWeb.ConfirmationHelpers, only: [send_confirmation_email: 2]
+  import PjeskiWeb.ControllerHelpers.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
   def new(conn, _params), do: render(conn, "new.html", changeset: Pow.Plug.change_user(conn))
   def edit(conn, _params), do: render_edit_for_current_user(conn, Pow.Plug.change_user(conn))
