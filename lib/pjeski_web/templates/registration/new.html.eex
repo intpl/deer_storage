@@ -23,7 +23,7 @@
 
     <div class="form-group">
 
-      <%= inputs_for f, :subscription, fn sf -> %>
+      <%= inputs_for f, :last_used_subscription, fn sf -> %>
         <div class="field">
           <%= label sf, :name, gettext("Subscription Name"), class: 'label' %>
           <%= text_input sf, :name, class: 'input' %>

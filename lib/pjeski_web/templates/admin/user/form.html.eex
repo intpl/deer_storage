@@ -42,9 +42,9 @@
   </div>
 
   <div class="field">
-    <%= label f, :subscription_id, ~s/#{gettext("Current subscription")} #{gettext("(will keep previous one available on change)")}/, class: 'label' %>
-    <%= select f, :subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
-    <%= error_tag f, :subscription_id %>
+    <%= label f, :last_used_subscription_id, ~s/#{gettext("Last used subscription")} #{gettext("(will keep previous one available on change)")}/, class: 'label' %>
+    <%= select f, :last_used_subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
+    <%= error_tag f, :last_used_subscription_id %>
   </div>
   <div>
     <%= submit gettext("Save"), class: 'button is-primary' %>

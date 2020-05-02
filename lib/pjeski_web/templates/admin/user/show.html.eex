@@ -6,10 +6,10 @@
       <%= link gettext("All users"), to: Routes.admin_user_path(@conn, :index) %>
     </li>
     <li>
-      <%= if @user.subscription_id == nil do %>
+      <%= if @user.last_used_subscription_id == nil do %>
         <%= gettext("empty") %>
       <% else %>
-        <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
+        <%= link @user.last_used_subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.last_used_subscription) %>
       <% end %>
     </li>
     <li class="is-active">
@@ -94,11 +94,11 @@
           </table>
         </div>
         <div class="column">
-            <%= gettext("Changing current subscription requires new session") %>
+            <%= gettext("Changing last used subscription requires new session") %>
             <br />
             <br />
           <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
-          <%= if @user.subscription do %>
+          <%= if @user.last_used_subscription do %>
             <%= link gettext("Reset"),
             to: Routes.admin_user_user_subscription_link_path(@conn, :reset, @user.id),
             method: :put,
@@ -106,12 +106,12 @@
 
             <table class="table">
               <tr><td><%= gettext("Name") %></td><td>
-                  <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
+                  <%= link @user.last_used_subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.last_used_subscription) %>
               </td></tr>
-              <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.subscription.expires_on %></td></tr>
+              <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.last_used_subscription.expires_on %></td></tr>
             </table>
           <% else %>
-            <%= gettext("This user has no subscription attached") %>
+            <%= gettext("This user has no last used subscription attached") %>
             <br>
             <br>
           <% end %>
@@ -131,11 +131,14 @@
                       data: [confirm: gettext("Are you sure?")],
                       class: "button is-danger is-small" %>
 
-                      <%= link gettext("Make current"),
-                      to: Routes.admin_user_user_subscription_link_path(@conn, :make_current, @user.id, subscription.id),
-                      method: :put,
-                      class: "button is-success is-small" %>
-
+                      <%= if @user.last_used_subscription_id != subscription.id do %>
+                        <%= link gettext("Make current"),
+                        to: Routes.admin_user_user_subscription_link_path(@conn, :make_current, @user.id, subscription.id),
+                        method: :put,
+                        class: "button is-success is-small" %>
+                      <% else %>
+                          <a class="button is-success is-small" disabled><%= gettext("Current") %></a>
+                      <% end %>
                   </td>
                 </tr>
               <% end %>

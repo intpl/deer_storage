@@ -6,10 +6,10 @@
       <%= link gettext("All users"), to: Routes.admin_user_path(@conn, :index) %>
     </li>
     <li>
-      <%= if @user.subscription_id == nil do %>
+      <%= if @user.last_used_subscription_id == nil do %>
         <%= gettext("empty") %>
       <% else %>
-        <%= link @user.subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.subscription) %>
+        <%= link @user.last_used_subscription.name, to: Routes.admin_subscription_path(@conn, :show, @user.last_used_subscription) %>
       <% end %>
     </li>
     <li>

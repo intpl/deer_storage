@@ -16,7 +16,7 @@ defmodule PjeskiWeb.RegistrationController do
     |> Pow.Plug.create_user(user_params)
     |> case do
       {:ok, user, conn} ->
-        Users.upsert_subscription_link!(user.id, user.subscription_id, :raise)
+        Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise)
         Users.notify_subscribers!([:user, :created], user)
         send_confirmation_email(user, conn)
 
@@ -56,7 +56,7 @@ defmodule PjeskiWeb.RegistrationController do
   # let it fail if false is unmatched
   defp maybe_update_user_and_put_subscription_into_session(true, conn, user, requested_subscription_id) do
     token = UserSessionUtils.get_token_from_conn(conn)
-    Users.update_subscription_id!(user, requested_subscription_id)
+    Users.update_last_used_subscription_id!(user, requested_subscription_id)
     Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", {:subscription_changed, requested_subscription_id})
 
     conn |> put_session(:current_subscription_id, requested_subscription_id)
@@ -79,7 +79,7 @@ defmodule PjeskiWeb.RegistrationController do
   end
 
   defp current_user_with_preloaded_subscriptions(%{assigns: %{current_user: user}}) do
-    user |> Repo.preload([:available_subscriptions, :subscription])
+    user |> Repo.preload([:available_subscriptions, :last_used_subscription])
   end
 
   defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: email, unconfirmed_email: email}}} = conn), do: conn

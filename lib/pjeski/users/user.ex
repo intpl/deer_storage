@@ -15,7 +15,7 @@ defmodule Pjeski.Users.User do
     field :time_zone, :string, default: "Europe/Warsaw"
     field :admin_notes, :string
     field :role, :string, default: "user"
-    belongs_to :subscription, Subscription
+    belongs_to :last_used_subscription, Subscription
 
     has_many :user_subscription_links, UserAvailableSubscriptionLink
     many_to_many :available_subscriptions, Subscription, join_through: UserAvailableSubscriptionLink
@@ -26,11 +26,12 @@ defmodule Pjeski.Users.User do
   end
 
   def invite_changeset(user_or_changeset, invited_by, attrs) do
-    subscription_id = invited_by.subscription_id
+    # FIXME: test use case: user invites invitee to subscription A, switches to B, invitee clicks -> what happens here?
+    subscription_id = invited_by.last_used_subscription_id
 
     user_or_changeset
     |> pow_invite_changeset(invited_by, attrs)
-    |> put_change(:subscription_id, subscription_id)
+    |> put_change(:last_used_subscription_id, subscription_id)
   end
 
   # TODO extract validations in separate common function
@@ -41,7 +42,7 @@ defmodule Pjeski.Users.User do
           :name,
           :role,
           :admin_notes,
-          :subscription_id,
+          :last_used_subscription_id,
           :time_zone,
           :email_confirmation_token,
           :email_confirmed_at])
@@ -53,13 +54,13 @@ defmodule Pjeski.Users.User do
     |> validate_role()
   end
 
-  def changeset(%{subscription_id: subscription_id} = existing_user, params) when is_number(subscription_id) do
+  def changeset(%{last_used_subscription_id: subscription_id} = existing_user, params) when is_number(subscription_id) do
     user_changeset(existing_user, params)
   end
   def changeset(%{inserted_at: nil} = user_or_changeset, params) do
     user_changeset(user_or_changeset, params)
-    |> cast_assoc(:subscription, with: &Subscription.changeset/2)
-    |> validate_required(:subscription)
+    |> cast_assoc(:last_used_subscription, with: &Subscription.changeset/2)
+    |> validate_required(:last_used_subscription)
   end
   def changeset(user_or_changeset, params), do: user_changeset(user_or_changeset, params)
 

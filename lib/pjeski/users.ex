@@ -26,7 +26,7 @@ defmodule Pjeski.Users do
     |> offset(^offset)
     |> limit(^per_page)
     |> Repo.all()
-    |> Repo.preload(:subscription)
+    |> Repo.preload(:last_used_subscription)
   end
 
   def list_users(query_string, page, per_page, sort_by, search_by) when page > 0 do
@@ -46,17 +46,17 @@ defmodule Pjeski.Users do
                 |> Repo.all()
                 |> Enum.map(fn s -> s.id end)
 
-                query |> or_where([u], u.subscription_id in ^subscriptions_ids)
+                query |> or_where([u], u.last_used_subscription_id in ^subscriptions_ids)
             end
 
 
-    query |> Repo.all() |> Repo.preload(:subscription)
+    query |> Repo.all() |> Repo.preload(:last_used_subscription)
   end
 
   def list_users do
     User
     |> Repo.all()
-    |> Repo.preload(:subscription)
+    |> Repo.preload(:las_used_subscription)
   end
 
   def list_users_for_subscription_id(subscription_id) when is_number(subscription_id) do
@@ -66,7 +66,7 @@ defmodule Pjeski.Users do
   def get_user!(id) do
     User
     |> Repo.get!(id)
-    |> Repo.preload(:subscription)
+    |> Repo.preload(:last_used_subscription)
   end
 
   def create_user(attrs \\ %{}) do
@@ -121,42 +121,36 @@ defmodule Pjeski.Users do
     |> Repo.update()
   end
 
-  # TODO: don't need that preload
-  # TODO: don't need that merge except for tests
-  def update_subscription_id!(%User{} = user, subscription_id) do
-    case Repo.update!(change(user, subscription_id: subscription_id)) do
-      %{subscription_id: nil} = user -> Map.merge(user, %{subscription: nil})
-      user -> user |> Repo.preload(:subscription)
-    end
+  def update_last_used_subscription_id!(%User{} = user, subscription_id) do
+    Repo.update!(change(user, last_used_subscription_id: subscription_id))
+    |> Repo.preload(:last_used_subscription)
   end
 
-  def maybe_upsert_subscription_link(%User{id: _user_id, subscription_id: nil} = user), do: user
-  def maybe_upsert_subscription_link(%User{id: user_id, subscription_id: subscription_id} = user) do
+  def maybe_upsert_subscription_link(%User{id: _user_id, last_used_subscription_id: nil} = user), do: user
+  def maybe_upsert_subscription_link(%User{id: user_id, last_used_subscription_id: subscription_id} = user) do
     upsert_subscription_link!(user_id, subscription_id, :nothing)
 
     user
   end
 
-  def insert_subscription_link_and_maybe_change_id(%User{id: user_id, subscription_id: nil} = user, subscription_id) when is_integer(subscription_id) do
+  def insert_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id, last_used_subscription_id: nil} = user, subscription_id) when is_integer(subscription_id) do
     upsert_subscription_link!(user_id, subscription_id, :raise)
 
-    update_subscription_id!(user, subscription_id)
+    update_last_used_subscription_id!(user, subscription_id)
   end
 
-  def insert_subscription_link_and_maybe_change_id(%User{id: user_id}, subscription_id) when is_integer(subscription_id) do
+  def insert_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id}, subscription_id) when is_integer(subscription_id) do
     upsert_subscription_link!(user_id, subscription_id, :raise)
   end
 
-  def remove_subscription_link_and_maybe_change_id(%User{id: user_id, subscription_id: subscription_id} = user, subscription_id) do
-    # TODO: find another subscription from available_subscriptions and assign it's id to the user
-
+  def remove_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id, last_used_subscription_id: subscription_id} = user, subscription_id) do
     Repo.transaction(fn ->
       remove_user_subscription_link(user_id, subscription_id)
-      update_subscription_id!(user, nil)
+      update_last_used_subscription_id!(user, nil)
     end)
   end
 
-  def remove_subscription_link_and_maybe_change_id(%User{id: user_id}, subscription_id) when is_number(subscription_id) do
+  def remove_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id}, subscription_id) when is_number(subscription_id) do
     remove_user_subscription_link(user_id, subscription_id)
   end
 
@@ -195,27 +189,27 @@ defmodule Pjeski.Users do
   defp sort_users_by(q, "email_confirmed_at_desc"), do: q |> order_by(desc_nulls_last: :email_confirmed_at)
   defp sort_users_by(q, "email_confirmed_at_asc"), do: q |> order_by(asc_nulls_first: :email_confirmed_at)
 
-  defp sort_users_by(q, "subscription_name_desc") do
+  defp sort_users_by(q, "last_used_subscription_name_desc") do
     from u in q,
-    left_join: s in assoc(u, :subscription),
+    left_join: s in assoc(u, :last_used_subscription),
     order_by: [desc: s.name]
   end
 
-  defp sort_users_by(q, "subscription_name_asc") do
+  defp sort_users_by(q, "last_used_subscription_name_asc") do
     from u in q,
-    left_join: s in assoc(u, :subscription),
+    left_join: s in assoc(u, :last_used_subscription),
     order_by: [asc: s.name]
   end
 
-  defp sort_users_by(q, "subscription_expires_on_desc") do
+  defp sort_users_by(q, "last_used_subscription_expires_on_desc") do
     from u in q,
-    left_join: s in assoc(u, :subscription),
+    left_join: s in assoc(u, :last_used_subscription),
     order_by: [desc: s.expires_on]
   end
 
-  defp sort_users_by(q, "subscription_expires_on_asc") do
+  defp sort_users_by(q, "last_used_subscription_expires_on_asc") do
     from u in q,
-    left_join: s in assoc(u, :subscription),
+    left_join: s in assoc(u, :last_used_subscription),
     order_by: [asc: s.expires_on]
   end
 end

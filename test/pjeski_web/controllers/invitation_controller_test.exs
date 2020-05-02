@@ -63,7 +63,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
 
       reloaded_user2 = Repo.get(User, user2.id) |> Repo.preload(:available_subscriptions)
 
-      assert user2.subscription_id == reloaded_user2.subscription_id
+      assert user2.last_used_subscription_id == reloaded_user2.last_used_subscription_id
       assert length(reloaded_user2.available_subscriptions) == 2
 
       # TODO: add available_subscriptions_ids
@@ -85,7 +85,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       new_user = invite_user(guest_conn, user)
 
       assert new_user.invited_by_id == user.id
-      assert new_user.subscription_id == user.subscription_id
+      assert new_user.last_used_subscription_id == user.last_used_subscription_id
       assert new_user.password_hash == nil
 
       conn = get(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}/edit")
@@ -134,23 +134,23 @@ defmodule PjeskiWeb.InvitationControllerTest do
     test "[guest] [invalid params - different subscription id] PUT /invitation", %{guest_conn: guest_conn} do
       user = create_valid_user_with_subscription()
       new_user = invite_user(guest_conn, user)
-      params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{subscription_id: 1337})}
+      params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{last_used_subscription_id: 1337})}
 
       conn = put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", params)
 
       assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony" # TODO change this to something like "Welcome"
 
-      assert Repo.get(User, new_user.id).subscription_id == new_user.subscription_id
+      assert Repo.get(User, new_user.id).last_used_subscription_id == new_user.last_used_subscription_id
     end
 
     test "[guest] [invalid params - subscription nested attrs] PUT /invitation", %{guest_conn: guest_conn} do
       user = create_valid_user_with_subscription()
       new_user = invite_user(guest_conn, user)
-      params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{subscription: %{name: "Hacked", email: "hacked"}})}
+      params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{last_used_subscription: %{name: "Hacked", email: "hacked"}})}
 
       put(guest_conn, "/invitation/#{sign_token(guest_conn, new_user.invitation_token)}", params)
 
-      refute Repo.get(Subscription, new_user.subscription_id).name == "Hacked"
+      refute Repo.get(Subscription, new_user.last_used_subscription_id).name == "Hacked"
     end
 
     test "[guest] [invalid params - unpermitted params] PUT /invitation", %{guest_conn: guest_conn} do

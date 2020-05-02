@@ -11,7 +11,7 @@ defmodule Pjeski.UsersTest do
     password_confirmation: "secret123",
     time_zone: "Europe/Warsaw",
     locale: "pl",
-    subscription: %{
+    last_used_subscription: %{
       name: "Test",
       email: "test@example.org"
     }
@@ -27,7 +27,7 @@ defmodule Pjeski.UsersTest do
 
       user = user |> Pjeski.Repo.preload([:user_subscription_links, :available_subscriptions])
 
-      assert user.available_subscriptions == [user.subscription]
+      assert user.available_subscriptions == [user.last_used_subscription]
     end
 
     test "create_user/1 without name returns error changeset" do

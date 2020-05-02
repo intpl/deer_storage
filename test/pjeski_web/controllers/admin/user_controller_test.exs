@@ -8,7 +8,7 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
                   password: "secret123",
                   password_confirmation: "secret123",
                   locale: "pl",
-                  subscription: %{
+                  last_used_subscription: %{
                     name: "Test",
                     email: "test@example.org"
                   }

@@ -32,13 +32,13 @@ defmodule PjeskiWeb.Admin.UserView do
     ] |> Map.new(fn [k, v] -> {k, v} end)
   end
 
-  def subscription_name_link_for(_, %Pjeski.Users.User{subscription: nil}), do: gettext("empty")
-  def subscription_name_link_for(conn, %Pjeski.Users.User{subscription: subscription}) do
+  def subscription_name_link_for(_, %Pjeski.Users.User{last_used_subscription: nil}), do: gettext("empty")
+  def subscription_name_link_for(conn, %Pjeski.Users.User{last_used_subscription: subscription}) do
     link subscription.name, to: Routes.admin_subscription_path(conn, :show, subscription.id)
   end
 
-  def subscription_expires_datetime_for(%Pjeski.Users.User{subscription: nil}), do: gettext("empty")
-  def subscription_expires_datetime_for(%Pjeski.Users.User{subscription: subscription}), do: subscription.expires_on
+  def subscription_expires_datetime_for(%Pjeski.Users.User{last_used_subscription: nil}), do: gettext("empty")
+  def subscription_expires_datetime_for(%Pjeski.Users.User{last_used_subscription: subscription}), do: subscription.expires_on
 
   def users_sorting_options do
     descending = " (#{gettext("descending")})"
@@ -62,10 +62,10 @@ defmodule PjeskiWeb.Admin.UserView do
       ["inserted_at_asc", gettext("Inserted at") <> ascending],
       ["updated_at_desc", gettext("Updated at") <> descending],
       ["updated_at_asc", gettext("Updated at") <> ascending],
-      ["subscription_name_desc", gettext("Subscription") <> descending],
-      ["subscription_name_asc", gettext("Subscription") <> ascending],
-      ["subscription_expires_on_desc", gettext("Subscription ends") <> descending],
-      ["subscription_expires_on_asc", gettext("Subscription ends") <> ascending]
+      ["last_used_subscription_name_desc", gettext("Subscription") <> descending],
+      ["last_used_subscription_name_asc", gettext("Subscription") <> ascending],
+      ["last_used_subscription_expires_on_desc", gettext("Subscription ends") <> descending],
+      ["last_used_subscription_expires_on_asc", gettext("Subscription ends") <> ascending]
     ]
   end
 end

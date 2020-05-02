@@ -11,7 +11,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
                   password: "secret123",
                   password_confirmation: "secret123",
                   locale: "pl",
-                  subscription: %{
+                  last_used_subscription: %{
                     name: "Test",
                     email: "test@example.org"
                   }}
@@ -40,7 +40,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
 
     test "[user without subscription] GET /registration/edit", %{guest_conn: guest_conn} do
       # TODO workaround, but it needs to be changed
-      {:ok, user} = @valid_attrs |> Map.merge(%{subscription: nil}) |> Users.admin_create_user
+      {:ok, user} = @valid_attrs |> Map.merge(%{last_used_subscription: nil}) |> Users.admin_create_user
       user = user |> Repo.preload(:available_subscriptions)
 
       conn = assign_user_to_session(guest_conn, user)

@@ -6,7 +6,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
   def reset(conn, %{"user_id" => user_id}) do
     user = Users.get_user!(user_id)
 
-    Users.update_subscription_id!(user, nil)
+    Users.update_last_used_subscription_id!(user, nil)
 
     conn
     |> put_flash(:info, gettext("User current subscription has been reset"))
@@ -17,7 +17,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
     user = Users.get_user!(user_id)
     subscription_id = subscription_id |> String.to_integer
 
-    Users.update_subscription_id!(user, subscription_id)
+    Users.update_last_used_subscription_id!(user, subscription_id)
 
     conn
     |> put_flash(:info, gettext("User current subscription has been changed"))
@@ -30,7 +30,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
 
     # TODO: validate presence of user_id and subscription_id
 
-    Users.remove_subscription_link_and_maybe_change_id(user, subscription_id)
+    Users.remove_subscription_link_and_maybe_change_last_used_subscription_id(user, subscription_id)
 
     conn
     |> put_flash(:info, gettext("User has been disconnected from this Subscription"))
@@ -43,7 +43,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
 
     # TODO: validate presence of user_id and subscription_id
 
-    Users.insert_subscription_link_and_maybe_change_id(user, subscription_id)
+    Users.insert_subscription_link_and_maybe_change_last_used_subscription_id(user, subscription_id)
 
     conn
     |> put_flash(:info, gettext("User has been connected to this Subscription"))

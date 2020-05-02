@@ -62,7 +62,7 @@ for %Subscription{id: sub_id} <- subscriptions do
               name: Faker.Name.name(),
               time_zone: Enum.random(Tzdata.zone_list),
               locale: Enum.random(["en", "pl"]),
-              subscription_id: sub_id,
+              last_used_subscription_id: sub_id,
               email_confirmed_at: datetime.()
             }, default_user_map
           )
@@ -76,7 +76,7 @@ for %Subscription{id: sub_id} <- subscriptions do
               name: Faker.Name.name(),
               time_zone: Enum.random(Tzdata.zone_list),
               locale: Enum.random(["en", "pl"]),
-              subscription_id: sub_id,
+              last_used_subscription_id: sub_id,
               email_confirmed_at: datetime.()
             }, default_user_map)
       ).changes |> Map.delete(:password) |> Map.merge(%{inserted_at: naive_datetime.(), updated_at: naive_datetime.()})

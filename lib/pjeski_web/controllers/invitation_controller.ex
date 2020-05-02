@@ -23,7 +23,8 @@ defmodule PjeskiWeb.InvitationController do
       {:error, %{errors: [email: {_msg, [constraint: :unique, constraint_name: "users_email_index"]}]} = changeset, conn} ->
         user = Repo.get_by!(User, [email: changeset.changes.email])
 
-        Users.upsert_subscription_link!(user.id, Pow.Plug.current_user(conn).subscription_id, :raise)
+        # TODO: when trying to add already attached user
+        Users.upsert_subscription_link!(user.id, get_current_subscription_id_from_conn(conn), :raise)
 
         maybe_send_email_and_respond_success(conn, user)
       {:error, changeset, conn} ->
@@ -74,7 +75,7 @@ defmodule PjeskiWeb.InvitationController do
         |> redirect(to: Routes.session_path(conn, :new))
 
       {:ok, conn} ->
-        assign(conn, :invited_user, conn.assigns.invited_user |> Repo.preload(:subscription))
+        assign(conn, :invited_user, conn.assigns.invited_user |> Repo.preload(:last_used_subscription))
     end
   end
 

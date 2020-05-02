@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [61%] [43/70] DEADLINE: <2020-03-31 Tue>
+* TODO [61%] [44/71] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -82,7 +82,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 ** DONE user_from_auth_token(token) -> research better method
 ** DONE Add logout PubSub callback
 ** STRT START WRITING TESTS in 3..2..1..
-** STRT Rename 'subscription_id' to 'last_used_subscription_id' and keep real 'subscription_id' in the session
+** DONE Rename 'subscription_id' to 'last_used_subscription_id' and keep real 'subscription_id' in the session
 *** on changing subscription - update 'last_used_subscription_id' and store 'subscription_id' in the session
 *** on sign in - pass last_used_subscription_id to session:subscription_id if in available_subscriptions
 *** edge cases - when no available_subscriptions, when not present in available_subscriptions, etc.
@@ -102,6 +102,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 ** TODO Temporary assigns
 ** TODO UserRecords::ShowLive + TESTS
 ** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
+** TODO change registeration process to not use 'last_used_subscription' (Ecto.Multi?)
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
 ** TODO Invitation can enumerate users

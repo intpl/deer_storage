@@ -23,15 +23,15 @@ defmodule Pjeski.Users.UserSessionUtils do
     {:ok}
   end
 
-  def maybe_put_subscription_into_session(%{assigns: %{current_user: %{subscription_id: nil, role: "admin"}}} = conn) do
+  def maybe_put_subscription_into_session(%{assigns: %{current_user: %{last_used_subscription_id: nil, role: "admin"}}} = conn) do
     conn |> put_session(:current_subscription_id, nil)
   end
 
-  def maybe_put_subscription_into_session(%{assigns: %{current_user: %{subscription_id: nil} = user}} = conn) do
+  def maybe_put_subscription_into_session(%{assigns: %{current_user: %{last_used_subscription_id: nil} = user}} = conn) do
     conn |> put_session(:current_subscription_id, ensure_subscription_id_validity_for_user(user))
   end
 
-  def maybe_put_subscription_into_session(%{assigns: %{current_user: %{subscription_id: subscription_id} = user}} = conn) do
+  def maybe_put_subscription_into_session(%{assigns: %{current_user: %{last_used_subscription_id: subscription_id} = user}} = conn) do
     session_subscription_id = case Repo.get(Subscription, subscription_id) do
                              nil -> ensure_subscription_id_validity_for_user(user)
                              subscription ->
@@ -45,7 +45,7 @@ defmodule Pjeski.Users.UserSessionUtils do
 
   defp ensure_subscription_id_validity_for_user(user) do
     new_subscription_id = users_first_available_subscription_id_or_nil(user)
-    Pjeski.Users.update_subscription_id!(user, new_subscription_id)
+    Pjeski.Users.update_last_used_subscription_id!(user, new_subscription_id)
 
     new_subscription_id
   end

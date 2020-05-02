@@ -14,27 +14,27 @@ defmodule Pjeski.Fixtures do
 
   def create_valid_user_with_subscription(user_attrs \\ random_user_attrs(), subscription_attrs \\ random_subscription_attrs()) do
     {:ok, subscription} = create_valid_subscription(subscription_attrs)
-    {:ok, user} = Users.admin_create_user(user_attrs |> Map.merge(%{subscription_id: subscription.id}))
+    {:ok, user} = Users.admin_create_user(user_attrs |> Map.merge(%{last_used_subscription_id: subscription.id}))
 
     user
   end
 
   def create_valid_user_with_unconfirmed_email(attrs \\ random_user_attrs(), subscription_attrs \\ random_subscription_attrs()) do
     {:ok, subscription} = create_valid_subscription(subscription_attrs)
-    {:ok, user} = Users.admin_create_user(attrs |> Map.merge(%{subscription_id: subscription.id, email_confirmed_at: nil, email_confirmation_token: "ABC"}))
+    {:ok, user} = Users.admin_create_user(attrs |> Map.merge(%{last_used_subscription_id: subscription.id, email_confirmed_at: nil, email_confirmation_token: "ABC"}))
 
     user
   end
 
   def create_user_with_expired_subscription(attrs \\ random_user_attrs(), subscription_attrs \\ random_subscription_attrs()) do
     {:ok, subscription} = create_expired_subscription(subscription_attrs)
-    {:ok, user} = Users.admin_create_user(attrs |> Map.merge(%{subscription_id: subscription.id}))
+    {:ok, user} = Users.admin_create_user(attrs |> Map.merge(%{last_used_subscription_id: subscription.id}))
 
     user
   end
 
   def create_user_without_subscription(attrs \\ random_user_attrs()) do
-    {:ok, user} = Users.admin_create_user(attrs |> Map.merge(%{subscription_id: nil}))
+    {:ok, user} = Users.admin_create_user(attrs |> Map.merge(%{last_used_subscription_id: nil}))
     user
   end
 end
