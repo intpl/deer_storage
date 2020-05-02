@@ -102,6 +102,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 - UserRecords::NewComponent + TESTS
 ** TODO Temporary assigns
 ** TODO UserRecords::ShowLive + TESTS
+** TODO Remove that "search by users and subscriptions" nonsense
 ** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** TODO change registeration process to not use 'last_used_subscription' (Ecto.Multi?)
 ** WAIT Write high level logging/history mechanism + TEST
