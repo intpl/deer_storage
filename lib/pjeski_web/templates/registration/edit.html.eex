@@ -28,38 +28,51 @@
 
       <div class="columns">
         <div class="column">
-            <%= if @current_subscription do %>
-              <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
-              <div class="box">
-                <article class="media">
-                  <div class="media-content">
-                    <div class="content">
-                      <p>
-                        <strong>
-                          <%= @current_subscription.name %>
-                        </strong>
+          <%= if @current_subscription do %>
+            <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
+            <div class="box">
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>
+                        <%= @current_subscription.name %>
+                      </strong>
 
-                        <% days = days_to_expire(@current_subscription) %>
-                        <%= if days < 1 do %>
-                          <div class="notification is-danger">
-                            <%= gettext("This subscription expired") %>
-                          </div>
-                        <% else %>
-                            <br />
-                            <%= gettext("Ends in %{days} days", days: days) %>
+                      <% days = days_to_expire(@current_subscription) %>
+                      <%= if days < 1 do %>
+                        <div class="notification is-danger">
+                          <%= gettext("This subscription expired") %>
+                        </div>
+                      <% else %>
+                          <br />
+                          <%= gettext("Ends in %{days} days", days: days) %>
 
-                          <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
-                        <% end %>
-                      </p>
-                    </div>
+                        <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
+                      <% end %>
+                    </p>
                   </div>
-                </article>
-              </div>
+                </div>
+              </article>
+            </div>
+
+            <%= if @changeset.data.role == "admin" do %>
+              <%= link gettext("Become an administrator"),
+              to: Routes.registration_path(@conn, :reset_subscription),
+              method: :put,
+              class: "button is-danger" %>
+            <% end %>
+          <% else %>
+            <%= if @changeset.data.role == "admin" do %>
+              <h4 class="has-text-danger">
+                <%= gettext("You are an administrator") %>
+              </h4>
             <% else %>
               <%= gettext("No subscription assigned") %>
             <% end %>
+          <% end %>
 
-            <br><br>
+          <br><br>
 
           <%= if length(@available_subscriptions) != 0 do %>
             <h4 class="title is-4"><%= gettext("Available subscriptions") %></h4>

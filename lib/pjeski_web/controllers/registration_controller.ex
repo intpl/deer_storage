@@ -53,6 +53,12 @@ defmodule PjeskiWeb.RegistrationController do
     |> redirect(to: Routes.registration_path(conn, :edit))
   end
 
+  # only admins can reset their subscriptions
+  def reset_subscription(%{assigns: %{current_user: %{role: "admin"} = user}} = conn, _params) do
+    maybe_update_user_and_put_subscription_into_session(true, conn, user, nil)
+    |> redirect(to: Routes.registration_path(conn, :edit))
+  end
+
   # let it fail if false is unmatched
   defp maybe_update_user_and_put_subscription_into_session(true, conn, user, requested_subscription_id) do
     token = UserSessionUtils.get_token_from_conn(conn)

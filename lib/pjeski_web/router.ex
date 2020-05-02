@@ -18,10 +18,7 @@ defmodule PjeskiWeb.Router do
 
   pipeline :protected, do: plug Pow.Plug.RequireAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :not_authenticated, do: plug Pow.Plug.RequireNotAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
-
-  pipeline :admin do
-    plug PjeskiWeb.EnsureRolePlug, :admin
-  end
+  pipeline :admin, do: plug PjeskiWeb.EnsureRolePlug, :admin
 
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
@@ -31,6 +28,7 @@ defmodule PjeskiWeb.Router do
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
 
     put "/registration/switch_subscription_id/:subscription_id", RegistrationController, :switch_subscription_id
+    put "/registration/reset_subscription", RegistrationController, :reset_subscription
 
     resources "/session", SessionController, singleton: true, only: [:delete]
     resources "/invitation", InvitationController, only: [:new, :create]
@@ -40,7 +38,6 @@ defmodule PjeskiWeb.Router do
       pipe_through [:admin]
 
       live_dashboard "/phoenix", metrics: PjeskiWeb.Telemetry
-
       live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}  # this is in fact Admin.DashboardLive.Index
 
       resources "/users", UserController do
