@@ -54,7 +54,7 @@ defmodule PjeskiWeb.RegistrationController do
   end
 
   # only admins can reset their subscriptions
-  def reset_subscription(%{assigns: %{current_user: %{role: "admin"} = user}} = conn, _params) do
+  def reset_subscription_id(%{assigns: %{current_user: %{role: "admin"} = user}} = conn, _params) do
     maybe_update_user_and_put_subscription_into_session(true, conn, user, nil)
     |> redirect(to: Routes.registration_path(conn, :edit))
   end
@@ -65,7 +65,7 @@ defmodule PjeskiWeb.RegistrationController do
     Users.update_last_used_subscription_id!(user, requested_subscription_id)
     Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", {:subscription_changed, requested_subscription_id})
 
-    conn |> put_session(:current_subscription_id, requested_subscription_id)
+    conn |> put_session(:current_subscription_id, requested_subscription_id) |> put_flash(:info, gettext("Current subscription changed"))
   end
 
   defp render_edit_for_current_user(conn, changeset) do

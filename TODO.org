@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [59%] [46/77] DEADLINE: <2020-03-31 Tue>
+* TODO [61%] [47/77] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -89,7 +89,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 *** pubsub - disconnecting from subscriptions, logout if last_used_subscription
 ** DONE "Become administrator"
 ** DONE Fix specs for "Become administrator"
-** TODO Tests for registration/reset_subscription
+** DONE Tests for registration/reset_subscription
 ** TODO navigation/sign in path fixes for administrators with subscription assigned
 ** TODO Migrate database, write seeds with a proper structure
 ** TODO Invitation can block e-mail

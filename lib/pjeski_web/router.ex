@@ -28,7 +28,7 @@ defmodule PjeskiWeb.Router do
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
 
     put "/registration/switch_subscription_id/:subscription_id", RegistrationController, :switch_subscription_id
-    put "/registration/reset_subscription", RegistrationController, :reset_subscription
+    put "/registration/reset_subscription_id", RegistrationController, :reset_subscription_id
 
     resources "/session", SessionController, singleton: true, only: [:delete]
     resources "/invitation", InvitationController, only: [:new, :create]

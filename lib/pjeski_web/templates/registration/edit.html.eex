@@ -58,7 +58,7 @@
 
             <%= if @changeset.data.role == "admin" do %>
               <%= link gettext("Become an administrator"),
-              to: Routes.registration_path(@conn, :reset_subscription),
+              to: Routes.registration_path(@conn, :reset_subscription_id),
               method: :put,
               class: "button is-danger" %>
             <% end %>
