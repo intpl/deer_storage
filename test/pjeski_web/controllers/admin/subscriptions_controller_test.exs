@@ -97,8 +97,5 @@ defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
     end
   end
 
-  defp create_subscription(_) do
-    subscription = fixture(:subscription)
-    {:ok, subscription: subscription}
-  end
+  defp create_subscription(_), do: {:ok, subscription: fixture(:subscription)}
 end

@@ -38,9 +38,9 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
   end
 
   describe "index" do
-    test "lists all users", %{conn: conn, admin: admin} do
-      fixture(:user)
+    setup [:create_user]
 
+    test "lists all users", %{conn: conn, admin: admin} do
       conn = assign_user_to_session(conn, admin)
       conn = get(conn, Routes.admin_user_path(conn, :index))
 
@@ -71,9 +71,11 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
   end
 
   describe "edit user" do
-    test "renders form for editing chosen user", %{conn: conn, admin: admin} do
+    setup [:create_user]
+
+    test "renders form for editing chosen user", %{conn: conn, admin: admin, user: user} do
       conn = assign_user_to_session(conn, admin)
-      conn = get(conn, Routes.admin_user_path(conn, :edit, fixture(:user)))
+      conn = get(conn, Routes.admin_user_path(conn, :edit, user))
 
       assert html_response(conn, 200) =~ "Imię i nazwisko"
       assert html_response(conn, 200) =~ "Henryk Testowny"
@@ -81,9 +83,9 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
   end
 
   describe "update user" do
-    test "redirects when data is valid", %{conn: conn, admin: admin} do
-      user = fixture(:user)
+    setup [:create_user]
 
+    test "redirects when data is valid", %{conn: conn, admin: admin, user: user} do
       conn = assign_user_to_session(conn, admin)
       conn = put(conn, Routes.admin_user_path(conn, :update, user), user: @update_attrs)
 
@@ -93,9 +95,9 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
   end
 
   describe "delete user" do
-    test "deletes chosen user", %{conn: conn, admin: admin} do
-      user = fixture(:user)
+    setup [:create_user]
 
+    test "deletes chosen user", %{conn: conn, admin: admin, user: user} do
       conn = assign_user_to_session(conn, admin)
       conn = delete(conn, Routes.admin_user_path(conn, :delete, user))
 
@@ -103,5 +105,7 @@ defmodule PjeskiWeb.Admin.UserControllerTest do
 
       assert Repo.get(User, user.id) == nil
     end
- end
+  end
+
+  defp create_user(_), do: {:ok, user: fixture(:user)}
 end
