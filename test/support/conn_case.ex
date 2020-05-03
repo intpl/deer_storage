@@ -40,5 +40,5 @@ defmodule PjeskiWeb.ConnCase do
     {:ok, conn: Phoenix.ConnTest.build_conn(), ets: EtsCacheMock}
   end
 
-  setup %{conn: conn}, do: {:ok, guest_conn: conn |> Pow.Plug.put_config([otp_app: :pjeski])}
+  setup %{conn: conn}, do: {:ok, conn: conn |> Pow.Plug.put_config([otp_app: :pjeski])}
 end

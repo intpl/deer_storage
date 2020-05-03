@@ -23,27 +23,27 @@ defmodule PjeskiWeb.RegistrationControllerTest do
   end
 
   describe "new" do
-    test "[guest] GET /registration/new", %{guest_conn: conn} do
+    test "[guest] GET /registration/new", %{conn: conn} do
       conn = get(conn, "/registration/new")
       assert html_response(conn, 200) =~ "Zarejestruj się w StorageDeer"
     end
   end
 
   describe "edit" do
-    test "[user with subscription] GET /registration/edit", %{guest_conn: guest_conn} do
+    test "[user with subscription] GET /registration/edit", %{conn: conn} do
       user = user_fixture()
-      conn = assign_user_to_session(guest_conn, user)
+      conn = assign_user_to_session(conn, user)
 
       conn = get(conn, "/registration/edit")
       assert html_response(conn, 200) =~ "Edytuj swoje konto w StorageDeer"
     end
 
-    test "[user without subscription] GET /registration/edit", %{guest_conn: guest_conn} do
+    test "[user without subscription] GET /registration/edit", %{conn: conn} do
       # TODO workaround, but it needs to be changed
       {:ok, user} = @valid_attrs |> Map.merge(%{last_used_subscription: nil}) |> Users.admin_create_user
       user = user |> Repo.preload(:available_subscriptions)
 
-      conn = assign_user_to_session(guest_conn, user)
+      conn = assign_user_to_session(conn, user)
 
       conn = get(conn, "/registration/edit")
       assert html_response(conn, 200) =~ "Edytuj swoje konto w StorageDeer"
@@ -51,7 +51,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
   end
 
   describe "create" do
-    test "[guest] [valid attrs] POST /registration", %{guest_conn: conn} do
+    test "[guest] [valid attrs] POST /registration", %{conn: conn} do
       conn = post(conn, "/registration", user: @valid_attrs)
       redirected_path = redirected_to(conn, 302)
       assert "/session/new" = redirected_path
@@ -69,7 +69,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       )
     end
 
-    test "[guest] [invalid attrs] POST /registration", %{guest_conn: conn} do
+    test "[guest] [invalid attrs] POST /registration", %{conn: conn} do
       conn = post(conn, "/registration", user: %{})
 
       assert html_response(conn, 200) =~ "Coś poszło nie tak. Sprawdź błędy poniżej"
@@ -77,11 +77,11 @@ defmodule PjeskiWeb.RegistrationControllerTest do
   end
 
   describe "update" do
-    test "[user] PUT /registration - changes name", %{guest_conn: guest_conn} do
+    test "[user] PUT /registration - changes name", %{conn: conn} do
       user = user_fixture()
       new_name = "New example name"
 
-      conn = assign_user_to_session(guest_conn, user)
+      conn = assign_user_to_session(conn, user)
       |> put("/registration", user: @valid_attrs |> Map.merge(%{name: new_name, current_password: "secret123"}))
 
       assert html_response(conn, 200) =~ "Konto zaktualizowane"
@@ -90,11 +90,11 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       assert reloaded_user_name == new_name
     end
 
-    test "[user] PUT /registration - renders error when missing current_password", %{guest_conn: guest_conn} do
+    test "[user] PUT /registration - renders error when missing current_password", %{conn: conn} do
       user = user_fixture()
       new_name = "New example name"
 
-      conn = assign_user_to_session(guest_conn, user)
+      conn = assign_user_to_session(conn, user)
       |> put("/registration", user: @valid_attrs |> Map.merge(%{name: new_name}))
 
       assert html_response(conn, 200) =~ "Coś poszło nie tak. Sprawdź błędy poniżej"
@@ -103,11 +103,11 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       refute reloaded_user_name == new_name
     end
 
-    test "[user] PUT /registration - changing email sends e-mail", %{guest_conn: guest_conn} do
+    test "[user] PUT /registration - changing email sends e-mail", %{conn: conn} do
       user = user_fixture()
       new_email = "test_new@storagedeer.com"
 
-      conn = assign_user_to_session(guest_conn, user)
+      conn = assign_user_to_session(conn, user)
       |> put("/registration", user: @valid_attrs |> Map.merge(%{email: new_email, current_password: "secret123"}))
 
       assert html_response(conn, 200) =~ "Wysłano e-mail w celu potwierdzenia na adres: <span>#{new_email}</span>"

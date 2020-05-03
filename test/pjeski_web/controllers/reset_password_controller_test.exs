@@ -22,14 +22,14 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
 
 
   describe "new" do
-    test "[guest] GET /reset-password/new", %{guest_conn: conn} do
+    test "[guest] GET /reset-password/new", %{conn: conn} do
       conn = get(conn, "/reset-password/new")
       assert html_response(conn, 200) =~ "Zresetuj hasło"
     end
   end
 
   describe "edit" do
-    test "[guest] GET /reset-password/edit", %{guest_conn: conn} do
+    test "[guest] GET /reset-password/edit", %{conn: conn} do
       user_fixture()
 
       {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
@@ -41,7 +41,7 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
   end
 
   describe "create" do
-    test "[guest] [valid attrs] POST /reset-password", %{guest_conn: conn} do
+    test "[guest] [valid attrs] POST /reset-password", %{conn: conn} do
       user_fixture()
 
       conn = post(conn, "/reset-password", user: %{email: @valid_attrs.email})
@@ -58,7 +58,7 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
       )
     end
 
-    test "[guest] [invalid attrs - non-existing email] POST /reset-password", %{guest_conn: conn} do
+    test "[guest] [invalid attrs - non-existing email] POST /reset-password", %{conn: conn} do
       user_fixture()
 
       conn = post(conn, "/reset-password", user: %{email: "non-existing-email@storagedeer.com"})
@@ -72,7 +72,7 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
       assert_no_emails_delivered()
     end
 
-    test "[guest] [invalid attrs - empty email] POST /reset-password", %{guest_conn: conn} do
+    test "[guest] [invalid attrs - empty email] POST /reset-password", %{conn: conn} do
       user_fixture()
 
       conn = post(conn, "/reset-password", user: %{email: ""})
@@ -88,7 +88,7 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
   end
 
   describe "update" do
-    test "[guest] [valid attrs] POST /reset-password", %{guest_conn: conn} do
+    test "[guest] [valid attrs] POST /reset-password", %{conn: conn} do
       user = user_fixture()
 
       {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
@@ -107,7 +107,7 @@ defmodule PjeskiWeb.ResetPasswordControllerTest do
       assert html_response(conn, 200) =~ "Hasło zmienione"
     end
 
-    test "[guest] [invalid attrs: no password_confirmation] POST /reset-password", %{guest_conn: conn} do
+    test "[guest] [invalid attrs: no password_confirmation] POST /reset-password", %{conn: conn} do
       user = user_fixture()
 
       {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})

@@ -7,14 +7,14 @@ defmodule PjeskiWeb.SessionControllerTest do
   import Pjeski.Fixtures
 
   describe "new" do
-    test "[guest] GET /session/new", %{guest_conn: conn} do
+    test "[guest] GET /session/new", %{conn: conn} do
       conn = get(conn, "/session/new")
       assert html_response(conn, 200) =~ "Zaloguj się do StorageDeer"
     end
   end
 
   describe "create" do
-    test "[guest -> user] [valid] POST /session", %{guest_conn: conn} do
+    test "[guest -> user] [valid] POST /session", %{conn: conn} do
       user = create_valid_user_with_subscription()
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
@@ -23,7 +23,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert "/dashboard" = redirected_path
     end
 
-    test "[guest -> user] [invalid - wrong password] POST /session", %{guest_conn: conn} do
+    test "[guest -> user] [invalid - wrong password] POST /session", %{conn: conn} do
       user = create_valid_user_with_subscription()
 
       conn = post(conn, "/session", user: %{email: user.email, password: "wrong"})
@@ -31,7 +31,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert html_response(conn, 200) =~ "Zły e-mail lub hasło"
     end
 
-    test "[guest -> user] [valid - expired subscription] POST /session", %{guest_conn: conn} do
+    test "[guest -> user] [valid - expired subscription] POST /session", %{conn: conn} do
       user = create_user_with_expired_subscription()
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
@@ -41,7 +41,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert "/dashboard" = redirected_path
     end
 
-    test "[guest -> user] [valid - empty subscription] POST /session", %{guest_conn: conn} do
+    test "[guest -> user] [valid - empty subscription] POST /session", %{conn: conn} do
       user = create_user_without_subscription()
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
@@ -49,7 +49,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert "/dashboard" = redirected_path
     end
 
-    test "[guest -> user] [invalid - unconfirmed email] POST /session", %{guest_conn: conn} do
+    test "[guest -> user] [invalid - unconfirmed email] POST /session", %{conn: conn} do
       user = create_valid_user_with_unconfirmed_email()
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
@@ -61,7 +61,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert html_response(conn, 200) =~ "Adres e-mail nie został potwierdzony. Wysłano linka ponownie"
     end
 
-    test "[guest -> admin] [valid / assigned subscription] POST /session", %{guest_conn: conn} do
+    test "[guest -> admin] [valid / assigned subscription] POST /session", %{conn: conn} do
       {:ok, user} = create_valid_user_with_subscription() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
@@ -70,7 +70,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert "/admin/dashboard" = redirected_path
     end
 
-    test "[guest -> admin] [valid / expired subscription] POST /session", %{guest_conn: conn} do
+    test "[guest -> admin] [valid / expired subscription] POST /session", %{conn: conn} do
       {:ok, user} = create_user_with_expired_subscription() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
@@ -79,7 +79,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert "/admin/dashboard" = redirected_path
     end
 
-    test "[guest -> admin] [valid / no subscription] POST /session", %{guest_conn: conn} do
+    test "[guest -> admin] [valid / no subscription] POST /session", %{conn: conn} do
       {:ok, user} = create_user_without_subscription() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
@@ -88,7 +88,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       assert "/admin/dashboard" = redirected_path
     end
 
-    test "[guest -> admin] [valid / assigned subscription, unconfirmed email] POST /session", %{guest_conn: conn} do
+    test "[guest -> admin] [valid / assigned subscription, unconfirmed email] POST /session", %{conn: conn} do
       {:ok, user} = create_valid_user_with_unconfirmed_email() |> Users.toggle_admin
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
@@ -99,7 +99,7 @@ defmodule PjeskiWeb.SessionControllerTest do
   end
 
   describe "delete" do
-    test "[user] DELETE /session", %{guest_conn: conn} do
+    test "[user] DELETE /session", %{conn: conn} do
       user = create_valid_user_with_subscription()
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
