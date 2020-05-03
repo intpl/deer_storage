@@ -1,10 +1,27 @@
 defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
   use PjeskiWeb.ConnCase
 
+  alias Pjeski.Repo
+  alias Pjeski.Users
   alias Pjeski.Subscriptions
+  alias Pjeski.Subscriptions.Subscription
+
+  import Pjeski.Test.SessionHelpers, only: [assign_user_to_session: 2]
+
+  @admin_attrs %{email: "admin@storagedeer.com",
+                  name: "Admin",
+                  password: "secret123",
+                  password_confirmation: "secret123",
+                  locale: "pl",
+  }
 
   @create_attrs %{name: "example name", email: "test@test.eu"}
   @update_attrs %{name: "example2 name"}
+
+  setup do
+    {:ok, admin} = Users.admin_create_user(@admin_attrs |> Map.merge(%{role: "admin"}))
+    {:ok, admin: admin}
+  end
 
   def fixture(:subscription) do
     {:ok, subscription} = Subscriptions.create_subscription(@create_attrs)
@@ -14,37 +31,43 @@ defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
   describe "index" do
     setup [:create_subscription]
 
-    test "lists all subscriptions", %{admin_conn: admin_conn} do
-      conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :index))
+    test "lists all subscriptions", %{guest_conn: guest_conn, admin: admin} do
+      conn = assign_user_to_session(guest_conn, admin)
+      conn = get(conn, Routes.admin_subscription_path(conn, :index))
+
       assert html_response(conn, 200) =~ "Nazwa subskrypcji"
       assert html_response(conn, 200) =~ "example name"
     end
   end
 
   describe "new subscription" do
-    test "renders form", %{admin_conn: admin_conn} do
-      conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :new))
+    test "renders form", %{guest_conn: guest_conn, admin: admin} do
+      conn = assign_user_to_session(guest_conn, admin)
+      conn = get(conn, Routes.admin_subscription_path(conn, :new))
+
       assert html_response(conn, 200) =~ "Nowa Subskrypcja"
     end
   end
 
   describe "create subscription" do
-    test "redirects to show when data is valid", %{admin_conn: admin_conn} do
-      conn = post(admin_conn, Routes.admin_subscription_path(admin_conn, :create), subscription: @create_attrs)
+    test "redirects to show when data is valid", %{guest_conn: guest_conn, admin: admin} do
+      conn = assign_user_to_session(guest_conn, admin)
+      conn = post(conn, Routes.admin_subscription_path(conn, :create), subscription: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.admin_subscription_path(conn, :show, id)
 
-      conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :show, id))
-      assert html_response(conn, 200) =~ "example name"
+      assert Repo.get!(Subscription, id).name == "example name"
     end
   end
 
   describe "edit subscription" do
     setup [:create_subscription]
 
-    test "renders form for editing chosen subscription", %{admin_conn: admin_conn, subscription: subscription} do
-      conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :edit, subscription))
+    test "renders form for editing chosen subscription", %{guest_conn: guest_conn, admin: admin, subscription: subscription} do
+      conn = assign_user_to_session(guest_conn, admin)
+      conn = get(conn, Routes.admin_subscription_path(conn, :edit, subscription))
+
       assert html_response(conn, 200) =~ "example name"
     end
   end
@@ -52,24 +75,25 @@ defmodule PjeskiWeb.Admin.SubscriptionControllerTest do
   describe "update subscription" do
     setup [:create_subscription]
 
-    test "redirects when data is valid", %{admin_conn: admin_conn, subscription: subscription} do
-      conn = put(admin_conn, Routes.admin_subscription_path(admin_conn, :update, subscription), subscription: @update_attrs)
-      assert redirected_to(conn) == Routes.admin_subscription_path(admin_conn, :show, subscription)
+    test "redirects when data is valid", %{guest_conn: guest_conn, admin: admin, subscription: subscription} do
+      conn = assign_user_to_session(guest_conn, admin)
+      conn = put(conn, Routes.admin_subscription_path(conn, :update, subscription), subscription: @update_attrs)
 
-      conn = get(admin_conn, Routes.admin_subscription_path(admin_conn, :show, subscription))
-      assert html_response(conn, 200) =~ "example2 name"
+      assert redirected_to(conn) == Routes.admin_subscription_path(conn, :show, subscription)
+
+      assert Repo.get!(Subscription, subscription.id).name == "example2 name"
     end
   end
 
   describe "delete subscription" do
     setup [:create_subscription]
 
-    test "deletes chosen subscription", %{admin_conn: admin_conn, subscription: subscription} do
-      conn = delete(admin_conn, Routes.admin_subscription_path(admin_conn, :delete, subscription))
-      assert redirected_to(conn) == Routes.admin_subscription_path(admin_conn, :index)
-      assert_error_sent 404, fn ->
-        get(admin_conn, Routes.admin_subscription_path(admin_conn, :show, subscription))
-      end
+    test "deletes chosen subscription", %{guest_conn: guest_conn, admin: admin, subscription: subscription} do
+      conn = assign_user_to_session(guest_conn, admin)
+      conn = delete(conn, Routes.admin_subscription_path(conn, :delete, subscription))
+
+      assert redirected_to(conn) == Routes.admin_subscription_path(conn, :index)
+      assert Repo.get(Subscription, subscription.id) == nil
     end
   end
 

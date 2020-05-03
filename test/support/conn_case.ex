@@ -40,13 +40,5 @@ defmodule PjeskiWeb.ConnCase do
     {:ok, conn: Phoenix.ConnTest.build_conn(), ets: EtsCacheMock}
   end
 
-  setup %{conn: conn} do
-    conn = conn |> Pow.Plug.put_config([otp_app: :pjeski])
-
-    admin = %Pjeski.Users.User{email: "test@example.com", name: "Test User", id: 1, role: "admin", locale: "pl"}
-    admin_conn = Pow.Plug.assign_current_user(conn, admin, [])
-
-    {:ok, guest_conn: conn, admin_conn: admin_conn}
-  end
-
+  setup %{conn: conn}, do: {:ok, guest_conn: conn |> Pow.Plug.put_config([otp_app: :pjeski])}
 end
