@@ -24,37 +24,30 @@
 
 <section class="section">
   <div class="container">
-    <%= if @current_user.id != @user.id do %>
-      <%= if @user.role == "admin" do %>
-        <h4 class="is-size-4 has-text-danger">
-          <%= gettext("You are editing another Administrator's account") %>
-        </h4>
-        <br>
-      <% end %>
-
-      <%= render "form.html", Map.put(assigns, :action, Routes.admin_user_path(@conn, :update, @user)) %>
-
-      <hr>
-
-      <h3 class="title is-3 has-text-danger">
-        <%= gettext("Danger zone") %>
-      </h3>
-
-      <%= toggle_admin_button(@conn, @user)  %>
-
+    <%= if @user.role == "admin" do %>
+      <h4 class="is-size-4 has-text-danger">
+        <%= gettext("You are editing another Administrator's account") %>
+      </h4>
       <br>
-      <br>
-
-      <%= link gettext("Delete account"),
-          to: Routes.admin_user_path(@conn, :delete, @user),
-          method: :delete,
-          data: [confirm: gettext("Are you sure?")],
-          class: "button is-danger" %>
-
-    <% else %>
-      <div class="notification is-danger has-text-centered">
-        <%= gettext("You can't edit yourself using this form") %>
-      </div>
     <% end %>
+
+    <%= render "form.html", Map.put(assigns, :action, Routes.admin_user_path(@conn, :update, @user)) %>
+
+    <hr>
+
+    <h3 class="title is-3 has-text-danger">
+      <%= gettext("Danger zone") %>
+    </h3>
+
+    <%= toggle_admin_button(@conn, @user)  %>
+
+    <br>
+    <br>
+
+    <%= link gettext("Delete account"),
+        to: Routes.admin_user_path(@conn, :delete, @user),
+        method: :delete,
+        data: [confirm: gettext("Are you sure?")],
+        class: "button is-danger" %>
   </div>
 </section>
