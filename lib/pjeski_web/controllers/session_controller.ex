@@ -23,7 +23,7 @@ defmodule PjeskiWeb.SessionController do
               |> UserSessionUtils.maybe_put_subscription_into_session
               |> UserSessionUtils.put_into_session(:current_user_id, user.id)
               |> UserSessionUtils.put_into_session(:locale, user.locale)
-              |> redirect(to: dashboard_path_for(user))
+              |> redirect_to_dashboard
 
             false ->
               send_confirmation_email(user, conn)
@@ -52,6 +52,12 @@ defmodule PjeskiWeb.SessionController do
     |> clear_session
     |> redirect(to: Routes.page_path(conn, :index))
   end
+
+  def redirect_to_dashboard(%{assigns: %{current_user: %{role: "admin"}, current_subscription: nil}} = conn) do
+    conn |> redirect(to: Routes.admin_live_path(conn, PjeskiWeb.Admin.DashboardLive.Index))
+  end
+  def redirect_to_dashboard(conn), do: conn |> redirect(to: Routes.live_path(conn, PjeskiWeb.DashboardLive.Index))
+
 
   defp email_confirmed?(%{role: "admin"}), do: true
   defp email_confirmed?(%{email_confirmed_at: nil, email_confirmation_token: token, unconfirmed_email: nil}) when not is_nil(token), do: false

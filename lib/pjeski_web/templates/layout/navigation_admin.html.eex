@@ -2,7 +2,7 @@
   <div class="navbar-brand">
       <%= link(
           gettext("Admin Panel"),
-          to: dashboard_path_for("admin"),
+          to: Routes.admin_live_path(@conn, PjeskiWeb.Admin.DashboardLive.Index),
           class: "navbar-item") %>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
