@@ -465,7 +465,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
-#: lib/pjeski_web/views/layout_view.ex:6 lib/pjeski_web/views/layout_view.ex:13
+#: lib/pjeski_web/views/layout_view.ex:6 lib/pjeski_web/views/layout_view.ex:14
 msgid "StorageDeer"
 msgstr ""
 
@@ -787,7 +787,7 @@ msgid "Added user to your subscription"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/_subscription_helpers.ex:9
+#: lib/pjeski_web/controllers/_subscription_helpers.ex:7
 msgid "Your subscription expired"
 msgstr ""
 
@@ -844,4 +844,9 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_user.html.eex:21
 msgid "This account has no subscriptions"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/views/layout_view.ex:11
+msgid "SUBSCRIPTION EXPIRED"
 msgstr ""

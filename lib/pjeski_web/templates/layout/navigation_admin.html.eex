@@ -21,7 +21,7 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <%= link gettext("Admin statistics"), to: Routes.live_dashboard_path(@conn, :home), method: :get, class: "button is-black navbar-item" %>
+          <%= link gettext("Phoenix LiveDashboard"), to: Routes.live_dashboard_path(@conn, :home), method: :get, class: "button is-black navbar-item" %>
           <%= link gettext("Settings"), to: Routes.registration_path(@conn, :edit), method: :get, class: "button is-black navbar-item" %>
           <%= link gettext("Sign out"), to: Routes.session_path(@conn, :delete), method: :delete, class: "button is-link navbar-item" %>
         </div>

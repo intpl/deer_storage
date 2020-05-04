@@ -15,10 +15,14 @@
   <div class="container">
     <%= form_for @changeset, Routes.registration_path(@conn, :update), [as: :user], fn f -> %>
     <%= if @changeset.action do %>
-      <div class="help is-danger">
-        <p><%= gettext("Oops, something went wrong! Please check the errors below.") %></p>
-      </div>
-      <% end %>
+      <article class="message is-danger">
+          <div class="message-header">
+          </div>
+          <div class="message-body">
+              <p><%= gettext("Oops, something went wrong! Please check the errors below.") %></p>
+          </div>
+      </article>
+    <% end %>
 
       <%= if @changeset.data.unconfirmed_email do %>
         <div class="notification">
@@ -27,8 +31,16 @@
       <% end %>
 
       <div class="columns">
-        <div class="column">
+        <div class="column is-one-third">
           <%= if @current_subscription do %>
+            <%= if @changeset.data.role == "admin" do %>
+              <%= link gettext("Become an administrator"),
+              to: Routes.registration_path(@conn, :reset_subscription_id),
+              method: :put,
+              class: "button is-medium is-dark is-fullwidth" %>
+              <br>
+            <% end %>
+
             <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
             <div class="box">
               <article class="media">
@@ -55,13 +67,6 @@
                 </div>
               </article>
             </div>
-
-            <%= if @changeset.data.role == "admin" do %>
-              <%= link gettext("Become an administrator"),
-              to: Routes.registration_path(@conn, :reset_subscription_id),
-              method: :put,
-              class: "button is-danger" %>
-            <% end %>
           <% else %>
             <%= if @changeset.data.role == "admin" do %>
               <h4 class="has-text-danger">
@@ -93,70 +98,8 @@
             </table>
           <% end %>
         </div>
-        <div class="column">
-          <h4 class="title is-4">
-            <%= gettext("General settings") %>
-          </h4>
 
-          <div class="field">
-            <%= label f, :name, gettext("Name and surname"), class: 'label' %>
-            <%= text_input f, :name, class: 'input' %>
-            <%= error_tag f, :name %>
-          </div>
-
-          <div class="field">
-            <%= label f, :locale, gettext("Language"), class: 'label' %>
-            <%= select f, :locale, languages_select_options(), class: 'input' %>
-            <%= error_tag f, :locale %>
-          </div>
-
-          <div class="field">
-            <%= label f, :time_zone, gettext("Display dates in the following time zone"), class: 'label' %>
-            <%= select f, :time_zone, time_zones_select_options(), class: 'input use-select2' %>
-            <%= error_tag f, :time_zone %>
-          </div>
-        </div>
-
-        <div class="column">
-          <h4 class="title is-4">
-            <%= gettext("Change sign-in credentials") %>
-          </h4>
-
-          <div class="field">
-            <%= label f, :email, gettext("E-mail address"), class: 'label' %>
-            <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input disabled' %>
-            <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-          </div>
-
-          <div class="field">
-            <%= label f, :password, gettext("New password"), class: 'label' %>
-            <%= password_input f, :password, class: 'input' %>
-            <%= error_tag f, :password %>
-          </div>
-
-          <div class="field">
-            <%= label f, :password_confirmation, gettext("Confirm new password"), class: 'label' %>
-            <%= password_input f, :password_confirmation, class: 'input' %>
-            <%= error_tag f, :password_confirmation %>
-          </div>
-        </div>
-      </div>
-
-      <hr>
-
-      <div class="columns">
-        <div class="column is-one-third"></div>
-        <div class="column is-one-third has-text-centered">
-          <div class="field">
-            <%= label f, :current_password, gettext("Enter current password"), class: 'label' %>,
-            <%= password_input f, :current_password, class: 'input' %>
-            <%= error_tag f, :current_password %>
-          </div>
-
-          <%= submit gettext("Update"), class: 'button is-primary is-medium is-fullwidth' %>
-        </div>
-        <div class="column is-one-third"></div>
-      </div>
+      <%= render "user_fields.html", Map.put(assigns, :form, f) %>
     <% end %>
   </div>
 </section>

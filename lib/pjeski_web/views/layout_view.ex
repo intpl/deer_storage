@@ -8,6 +8,7 @@ defmodule PjeskiWeb.LayoutView do
     end
   end
 
+  def header_text(%{assigns: %{current_subscription_is_expired: true}}), do: gettext("SUBSCRIPTION EXPIRED")
   def header_text(%{assigns: %{current_subscription: %{name: name}}}), do: name
   def header_text(%{assigns: %{current_user: %{name: name}}}), do: name
   def header_text(_), do: gettext("StorageDeer")
