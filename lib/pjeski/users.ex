@@ -84,22 +84,18 @@ defmodule Pjeski.Users do
     |> Repo.update()
   end
 
-  def admin_create_user(attrs \\ %{}) do
-    user = %User{}
-    |> User.admin_changeset(attrs)
-    |> Repo.insert!()
-    |> maybe_upsert_subscription_link
-
-    {:ok, user}
+  def admin_create_user(attrs) do
+    case User.admin_changeset(%User{}, attrs) |> Repo.insert() do
+      {:ok, user} -> {:ok, user |> maybe_upsert_subscription_link}
+      err -> err
+    end
   end
 
   def admin_update_user(%User{} = user, attrs) do
-    user = user
-    |> User.admin_changeset(attrs)
-    |> Repo.update!()
-    |> maybe_upsert_subscription_link
-
-    {:ok, user}
+    case User.admin_changeset(user, attrs) |> Repo.update() do
+      {:ok, user} -> {:ok, user |> maybe_upsert_subscription_link}
+      err -> err
+    end
   end
 
   def delete_user(%User{} = user) do

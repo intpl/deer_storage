@@ -10,7 +10,7 @@ defmodule Pjeski.Users.User do
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   schema "users" do
-    field :locale, :string
+    field :locale, :string, default: "en"
     field :name, :string
     field :time_zone, :string, default: "Europe/Warsaw"
     field :admin_notes, :string
