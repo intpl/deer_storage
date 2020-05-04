@@ -13,7 +13,8 @@ defmodule PjeskiWeb.Router do
     plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug Pjeski.LocalePlug
+    plug PjeskiWeb.LocalePlug
+    plug PjeskiWeb.GetCurrentSubscriptionPlug
   end
 
   pipeline :protected, do: plug Pow.Plug.RequireAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler

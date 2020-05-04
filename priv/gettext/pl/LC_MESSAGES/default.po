@@ -84,7 +84,7 @@ msgstr "Adres e-mail"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
-#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:19 lib/pjeski_web/templates/layout/navigation_user.html.eex:24
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:30
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -129,7 +129,7 @@ msgstr "Przetestuj za darmo"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
-#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:18 lib/pjeski_web/templates/layout/navigation_user.html.eex:23
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:29
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -467,7 +467,7 @@ msgstr "Zaloguj się do StorageDeer"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
-#: lib/pjeski_web/views/layout_view.ex:8
+#: lib/pjeski_web/views/layout_view.ex:6 lib/pjeski_web/views/layout_view.ex:13
 msgid "StorageDeer"
 msgstr "StorageDeer"
 
@@ -485,11 +485,6 @@ msgstr "Witamy w StorageDeer"
 #: lib/pjeski_web/templates/page/index.html.eex:8
 msgid "Your group files' deer-ectory!"
 msgstr "Baza danych plików nie dla jeleni!"
-
-#, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_outside_app.html.eex:4
-msgid "⬅️ Go back to the application"
-msgstr "⬅️ Powrót do aplikacji"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:28
@@ -558,7 +553,7 @@ msgid "Email has been sent"
 msgstr "Wysłano adres e-mail"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:64
+#: lib/pjeski_web/controllers/invitation_controller.ex:68
 #: lib/pjeski_web/controllers/reset_password_controller.ex:68
 msgid "Invalid token"
 msgstr "Nieprawidłowy token"
@@ -610,7 +605,7 @@ msgid "Click the link in the confirmation email to change your email to:"
 msgstr "Wysłano e-mail w celu potwierdzenia na adres:"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:97
+#: lib/pjeski_web/controllers/registration_controller.ex:107
 msgid "Click the link in the confirmation email to change your email."
 msgstr "Wysłano e-mail na nowy adres w celu potwierdzenia."
 
@@ -646,7 +641,7 @@ msgid "Unconfirmed email"
 msgstr "Niepotwierdzony e-mail"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:103
+#: lib/pjeski_web/controllers/invitation_controller.ex:107
 msgid "Invitation e-mail sent"
 msgstr "Wysłano e-mail potwierdzający"
 
@@ -686,7 +681,7 @@ msgid "Sends a link to a desired email allowing them to join your subscription"
 msgstr "Wysyła link na wskazany e-mail w celu dołączenia do subskrypcji"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:51
+#: lib/pjeski_web/controllers/invitation_controller.ex:54
 msgid "User has been created"
 msgstr "Użytkownik utworzony"
 
@@ -789,12 +784,12 @@ msgid "User current subscription has been reset"
 msgstr "Obecna subskrypcja użytkownika zresetowana"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:109
+#: lib/pjeski_web/controllers/invitation_controller.ex:113
 msgid "Added user to your subscription"
 msgstr "Dodano użytkownika do Twojej subskrypcji"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/_subscription_helpers.ex:14
+#: lib/pjeski_web/controllers/_subscription_helpers.ex:9
 msgid "Your subscription expired"
 msgstr "Twoja subskrypcja jest nieaktywna"
 
@@ -802,11 +797,6 @@ msgstr "Twoja subskrypcja jest nieaktywna"
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:24
 msgid "Admin statistics"
 msgstr "Statystyki systemu"
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:97
-msgid "Changing last used subscription requires new session"
-msgstr "Zmiana obecnej subskrypcji wymaga ponownego zalogowania"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:140
@@ -838,8 +828,8 @@ msgstr "Ten użytkownik nie ma powiązanej subskrypcji"
 msgid "Become an administrator"
 msgstr "Zostań administratorem"
 
-#, elixir-format, fuzzy
-#: lib/pjeski_web/controllers/registration_controller.ex:68
+#, elixir-format
+#: lib/pjeski_web/controllers/registration_controller.ex:70
 msgid "Current subscription changed"
 msgstr "Zmieniono obecną subskrypcję"
 
@@ -847,3 +837,13 @@ msgstr "Zmieniono obecną subskrypcję"
 #: lib/pjeski_web/templates/registration/edit.html.eex:68
 msgid "You are an administrator"
 msgstr "Jesteś administratorem"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/admin/user/show.html.eex:97
+msgid "Changing user's last used subscription requires new session"
+msgstr "Zmiana obecnej subskrypcji użytkownika wymaga jego ponownego zalogowania"
+
+#, elixir-format
+#: lib/pjeski_web/templates/layout/navigation_user.html.eex:21
+msgid "This account has no subscriptions"
+msgstr "To konto nie ma  subskrypcji"

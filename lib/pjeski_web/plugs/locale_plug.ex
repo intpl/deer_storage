@@ -1,4 +1,4 @@
-defmodule Pjeski.LocalePlug do
+defmodule PjeskiWeb.LocalePlug do
   import Plug.Conn, only: [assign: 3]
 
   @default_locale "pl"

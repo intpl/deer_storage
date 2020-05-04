@@ -13,13 +13,13 @@
     <main role="main">
       <%= render_navigation(@conn) %>
 
-      <div role="alert" class="help is-danger"><%= get_flash(@conn, :error) %></div>
-      <div role="alert" class="help is-success"><%= get_flash(@conn, :info) %></div>
-      <div role="alert" class="help is-info"><%= get_flash(@conn, :notice) %></div>
+      <%= if get_flash(@conn) != %{} do %>
+        <div role="alert" class="help is-size-6 is-danger"><%= get_flash(@conn, :error) %></div>
+        <div role="alert" class="help is-size-6 is-success"><%= get_flash(@conn, :info) %></div>
+        <div role="alert" class="help is-size-6 is-info"><%= get_flash(@conn, :notice) %></div>
+      <% end %>
 
       <%= @inner_content %>
     </main>
-
-    <br>
   </body>
 </html>

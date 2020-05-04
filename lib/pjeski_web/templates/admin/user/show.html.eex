@@ -94,7 +94,7 @@
           </table>
         </div>
         <div class="column">
-            <%= gettext("Changing last used subscription requires new session") %>
+            <%= gettext("Changing user's last used subscription requires new session") %>
             <br />
             <br />
           <h4 class="title is-4"><%= gettext("Current subscription") %></h4>

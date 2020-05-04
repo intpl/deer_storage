@@ -7,7 +7,6 @@ defmodule Pjeski.Users.UserSessionUtils do
   @credentials_cache_config [backend: Application.get_env(:pjeski, :pow)[:cache_store_backend]]
 
   def get_token_from_conn(%{private: %{plug_session: %{"pjeski_auth" => token}}}), do: token
-  def get_current_subscription_id_from_conn(%{private: %{plug_session: %{"current_subscription_id" => id}}}), do: id
   def put_into_session(conn, key, value), do: Plug.Conn.put_session(conn, key, value)
 
   def user_sessions_keys(user) do

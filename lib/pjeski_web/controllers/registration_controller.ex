@@ -70,9 +70,8 @@ defmodule PjeskiWeb.RegistrationController do
     |> put_flash(:info, gettext("Current subscription changed"))
   end
 
-  defp render_edit_for_current_user(conn, changeset) do
+  defp render_edit_for_current_user(%{assigns: %{current_subscription: %{id: current_subscription_id}}} = conn, changeset) do
     user = current_user_with_preloaded_subscriptions(conn)
-    current_subscription_id = UserSessionUtils.get_current_subscription_id_from_conn(conn)
 
     available_subscriptions = Enum.reject(
       user.available_subscriptions, fn s -> s.id == current_subscription_id end
@@ -80,9 +79,18 @@ defmodule PjeskiWeb.RegistrationController do
 
     render(conn, "edit.html",
       changeset: changeset,
-      navigation_template_always: "navigation_outside_app.html",
       available_subscriptions: available_subscriptions,
       current_subscription: current_subscription_id |> Subscriptions.get_subscription!
+    )
+  end
+
+  defp render_edit_for_current_user(%{assigns: %{current_subscription: nil}} = conn, changeset) do
+    user = current_user_with_preloaded_subscriptions(conn)
+
+    render(conn, "edit.html",
+      changeset: changeset,
+      available_subscriptions: user.available_subscriptions,
+      current_subscription: nil
     )
   end
 

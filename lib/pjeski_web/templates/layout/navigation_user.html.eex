@@ -1,7 +1,7 @@
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <%= live_redirect(
-        "🐕 " <> @conn.assigns.current_user.name,
+        header_text(@conn),
         to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index),
         class: "navbar-item") %>
 
@@ -14,13 +14,19 @@
 
   <div id="navigation" class="navbar-menu">
     <div class="navbar-start">
-        Do something here
+      <div class="navbar-item">
+        <%= if @conn.assigns.current_subscription do %>
+            <!-- Tu sie bedzie wszystko dzialo -->
+        <% else %>
+            <%= gettext("This account has no subscriptions") %>
+        <% end %>
+      </div>
     </div>
 
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <%= link gettext("Settings"), to: Routes.registration_path(@conn, :edit), method: :get, class: "button is-light navbar-item" %>
+          <%= link gettext("Settings"), to: Routes.registration_path(@conn, :edit), method: :get, class: "button is-dark navbar-item" %>
           <%= link gettext("Sign out"), to: Routes.session_path(@conn, :delete), method: :delete, class: "button is-link navbar-item" %>
         </div>
       </div>

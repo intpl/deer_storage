@@ -1,7 +1,7 @@
 defmodule PjeskiWeb.InvitationController do
   use PjeskiWeb, :controller
   import Plug.Conn, only: [assign: 3]
-  import Pjeski.Users.UserSessionUtils, only: [get_current_subscription_id_from_conn: 1, maybe_put_subscription_into_session: 1]
+  import Pjeski.Users.UserSessionUtils, only: [maybe_put_subscription_into_session: 1]
 
   alias PowInvitation.{Phoenix.Mailer, Plug}
   alias Pjeski.{Repo, Users, Users.User}
@@ -19,16 +19,16 @@ defmodule PjeskiWeb.InvitationController do
     |> render("new.html")
   end
 
-  def create(conn, %{"user" => user_params}) do
+  def create(%{assigns: %{current_subscription: %{id: current_subscription_id}}} = conn, %{"user" => user_params}) do
     case Plug.create_user(conn, user_params) do
       {:ok, %{email: email} = user, conn} when is_binary(email) ->
-        Users.insert_subscription_link_and_maybe_change_last_used_subscription_id(user, get_current_subscription_id_from_conn(conn))
+        Users.insert_subscription_link_and_maybe_change_last_used_subscription_id(user, current_subscription_id)
 
         maybe_send_email_and_respond_success(conn, user)
       {:error, %{errors: [email: {_msg, [constraint: :unique, constraint_name: "users_email_index"]}]} = changeset, conn} ->
         user = Repo.get_by!(User, [email: changeset.changes.email])
 
-        Users.upsert_subscription_link!(user.id, get_current_subscription_id_from_conn(conn), :nothing)
+        Users.upsert_subscription_link!(user.id, current_subscription_id, :nothing)
 
         maybe_send_email_and_respond_success(conn, user)
       {:error, changeset, conn} ->
