@@ -67,7 +67,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
-      assert "/admin/dashboard" = redirected_path
+      assert "/dashboard" = redirected_path
     end
 
     test "[guest -> admin] [valid / expired subscription] POST /session", %{conn: conn} do
@@ -76,7 +76,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
-      assert "/admin/dashboard" = redirected_path
+      assert "/dashboard" = redirected_path
     end
 
     test "[guest -> admin] [valid / no subscription] POST /session", %{conn: conn} do
@@ -94,7 +94,7 @@ defmodule PjeskiWeb.SessionControllerTest do
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
       redirected_path = redirected_to(conn, 302)
-      assert "/admin/dashboard" = redirected_path
+      assert "/dashboard" = redirected_path
     end
   end
 

@@ -26,7 +26,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       user = create_valid_user_with_subscription()
       conn = assign_user_to_session(conn, user) |> get("/invitation/new")
 
-      assert html_response(conn, 200) =~ "Zaproś użytkownika do StorageDeer!"
+      assert html_response(conn, 200) =~ "Zaproś użytkownika"
     end
   end
 

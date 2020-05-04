@@ -1,9 +1,14 @@
 defmodule PjeskiWeb.SessionController do
   use PjeskiWeb, :controller
-  alias Pjeski.Users.UserSessionUtils
-  alias Pjeski.Repo
 
   import PjeskiWeb.ControllerHelpers.ConfirmationHelpers, only: [send_confirmation_email: 2]
+
+  import Pjeski.Users.UserSessionUtils, only: [
+    assign_current_user_and_preload_available_subscriptions: 2,
+    get_token_from_conn: 1,
+    maybe_put_subscription_into_session: 1,
+    put_into_session: 3
+  ]
 
   def new(conn, _params) do
     changeset = Pow.Plug.change_user(conn)
@@ -19,11 +24,11 @@ defmodule PjeskiWeb.SessionController do
         case email_confirmed?(user) do
             true ->
               conn
-              |> Pow.Plug.assign_current_user(user |> Repo.preload(:available_subscriptions), Pow.Plug.fetch_config(conn))
-              |> UserSessionUtils.maybe_put_subscription_into_session
-              |> UserSessionUtils.put_into_session(:current_user_id, user.id)
-              |> UserSessionUtils.put_into_session(:locale, user.locale)
-              |> redirect_to_dashboard
+              |> assign_current_user_and_preload_available_subscriptions(user)
+              |> maybe_put_subscription_into_session
+              |> put_into_session(:current_user_id, user.id)
+              |> put_into_session(:locale, user.locale)
+              |> redirect_to_dashboard(user.last_used_subscription_id) # this will be assigned to session on next request
 
             false ->
               send_confirmation_email(user, conn)
@@ -44,7 +49,7 @@ defmodule PjeskiWeb.SessionController do
 
 
   def delete(conn, _params) do
-    token = UserSessionUtils.get_token_from_conn(conn)
+    token = get_token_from_conn(conn)
     Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", :logout)
 
     conn
@@ -53,10 +58,10 @@ defmodule PjeskiWeb.SessionController do
     |> redirect(to: Routes.page_path(conn, :index))
   end
 
-  def redirect_to_dashboard(%{assigns: %{current_user: %{role: "admin"}, current_subscription: nil}} = conn) do
+  def redirect_to_dashboard(%{assigns: %{current_user: %{role: "admin"}}} = conn, nil) do
     conn |> redirect(to: Routes.admin_live_path(conn, PjeskiWeb.Admin.DashboardLive.Index))
   end
-  def redirect_to_dashboard(conn), do: conn |> redirect(to: Routes.live_path(conn, PjeskiWeb.DashboardLive.Index))
+  def redirect_to_dashboard(conn, _), do: conn |> redirect(to: Routes.live_path(conn, PjeskiWeb.DashboardLive.Index))
 
 
   defp email_confirmed?(%{role: "admin"}), do: true

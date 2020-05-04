@@ -9,6 +9,10 @@ defmodule Pjeski.Users.UserSessionUtils do
   def get_token_from_conn(%{private: %{plug_session: %{"pjeski_auth" => token}}}), do: token
   def put_into_session(conn, key, value), do: Plug.Conn.put_session(conn, key, value)
 
+  def assign_current_user_and_preload_available_subscriptions(conn, user) do
+    Pow.Plug.assign_current_user(conn, user |> Repo.preload(:available_subscriptions), Pow.Plug.fetch_config(conn))
+  end
+
   def user_sessions_keys(user) do
     CredentialsCache.sessions(@credentials_cache_config, user)
   end

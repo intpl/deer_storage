@@ -1,7 +1,10 @@
 defmodule PjeskiWeb.InvitationController do
   use PjeskiWeb, :controller
   import Plug.Conn, only: [assign: 3]
-  import Pjeski.Users.UserSessionUtils, only: [maybe_put_subscription_into_session: 1]
+  import Pjeski.Users.UserSessionUtils, only: [
+    assign_current_user_and_preload_available_subscriptions: 2,
+    maybe_put_subscription_into_session: 1
+  ]
 
   alias PowInvitation.{Phoenix.Mailer, Plug}
   alias Pjeski.{Repo, Users, Users.User}
@@ -50,7 +53,7 @@ defmodule PjeskiWeb.InvitationController do
     case Plug.update_user(conn, user_params) do
       {:ok, user, conn} ->
         conn
-        |> Pow.Plug.assign_current_user(user |> Repo.preload(:available_subscriptions), Pow.Plug.fetch_config(conn))
+        |> assign_current_user_and_preload_available_subscriptions(user)
         |> put_flash(:info, gettext("User has been created"))
         |> maybe_put_subscription_into_session
         |> redirect(to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index))
