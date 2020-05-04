@@ -18,8 +18,8 @@ msgstr "Niezalogowany"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:4
-#: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/registration/edit.html.eex:22
-#: lib/pjeski_web/templates/registration/new.html.eex:20 lib/pjeski_web/templates/reset_password/edit.html.eex:19
+#: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/registration/new.html.eex:20
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:7 lib/pjeski_web/templates/reset_password/edit.html.eex:19
 #: lib/pjeski_web/templates/reset_password/new.html.eex:19 lib/pjeski_web/templates/session/new.html.eex:19
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
@@ -39,7 +39,7 @@ msgid "Sign in"
 msgstr "Zaloguj się"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/user_fields.html.eex:64
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:74
 msgid "Update"
 msgstr "Zapisz"
 
@@ -51,7 +51,7 @@ msgstr "Angielski"
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:21
 #: lib/pjeski_web/templates/admin/user/show.html.eex:67 lib/pjeski_web/templates/registration/new.html.eex:38
-#: lib/pjeski_web/templates/registration/user_fields.html.eex:15
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:25
 msgid "Language"
 msgstr "Język"
 
@@ -78,7 +78,7 @@ msgstr "Edytuj konto"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:27
-#: lib/pjeski_web/templates/registration/new.html.eex:51 lib/pjeski_web/templates/registration/user_fields.html.eex:33
+#: lib/pjeski_web/templates/registration/new.html.eex:51 lib/pjeski_web/templates/registration/user_fields.html.eex:43
 msgid "E-mail address"
 msgstr "Adres e-mail"
 
@@ -89,28 +89,28 @@ msgid "Sign out"
 msgstr "Wyloguj"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/user_fields.html.eex:29
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:39
 msgid "Change sign-in credentials"
 msgstr "Zmień dane logowania"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/user_fields.html.eex:45
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:55
 msgid "Confirm new password"
 msgstr "Potwierdź nowe hasło"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/user_fields.html.eex:59
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:69
 msgid "Enter current password"
 msgstr "Wprowadź obecne hasło, żeby zapisać zmiany"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/user_fields.html.eex:5
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:15
 msgid "General settings"
 msgstr "Ustawienia ogólne"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:33
-#: lib/pjeski_web/templates/registration/user_fields.html.eex:39
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:49
 msgid "New password"
 msgstr "Nowe hasło"
 
@@ -310,7 +310,7 @@ msgstr "puste"
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:9
 #: lib/pjeski_web/templates/admin/user/index.html.eex:89 lib/pjeski_web/templates/admin/user/show.html.eex:55
-#: lib/pjeski_web/templates/registration/new.html.eex:44 lib/pjeski_web/templates/registration/user_fields.html.eex:9
+#: lib/pjeski_web/templates/registration/new.html.eex:44 lib/pjeski_web/templates/registration/user_fields.html.eex:19
 #: lib/pjeski_web/views/admin/user_view.ex:49 lib/pjeski_web/views/admin/user_view.ex:50
 msgid "Name and surname"
 msgstr "Imię i nazwisko"
@@ -537,7 +537,7 @@ msgstr "malejąco"
 
 #, elixir-format
 #: lib/pjeski_web/templates/registration/new.html.eex:58
-#: lib/pjeski_web/templates/registration/user_fields.html.eex:21
+#: lib/pjeski_web/templates/registration/user_fields.html.eex:31
 msgid "Display dates in the following time zone"
 msgstr "Wyświetlaj daty w poniższej strefie czasowej"
 
@@ -595,7 +595,7 @@ msgid "Please confirm your e-mail before logging in"
 msgstr "Musisz potwierdzić swój adres e-mail przed pierwszym zalogowaniem"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:29
+#: lib/pjeski_web/templates/registration/edit.html.eex:19
 msgid "Click the link in the confirmation email to change your email to:"
 msgstr "Wysłano e-mail w celu potwierdzenia na adres:"
 
@@ -653,12 +653,12 @@ msgstr "Zaproś lub odłącz użytkowników StorageDeer"
 #, elixir-format
 #: lib/pjeski_web/templates/invitation/new.html.eex:5
 msgid "Invite user"
-msgstr "Zaproś użytkownika do StorageDeer!"
+msgstr "Zaproś użytkownika"
 
 #, elixir-format
 #: lib/pjeski_web/templates/invitation/edit.html.eex:5
 msgid "Join StorageDeer!"
-msgstr "StorageDeer"
+msgstr "Dołącz do StorageDeer"
 
 #, elixir-format
 #: lib/pjeski_web/templates/user/index.html.eex:5
@@ -666,7 +666,7 @@ msgid "Manage users"
 msgstr "Zarządzaj Użytkownikami"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:63
+#: lib/pjeski_web/templates/registration/edit.html.eex:53
 msgid "Manage your users"
 msgstr "Zarządzaj Użytkownikami"
 
@@ -692,7 +692,7 @@ msgstr "(zachowa poprzednią w dostępnych subskrypcjach)"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:119
-#: lib/pjeski_web/templates/registration/edit.html.eex:83
+#: lib/pjeski_web/templates/registration/edit.html.eex:73
 msgid "Available subscriptions"
 msgstr "Dostępne subskrypcje"
 
@@ -703,7 +703,7 @@ msgstr "Potwierdzono"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:100
-#: lib/pjeski_web/templates/registration/edit.html.eex:44
+#: lib/pjeski_web/templates/registration/edit.html.eex:34
 msgid "Current subscription"
 msgstr "Obecna subskrypcja"
 
@@ -744,7 +744,7 @@ msgid "Make current"
 msgstr "Ustaw jako obecna"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:76
+#: lib/pjeski_web/templates/registration/edit.html.eex:66
 msgid "No subscription assigned"
 msgstr "Brak przypisanej subskrypcji"
 
@@ -759,7 +759,7 @@ msgid "Reset"
 msgstr "Zresetuj"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:91
+#: lib/pjeski_web/templates/registration/edit.html.eex:81
 msgid "Switch"
 msgstr "Przełącz"
 
@@ -799,7 +799,7 @@ msgid "Last used subscription"
 msgstr "Ostatnio użyta subskrypcja"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:57
+#: lib/pjeski_web/templates/registration/edit.html.eex:47
 msgid "This subscription expired"
 msgstr "Ta subskrypcja wygasła"
 
@@ -814,7 +814,7 @@ msgid "Current subscription changed"
 msgstr "Zmieniono obecną subskrypcję"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:73
+#: lib/pjeski_web/templates/registration/edit.html.eex:63
 msgid "You are an administrator"
 msgstr "Jesteś administratorem"
 
@@ -839,11 +839,11 @@ msgid "Phoenix LiveDashboard"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:37
+#: lib/pjeski_web/templates/registration/edit.html.eex:27
 msgid "Switch to admin panel"
 msgstr "Przełącz na panel administracyjny"
 
-#, elixir-format, fuzzy
-#: lib/pjeski_web/templates/registration/edit.html.eex:61
+#, elixir-format
+#: lib/pjeski_web/templates/registration/edit.html.eex:51
 msgid "Expires in %{days} days"
 msgstr "Wygasa za %{days} dni"
