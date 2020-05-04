@@ -11,8 +11,6 @@ defmodule PjeskiWeb.GetCurrentSubscriptionPlug do
     subscription = Repo.get(Subscription, id)
     is_expired = Date.diff(subscription.expires_on, Date.utc_today) < 1
 
-    IO.inspect {"is_expired", is_expired}
-
     conn
     |> assign(:current_subscription, subscription)
     |> assign(:current_subscription_is_expired, is_expired)
