@@ -1,7 +1,5 @@
 defmodule PjeskiWeb.Router do
   use PjeskiWeb, :router
-  use Pow.Phoenix.Router
-  use Pow.Extension.Phoenix.Router, extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession]
 
   import Phoenix.LiveDashboard.Router
 
