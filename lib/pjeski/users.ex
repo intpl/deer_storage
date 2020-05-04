@@ -56,7 +56,7 @@ defmodule Pjeski.Users do
   def list_users do
     User
     |> Repo.all()
-    |> Repo.preload(:las_used_subscription)
+    |> Repo.preload(:last_used_subscription)
   end
 
   def list_users_for_subscription_id(subscription_id) when is_number(subscription_id) do

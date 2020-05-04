@@ -48,7 +48,9 @@ defmodule PjeskiWeb.Router do
         put "/log_out_from_devices", UserController, :log_out_from_devices
       end
 
-      resources "/subscriptions", SubscriptionController
+      resources "/subscriptions", SubscriptionController do
+        resources "/subscription_links", UserSubscriptionLinkController, only: [:delete, :create]
+      end
     end
   end
 

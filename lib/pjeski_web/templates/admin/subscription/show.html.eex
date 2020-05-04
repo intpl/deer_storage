@@ -16,34 +16,52 @@
 
 <section class="section">
   <div class="container">
-    <h1 class="title">
-      <%= @subscription.name %>
-    </h1>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">
+          <%= @subscription.name %>
+        </h1>
 
-    <%= if @subscription.admin_notes do %>
-      <article class="message">
-        <div class="message-body admin-notes"><%= @subscription.admin_notes %></div>
-      </article>
-    <% end %>
+        <%= if @subscription.admin_notes do %>
+          <article class="message">
+            <div class="message-body admin-notes"><%= @subscription.admin_notes %></div>
+          </article>
+        <% end %>
 
-    <ul>
-      <li>
-        <strong><%= gettext("Expires on") %>:</strong>
-        <%= @subscription.expires_on %>
-      </li>
+        <ul>
+          <li>
+            <strong><%= gettext("Expires on") %>:</strong>
+            <%= @subscription.expires_on %>
+          </li>
 
-      <br>
+          <br>
 
-      <li>
-        <strong><%= gettext("Created at") %>:</strong>
-        <time datetime="<%= dt @conn, @subscription.inserted_at %>"><%= dt @conn, @subscription.inserted_at %></time>
-      </li>
+          <li>
+            <strong><%= gettext("Created at") %>:</strong>
+            <time datetime="<%= dt @conn, @subscription.inserted_at %>"><%= dt @conn, @subscription.inserted_at %></time>
+          </li>
 
-      <li>
-        <strong><%= gettext("Updated at") %>:</strong>
-        <time datetime="<%= dt @conn, @subscription.updated_at %>"><%= dt @conn, @subscription.updated_at %></time>
-      </li>
-    </ul>
+          <li>
+            <strong><%= gettext("Updated at") %>:</strong>
+            <time datetime="<%= dt @conn, @subscription.updated_at %>"><%= dt @conn, @subscription.updated_at %></time>
+          </li>
+        </ul>
+      </div>
+
+      <div class="column">
+        <h5 class="title is-5"><%= gettext("Connect user") %></h5>
+        <%= form_for @conn, Routes.admin_subscription_user_subscription_link_path(@conn, :create, @subscription.id, redirect_back_to: "subscription"), fn f -> %>
+          <div class="columns">
+            <div class="column is-half">
+              <%= select f, :user_id, all_users_options_with_empty(), class: 'input use-select2' %>
+            </div>
+            <div class="column is-half">
+              <%= submit gettext("Connect"), class: 'button is-primary is-pulled-left' %>
+            </div>
+          </div>
+        <% end %></form>
+      </div>
+    </div>
 
     <hr>
 
@@ -124,3 +142,5 @@
     <% end %>
   </div>
 </section>
+
+<script type="text/javascript"> $('.use-select2').select2({placeholder: "<%= gettext("Empty") %>"}); </script>

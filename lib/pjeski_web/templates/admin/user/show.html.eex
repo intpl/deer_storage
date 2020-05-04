@@ -25,13 +25,30 @@
   <div class="container">
     <br>
 
-    <h4 class="title is-4">
-      <%= @user.name %>
-      <%= if @user.role == "admin" do %>
-        <span class="has-text-danger">(<%= gettext("Administrator") %>)</span>
-      <% end %>
-    </h4>
-    <h4 class="subtitle is-4"><%= @user.email %></h4>
+    <div class="columns">
+      <div class="column">
+        <h4 class="title is-4">
+          <%= @user.name %>
+          <%= if @user.role == "admin" do %>
+            <span class="has-text-danger">(<%= gettext("Administrator") %>)</span>
+          <% end %>
+        </h4>
+        <h4 class="subtitle is-4"><%= @user.email %></h4>
+      </div>
+      <div class="column">
+        <h5 class="title is-5"><%= gettext("Connect subscription") %></h5>
+          <%= form_for @conn, Routes.admin_user_user_subscription_link_path(@conn, :create, @user.id, redirect_back_to: "user"), fn f -> %>
+            <div class="columns">
+                <div class="column is-half">
+                  <%= select f, :subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
+                </div>
+                <div class="column is-half">
+                  <%= submit gettext("Connect"), class: 'button is-primary is-pulled-left' %>
+                </div>
+            </div>
+          <% end %></form>
+        </div>
+    </div>
 
     <div class="subtitle">
       <%= if @user_log_in_sessions_count > 0 do %>
@@ -143,19 +160,6 @@
                 </tr>
               <% end %>
           </table>
-
-          <h4 class="title is-4"><%= gettext("Connect new subscription") %></h4>
-            <%= form_for @conn, Routes.admin_user_user_subscription_link_path(@conn, :create, @user.id), fn f -> %>
-          <div class="columns">
-              <div class="column is-half">
-                <%= select f, :subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
-              </div>
-              <div class="column is-half">
-                <%= submit gettext("Connect"), class: 'button is-primary is-pulled-left' %>
-              </div>
-          </div>
-            <% end %>
-          </form>
         </div>
     </div>
   </div>

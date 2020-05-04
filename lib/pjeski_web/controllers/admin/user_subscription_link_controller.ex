@@ -37,7 +37,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
     |> redirect(to: Routes.admin_user_path(conn, :show, user))
   end
 
-  def create(conn, %{"user_id" => user_id, "subscription_id" => subscription_id}) do
+  def create(conn, %{"user_id" => user_id, "subscription_id" => subscription_id} = params) do
     user = Users.get_user!(user_id)
     subscription_id = subscription_id |> String.to_integer
 
@@ -47,6 +47,9 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
 
     conn
     |> put_flash(:info, gettext("User has been connected to this Subscription"))
-    |> redirect(to: Routes.admin_user_path(conn, :show, user))
+    |> redirect(to: path_to_redirect(conn, params))
   end
+
+  defp path_to_redirect(conn, %{"subscription_id" => id, "redirect_back_to" => "subscription"}), do: Routes.admin_subscription_path(conn, :show, id)
+  defp path_to_redirect(conn, %{"user_id" => id, "redirect_back_to" => "user"}), do: Routes.admin_user_path(conn, :show, id)
 end
