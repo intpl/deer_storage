@@ -1,4 +1,14 @@
 <div class="column">
+    <%= if @changeset.action do %>
+      <div class="message is-danger">
+          <div class="message-header">
+          </div>
+          <div class="message-body">
+            <%= gettext("Oops, something went wrong! Please check the errors below.") %>
+          </div>
+      </div>
+    <% end %>
+
 <div class="columns">
   <div class="column is-half">
     <h4 class="title is-4">
@@ -53,8 +63,8 @@
 
 <div class="row">
   <div class="columns">
-    <div class="column is-one-third"></div>
-      <div class="column is-one-third has-text-centered">
+    <div class="column"></div>
+      <div class="column is-half has-text-centered">
         <div class="field">
         <%= label @form, :current_password, gettext("Enter current password"), class: 'label' %>,
         <%= password_input @form, :current_password, class: 'input' %>
@@ -63,7 +73,7 @@
 
         <%= submit gettext("Update"), class: 'button is-primary is-medium is-fullwidth' %>
       </div>
-    <div class="column is-one-third"></div>
+    <div class="column"></div>
   </div>
 </div>
 </div>

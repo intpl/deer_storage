@@ -11,19 +11,9 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <%= form_for @changeset, Routes.registration_path(@conn, :update), [as: :user], fn f -> %>
-    <%= if @changeset.action do %>
-      <article class="message is-danger">
-          <div class="message-header">
-          </div>
-          <div class="message-body">
-              <p><%= gettext("Oops, something went wrong! Please check the errors below.") %></p>
-          </div>
-      </article>
-    <% end %>
-
+<%= form_for @changeset, Routes.registration_path(@conn, :update), [as: :user], fn f -> %>
+  <section class="section">
+    <div class="container">
       <%= if @changeset.data.unconfirmed_email do %>
         <div class="notification">
           <p><%= gettext("Click the link in the confirmation email to change your email to:") %> <%= content_tag(:span, @changeset.data.unconfirmed_email) %></p>
@@ -99,9 +89,10 @@
           <% end %>
         </div>
 
-      <%= render "user_fields.html", Map.put(assigns, :form, f) %>
-    <% end %>
-  </div>
-</section>
+        <%= render "user_fields.html", Map.put(assigns, :form, f) %>
+      </div>
+    </div>
+  </section>
+<% end %>
 
 <script type="text/javascript"> $('.use-select2').select2(); </script>
