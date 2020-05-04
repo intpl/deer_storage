@@ -13,12 +13,11 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
     end
   end
 
-  def all_subscriptions_options_with_empty, do: Map.merge %{nil => nil}, all_subscriptions_options()
+  def all_subscriptions_options_with_empty, do: [key: nil, value: nil] ++ all_subscriptions_options()
 
   def all_subscriptions_options do
     Pjeski.Subscriptions.list_subscriptions()
-      |> Enum.map(fn subscription -> ["#{subscription.name}", subscription.id]  end)
-      |> Map.new(fn [k, v] -> {k, v} end)
+      |> Enum.map(fn subscription -> [key: "#{subscription.name}", value: subscription.id]  end)
   end
 
   def subscriptions_sorting_options do

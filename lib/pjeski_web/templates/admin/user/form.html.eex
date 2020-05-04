@@ -42,7 +42,7 @@
   </div>
 
   <div class="field">
-    <%= label f, :last_used_subscription_id, ~s/#{gettext("Last used subscription")} #{gettext("(will keep previous one available on change)")}/, class: 'label' %>
+    <%= label f, :last_used_subscription_id, gettext("Last used subscription"), class: 'label' %>
     <%= select f, :last_used_subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
     <%= error_tag f, :last_used_subscription_id %>
   </div>
