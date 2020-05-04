@@ -34,7 +34,7 @@
         <div class="column is-one-third">
           <%= if @current_subscription do %>
             <%= if @changeset.data.role == "admin" do %>
-              <%= link gettext("Become an administrator"),
+              <%= link gettext("Switch to admin panel"),
               to: Routes.registration_path(@conn, :reset_subscription_id),
               method: :put,
               class: "button is-medium is-dark is-fullwidth" %>
@@ -58,7 +58,7 @@
                         </div>
                       <% else %>
                           <br />
-                          <%= gettext("Ends in %{days} days", days: days) %>
+                          <%= gettext("Expires in %{days} days", days: days) %>
 
                         <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
                       <% end %>
