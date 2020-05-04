@@ -25,15 +25,6 @@ defmodule Pjeski.Users.User do
     timestamps()
   end
 
-  def invite_changeset(user_or_changeset, invited_by, attrs) do
-    # FIXME: test use case: user invites invitee to subscription A, switches to B, invitee clicks -> what happens here?
-    subscription_id = invited_by.last_used_subscription_id
-
-    user_or_changeset
-    |> pow_invite_changeset(invited_by, attrs)
-    |> put_change(:last_used_subscription_id, subscription_id)
-  end
-
   # TODO extract validations in separate common function
   def admin_changeset(user_or_changeset, params) do
     user_or_changeset

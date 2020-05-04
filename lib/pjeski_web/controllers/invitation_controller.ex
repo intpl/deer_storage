@@ -1,7 +1,7 @@
 defmodule PjeskiWeb.InvitationController do
   use PjeskiWeb, :controller
   import Plug.Conn, only: [assign: 3]
-  import Pjeski.Users.UserSessionUtils, only: [get_current_subscription_id_from_conn: 1]
+  import Pjeski.Users.UserSessionUtils, only: [get_current_subscription_id_from_conn: 1, maybe_put_subscription_into_session: 1]
 
   alias PowInvitation.{Phoenix.Mailer, Plug}
   alias Pjeski.{Repo, Users, Users.User}
@@ -21,12 +21,14 @@ defmodule PjeskiWeb.InvitationController do
 
   def create(conn, %{"user" => user_params}) do
     case Plug.create_user(conn, user_params) do
-      {:ok, %{email: email} = user, conn} when is_binary(email) -> maybe_send_email_and_respond_success(conn, user)
+      {:ok, %{email: email} = user, conn} when is_binary(email) ->
+        Users.insert_subscription_link_and_maybe_change_last_used_subscription_id(user, get_current_subscription_id_from_conn(conn))
+
+        maybe_send_email_and_respond_success(conn, user)
       {:error, %{errors: [email: {_msg, [constraint: :unique, constraint_name: "users_email_index"]}]} = changeset, conn} ->
         user = Repo.get_by!(User, [email: changeset.changes.email])
 
-        # TODO: when trying to add already attached user
-        Users.upsert_subscription_link!(user.id, get_current_subscription_id_from_conn(conn), :raise)
+        Users.upsert_subscription_link!(user.id, get_current_subscription_id_from_conn(conn), :nothing)
 
         maybe_send_email_and_respond_success(conn, user)
       {:error, changeset, conn} ->
@@ -46,9 +48,11 @@ defmodule PjeskiWeb.InvitationController do
 
   def update(conn, %{"user" => user_params}) do
     case Plug.update_user(conn, user_params) do
-      {:ok, _user, conn} ->
+      {:ok, user, conn} ->
         conn
+        |> Pow.Plug.assign_current_user(user |> Repo.preload(:available_subscriptions), Pow.Plug.fetch_config(conn))
         |> put_flash(:info, gettext("User has been created"))
+        |> maybe_put_subscription_into_session
         |> redirect(to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index))
       {:error, changeset, conn} ->
         conn

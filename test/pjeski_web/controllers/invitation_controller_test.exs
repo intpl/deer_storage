@@ -4,13 +4,12 @@ defmodule PjeskiWeb.InvitationControllerTest do
 
   import Pjeski.Fixtures
   import Pjeski.Test.SessionHelpers, only: [assign_user_to_session: 2]
-  alias Pjeski.{Repo, Users.User, Subscriptions.Subscription}
+  alias Pjeski.{Repo, Users.User}
 
   def invite_user(conn, inviting_user, email \\ "invited_user@storagedeer.com") do
-      {:ok, new_user, _conn} = assign_user_to_session(conn, inviting_user)
-      |> PowInvitation.Plug.create_user(%{email: email})
+      assign_user_to_session(conn, inviting_user) |> post("/invitation", user: %{email: email})
 
-      new_user
+      Repo.get_by!(User, [email: email]) |> Repo.preload(:available_subscriptions)
   end
 
   def valid_update_params_for(email \\ Faker.Internet.safe_email()) do
@@ -82,10 +81,10 @@ defmodule PjeskiWeb.InvitationControllerTest do
   describe "edit" do
     test "[guest] [valid params] GET /invitation/:id/edit", %{conn: conn} do
       user = create_valid_user_with_subscription()
-      new_user = invite_user(conn, user)
+      new_user = invite_user(conn, user) |> Repo.preload(:available_subscriptions)
 
       assert new_user.invited_by_id == user.id
-      assert new_user.last_used_subscription_id == user.last_used_subscription_id
+      assert new_user.available_subscriptions |> Enum.map(fn sub -> sub.id end) == [user.last_used_subscription_id]
       assert new_user.password_hash == nil
 
       conn = get(conn, "/invitation/#{sign_token(conn, new_user.invitation_token)}/edit")
@@ -150,7 +149,9 @@ defmodule PjeskiWeb.InvitationControllerTest do
 
       put(conn, "/invitation/#{sign_token(conn, new_user.invitation_token)}", params)
 
-      refute Repo.get(Subscription, new_user.last_used_subscription_id).name == "Hacked"
+      reloaded_user = Repo.get!(User, user.id) |> Repo.preload(:available_subscriptions)
+
+      refute List.first(reloaded_user.available_subscriptions).name == "Hacked"
     end
 
     test "[guest] [invalid params - unpermitted params] PUT /invitation", %{conn: conn} do

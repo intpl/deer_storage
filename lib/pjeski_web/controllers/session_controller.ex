@@ -21,8 +21,8 @@ defmodule PjeskiWeb.SessionController do
               conn
               |> Pow.Plug.assign_current_user(user |> Repo.preload(:available_subscriptions), Pow.Plug.fetch_config(conn))
               |> UserSessionUtils.maybe_put_subscription_into_session
-              |> put_session(:current_user_id, user.id)
-              |> put_session(:locale, user.locale)
+              |> UserSessionUtils.put_into_session(:current_user_id, user.id)
+              |> UserSessionUtils.put_into_session(:locale, user.locale)
               |> redirect(to: dashboard_path_for(user))
 
             false ->
@@ -49,6 +49,7 @@ defmodule PjeskiWeb.SessionController do
 
     conn
     |> Pow.Plug.delete
+    |> clear_session
     |> redirect(to: Routes.page_path(conn, :index))
   end
 

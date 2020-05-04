@@ -65,7 +65,9 @@ defmodule PjeskiWeb.RegistrationController do
     Users.update_last_used_subscription_id!(user, requested_subscription_id)
     Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", {:subscription_changed, requested_subscription_id})
 
-    conn |> put_session(:current_subscription_id, requested_subscription_id) |> put_flash(:info, gettext("Current subscription changed"))
+    conn
+    |> UserSessionUtils.put_into_session(:current_subscription_id, requested_subscription_id)
+    |> put_flash(:info, gettext("Current subscription changed"))
   end
 
   defp render_edit_for_current_user(conn, changeset) do

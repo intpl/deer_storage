@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [61%] [47/77] DEADLINE: <2020-03-31 Tue>
+* TODO [61%] [48/78] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -90,6 +90,8 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 ** DONE "Become administrator"
 ** DONE Fix specs for "Become administrator"
 ** DONE Tests for registration/reset_subscription
+** DONE Check if invitation can assign another subscription after changing inviting user's current one
+    test use case: user invites invitee to subscription A, switches to B, invitee clicks -> what happens here?
 ** TODO navigation/sign in path fixes for administrators with subscription assigned
 ** TODO Migrate database, write seeds with a proper structure
 ** TODO Invitation can block e-mail
