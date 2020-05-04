@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [62%] [49/78] DEADLINE: <2020-03-31 Tue>
+* TODO [63%] [49/77] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -94,7 +94,6 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
     test use case: user invites invitee to subscription A, switches to B, invitee clicks -> what happens here?
 ** DONE navigation/sign in path fixes for administrators with subscription assigned
 ** TODO Migrate database, write seeds with a proper structure
-** TODO Invitation can block e-mail
 ** TODO CRUD Dashboard->Tables + TESTS
 ** TODO Add "changed subscription" PubSub callback
 ** TODO Adapt layout to subscription's tables
@@ -107,7 +106,6 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 - UserRecords::NewComponent + TESTS
 ** TODO Temporary assigns
 ** TODO UserRecords::ShowLive + TESTS
-** TODO Remove that "search by users and subscriptions" nonsense
 ** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** TODO change registeration process to not use 'last_used_subscription' (Ecto.Multi?)
 ** WAIT Write high level logging/history mechanism + TEST
@@ -118,8 +116,9 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 ** TODO Ensure displayed "DB-inconsistency" errors
 ** TODO Add "failed login attempts" to user: https://elixirforum.com/t/how-to-increment-database-table-column/15457/2
 ** TODO Upload files, sharing (both just file and entire record) + TESTS
-** TODO Fix that annoying EtsCacheMock in tests
 ** TODO Optimize indexes
-** TODO Add "Enterprise" to the database
+** TODO Fix that annoying EtsCacheMock in tests
+** TODO Remove that "search by users and subscriptions" nonsense
+** TODO Add "Enterprise" to the database ?
 ** TODO Deploy using Ansible: https://www.cogini.com/blog/deploying-elixir-apps-with-ansible/
 ** TODO Use Docker: https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html
