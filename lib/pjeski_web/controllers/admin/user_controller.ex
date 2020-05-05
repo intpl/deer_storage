@@ -8,15 +8,14 @@ defmodule PjeskiWeb.Admin.UserController do
   def index(conn, params) do
     query = params["query"] || ""
     sort_by = params["sort_by"] || ""
-    search_by = params["search_by"] || "subscriptions_and_users"
 
     per_page = 50
     page = String.to_integer(params["page"] || "1")
-    users = Users.list_users(query, page, per_page, sort_by, search_by)
+    users = Users.list_users(query, page, per_page, sort_by)
 
     rendered_pagination = Phoenix.View.render_to_string(
       PjeskiWeb.Admin.UserView, "_index_pagination.html",
-      %{conn: conn, count: length(users), per_page: per_page, page: page, query: query, sort_by: sort_by, search_by: search_by}
+      %{conn: conn, count: length(users), per_page: per_page, page: page, query: query, sort_by: sort_by}
     )
 
     render(
@@ -26,8 +25,7 @@ defmodule PjeskiWeb.Admin.UserController do
       page: page,
       rendered_pagination: rendered_pagination,
       query: query,
-      sort_by: sort_by,
-      search_by: search_by
+      sort_by: sort_by
     )
   end
 

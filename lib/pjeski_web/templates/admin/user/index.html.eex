@@ -16,7 +16,7 @@
   </div>
   <div class="column is-8">
     <div class="field has-addons">
-      <%= if @page != 1 || @query != "" || @sort_by != "" || @search_by != "subscriptions_and_users" do %>
+      <%= if @page != 1 || @query != "" || @sort_by != "" do %>
         <%= link to: Routes.admin_user_path(@conn, :index) do %>
           <button class="button is-inline" type="submit">
             <%= gettext("Clear") %>
@@ -24,7 +24,7 @@
         <% end %>
       <% end %>
 
-      <form class="field overwrite-fullwidth">
+      <form class="field has-addons overwrite-fullwidth">
         <p class="control is-expanded">
           <input
             class="input"
@@ -35,26 +35,9 @@
             value="<%= @query %>" />
         </p>
 
-        <br>
-
-        <div class="field has-addons">
-          <div class="control is-expanded">
-            <div class="select is-fullwidth">
-              <select name="search_by">
-                <option value="subscriptions_and_users" <%= if @search_by == "subscriptions_and_users", do: "selected" %>>
-                  <%= gettext("Search by subscriptions and users") %>
-                </option>
-
-                <option value="users" <%= if @search_by == "users", do: "selected" %>>
-                  <%= gettext("Search by users only") %>
-                </option>
-              </select>
-            </div>
-          </div>
-          <div class="control">
-            <button type="submit" class="button"><%= gettext("Search") %></button>
-          </div>
-        </div>
+        <p class="control">
+          <button type="submit" class="button"><%= gettext("Search") %></button>
+        </p>
       </form>
     </div>
   </div>
@@ -70,7 +53,6 @@
     <div class="control">
       <div class="select">
         <input type="hidden" name="query" value="<%= @query %>" />
-        <input type="hidden" name="search_by" value="<%= @search_by %>" />
         <select name="sort_by" onchange='this.form.submit()'>
           <%= for [value, description] <- users_sorting_options() do %>
             <option value="<%= value %>" <%= if @sort_by == value, do: "selected" %>>
@@ -86,17 +68,17 @@
 <table class="table is-fullwidth is-narrow responsive_index">
   <thead>
     <tr>
-      <th><%= determine_if_sorted(gettext("Name and surname"), "name", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Subscription"), "last_used_subscription_name", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Subscription ends"), "last_used_subscription_expires_on", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Time zone"), "time_zone", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Confirmed at"), "email_confirmed_at", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Locale"), "locale", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Admin notes"), "admin_notes", @sort_by, @search_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Role"), "role", @sort_by, @search_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Name and surname"), "name", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Subscription"), "last_used_subscription_name", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Subscription ends"), "last_used_subscription_expires_on", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Time zone"), "time_zone", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Confirmed at"), "email_confirmed_at", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Locale"), "locale", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Admin notes"), "admin_notes", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Role"), "role", @sort_by, @query) %></th>
       <th><%= gettext("Actions") %></th>
     </tr>
   </thead>

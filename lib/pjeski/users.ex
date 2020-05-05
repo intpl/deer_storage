@@ -8,7 +8,6 @@ defmodule Pjeski.Users do
   import Pjeski.DbHelpers.ComposeSearchQuery
 
   alias Pjeski.Users.User
-  alias Pjeski.Subscriptions.Subscription
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   def notify_subscribers!(event, record) do
@@ -18,7 +17,7 @@ defmodule Pjeski.Users do
   def total_count(), do: Pjeski.Repo.aggregate(User, :count, :id)
   def last_user(), do: from(u in User, limit: 1, order_by: [desc: u.inserted_at]) |> Repo.one
 
-  def list_users("", page, per_page, sort_by, _search_by) when page > 0 do
+  def list_users("", page, per_page, sort_by) when page > 0 do
     offset = (page - 1) * per_page
 
     User
@@ -29,28 +28,15 @@ defmodule Pjeski.Users do
     |> Repo.preload(:last_used_subscription)
   end
 
-  def list_users(query_string, page, per_page, sort_by, search_by) when page > 0 do
+  def list_users(query_string, page, per_page, sort_by) when page > 0 do
     offset = (page - 1) * per_page
-    query = User
+
+    User
     |> sort_users_by(sort_by)
     |> where(^compose_search_query([:name, :email, :admin_notes, :time_zone], query_string))
     |> offset(^offset)
     |> limit(^per_page)
-
-    query = case search_by do
-              "users" -> query
-              "subscriptions_and_users" ->
-                subscriptions_ids = Subscription
-                |> where(^compose_search_query([:name, :admin_notes], query_string))
-                |> select([:id])
-                |> Repo.all()
-                |> Enum.map(fn s -> s.id end)
-
-                query |> or_where([u], u.last_used_subscription_id in ^subscriptions_ids)
-            end
-
-
-    query |> Repo.all() |> Repo.preload(:last_used_subscription)
+    |> Repo.all() |> Repo.preload(:last_used_subscription)
   end
 
   def list_users do

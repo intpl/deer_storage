@@ -4,14 +4,14 @@ defmodule PjeskiWeb.Admin.UserView do
   import PjeskiWeb.RegistrationView, only: [ languages_select_options: 0, time_zones_select_options: 0 ]
   import PjeskiWeb.Admin.SubscriptionView, only: [all_subscriptions_options_with_empty: 0, all_subscriptions_options_with_empty: 1]
 
-  def determine_if_sorted(title, field, sort_by, search_by, query) do
+  def determine_if_sorted(title, field, sort_by, query) do
     case Regex.scan(~r/(.*)_(.*)$/, sort_by) do
       [[_match, ^field, order]] ->
         case order do
-            "asc" -> link("⮝ " <> title, to: "?sort_by=#{field}_desc&query=#{query}&search_by=#{search_by}")
-            "desc" -> link("⮟ " <> title, to: "?sort_by=#{field}_asc&query=#{query}&search_by=#{search_by}")
+            "asc" -> link("⮝ " <> title, to: "?sort_by=#{field}_desc&query=#{query}")
+            "desc" -> link("⮟ " <> title, to: "?sort_by=#{field}_asc&query=#{query}")
         end
-      _ -> link(title, to: "?sort_by=#{field}_desc&query=#{query}&search_by=#{search_by}")
+      _ -> link(title, to: "?sort_by=#{field}_desc&query=#{query}")
     end
   end
 
