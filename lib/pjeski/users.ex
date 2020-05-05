@@ -59,6 +59,10 @@ defmodule Pjeski.Users do
     |> Repo.preload(:last_used_subscription)
   end
 
+  def list_users_except_ids(ids) do
+    User |> where([u], u.id not in ^ids) |> Repo.all
+  end
+
   def list_users_for_subscription_id(subscription_id) when is_number(subscription_id) do
     Subscriptions.get_subscription!(subscription_id).users
   end

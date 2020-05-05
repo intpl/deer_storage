@@ -13,17 +13,18 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
     end
   end
 
-  def all_subscriptions_options_with_empty, do: [key: nil, value: nil] ++ all_subscriptions_options()
-  def all_users_options_with_empty, do: [key: nil, value: nil] ++ all_users_options()
-
-  def all_subscriptions_options do
-    Pjeski.Subscriptions.list_subscriptions()
+  def all_subscriptions_options_with_empty(excluded_ids \\ []) do
+    result = Pjeski.Subscriptions.list_subscriptions_except_ids(excluded_ids)
       |> Enum.map(fn subscription -> [key: "#{subscription.name}", value: subscription.id]  end)
+
+    [key: nil, value: nil] ++ result
   end
 
-  def all_users_options do
-    Pjeski.Users.list_users()
+  def all_users_options_with_empty(excluded_ids \\ []) do
+    result = Pjeski.Users.list_users_except_ids(excluded_ids)
       |> Enum.map(fn user -> [key: "#{user.name}", value: user.id]  end)
+
+    [key: nil, value: nil] ++ result
   end
 
   def subscriptions_sorting_options do

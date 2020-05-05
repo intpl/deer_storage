@@ -2,7 +2,7 @@ defmodule PjeskiWeb.Admin.UserView do
   use PjeskiWeb, :view
 
   import PjeskiWeb.RegistrationView, only: [ languages_select_options: 0, time_zones_select_options: 0 ]
-  import PjeskiWeb.Admin.SubscriptionView, only: [all_subscriptions_options_with_empty: 0]
+  import PjeskiWeb.Admin.SubscriptionView, only: [all_subscriptions_options_with_empty: 0, all_subscriptions_options_with_empty: 1]
 
   def determine_if_sorted(title, field, sort_by, search_by, query) do
     case Regex.scan(~r/(.*)_(.*)$/, sort_by) do

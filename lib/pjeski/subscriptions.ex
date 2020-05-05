@@ -37,6 +37,10 @@ defmodule Pjeski.Subscriptions do
     |> Repo.preload(:users)
   end
 
+  def list_subscriptions_except_ids(ids) do
+    Subscription |> where([s], s.id not in ^ids) |> Repo.all
+  end
+
   def list_expired_subscriptions do
     # todo: honor subscription time zone
     date = Date.utc_today

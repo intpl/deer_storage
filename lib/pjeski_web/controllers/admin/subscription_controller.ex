@@ -48,8 +48,15 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
 
   def show(conn, %{"id" => id}) do
     subscription = Subscriptions.get_subscription!(id)
+    subscription_users = subscription.users
 
-    render(conn, "show.html", subscription: subscription, users: subscription.users)
+    render(
+      conn,
+      "show.html",
+      subscription: subscription,
+      users: subscription_users,
+      excluded_users_ids: Enum.map(subscription_users, fn u -> u.id end)
+    )
   end
 
   def edit(conn, %{"id" => id}) do

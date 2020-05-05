@@ -50,9 +50,17 @@ defmodule PjeskiWeb.Admin.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id) |> Pjeski.Repo.preload(:available_subscriptions)
+    available_subscriptions = user.available_subscriptions
     count = length(UserSessionUtils.user_sessions_keys(user))
 
-    render(conn, "show.html", user: user, user_log_in_sessions_count: count)
+    render(
+      conn,
+      "show.html",
+      user: user,
+      available_subscriptions: available_subscriptions,
+      user_log_in_sessions_count: count,
+      excluded_subscriptions_ids: Enum.map(available_subscriptions, fn s -> s.id end)
+    )
   end
 
   def edit(conn, %{"id" => id}) do
