@@ -641,11 +641,6 @@ msgid "Manage users"
 msgstr "Zarządzaj Użytkownikami"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:53
-msgid "Manage your users"
-msgstr "Zarządzaj Użytkownikami"
-
-#, elixir-format
 #: lib/pjeski_web/templates/invitation/new.html.eex:8
 msgid "Sends a link to a desired email allowing them to join your subscription"
 msgstr "Wysyła link na wskazany e-mail w celu dołączenia do subskrypcji"
@@ -662,7 +657,7 @@ msgstr "Zostałeś zaproszony do subskrypcji w StorageDeer!"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:136
-#: lib/pjeski_web/templates/registration/edit.html.eex:74
+#: lib/pjeski_web/templates/registration/edit.html.eex:76
 msgid "Available subscriptions"
 msgstr "Dostępne subskrypcje"
 
@@ -711,7 +706,7 @@ msgid "Make current"
 msgstr "Ustaw jako obecna"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:67
+#: lib/pjeski_web/templates/registration/edit.html.eex:69
 msgid "No subscription assigned"
 msgstr "Brak przypisanej subskrypcji"
 
@@ -726,7 +721,7 @@ msgid "Reset"
 msgstr "Zresetuj"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:82
+#: lib/pjeski_web/templates/registration/edit.html.eex:84
 msgid "Switch"
 msgstr "Przełącz"
 
@@ -766,7 +761,7 @@ msgid "Last used subscription"
 msgstr "Ostatnio użyta subskrypcja"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:47
+#: lib/pjeski_web/templates/registration/edit.html.eex:50
 msgid "This subscription expired"
 msgstr "Ta subskrypcja wygasła"
 
@@ -781,7 +776,7 @@ msgid "Current subscription changed"
 msgstr "Zmieniono obecną subskrypcję"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:63
+#: lib/pjeski_web/templates/registration/edit.html.eex:65
 msgid "You are an administrator"
 msgstr "Jesteś administratorem"
 
@@ -811,11 +806,6 @@ msgid "Switch to admin panel"
 msgstr "Przełącz na panel administracyjny"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:51
-msgid "Expires in %{days} days"
-msgstr "Wygasa za %{days} dni"
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_header.html.eex:8
 msgid "All StorageDeer subscriptions"
 msgstr "Wszystkie subskrypcje StorageDeer"
@@ -834,3 +824,18 @@ msgstr "Połącz subskrypcję"
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:52
 msgid "Connect user"
 msgstr "Połącz użytkownika"
+
+#, elixir-format
+#: lib/pjeski_web/templates/registration/edit.html.eex:54
+msgid "Expires in: %{days} days"
+msgstr "Wygasa za: %{days} dni"
+
+#, elixir-format
+#: lib/pjeski_web/templates/registration/edit.html.eex:42
+msgid "Connected users: %{users_count}"
+msgstr "Połączeni użytkownicy: %{users_count}"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/registration/edit.html.eex:43
+msgid "Manage users or invite new"
+msgstr "Zarządzaj użytkownikami lub zaproś nowych"

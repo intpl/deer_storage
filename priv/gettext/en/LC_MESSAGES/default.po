@@ -640,11 +640,6 @@ msgid "Manage users"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:53
-msgid "Manage your users"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/invitation/new.html.eex:8
 msgid "Sends a link to a desired email allowing them to join your subscription"
 msgstr ""
@@ -661,7 +656,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:136
-#: lib/pjeski_web/templates/registration/edit.html.eex:74
+#: lib/pjeski_web/templates/registration/edit.html.eex:76
 msgid "Available subscriptions"
 msgstr ""
 
@@ -710,7 +705,7 @@ msgid "Make current"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:67
+#: lib/pjeski_web/templates/registration/edit.html.eex:69
 msgid "No subscription assigned"
 msgstr ""
 
@@ -725,7 +720,7 @@ msgid "Reset"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:82
+#: lib/pjeski_web/templates/registration/edit.html.eex:84
 msgid "Switch"
 msgstr ""
 
@@ -765,7 +760,7 @@ msgid "Last used subscription"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:47
+#: lib/pjeski_web/templates/registration/edit.html.eex:50
 msgid "This subscription expired"
 msgstr ""
 
@@ -780,7 +775,7 @@ msgid "Current subscription changed"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:63
+#: lib/pjeski_web/templates/registration/edit.html.eex:65
 msgid "You are an administrator"
 msgstr ""
 
@@ -810,11 +805,6 @@ msgid "Switch to admin panel"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:51
-msgid "Expires in %{days} days"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_header.html.eex:8
 msgid "All StorageDeer subscriptions"
 msgstr ""
@@ -832,4 +822,19 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:52
 msgid "Connect user"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/registration/edit.html.eex:54
+msgid "Expires in: %{days} days"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/registration/edit.html.eex:42
+msgid "Connected users: %{users_count}"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/registration/edit.html.eex:43
+msgid "Manage users or invite new"
 msgstr ""

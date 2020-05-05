@@ -37,9 +37,12 @@
                 <div class="media-content">
                   <div class="content">
                     <p>
-                      <strong>
-                        <%= @current_subscription.name %>
-                      </strong>
+                      <strong> <%= @current_subscription.name %> </strong><br><br>
+                      <span>
+                        <%= link(gettext("Manage users or invite new"), to: Routes.user_path(@conn, :index)) %><br>
+                        <%= gettext("Connected users: %{users_count}", users_count: length(@current_subscription.users)) %>
+                      </span>
+
 
                       <% days = days_to_expire(@current_subscription) %>
                       <%= if days < 1 do %>
@@ -48,9 +51,8 @@
                         </div>
                       <% else %>
                           <br />
-                          <%= gettext("Expires in %{days} days", days: days) %>
+                          <%= gettext("Expires in: %{days} days", days: days) %>
 
-                        <div class="container"> <%= link(gettext("Manage your users"), to: Routes.user_path(@conn, :index)) %> </div>
                       <% end %>
                     </p>
                   </div>
