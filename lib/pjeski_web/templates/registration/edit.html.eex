@@ -59,9 +59,10 @@
             </div>
           <% else %>
             <%= if @changeset.data.role == "admin" do %>
-              <h4 class="has-text-danger">
+              <button class="button is-medium is-black is-fullwidth" disabled>
                 <%= gettext("You are an administrator") %>
-              </h4>
+              </button>
+              <br>
             <% else %>
               <%= gettext("No subscription assigned") %>
             <% end %>

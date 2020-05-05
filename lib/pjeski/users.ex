@@ -11,8 +11,8 @@ defmodule Pjeski.Users do
   alias Pjeski.Subscriptions.Subscription
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
-  def notify_subscribers!(event, result) do
-    Phoenix.PubSub.broadcast!(Pjeski.PubSub, "Users", {event, result})
+  def notify_subscribers!(event, record) do
+    Phoenix.PubSub.broadcast!(Pjeski.PubSub, "Users", {event, record})
   end
 
   def total_count(), do: Pjeski.Repo.aggregate(User, :count, :id)
