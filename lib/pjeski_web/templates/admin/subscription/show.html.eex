@@ -130,7 +130,12 @@
                      </table>
 
                     <%= link gettext("Show"), to: Routes.admin_user_path(@conn, :show, user), class: "button" %>
-                    <%= if @current_user.id != user.id do %> <%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user), class: "button" %> <% end %>
+                    <%= link gettext("Edit"), to: Routes.admin_user_path(@conn, :edit, user), class: "button" %>
+                    <%= link gettext("Disconnect"),
+                    to: Routes.admin_subscription_user_subscription_link_path(@conn, :delete, @subscription.id, user.id, redirect_back_to: "subscription"),
+                    method: :delete,
+                    data: [confirm: gettext("Are you sure?")],
+                    class: "button is-warning" %>
                   </div>
                 </article>
               </div>

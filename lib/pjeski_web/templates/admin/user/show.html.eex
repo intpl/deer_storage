@@ -142,20 +142,20 @@
                     <%= subscription.name %>
                   </td>
                   <td>
-                      <%= link gettext("Disconnect"),
-                      to: Routes.admin_user_user_subscription_link_path(@conn, :delete, @user.id, subscription.id),
-                      method: :delete,
-                      data: [confirm: gettext("Are you sure?")],
-                      class: "button is-danger is-small" %>
+                    <%= link gettext("Disconnect"),
+                    to: Routes.admin_user_user_subscription_link_path(@conn, :delete, @user.id, subscription.id, redirect_back_to: "user"),
+                    method: :delete,
+                    data: [confirm: gettext("Are you sure?")],
+                    class: "button is-danger is-small" %>
 
-                      <%= if @user.last_used_subscription_id != subscription.id do %>
-                        <%= link gettext("Make current"),
-                        to: Routes.admin_user_user_subscription_link_path(@conn, :make_current, @user.id, subscription.id),
-                        method: :put,
-                        class: "button is-success is-small" %>
-                      <% else %>
-                          <a class="button is-success is-small" disabled><%= gettext("Current") %></a>
-                      <% end %>
+                    <%= if @user.last_used_subscription_id != subscription.id do %>
+                      <%= link gettext("Make current"),
+                      to: Routes.admin_user_user_subscription_link_path(@conn, :make_current, @user.id, subscription.id),
+                      method: :put,
+                      class: "button is-success is-small" %>
+                    <% else %>
+                      <a class="button is-success is-small" disabled><%= gettext("Current") %></a>
+                    <% end %>
                   </td>
                 </tr>
               <% end %>
