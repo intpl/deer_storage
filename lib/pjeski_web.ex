@@ -49,7 +49,7 @@ defmodule PjeskiWeb do
       import PjeskiWeb.DateHelpers
 
       import Phoenix.LiveView.Helpers,
-        only: [live_redirect: 2, live_component: 2, live_component: 3, live_component: 4]
+        only: [live_component: 2, live_component: 3, live_component: 4, live_redirect: 2, live_render: 3]
     end
   end
 

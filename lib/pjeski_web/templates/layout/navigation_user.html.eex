@@ -13,15 +13,22 @@
   </div>
 
   <div id="navigation" class="navbar-menu">
-    <div class="navbar-start">
-      <div class="navbar-item">
         <%= if @conn.assigns.current_subscription do %>
-            <!-- Tu sie bedzie wszystko dzialo -->
+            <%= live_render(
+                @conn,
+                PjeskiWeb.SubscriptionNavigationLive,
+                container: {:div, class: "navbar-start"},
+                session: %{
+                  "subscription_id" => @conn.assigns.current_subscription.id
+                }
+            ) %>
         <% else %>
-            <%= gettext("This account has no subscriptions") %>
+          <div class="navbar-start">
+            <div class="navbar-item">
+              <%= gettext("This account has no subscriptions") %>
+            </div>
+          </div>
         <% end %>
-      </div>
-    </div>
 
     <div class="navbar-end">
       <div class="navbar-item">
