@@ -6,6 +6,18 @@ defmodule Pjeski.Users.UserSessionUtils do
 
   @credentials_cache_config [backend: Application.get_env(:pjeski, :pow)[:cache_store_backend]]
 
+def get_live_user(socket, %{"pjeski_auth" => signed_token}) do
+    conn = struct!(Plug.Conn, secret_key_base: socket.endpoint.config(:secret_key_base))
+    salt = Atom.to_string(Pow.Plug.Session)
+
+    with {:ok, token} <- Pow.Plug.verify_token(conn, salt, signed_token, [otp_app: :pjeski]),
+         {user, _metadata} <- CredentialsCache.get(@credentials_cache_config, token) do
+      user
+    else
+      _any -> nil
+    end
+  end
+
   def get_token_from_conn(%{private: %{plug_session: %{"pjeski_auth" => token}}}), do: token
   def put_into_session(conn, key, value), do: Plug.Conn.put_session(conn, key, value)
 

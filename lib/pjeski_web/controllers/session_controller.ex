@@ -26,7 +26,6 @@ defmodule PjeskiWeb.SessionController do
               conn
               |> assign_current_user_and_preload_available_subscriptions(user)
               |> maybe_put_subscription_into_session
-              |> put_into_session(:current_user_id, user.id)
               |> put_into_session(:locale, user.locale)
               |> redirect_to_dashboard(user.last_used_subscription_id) # this will be assigned to session on next request
 
