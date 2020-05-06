@@ -50,9 +50,8 @@
                           <%= gettext("This subscription expired") %>
                         </div>
                       <% else %>
-                          <br />
-                          <%= gettext("Expires in: %{days} days", days: days) %>
-
+                        <br />
+                        <%= gettext("Expires in: %{days} days", days: days) %>
                       <% end %>
                     </p>
                   </div>
