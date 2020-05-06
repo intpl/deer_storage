@@ -95,7 +95,7 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 ** DONE navigation/sign in path fixes for administrators with subscription assigned
 ** DONE admin panel connecting users/subscriptions: exclude connected
 ** DONE Remove that "search by users and subscriptions" nonsense
-** STRT Changing email -> can force change email
+** HOLD Changing email -> can force change email: https://github.com/danschultzer/pow/issues/512
 ** TODO Migrate database, write seeds with a proper structure
 ** TODO CRUD Dashboard->Tables + TESTS
 ** TODO Add "changed subscription" PubSub callback

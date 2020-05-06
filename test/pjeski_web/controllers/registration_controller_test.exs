@@ -117,17 +117,18 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       new_email = "test_new@storagedeer.com"
 
       conn = assign_user_to_session(conn, user)
-      |> put("/registration", user: @valid_attrs |> Map.merge(%{email: new_email, current_password: "secret123"}))
+      |> put("/registration", user: @valid_attrs |> Map.merge(%{email: new_email, current_password: @valid_attrs.password}))
 
       assert html_response(conn, 200) =~ "Wysłano e-mail w celu potwierdzenia na adres: <span>#{new_email}</span>"
 
-      {:ok, reloaded_user_email} = Repo.get(User, user.id) |> Map.fetch(:email)
-      refute reloaded_user_email == new_email
+      reloaded_user = Repo.get(User, user.id)
+      refute reloaded_user.email == new_email
+      refute reloaded_user.email_confirmation_token == nil
+      assert reloaded_user.email_confirmed_at == nil
 
-      {:ok, email_confirmation_token} = Users.last_user |> Map.fetch(:email_confirmation_token)
       assert_email_delivered_with(
         to: [nil: new_email], # TODO: czy to w ogole dziala? :O
-        text_body: ~r/#{email_confirmation_token}/
+        text_body: ~r/#{reloaded_user.email_confirmation_token}/
       )
     end
   end
