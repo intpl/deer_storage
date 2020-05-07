@@ -76,6 +76,10 @@ defmodule Pjeski.Subscriptions do
     |> Repo.update()
   end
 
+  def update_subscription_deer(%Subscription{} = subscription, attrs) do
+    subscription |> Subscription.deer_changeset(attrs) |> Repo.update()
+  end
+
   def update_subscription(%Subscription{} = subscription, attrs) do
     subscription
     |> Subscription.changeset(attrs)
@@ -84,6 +88,10 @@ defmodule Pjeski.Subscriptions do
 
   def delete_subscription(%Subscription{} = subscription) do
     Repo.delete(subscription)
+  end
+
+  def change_subscription_deer(%Subscription{} = subscription) do
+    Subscription.deer_changeset(subscription, %{})
   end
 
   def change_subscription(%Subscription{} = subscription) do

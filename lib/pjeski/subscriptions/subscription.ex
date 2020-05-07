@@ -2,7 +2,9 @@ defmodule Pjeski.Subscriptions.Subscription do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Pjeski.Subscriptions.DeerTable
   alias Pjeski.Users.User
+
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   schema "subscriptions" do
@@ -14,7 +16,16 @@ defmodule Pjeski.Subscriptions.Subscription do
     many_to_many :users, User, join_through: UserAvailableSubscriptionLink
     # has_many :current_users, User
 
+    embeds_many :deer_tables, DeerTable, on_replace: :delete
+
     timestamps()
+  end
+
+  @doc false
+  def deer_changeset(subscription, attrs) do
+    subscription
+    |> cast(attrs, [])
+    |> cast_embed(:deer_tables)
   end
 
   @doc false
