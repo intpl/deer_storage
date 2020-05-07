@@ -19,7 +19,8 @@
                 PjeskiWeb.SubscriptionNavigationLive,
                 container: {:div, class: "navbar-start"},
                 session: %{
-                  "subscription_id" => @conn.assigns.current_subscription.id
+                  "subscription_id" => @conn.assigns.current_subscription.id,
+                  "subscription_tables" => @conn.assigns.current_subscription.deer_tables
                 }
             ) %>
         <% else %>
