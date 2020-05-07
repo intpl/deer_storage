@@ -52,7 +52,27 @@ IO.puts " OK"
 
 subscriptions = Subscription |> select([:id]) |> Repo.all
 
-for %Subscription{id: sub_id} <- subscriptions do
+for %Subscription{id: sub_id} = sub <- subscriptions do
+    IO.puts "Updating Subscription #{sub_id} with Deer data"
+
+    Subscriptions.update_subscription_deer(
+      sub,
+      %{deer_tables:
+        [
+          %{
+            name: Faker.Team.name(),
+            deer_columns: [%{name: Faker.Commerce.product_name_product()}]
+          },
+          %{name: Faker.Team.name(),
+            deer_columns: [%{name: Faker.Commerce.product_name_product()}]
+          },
+          %{name: Faker.Team.name(),
+            deer_columns: [%{name: Faker.Commerce.product_name_product()}]
+          }
+        ]
+      }
+    )
+
     IO.write "Generating users structs for subscription #{sub_id}"
 
     built_users_for_current_subscription = [
@@ -92,7 +112,7 @@ for %Subscription{id: sub_id} <- subscriptions do
     IO.write "Inserting user<->subscription links"
 
     user_subscription_links = Enum.map(users, fn user ->
-      %{user_id: user.id, subscription_id: user.subscription_id, inserted_at: naive_datetime.(), updated_at: naive_datetime.()}
+      %{user_id: user.id, subscription_id: user.last_used_subscription_id, inserted_at: naive_datetime.(), updated_at: naive_datetime.()}
     end)
 
     Repo.insert_all(UserAvailableSubscriptionLink, user_subscription_links)
