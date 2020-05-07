@@ -97,11 +97,12 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 ** DONE Remove that "search by users and subscriptions" nonsense
 ** HOLD Changing email -> can force change email: https://github.com/danschultzer/pow/issues/512
 ** STRT Migrate database, write seeds with a proper structure
+** TODO UserRecords::IndexLive + TESTS
 ** TODO CRUD Dashboard->Tables + TESTS
+** TODO Make Admin users/subcriptions connect live
 ** TODO Add "changed subscription" PubSub callback
 ** TODO Adapt layout to subscription's tables
 ** TODO Counter cache for subscription tables, records, files
-** TODO UserRecords::IndexLive + TESTS
 - UserRecords::SearchComponent + TESTS
 - UserRecords::IndexComponent + TESTS
 - UserRecords::DisplayComponent + TESTS
