@@ -58,13 +58,13 @@ def get_live_user(socket, %{"pjeski_auth" => signed_token}) do
   end
 
   defp ensure_subscription_id_validity_for_user(user) do
-    new_subscription_id = users_first_available_subscription_id_or_nil(user)
+    new_subscription_id = users_last_available_subscription_id_or_nil(user)
     Pjeski.Users.update_last_used_subscription_id!(user, new_subscription_id)
 
     new_subscription_id
   end
 
-  defp users_first_available_subscription_id_or_nil(user) do
+  defp users_last_available_subscription_id_or_nil(user) do
     case List.last(user.available_subscriptions) do
       nil -> nil
       subscription -> subscription.id
