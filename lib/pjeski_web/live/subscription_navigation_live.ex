@@ -1,4 +1,5 @@
 defmodule PjeskiWeb.SubscriptionNavigationLive do
+  alias PjeskiWeb.Router.Helpers, as: Routes
   use Phoenix.LiveView
 
   def mount(:not_mounted_at_router, %{"subscription_id" => _subscription_id, "subscription_tables" => subscription_tables}, socket) do
@@ -8,9 +9,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
   def render(assigns) do
     ~L"""
       <%= for %{name: table_name, id: table_id} <- @subscription_tables do %>
-        <a class="navbar-item" href="#<%= table_id %>">
-          <%= table_name %>
-        </a>
+        <%= live_patch table_name, to: Routes.live_path(@socket, PjeskiWeb.DeerRecordsLive.Index, table_id), class: "navbar-item" %>
       <% end %>
     """
   end

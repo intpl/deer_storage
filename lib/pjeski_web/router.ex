@@ -23,6 +23,7 @@ defmodule PjeskiWeb.Router do
     pipe_through [:browser, :protected]
 
     live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}
+    live "/records/:table_id", DeerRecordsLive.Index, layout: {LayoutView, :app}
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
 
