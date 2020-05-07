@@ -3,7 +3,7 @@ defmodule PjeskiWeb.DashboardLive.Index do
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
 
-  def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
+  def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => _subscription_id} = session, socket) do
     #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
 
     {:ok, assign(socket, token: token, current_user: get_live_user(socket, session))}
