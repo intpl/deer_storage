@@ -3,7 +3,6 @@ defmodule Pjeski.DeerRecords.DeerRecord do
   import Ecto.Changeset
 
   alias Pjeski.Subscriptions.Subscription
-  alias Pjeski.Subscriptions.DeerTable
   alias Pjeski.Users.User
 
   alias Pjeski.DeerRecords.DeerField
