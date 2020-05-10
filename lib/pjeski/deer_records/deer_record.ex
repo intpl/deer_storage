@@ -19,10 +19,14 @@ defmodule Pjeski.DeerRecords.DeerRecord do
   end
 
   @doc false
-  def changeset(deer_record, attrs) do
+  def changeset(deer_record, attrs, %{id: subscription_id, deer_tables: deer_tables} = subscription) do
+    deer_tables_ids = Enum.map(deer_tables, &(&1.id))
+
     deer_record
+    |> cast(%{subscription_id: subscription_id}, [:subscription_id])
     |> cast(attrs, [:deer_table_id])
     |> validate_required([:deer_table_id])
-    |> cast_embed(:deer_fields)
+    |> validate_inclusion(:deer_table_id, deer_tables_ids)
+    |> cast_embed(:deer_fields, with: {DeerField, :changeset, [[deer_table_id: attrs.deer_table_id, subscription: subscription]]})
   end
 end
