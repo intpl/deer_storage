@@ -14,26 +14,26 @@ defmodule Pjeski.DeerRecords do
     |> Repo.all()
   end
 
-  def get_record!(id, %Subscription{id: subscription_id}) do
+  def get_record!(%Subscription{id: subscription_id}, id) do
     DeerRecord
     |> Repo.get_by!(id: id, subscription_id: subscription_id)
   end
 
-  def create_record(attrs, %Subscription{} = subscription) do
+  def create_record(%Subscription{} = subscription, attrs) do
     %DeerRecord{subscription_id: subscription.id} |> DeerRecord.changeset(attrs, subscription) |> Repo.insert()
   end
 
-  def update_record(%DeerRecord{} = record, attrs, %Subscription{} = subscription) do
+  def update_record(%Subscription{} = subscription, %DeerRecord{} = record, attrs) do
     record
     |> DeerRecord.changeset(attrs, subscription)
     |> Repo.update()
   end
 
-  def change_record(%DeerRecord{} = record, attrs, %Subscription{} = subscription) do
+  def change_record(%Subscription{} = subscription, %DeerRecord{} = record, attrs \\ %{}) do
     DeerRecord.changeset(record, attrs, subscription)
   end
 
-  def delete_record(%DeerRecord{subscription_id: subscription_id} = record, %Subscription{id: subscription_id}) do
+  def delete_record(%Subscription{id: subscription_id}, %DeerRecord{subscription_id: subscription_id} = record) do
     Repo.delete(record)
   end
 end

@@ -65,7 +65,7 @@ defmodule Pjeski.DeerRecordsTest do
 
     test "valid id and subscription_id", %{subscription: subscription, records_for_subscription: records} do
       first_record = List.first(records)
-      result = DeerRecords.get_record!(first_record.id, subscription)
+      result = DeerRecords.get_record!(subscription, first_record.id)
 
       assert first_record == result
     end
@@ -109,12 +109,12 @@ defmodule Pjeski.DeerRecordsTest do
       column_id = List.first(record_to_be_updated.deer_fields).deer_column_id
 
       {:ok, deer_record} = DeerRecords.update_record(
+        subscription,
         record_to_be_updated,
         %{
           deer_table_id: record_to_be_updated.deer_table_id,
           deer_fields: [%{content: "Example content 1", deer_column_id: column_id}]
-        },
-        subscription
+        }
       )
 
       assert List.first(deer_record.deer_fields).content == "Example content 1"
@@ -128,6 +128,7 @@ defmodule Pjeski.DeerRecordsTest do
 
     test "valid tables and columns", %{subscription: %{deer_tables: [deer_table]} = subscription} do
       {:ok, deer_record} = DeerRecords.create_record(
+        subscription,
         %{
           deer_table_id: deer_table.id,
           deer_fields: [
@@ -140,8 +141,7 @@ defmodule Pjeski.DeerRecordsTest do
               deer_column_id: List.last(deer_table.deer_columns).id
             }
           ]
-        },
-        subscription
+        }
       )
 
       assert List.first(deer_record.deer_fields).content == "Example content 1"
@@ -150,6 +150,7 @@ defmodule Pjeski.DeerRecordsTest do
 
     test "record/fields with identical deer_column_id cannot be saved", %{subscription: %{deer_tables: [deer_table]} = subscription} do
       assert {:error, _} = DeerRecords.create_record(
+        subscription,
         %{
           deer_table_id: deer_table.id,
           deer_fields: [
@@ -162,8 +163,7 @@ defmodule Pjeski.DeerRecordsTest do
               deer_column_id: "INVALID_ID"
             }
           ]
-        },
-        subscription
+        }
       )
     end
   end

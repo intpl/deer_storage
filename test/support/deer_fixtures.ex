@@ -22,7 +22,7 @@ defmodule Pjeski.DeerFixtures do
         fields_attrs = Enum.map(deer_columns, fn %{id: column_id} ->
         %{deer_column_id: column_id, content: "Content #{n}"}
         end)
-        {:ok, record} = DeerRecords.create_record(%{deer_table_id: table_id, deer_fields: fields_attrs}, subscription)
+        {:ok, record} = DeerRecords.create_record(subscription, %{deer_table_id: table_id, deer_fields: fields_attrs})
         record
       end)
     end)

@@ -12,6 +12,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   import Pjeski.DeerRecords, only: [
+    change_record: 2,
     change_record: 3,
     create_record: 2,
     delete_record: 2,
@@ -70,12 +71,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   # FIXME refactor
   def handle_event("validate_edit", %{"record" => attrs}, %{assigns: %{editing_record: record, subscription: subscription}} = socket) do
-    {_, record_or_changeset} = reset_errors(record) |> change_record(attrs, subscription) |> Ecto.Changeset.apply_action(:update)
-    {:noreply, socket |> assign(editing_record: change_record(record_or_changeset, %{}, subscription))}
+    {_, record_or_changeset} = reset_errors(record) |> change_record(subscription, attrs) |> Ecto.Changeset.apply_action(:update)
+    {:noreply, socket |> assign(editing_record: change_record(subscription, record_or_changeset))}
   end
 
   def handle_event("save_edit", %{"record" => attrs}, %{assigns: %{editing_record: editing_record, subscription: subscription}} = socket) do
-    {:ok, _} = update_record(editing_record, attrs, subscription)
+    {:ok, _} = update_record(subscription, editing_record, attrs)
     # TODO Notify subscribers here
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
@@ -83,7 +84,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   end
 
   def handle_event("save_new", %{"record" => attrs}, %{assigns: %{subscription: subscription}} = socket) do
-    case create_record(attrs, subscription) do
+    case create_record(subscription, attrs) do
       {:ok, _} ->
         patch_to_index(
           socket
@@ -104,13 +105,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   end
 
   def handle_event("new", _, %{assigns: %{subscription: subscription}} = socket) do
-    {:noreply, socket |> assign(new_record: change_record(%DeerRecord{}, %{}, subscription))}
+    {:noreply, socket |> assign(new_record: change_record(subscription, %DeerRecord{}))}
   end
 
   def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
 
-    {:noreply, socket |> assign(editing_record: change_record(record, %{}, subscription))}
+    {:noreply, socket |> assign(editing_record: change_record(subscription, record))}
   end
 
   def handle_event("delete", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user}} = socket) do
@@ -147,7 +148,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   defp search_records(subscription, uid, "", page), do: {:ok, list_records(subscription)}
   defp search_records(subscription, uid, q, page), do: {:ok, list_records(subscription)}
 
-  defp find_record_in_database(id, subscription), do: get_record!(id, subscription)
+  defp find_record_in_database(id, subscription), do: get_record!(subscription, id)
   defp find_record_in_list_or_database(id, records, subscription) do
     id = id |> String.to_integer
 
