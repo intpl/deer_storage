@@ -71,7 +71,7 @@ defmodule Pjeski.DeerRecordsTest do
     end
   end
 
-  describe "list_records/1" do
+  describe "list_records/2" do
     setup do
       subscription1 = create_valid_subscription_with_tables(1)
       subscription2 = create_valid_subscription_with_tables(1)
@@ -84,8 +84,8 @@ defmodule Pjeski.DeerRecordsTest do
       }
     end
 
-    test "shows only records from requested subscription", %{subscription1: subscription, records_for_subscription1: records} do
-      result = DeerRecords.list_records(subscription)
+    test "shows only records from requested subscription", %{subscription1: %{deer_tables: deer_tables} = subscription, records_for_subscription1: records} do
+      result = DeerRecords.list_records(subscription, List.first(deer_tables).id)
 
       assert length(result) == 5
       first_resulted_record = List.first(result)

@@ -17,7 +17,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     create_record: 2,
     delete_record: 2,
     get_record!: 2,
-    list_records: 1,
+    list_records: 2,
     per_page: 0,
     update_record: 3
   ]
@@ -48,8 +48,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
+        table_name = table_name_from_subscription(subscription, table_id)
 
-        {:ok, records} = search_records(subscription, user.id, query, 1)
+        {:ok, records} = search_records(subscription, table_id, query, 1)
 
         {:noreply,
          socket |> assign(
@@ -57,7 +58,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
            query: query,
            records: records,
            subscription: subscription,
-           table_name: table_name_from_subscription(subscription, table_id),
+           table_id: table_id,
+           table_name: table_name,
            user_subscription_link: user_subscription_link
          )
         }
@@ -83,13 +85,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     patch_to_index(socket |> put_flash(:info, gettext("Record updated successfully.")))
   end
 
-  def handle_event("save_new", %{"record" => attrs}, %{assigns: %{subscription: subscription}} = socket) do
+  def handle_event("save_new", %{"deer_record" => attrs}, %{assigns: %{subscription: subscription, table_id: table_id}} = socket) do
+    attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
+
     case create_record(subscription, attrs) do
       {:ok, _} ->
         patch_to_index(
           socket
           # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-          |> put_flash(:info, gettext("record created successfully."))
+          |> put_flash(:info, gettext("Record created successfully."))
           |> assign(new_record: nil, query: nil))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -104,8 +108,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(current_record: record)}
   end
 
-  def handle_event("new", _, %{assigns: %{subscription: subscription}} = socket) do
-    {:noreply, socket |> assign(new_record: change_record(subscription, %DeerRecord{}))}
+  def handle_event("new", _, %{assigns: %{subscription: %{deer_tables: deer_tables} = subscription, table_id: table_id}} = socket) do
+    deer_columns = Enum.find(deer_tables, fn table -> table.id == table_id end).deer_columns
+    deer_fields_attrs = Enum.map(deer_columns, fn %{id: column_id} -> %{deer_column_id: column_id, content: ""} end)
+
+    {:noreply, socket |> assign(new_record: change_record(subscription, %DeerRecord{}, %{deer_table_id: table_id, deer_fields: deer_fields_attrs}))}
   end
 
   def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user}} = socket) do
@@ -126,8 +133,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, push_redirect(socket |> assign(page: 1), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index))}
   end
 
-  def handle_event("filter", %{"query" => query}, %{assigns: %{subscription: subscription, current_user: user}} = socket) when byte_size(query) <= 50 do
-    {:ok, records} = search_records(subscription, user.id, query, 1)
+  def handle_event("filter", %{"query" => query}, %{assigns: %{subscription: subscription, current_user: user, table_id: table_id}} = socket) when byte_size(query) <= 50 do
+    {:ok, records} = search_records(subscription, table_id, query, 1)
 
     {:noreply, socket |> assign(records: records, query: query, page: 1, count: length(records))}
   end
@@ -135,18 +142,18 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
 
-  defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, current_user: user}} = socket) do
-    {:ok, records} = search_records(subscription, user.id, query, new_page)
+  defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, current_user: user, table_id: table_id}} = socket) do
+    {:ok, records} = search_records(subscription, table_id, query, new_page)
 
     {:noreply, socket |> assign(records: records, page: new_page, count: length(records))}
   end
 
   defp search_records(nil, _, _, _), do: {:error, "invalid subscription id"} # this will probably never happen, but let's keep this edge case just in case
-  defp search_records(_, nil, _, _), do: {:error, "invalid user id"} # this will probably never happen, but let's keep this edge case just in case
+  defp search_records(_, nil, _, _), do: {:error, "invalid table id"} # this will probably never happen, but let's keep this edge case just in case
 
-  defp search_records(subscription, uid, nil, page), do: {:ok, list_records(subscription)}
-  defp search_records(subscription, uid, "", page), do: {:ok, list_records(subscription)}
-  defp search_records(subscription, uid, q, page), do: {:ok, list_records(subscription)}
+  defp search_records(subscription, table_id, nil, page), do: {:ok, list_records(subscription, table_id)}
+  defp search_records(subscription, table_id, "", page), do: {:ok, list_records(subscription, table_id)}
+  defp search_records(subscription, table_id, q, page), do: {:ok, list_records(subscription, table_id)}
 
   defp find_record_in_database(id, subscription), do: get_record!(subscription, id)
   defp find_record_in_list_or_database(id, records, subscription) do
@@ -155,13 +162,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     Enum.find(records, fn record -> record.id == id end) || find_record_in_database(id, subscription)
   end
 
-  defp patch_to_index(socket) do
+  defp patch_to_index(%{assigns: %{query: query, table_id: table_id}} = socket) do
     {:noreply,
-     push_patch(assign(socket,
+     push_redirect(assign(socket,
            current_record: nil,
            editing_record: nil,
            page: 1
-         ), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index, query: socket.assigns.query)
+         ), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index, table_id, query: query)
      )}
   end
    
@@ -173,5 +180,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   defp reset_errors(changeset) do
     %{changeset | errors: [], valid?: true}
+  end
+
+  defp keys_to_atoms(%{} = map) do
+    Enum.reduce(map, %{}, fn
+    # String.to_existing_atom saves us from overloading the VM by
+    # creating too many atoms. It'll always succeed because all the fields
+    # in the database already exist as atoms at runtime.
+    {key, value}, acc when is_atom(key) -> Map.put(acc, key, value)
+      {key, value}, acc when is_binary(key) -> Map.put(acc, String.to_existing_atom(key), value)
+    end)
   end
 end

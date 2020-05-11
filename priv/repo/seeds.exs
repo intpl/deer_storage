@@ -61,13 +61,13 @@ for %Subscription{id: sub_id} = sub <- subscriptions do
         [
           %{
             name: Faker.Team.name(),
-            deer_columns: [%{name: Faker.Commerce.product_name_product()}]
+            deer_columns: [%{name: Faker.Commerce.product_name_product()}, %{name: Faker.Commerce.product_name_product()}, %{name: Faker.Commerce.product_name_product()}]
           },
           %{name: Faker.Team.name(),
-            deer_columns: [%{name: Faker.Commerce.product_name_product()}]
+            deer_columns: [%{name: Faker.Commerce.product_name_product()}, %{name: Faker.Commerce.product_name_product()}, %{name: Faker.Commerce.product_name_product()}]
           },
           %{name: Faker.Team.name(),
-            deer_columns: [%{name: Faker.Commerce.product_name_product()}]
+            deer_columns: [%{name: Faker.Commerce.product_name_product()}, %{name: Faker.Commerce.product_name_product()}, %{name: Faker.Commerce.product_name_product()}]
           }
         ]
       }

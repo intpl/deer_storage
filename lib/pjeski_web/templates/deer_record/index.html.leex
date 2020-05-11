@@ -1,8 +1,15 @@
 <%= cond do
     @editing_record ->
-      live_component(@socket, PjeskiWeb.DeerRecordsLive.Modal.EditComponent, id: "#{@token}-#{@editing_record.data.id}", changeset: @editing_record)
+      live_component(@socket, PjeskiWeb.DeerRecordsLive.Modal.EditComponent, id: "#{@token}-#{@editing_record.data.id}", changeset: @editing_record, subscription: @subscription)
     @new_record ->
-      live_component(@socket, PjeskiWeb.DeerRecordsLive.Modal.NewComponent, id: "new", changeset: @new_record)
+      live_component(
+        @socket,
+        PjeskiWeb.DeerRecordsLive.Modal.NewComponent,
+        id: "new",
+        changeset: @new_record,
+        subscription: @subscription,
+        table_id: @table_id
+      )
     true -> ""
 end %>
 
@@ -69,14 +76,13 @@ end %>
         <% end %>
 
         <%= for record <- @records do %>
-          <div class="box <%= classes_for_record_box(@user_id, record, @current_record) %>" phx-click="show" phx-value-record_id="<%= record.id %>">
+          <div class="box <%= classes_for_record_box(@current_user.id, record, @current_record) %>" phx-click="show" phx-value-record_id="<%= record.id %>">
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <b> <%= record.name %> </b>
-                  <small> <%= record.email %> </small>
-                  <small><%= record.phone %></small>
-                  <b><%= record.city %></b>
+                  <%= for %{id: column_id, name: column_name} <- deer_columns_from_subscription(@subscription, @table_id) do %>
+                      <%= column_name %>: <%= deer_field_content_from_column_id(record, column_id) %>
+                  <% end %>
                 </div>
               </div>
             </article>
