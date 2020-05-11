@@ -1,0 +1,101 @@
+<%= cond do
+    @editing_record ->
+      live_component(@socket, PjeskiWeb.DeerRecordsLive.Modal.EditComponent, id: "#{@token}-#{@editing_record.data.id}", changeset: @editing_record)
+    @new_record ->
+      live_component(@socket, PjeskiWeb.DeerRecordsLive.Modal.NewComponent, id: "new", changeset: @new_record)
+    true -> ""
+end %>
+
+<section class="section">
+  <div class="columns has-background-white sticky">
+    <div class="column is-2">
+      <div class="field">
+        <a phx-click="new" class="button is-primary">
+          <%= gettext("New record") %>
+        </a>
+      </div>
+    </div>
+
+    <div class="column is-8">
+      <div class="field has-addons">
+        <p class="control">
+          <button class="button is-inline" type="submit" phx-click="clear" onclick="window.scrollTo(0,0)">
+            <%= if @query == nil || @query == "" do %>
+              <%= gettext("Refresh") %>
+            <% else %>
+              <%= gettext("Clear") %>
+            <% end %>
+          </button>
+        </p>
+
+        <p class="is-fullwidth">
+          <form phx-change="filter" class="field has-addons overwrite-fullwidth">
+            <p class="control is-expanded">
+              <input
+                class="input"
+                type="text" name="query"
+                list="matches"
+                placeholder="<%= gettext("Search...") %>"
+                value="<%= @query %>"
+                onkeypress="window.scrollTo(0,0)"
+                phx-debounce="300" />
+            </p>
+
+            <p class="control">
+              <button class="button" type="submit">
+                <%= gettext("Search") %>
+              </button>
+            </p>
+          </form>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns is-mobile">
+    <div class="column <%= if @current_record, do: "is-hidden-mobile is-half-tablet" %>">
+        <%= if @count == 0 do %>
+          <div class="section">
+            <h1 class="title has-text-grey-light has-text-centered">
+              <%= gettext("Could not find anything...") %>
+            </h3>
+
+            <%= if @page > 1 do %>
+              <h3 class="subtitle has-text-grey-light has-text-centered">
+                <%= gettext("This is the last page") %>
+              </h3>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%= for record <- @records do %>
+          <div class="box <%= classes_for_record_box(@user_id, record, @current_record) %>" phx-click="show" phx-value-record_id="<%= record.id %>">
+            <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <b> <%= record.name %> </b>
+                  <small> <%= record.email %> </small>
+                  <small><%= record.phone %></small>
+                  <b><%= record.city %></b>
+                </div>
+              </div>
+            </article>
+          </div>
+        <% end %>
+
+        <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
+    </div>
+
+    <%= if @current_record do %>
+      <div class="column is-half-tablet">
+        <div class="sticky overwrite-padding-top-60">
+          <a class="delete is-large is-pulled-left" phx-click="close_show"></a>
+
+          <article class="section">
+            <%= live_component @socket, PjeskiWeb.DeerRecordsLive.ShowComponent, record: @current_record %>
+          </article>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

@@ -5,6 +5,9 @@ defmodule Pjeski.DeerRecords do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
+  defmacro per_page, do: 30
+  defp offset(page) when page > 0, do: (page - 1) * per_page()
+
   def list_records(%Subscription{id: subscription_id}) do
     DeerRecord
     |> where(subscription_id: ^subscription_id)
@@ -26,7 +29,11 @@ defmodule Pjeski.DeerRecords do
     |> Repo.update()
   end
 
-  def change_record(%DeerRecord{} = record, %Subscription{} = subscription) do
-    DeerRecord.changeset(record, %{}, subscription)
+  def change_record(%DeerRecord{} = record, attrs, %Subscription{} = subscription) do
+    DeerRecord.changeset(record, attrs, subscription)
+  end
+
+  def delete_record(%DeerRecord{subscription_id: subscription_id} = record, %Subscription{id: subscription_id}) do
+    Repo.delete(record)
   end
 end
