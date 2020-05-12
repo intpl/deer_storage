@@ -98,7 +98,14 @@ end %>
           <a class="delete is-large is-pulled-left" phx-click="close_show"></a>
 
           <article class="section">
-            <%= live_component @socket, PjeskiWeb.DeerRecordsLive.ShowComponent, record: @current_record %>
+            <%= live_component(
+                @socket,
+                PjeskiWeb.DeerRecordsLive.ShowComponent,
+                record: @current_record,
+                subscription: @subscription,
+                table_id: @table_id
+              )
+            %>
           </article>
         </div>
       </div>

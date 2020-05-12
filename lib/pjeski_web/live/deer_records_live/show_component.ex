@@ -2,48 +2,34 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
 
-  def render(assigns) do
+  import PjeskiWeb.DeerRecordView, only: [
+    deer_columns_from_subscription: 2,
+    deer_field_content_from_column_id: 2
+  ]
+
+  def render(%{record: record, subscription: subscription, table_id: table_id} = assigns) do
+    deer_columns = deer_columns_from_subscription(subscription, table_id)
+
     ~L"""
-    <section class="hero" id="<%= @record.id %>">
+    <section class="hero" id="<%= record.id %>">
       <div class="hero-body is-paddingless">
         <div class="container">
-          <h1 class="title">
-            <%= @record.name %>
-          </h1>
           <h3 class="subtitle">
-            <a phx-click="edit" phx-value-record_id="<%= @record.id %>">
+            <a phx-click="edit" phx-value-record_id="<%= record.id %>">
               <%= gettext("Edit") %>
             </a>
 
-            <a phx-click="delete" phx-value-record_id="<%= @record.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this record?") %>">
+            <a phx-click="delete" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this record?") %>">
               <%= gettext("Delete") %>
             </a>
           </h3>
           <ul>
+            <%= for %{id: column_id, name: column_name} <- deer_columns do %>
               <li>
-                  <strong>Phone:</strong>
-                  <%= @record.phone %>
+                <strong><%= column_name %>:</strong>
+                <%= deer_field_content_from_column_id(@record, column_id) %>
               </li>
-
-              <li>
-                  <strong>Email:</strong>
-                  <%= @record.email %>
-              </li>
-
-              <li>
-                  <strong>City:</strong>
-                  <%= @record.city %>
-              </li>
-
-              <li>
-                  <strong>Address:</strong>
-                  <%= @record.address %>
-              </li>
-
-              <li>
-                  <strong>Notes:</strong>
-                  <%= @record.notes %>
-              </li>
+            <% end %>
           </ul>
         </div>
       </div>
