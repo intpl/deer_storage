@@ -26,6 +26,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
     user = get_live_user(socket, session)
 
+    Gettext.put_locale(user.locale) # TODO: why u not working
+
     {:ok, assign(socket,
         current_record: nil,
         editing_record: nil,
@@ -72,13 +74,16 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("close_edit", _, socket), do: {:noreply, socket |> assign(editing_record: nil)}
 
   # FIXME refactor
-  def handle_event("validate_edit", %{"record" => attrs}, %{assigns: %{editing_record: record, subscription: subscription}} = socket) do
-    {_, record_or_changeset} = reset_errors(record) |> change_record(subscription, attrs) |> Ecto.Changeset.apply_action(:update)
-    {:noreply, socket |> assign(editing_record: change_record(subscription, record_or_changeset))}
+  def handle_event("validate_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, subscription: subscription, table_id: table_id}} = socket) do
+    attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
+
+    {:noreply, socket |> assign(editing_record: change_record(subscription, record.data, attrs))}
   end
 
-  def handle_event("save_edit", %{"record" => attrs}, %{assigns: %{editing_record: editing_record, subscription: subscription}} = socket) do
-    {:ok, _} = update_record(subscription, editing_record, attrs)
+  def handle_event("save_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, subscription: subscription, table_id: table_id}} = socket) do
+    attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
+
+    {:ok, _} = update_record(subscription, record.data, attrs)
     # TODO Notify subscribers here
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
@@ -115,18 +120,18 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(new_record: change_record(subscription, %DeerRecord{}, %{deer_table_id: table_id, deer_fields: deer_fields_attrs}))}
   end
 
-  def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user}} = socket) do
+  def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user, table_id: table_id}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
 
-    {:noreply, socket |> assign(editing_record: change_record(subscription, record))}
+    {:noreply, socket |> assign(editing_record: change_record(subscription, record, %{deer_table_id: table_id}))}
   end
 
   def handle_event("delete", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
-    {:ok, _} = delete_record(record, subscription)
+    {:ok, _} = delete_record(subscription, record)
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    patch_to_index(socket |> put_flash(:info, gettext("User deleted successfully.")))
+    patch_to_index(socket |> put_flash(:info, gettext("Record deleted successfully.")))
   end
 
   def handle_event("clear", _, socket) do

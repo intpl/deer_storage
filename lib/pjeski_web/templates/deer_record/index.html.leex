@@ -1,6 +1,13 @@
 <%= cond do
     @editing_record ->
-      live_component(@socket, PjeskiWeb.DeerRecordsLive.Modal.EditComponent, id: "#{@token}-#{@editing_record.data.id}", changeset: @editing_record, subscription: @subscription)
+      live_component(
+        @socket,
+        PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
+        id: "#{@token}-#{@editing_record.data.id}",
+        changeset: @editing_record,
+        subscription: @subscription,
+        table_id: @table_id
+      )
     @new_record ->
       live_component(
         @socket,
