@@ -76,7 +76,7 @@ end %>
 
             <%= if @page > 1 do %>
               <h3 class="subtitle has-text-grey-light has-text-centered">
-                <%= gettext("This is the last page") %>
+                <%= gettext("There are no more records") %>
               </h3>
             <% end %>
           </div>
@@ -88,7 +88,7 @@ end %>
               <div class="media-content">
                 <div class="content">
                   <%= for %{id: column_id, name: column_name} <- deer_columns_from_subscription(@subscription, @table_id) do %>
-                      <%= column_name %>: <%= deer_field_content_from_column_id(record, column_id) %>
+                      <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong>
                   <% end %>
                 </div>
               </div>
