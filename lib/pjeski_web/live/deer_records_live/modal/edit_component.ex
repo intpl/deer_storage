@@ -23,8 +23,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
             <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_edit"></button>
           </header>
           <%= form_for changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn f -> %>
-            <%= hidden_input f, :deer_table_id %>
-
             <section class="modal-card-body">
               <div class"container">
                 <%= inputs_for f, :deer_fields, fn df -> %>
