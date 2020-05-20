@@ -71,29 +71,6 @@ defmodule Pjeski.DeerRecordsTest do
     end
   end
 
-  describe "list_records/2" do
-    setup do
-      subscription1 = create_valid_subscription_with_tables(1)
-      subscription2 = create_valid_subscription_with_tables(1)
-
-      {:ok,
-       subscription1: subscription1,
-       subscription2: subscription2,
-       records_for_subscription1: create_valid_records_for_subscription(subscription1, 5),
-       records_for_subscription2: create_valid_records_for_subscription(subscription2, 1)
-      }
-    end
-
-    test "shows only records from requested subscription", %{subscription1: %{deer_tables: deer_tables} = subscription, records_for_subscription1: records} do
-      result = DeerRecords.list_records(subscription, List.first(deer_tables).id)
-
-      assert length(result) == 5
-      first_resulted_record = List.first(result)
-
-      assert Enum.find(records, fn record -> record == first_resulted_record end)
-    end
-  end
-
   describe "update_record/3" do
     setup do
       subscription = create_valid_subscription_with_tables(2)

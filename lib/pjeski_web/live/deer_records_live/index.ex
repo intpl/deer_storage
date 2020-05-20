@@ -15,10 +15,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     create_record: 2,
     delete_record: 2,
     get_record!: 2,
-    list_records: 2,
-    per_page: 0,
     update_record: 3
   ]
+
+  import Pjeski.DbHelpers.DeerRecordsSearch
 
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => current_subscription_id} = session, socket) do
     #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
@@ -50,7 +50,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         subscription = user_subscription_link.subscription
         table_name = table_name_from_subscription(subscription, table_id)
 
-        {:ok, records} = search_records(subscription, table_id, query, 1)
+        records = search_records(subscription.id, table_id, query, 1)
 
         {:noreply,
          socket |> assign(
@@ -132,12 +132,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     patch_to_index(socket |> put_flash(:info, gettext("Record deleted successfully.")))
   end
 
-  def handle_event("clear", _, socket) do
-    {:noreply, push_redirect(socket |> assign(page: 1), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index))}
+  def handle_event("clear", _, %{assigns: %{table_id: table_id}} = socket) do
+    # TODO: refactor when there are records for multiple pages
+    {:noreply, push_redirect(socket |> assign(page: 1), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index, table_id))}
   end
 
   def handle_event("filter", %{"query" => query}, %{assigns: %{subscription: subscription, table_id: table_id}} = socket) when byte_size(query) <= 50 do
-    {:ok, records} = search_records(subscription, table_id, query, 1)
+    records = search_records(subscription.id, table_id, query, 1)
 
     {:noreply, socket |> assign(records: records, query: query, page: 1, count: length(records))}
   end
@@ -146,17 +147,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
 
   defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, table_id: table_id}} = socket) do
-    {:ok, records} = search_records(subscription, table_id, query, new_page)
+    records = search_records(subscription.id, table_id, query, new_page)
 
     {:noreply, socket |> assign(records: records, page: new_page, count: length(records))}
   end
-
-  defp search_records(nil, _, _, _), do: {:error, "invalid subscription id"} # this will probably never happen, but let's keep this edge case just in case
-  defp search_records(_, nil, _, _), do: {:error, "invalid table id"} # this will probably never happen, but let's keep this edge case just in case
-
-  defp search_records(subscription, table_id, nil, page), do: {:ok, list_records(subscription, table_id)}
-  defp search_records(subscription, table_id, "", page), do: {:ok, list_records(subscription, table_id)}
-  defp search_records(subscription, table_id, q, page), do: {:ok, list_records(subscription, table_id)}
 
   defp find_record_in_database(id, subscription), do: get_record!(subscription, id)
   defp find_record_in_list_or_database(id, records, subscription) do

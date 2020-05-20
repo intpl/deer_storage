@@ -5,15 +5,6 @@ defmodule Pjeski.DeerRecords do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
-  defmacro per_page, do: 30
-  defp offset(page) when page > 0, do: (page - 1) * per_page()
-
-  def list_records(%Subscription{id: subscription_id}, table_id) do
-    DeerRecord
-    |> where(subscription_id: ^subscription_id, deer_table_id: ^table_id)
-    |> Repo.all()
-  end
-
   def get_record!(%Subscription{id: subscription_id}, id) do
     DeerRecord
     |> Repo.get_by!(id: id, subscription_id: subscription_id)
