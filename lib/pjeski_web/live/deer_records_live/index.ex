@@ -8,11 +8,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   alias Pjeski.Repo
   alias Pjeski.DeerRecords.DeerRecord
-  alias Pjeski.Subscriptions.Subscription
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   import Pjeski.DeerRecords, only: [
-    change_record: 2,
     change_record: 3,
     create_record: 2,
     delete_record: 2,
@@ -26,7 +24,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
     user = get_live_user(socket, session)
 
-    Gettext.put_locale(user.locale) # TODO: why u not working
+    Gettext.put_locale(user.locale)
 
     {:ok, assign(socket,
         current_record: nil,
@@ -107,7 +105,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   end
 
-  def handle_event("show", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user}} = socket) do
+  def handle_event("show", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
 
     {:noreply, socket |> assign(current_record: record)}
@@ -120,13 +118,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(new_record: change_record(subscription, %DeerRecord{}, %{deer_table_id: table_id, deer_fields: deer_fields_attrs}))}
   end
 
-  def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user, table_id: table_id}} = socket) do
+  def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, table_id: table_id}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
 
     {:noreply, socket |> assign(editing_record: change_record(subscription, record, %{deer_table_id: table_id}))}
   end
 
-  def handle_event("delete", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, current_user: user}} = socket) do
+  def handle_event("delete", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
     {:ok, _} = delete_record(subscription, record)
 
@@ -138,7 +136,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, push_redirect(socket |> assign(page: 1), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index))}
   end
 
-  def handle_event("filter", %{"query" => query}, %{assigns: %{subscription: subscription, current_user: user, table_id: table_id}} = socket) when byte_size(query) <= 50 do
+  def handle_event("filter", %{"query" => query}, %{assigns: %{subscription: subscription, table_id: table_id}} = socket) when byte_size(query) <= 50 do
     {:ok, records} = search_records(subscription, table_id, query, 1)
 
     {:noreply, socket |> assign(records: records, query: query, page: 1, count: length(records))}
@@ -147,7 +145,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
 
-  defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, current_user: user, table_id: table_id}} = socket) do
+  defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, table_id: table_id}} = socket) do
     {:ok, records} = search_records(subscription, table_id, query, new_page)
 
     {:noreply, socket |> assign(records: records, page: new_page, count: length(records))}
@@ -181,10 +179,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     %{name: name} = Enum.find(deer_tables, fn deer_table -> deer_table.id == table_id end)
 
     name
-  end
-
-  defp reset_errors(changeset) do
-    %{changeset | errors: [], valid?: true}
   end
 
   defp keys_to_atoms(%{} = map) do

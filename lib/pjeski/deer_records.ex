@@ -29,7 +29,7 @@ defmodule Pjeski.DeerRecords do
     |> Repo.update()
   end
 
-  def change_record(%Subscription{} = subscription, %DeerRecord{} = record, attrs \\ %{}) do
+  def change_record(%Subscription{} = subscription, %DeerRecord{} = record, attrs) do
     DeerRecord.changeset(record, attrs, subscription)
   end
 

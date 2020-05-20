@@ -1,7 +1,6 @@
 defmodule Pjeski.SubscriptionTest do
   use Pjeski.DataCase
 
-
   describe "subscriptions" do
     alias Pjeski.Subscriptions.Subscription
     alias Pjeski.Subscriptions

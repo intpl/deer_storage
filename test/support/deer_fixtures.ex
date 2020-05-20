@@ -20,7 +20,7 @@ defmodule Pjeski.DeerFixtures do
     grouped_records = Enum.map(deer_tables, fn %{id: table_id, deer_columns: deer_columns} ->
       Enum.map(1..records_per_table_count, fn n ->
         fields_attrs = Enum.map(deer_columns, fn %{id: column_id} ->
-        %{deer_column_id: column_id, content: "Content #{n}"}
+          %{deer_column_id: column_id, content: "Content #{n}"}
         end)
         {:ok, record} = DeerRecords.create_record(subscription, %{deer_table_id: table_id, deer_fields: fields_attrs})
         record
