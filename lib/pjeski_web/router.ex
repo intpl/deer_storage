@@ -40,6 +40,7 @@ defmodule PjeskiWeb.Router do
       live_dashboard "/phoenix", metrics: PjeskiWeb.Telemetry
       live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}  # this is in fact Admin.DashboardLive.Index
 
+      post "/users/search", UserController, :search
       resources "/users", UserController do
         resources "/subscription_links", UserSubscriptionLinkController, only: [:delete, :create]
         put "/subscription_links/reset", UserSubscriptionLinkController, :reset
@@ -49,6 +50,8 @@ defmodule PjeskiWeb.Router do
         put "/log_out_from_devices", UserController, :log_out_from_devices
       end
 
+
+      post "/subscriptions/search", SubscriptionController, :search
       resources "/subscriptions", SubscriptionController do
         resources "/subscription_links", UserSubscriptionLinkController, only: [:delete, :create]
       end

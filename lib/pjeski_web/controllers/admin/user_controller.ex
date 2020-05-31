@@ -5,6 +5,15 @@ defmodule PjeskiWeb.Admin.UserController do
   alias Pjeski.Users.User
   alias Pjeski.Users.UserSessionUtils
 
+  def search(conn, params) do
+    query = params["query"] || ""
+
+    users = Users.list_users(query, 1, 100, "")
+    |> Enum.map(fn user -> %{id: user.id, text: user.name} end)
+
+    json(conn, users)
+  end
+
   def index(conn, params) do
     query = params["query"] || ""
     sort_by = params["sort_by"] || ""
@@ -50,6 +59,9 @@ defmodule PjeskiWeb.Admin.UserController do
     user = Users.get_user!(id) |> Pjeski.Repo.preload(:available_subscriptions)
     available_subscriptions = user.available_subscriptions
     count = length(UserSessionUtils.user_sessions_keys(user))
+    excluded_subscriptions_ids = available_subscriptions
+    |> Enum.map(fn s -> s.id end)
+    |> Poison.encode!
 
     render(
       conn,
@@ -57,7 +69,7 @@ defmodule PjeskiWeb.Admin.UserController do
       user: user,
       available_subscriptions: available_subscriptions,
       user_log_in_sessions_count: count,
-      excluded_subscriptions_ids: Enum.map(available_subscriptions, fn s -> s.id end)
+      excluded_subscriptions_ids: excluded_subscriptions_ids
     )
   end
 

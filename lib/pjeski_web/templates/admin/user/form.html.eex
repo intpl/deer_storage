@@ -43,7 +43,7 @@
 
   <div class="field">
     <%= label f, :last_used_subscription_id, gettext("Last used subscription"), class: 'label' %>
-    <%= select f, :last_used_subscription_id, all_subscriptions_options_with_empty(), class: 'input use-select2' %>
+    <%= select f, :last_used_subscription_id, [], class: 'input use-select2' %>
     <%= error_tag f, :last_used_subscription_id %>
   </div>
   <div>
@@ -51,4 +51,27 @@
   </div>
 <% end %>
 
-<script type="text/javascript"> $('.use-select2').select2({placeholder: "<%= gettext("Empty") %>"}); </script>
+<script type="text/javascript">
+$(document).ready(function(){
+ $('.use-select2').select2({
+  placeholder: "<%= gettext("Empty") %>",
+  ajax: {
+   url: "<%= Routes.admin_subscription_path(@conn, :search) %>",
+   type: "post",
+   dataType: 'json',
+   data: function (params) {
+    return {
+      _csrf_token: "<%= get_csrf_token() %>",
+      query: params.term
+    };
+   },
+   processResults: function (response) {
+     return {
+        results: response
+     };
+   },
+   cache: false
+  }
+ });
+});
+</script>

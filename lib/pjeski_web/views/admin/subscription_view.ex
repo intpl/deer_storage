@@ -13,22 +13,6 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
     end
   end
 
-  # TODO: server-side this and use ComposeSearchQuery
-  def all_subscriptions_options_with_empty(excluded_ids \\ []) do
-    result = Pjeski.Subscriptions.list_subscriptions_except_ids(excluded_ids)
-      |> Enum.map(fn subscription -> [key: "#{subscription.name}", value: subscription.id]  end)
-
-    [key: nil, value: nil] ++ result
-  end
-
-  # TODO: server-side this and use ComposeSearchQuery
-  def all_users_options_with_empty(excluded_ids \\ []) do
-    result = Pjeski.Users.list_users_except_ids(excluded_ids)
-      |> Enum.map(fn user -> [key: "#{user.name} (#{user.email})", value: user.id]  end)
-
-    [key: nil, value: nil] ++ result
-  end
-
   def subscriptions_sorting_options do
     descending = " (#{gettext("descending")})"
     ascending = " (#{gettext("ascending")})"

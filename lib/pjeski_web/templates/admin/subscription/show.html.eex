@@ -53,7 +53,7 @@
         <%= form_for @conn, Routes.admin_subscription_user_subscription_link_path(@conn, :create, @subscription.id, redirect_back_to: "subscription"), fn f -> %>
           <div class="columns">
             <div class="column is-half">
-              <%= select f, :user_id, all_users_options_with_empty(@excluded_users_ids), class: 'input use-select2' %>
+              <%= select f, :user_id, [], class: 'input use-select2' %>
             </div>
             <div class="column is-half">
               <%= submit gettext("Connect"), class: 'button is-primary is-pulled-left' %>
@@ -148,4 +148,30 @@
   </div>
 </section>
 
-<script type="text/javascript"> $('.use-select2').select2({placeholder: "<%= gettext("Empty") %>"}); </script>
+<script type="text/javascript">
+$(document).ready(function(){
+ $('.use-select2').select2({
+  placeholder: "<%= gettext("Empty") %>",
+  ajax: {
+   url: "<%= Routes.admin_user_path(@conn, :search) %>",
+   type: "post",
+   dataType: 'json',
+   data: function (params) {
+    return {
+      _csrf_token: "<%= get_csrf_token() %>",
+      query: params.term
+    };
+   },
+   processResults: function (response) {
+     excluded_ids = <%= raw(@excluded_users_ids) %>
+     results = response.filter((el) => !(excluded_ids.includes(el.id)));
+
+     return {
+        results: results
+     };
+   },
+   cache: false
+  }
+ });
+});
+</script>

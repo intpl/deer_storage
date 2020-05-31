@@ -57,7 +57,8 @@ defmodule Pjeski.MixProject do
       {:faker, "~> 0.13", only: [:test, :dev]},
       {:phoenix_live_dashboard, "~> 0.1"},
       {:telemetry_poller, "~> 0.4"},
-      {:telemetry_metrics, "~> 0.4"}
+      {:telemetry_metrics, "~> 0.4"},
+      {:poison, "~> 4.0"}
     ]
   end
 

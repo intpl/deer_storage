@@ -5,6 +5,15 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
   alias Pjeski.Subscriptions
   alias Pjeski.Subscriptions.Subscription
 
+  def search(conn, params) do
+    query = params["query"] || ""
+
+    subscriptions = Subscriptions.list_subscriptions(query, 1, 100, "")
+    |> Enum.map(fn subscription -> %{id: subscription.id, text: subscription.name} end)
+
+    json(conn, subscriptions)
+  end
+
   def index(conn, params) do
     query = params["query"] || ""
     sort_by = params["sort_by"] || ""
@@ -49,13 +58,16 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
   def show(conn, %{"id" => id}) do
     subscription = Subscriptions.get_subscription!(id)
     subscription_users = subscription.users
+    excluded_users_ids = subscription_users
+    |> Enum.map(fn u -> u.id end)
+    |> Poison.encode!
 
     render(
       conn,
       "show.html",
       subscription: subscription,
       users: subscription_users,
-      excluded_users_ids: Enum.map(subscription_users, fn u -> u.id end)
+      excluded_users_ids: excluded_users_ids
     )
   end
 
