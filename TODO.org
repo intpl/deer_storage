@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [64%] [51/79] DEADLINE: <2020-03-31 Tue>
+* TODO [69%] [57/82] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -39,68 +39,31 @@
 ** DONE Enable administrators to edit users' available_subscriptions
 ** DONE Enable administrators to delete subscriptions and reset all their users' subscription_id and join tables
 ** HOLD :pow_session_metadata
-  The assigned private `:pow_session_metadata` key in the conn can be populated
-  with custom metadata. This data will be stored in the session metadata when
-  the session is created, and fetched in subsequent requests.
-
-  Here's an example of how one could add sign in timestamp, IP, and user agent
-  information to the session metadata:
-
-#+BEGIN_SRC elixir
-      def append_to_session_metadata(conn) do
-        client_ip  = to_string(:inet_parse.ntoa(conn.remote_ip))
-        user_agent = get_req_header(conn, "user-agent")
-
-        metadata =
-          conn.private
-          |> Map.get(:pow_session_metadata, [])
-          |> Keyword.put_new(:first_seen_at, DateTime.utc_now())
-          |> Keyword.put(:ip, client_ip)
-          |> Keyword.put(:user_agent, user_agent)
-
-        Plug.Conn.put_private(conn, :pow_session_metadata, metadata)
-      end
-#+END_SRC
 ** WAIT Optimizing IEx for Ecto (book)
 ** WAIT Users permissions, control panel to change them
 ** DONE Pow v1.0.19 signed tokens (maybe this will help:) https://hexdocs.pm/pow/README.html#authorization-plug
 ** DONE Pow updated, fix all
-warning: PowResetPassword.Plug.assign_reset_password_user/2 is deprecated. No longer used
-  lib/pjeski_web/controllers/reset_password_controller.ex:74: PjeskiWeb.ResetPasswordController.load_user_from_reset_token/2
-
-warning: PowResetPassword.Plug.user_from_token/2 is deprecated. Use `load_user_by_token/2` instead
-  lib/pjeski_web/controllers/reset_password_controller.ex:66: PjeskiWeb.ResetPasswordController.load_user_from_reset_token/2
-
-warning: PowInvitation.Plug.assign_invited_user/2 is deprecated. No longer used
-  lib/pjeski_web/controllers/invitation_controller.ex:85: PjeskiWeb.InvitationController.load_user_from_invitation_token/2
-
-warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_invited_user_by_token/2` instead
-  lib/pjeski_web/controllers/invitation_controller.ex:78: PjeskiWeb.InvitationController.load_user_from_invitation_token/2
-
 ** DONE Unconfirmed invited user resend invitation email
 ** DONE When user's subscription_id is nil...
 ** DONE user_from_auth_token(token) -> research better method
 ** DONE Add logout PubSub callback
 ** STRT START WRITING TESTS in 3..2..1..
 ** DONE Rename 'subscription_id' to 'last_used_subscription_id' and keep real 'subscription_id' in the session
-*** on changing subscription - update 'last_used_subscription_id' and store 'subscription_id' in the session
-*** on sign in - pass last_used_subscription_id to session:subscription_id if in available_subscriptions
-*** edge cases - when no available_subscriptions, when not present in available_subscriptions, etc.
-*** pubsub - disconnecting from subscriptions, logout if last_used_subscription
 ** DONE "Become administrator"
 ** DONE Fix specs for "Become administrator"
 ** DONE Tests for registration/reset_subscription
 ** DONE Check if invitation can assign another subscription after changing inviting user's current one
-    test use case: user invites invitee to subscription A, switches to B, invitee clicks -> what happens here?
 ** DONE navigation/sign in path fixes for administrators with subscription assigned
 ** DONE admin panel connecting users/subscriptions: exclude connected
 ** DONE Remove that "search by users and subscriptions" nonsense
-** HOLD Changing email -> can force change email: https://github.com/danschultzer/pow/issues/512
-** STRT Migrate database, write seeds with a proper structure
-** TODO UserRecords::IndexLive + TESTS
-** TODO CRUD Dashboard->Tables + TESTS
-** TODO Make Admin users/subcriptions connect live
-** TODO Add "changed subscription" PubSub callback
+** DONE Changing email -> can force change email: https://github.com/danschultzer/pow/issues/512
+** DONE Migrate database, write seeds with a proper structure
+** STRT UserRecords::IndexLive + TESTS
+** STRT CRUD Dashboard->Tables + TESTS
+** TODO Validation for deer record: at least one field has to be filled in
+** TODO Model validations everywhere (records and tables)
+** DONE Make Admin users/subcriptions select2 pagination/limit
+** KILL Add "changed subscription" PubSub callback
 ** TODO Adapt layout to subscription's tables
 ** TODO Counter cache for subscription tables, records, files
 - UserRecords::SearchComponent + TESTS
@@ -108,13 +71,13 @@ warning: PowInvitation.Plug.invited_user_from_token/2 is deprecated. Use `load_i
 - UserRecords::DisplayComponent + TESTS
 - UserRecords::EditComponent + TESTS
 - UserRecords::NewComponent + TESTS
-** TODO Temporary assigns
-** TODO UserRecords::ShowLive + TESTS
-** TODO write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
+** PROJ Temporary assigns?
+** KILL UserRecords::ShowLive + TESTS
+** KILL write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** TODO change registeration process to not use 'last_used_subscription' (Ecto.Multi?)
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
-** TODO Invitation can enumerate users
+** TODO Invitation can enumerate users -> think of that?
 ** WAIT use jaro_distance to colorize fields
 ** TODO "Notes" markdown everywhere
 ** TODO Ensure displayed "DB-inconsistency" errors
