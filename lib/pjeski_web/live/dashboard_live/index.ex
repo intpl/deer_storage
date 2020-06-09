@@ -15,6 +15,7 @@ defmodule PjeskiWeb.DashboardLive.Index do
     {:ok, socket |> assign(current_user: user, current_subscription_id: subscription_id)}
   end
 
+  def handle_params(_params, _, %{assigns: %{current_user: user, current_subscription_id: nil}} = socket), do: {:noreply, assign(socket, render_empty: true)}
   def handle_params(_params, _, %{assigns: %{current_user: user, current_subscription_id: subscription_id}} = socket) do
     case connected?(socket) do
       true ->
@@ -32,5 +33,6 @@ defmodule PjeskiWeb.DashboardLive.Index do
 
   def handle_params(_, _, socket), do: {:noreply, socket}
 
+  def render(%{render_empty: true} = assigns), do: ~L""
   def render(assigns), do: PjeskiWeb.DeerDashboardView.render("index.html", assigns)
 end
