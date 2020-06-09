@@ -9,6 +9,7 @@ defmodule PjeskiWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
+    plug :put_root_layout, {LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug PjeskiWeb.LocalePlug
@@ -22,8 +23,8 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
-    live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}
-    live "/records/:table_id", DeerRecordsLive.Index, layout: {LayoutView, :app}
+    live "/dashboard", DashboardLive.Index
+    live "/records/:table_id", DeerRecordsLive.Index
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
 
@@ -38,7 +39,7 @@ defmodule PjeskiWeb.Router do
       pipe_through [:admin]
 
       live_dashboard "/phoenix", metrics: PjeskiWeb.Telemetry
-      live "/dashboard", DashboardLive.Index, layout: {LayoutView, :app}  # this is in fact Admin.DashboardLive.Index
+      live "/dashboard", DashboardLive.Index
 
       post "/users/search", UserController, :search
       resources "/users", UserController do
