@@ -7,8 +7,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
     deer_columns_from_subscription: 2
   ]
 
-  alias Pjeski.DeerRecords.DeerField
-
   def render(%{changeset: changeset, subscription: subscription, table_id: table_id} = assigns) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 

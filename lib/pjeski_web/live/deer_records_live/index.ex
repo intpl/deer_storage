@@ -20,7 +20,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   import Pjeski.DbHelpers.DeerRecordsSearch
 
-  def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => current_subscription_id} = session, socket) do
+  def mount(_params, %{"pjeski_auth" => _token, "current_subscription_id" => current_subscription_id} = session, socket) do
     #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
     user = get_live_user(socket, session)
 
@@ -32,7 +32,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         new_record: nil,
         page: 1,
         per_page: per_page(),
-        token: token,
         current_user: user,
         current_subscription_id: current_subscription_id
       )}
@@ -60,7 +59,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
            subscription: subscription,
            table_id: table_id,
            table_name: table_name,
-           user_subscription_link: user_subscription_link
+           user_subscription_link: user_subscription_link # TODO: permissions
          )
         }
       false -> {:noreply, socket |> assign(query: query, records: [], count: 0)}
