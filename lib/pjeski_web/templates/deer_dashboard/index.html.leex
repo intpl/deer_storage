@@ -1,1 +1,33 @@
-Dashboard for <b><%= @current_user.name %></b> using subscription <b><%= @current_subscription_name %></b><br>
+<section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <%= @current_subscription_name %></b>
+      </h1>
+      <h2 class="subtitle">
+        <%= gettext("Welcome!") %>
+      </h2>
+    </div>
+  </div>
+</section>
+
+<br>
+
+<div class="container">
+  <%= for tables <- Enum.chunk_every(@current_subscription_tables, 3) do %>
+    <div class="columns">
+      <%= for table <- tables do %>
+        <div class="column is-4">
+            <%=
+              live_component(
+                @socket,
+                PjeskiWeb.DeerDashboardLive.DeerTableComponent,
+                id: "#{table.id}",
+                table: table
+              )
+            %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

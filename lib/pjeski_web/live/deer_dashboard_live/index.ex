@@ -6,13 +6,13 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   alias Pjeski.Repo
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
-  def mount(_params, %{"pjeski_auth" => _token, "current_subscription_id" => subscription_id} = session, socket) do
+  def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
     #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
     user = get_live_user(socket, session)
 
     Gettext.put_locale(user.locale)
 
-    {:ok, socket |> assign(current_user: user, current_subscription_id: subscription_id)}
+    {:ok, socket |> assign(current_user: user, current_subscription_id: subscription_id, token: token)}
   end
 
   def handle_params(_params, _, %{assigns: %{current_user: user, current_subscription_id: subscription_id}} = socket) do
@@ -24,9 +24,10 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
         {:noreply, socket |> assign(
             current_subscription_name: subscription.name,
+            current_subscription_tables: subscription.deer_tables,
             user_subscription_link: user_subscription_link) # TODO: permissions
         }
-      false -> {:noreply, socket |> assign(current_subscription_name: "")}
+      false -> {:noreply, socket |> assign(current_subscription_name: "", current_subscription_tables: [])}
     end
   end
 

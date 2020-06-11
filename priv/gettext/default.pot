@@ -905,3 +905,8 @@ msgstr ""
 #: lib/pjeski_web/templates/deer_record/index.html.leex:79
 msgid "There are no more records"
 msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:8
+msgid "Welcome!"
+msgstr ""
