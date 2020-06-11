@@ -1,4 +1,4 @@
-defmodule PjeskiWeb.DashboardLive.Index do
+defmodule PjeskiWeb.DeerDashboardLive.Index do
   use Phoenix.LiveView
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]

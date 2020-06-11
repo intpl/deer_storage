@@ -60,7 +60,7 @@ defmodule PjeskiWeb.SessionController do
   def redirect_to_dashboard(%{assigns: %{current_user: %{role: "admin"}}} = conn, nil) do
     conn |> redirect(to: Routes.admin_live_path(conn, PjeskiWeb.Admin.DashboardLive.Index))
   end
-  def redirect_to_dashboard(conn, _), do: conn |> redirect(to: Routes.live_path(conn, PjeskiWeb.DashboardLive.Index))
+  def redirect_to_dashboard(conn, _), do: conn |> redirect(to: Routes.live_path(conn, PjeskiWeb.DeerDashboardLive.Index))
 
 
   defp email_confirmed?(%{role: "admin"}), do: true

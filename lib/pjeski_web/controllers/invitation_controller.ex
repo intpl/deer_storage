@@ -56,7 +56,7 @@ defmodule PjeskiWeb.InvitationController do
         |> assign_current_user_and_preload_available_subscriptions(user)
         |> put_flash(:info, gettext("User has been created"))
         |> maybe_put_subscription_into_session
-        |> redirect(to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index))
+        |> redirect(to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index))
       {:error, changeset, conn} ->
         conn
         |> assign(:changeset, changeset)

@@ -2,7 +2,7 @@
   <div class="navbar-brand">
     <%= live_redirect(
         header_text(@conn),
-        to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DashboardLive.Index),
+        to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index),
         class: "navbar-item") %>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
