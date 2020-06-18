@@ -17,7 +17,7 @@ defmodule Pjeski.DeerRecordsSearchTest do
       assert length(result2) == 1
 
       result3 = DeerRecordsSearch.search_records(subscription.id, deer_table.id, "non-existing-content", 1)
-      assert length(result3) == 0
+      assert Enum.empty?(result3)
     end
   end
 end
