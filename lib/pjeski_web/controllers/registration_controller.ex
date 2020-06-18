@@ -31,7 +31,9 @@ defmodule PjeskiWeb.RegistrationController do
 
   def update(conn, %{"user" => user_params}) do
     conn |> Pow.Plug.update_user(user_params) |> case do
-      {:ok, _user, conn} ->
+      {:ok, %User{locale: locale}, conn} ->
+        Gettext.put_locale(PjeskiWeb.Gettext, locale) # in case the user changed locale in this request
+
         conn
         |> maybe_send_confirmation_email
         |> put_flash(:info, gettext("Account updated"))
