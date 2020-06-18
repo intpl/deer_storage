@@ -3,7 +3,7 @@
       live_component(
         @socket,
         PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
-        id: "#{@token}-#{@editing_record.data.id}",
+        id: "edit-#{@editing_record.data.id}",
         changeset: @editing_record,
         subscription: @subscription,
         table_id: @table_id
