@@ -18,14 +18,18 @@
     <div class="columns">
       <%= for table <- tables do %>
         <div class="column is-4">
-            <%=
-              live_component(
-                @socket,
-                PjeskiWeb.DeerDashboardLive.DeerTableComponent,
-                id: "#{table.id}",
-                table: table
-              )
-            %>
+          <div class="box">
+            <article class="media">
+              <div class="content">
+                <%= case table.id == @editing_table_id do %>
+                  <% true -> %>
+                    <%= render_table_edit_component(@socket, table) %>
+                  <% false -> %>
+                    <%= render_table_show_component(@socket, table) %>
+                <% end %>
+              </div>
+            </article>
+          </div>
         </div>
       <% end %>
     </div>
