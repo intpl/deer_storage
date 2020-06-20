@@ -7,7 +7,11 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableShowComponent do
     ~L"""
     <p>
       <strong><%= table_name %></strong>
-      <a phx-click="toggle_edit" phx-value-table_id="<%= table_id %>" phx-target="<%= @myself %>"><%= gettext("Edit") %></a>
+
+      <%= if @editing_table_id == nil do %>
+        <a phx-click="toggle_edit" phx-value-table_id="<%= table_id %>" phx-target="<%= @myself %>"><%= gettext("Edit") %></a>
+      <% end %>
+
       <br>
 
       <%= for %{name: name} <- deer_columns do %>

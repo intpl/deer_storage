@@ -25,7 +25,7 @@
                   <% true -> %>
                     <%= render_table_edit_component(@socket, table) %>
                   <% false -> %>
-                    <%= render_table_show_component(@socket, table) %>
+                    <%= render_table_show_component(@socket, table, @editing_table_id) %>
                 <% end %>
               </div>
             </article>
