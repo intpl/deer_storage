@@ -66,6 +66,7 @@
 ** KILL Add "changed subscription" PubSub callback
 ** TODO Adapt layout to subscription's tables
 ** TODO Counter cache for subscription tables, records, files
+** TODO Translate select2 "Did not found" with gettext
 - UserRecords::SearchComponent + TESTS
 - UserRecords::IndexComponent + TESTS
 - UserRecords::DisplayComponent + TESTS
