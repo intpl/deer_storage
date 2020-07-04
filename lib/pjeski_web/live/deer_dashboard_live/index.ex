@@ -20,6 +20,11 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
       )}
   end
 
+  def handle_info(:cancel_edit, socket), do: {:noreply, socket |> assign(editing_table_id: nil)}
+  def handle_info({:toggle_edit, table_id}, socket) do
+    {:noreply, socket |> assign(editing_table_id: table_id)}
+  end
+
   def handle_params(_params, _, %{assigns: %{current_user: user, current_subscription_id: subscription_id}} = socket) do
     case connected?(socket) do
       true ->
@@ -35,12 +40,6 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
       false -> {:noreply, socket |> assign(current_subscription_name: "", current_subscription_tables: [])}
     end
   end
-
-  def handle_info(:cancel_edit, socket), do: {:noreply, socket |> assign(editing_table_id: nil)}
-  def handle_info({:toggle_edit, table_id}, socket) do
-    {:noreply, socket |> assign(editing_table_id: table_id)}
-  end
-
 
   def handle_params(_, _, socket), do: {:noreply, socket}
 
