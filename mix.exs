@@ -51,7 +51,6 @@ defmodule Pjeski.MixProject do
       {:phoenix_active_link, "~> 0.3.0"},
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.0.1"},
-      {:quantum, "~> 2.3"},
       {:phoenix_live_view, "~> 0.13.2"},
       {:floki, ">= 0.0.0", only: :test},
       {:faker, "~> 0.13", only: [:test, :dev]},
