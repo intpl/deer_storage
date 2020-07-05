@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [69%] [57/82] DEADLINE: <2020-03-31 Tue>
+* TODO [67%] [57/84] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -75,6 +75,7 @@
 ** PROJ Temporary assigns?
 ** KILL UserRecords::ShowLive + TESTS
 ** KILL write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
+** TODO gettext all submits
 ** TODO change registeration process to not use 'last_used_subscription' (Ecto.Multi?)
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
