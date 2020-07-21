@@ -2,6 +2,7 @@ defmodule Pjeski.Subscriptions do
   import Ecto.Query, warn: false
   alias Pjeski.Repo
 
+  import Pjeski.Subscriptions.Helpers
   import Pjeski.DbHelpers.ComposeSearchQuery
 
   alias Pjeski.Subscriptions.Subscription
@@ -76,6 +77,19 @@ defmodule Pjeski.Subscriptions do
     |> Repo.update()
   end
 
+  def update_deer_table!(subscription, table_id, attrs) do
+    # todo reload subscription
+    deer_tables = subscription.deer_tables
+    |> deer_tables_to_attrs
+    |> overwrite_table_with_attrs(table_id, attrs)
+
+    change_subscription_deer(subscription)
+    |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
+    |> Ecto.Changeset.cast_embed(:deer_tables)
+    |> Repo.update()
+  end
+
+  # TODO: this is used only in tests as of day this comment was made
   def update_subscription_deer(%Subscription{} = subscription, attrs) do
     subscription |> Subscription.deer_changeset(attrs) |> Repo.update()
   end
@@ -90,6 +104,7 @@ defmodule Pjeski.Subscriptions do
     Repo.delete(subscription)
   end
 
+  # TODO: apparently this is not used
   def change_subscription_deer(%Subscription{} = subscription) do
     Subscription.deer_changeset(subscription, %{})
   end
