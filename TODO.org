@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [67%] [57/84] DEADLINE: <2020-03-31 Tue>
+* TODO [65%] [57/87] DEADLINE: <2020-03-31 Tue>
 ** DONE Clean up everything related to Animals, create new git repo if necessary
 ** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
 ** DONE Fix SSL issue
@@ -76,7 +76,9 @@
 ** KILL UserRecords::ShowLive + TESTS
 ** KILL write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** TODO gettext all submits
+** TODO validate unique table ids in subscriptions
 ** TODO change registeration process to not use 'last_used_subscription' (Ecto.Multi?)
+** TODO remove default values when not needed (e.g. attrs \\ %{} in .create)
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
 ** TODO Invitation can enumerate users -> think of that?
@@ -85,6 +87,7 @@
 ** TODO Ensure displayed "DB-inconsistency" errors
 ** TODO Add "failed login attempts" to user: https://elixirforum.com/t/how-to-increment-database-table-column/15457/2
 ** TODO Upload files, sharing (both just file and entire record) + TESTS
+** TODO Restrict file uploads per subscriptions and total size
 ** TODO Optimize indexes
 ** TODO Fix that annoying EtsCacheMock in tests
 ** TODO Add "Enterprise" to the database ?

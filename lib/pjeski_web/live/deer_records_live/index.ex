@@ -5,6 +5,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   import PjeskiWeb.Gettext
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
+  import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, append_missing_fields_to_record: 3]
 
   alias Pjeski.Repo
   alias Pjeski.DeerRecords.DeerRecord
@@ -119,6 +120,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, table_id: table_id}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
+    |> append_missing_fields_to_record(table_id, subscription)
 
     {:noreply, socket |> assign(editing_record: change_record(subscription, record, %{deer_table_id: table_id}))}
   end
@@ -172,15 +174,5 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     %{name: name} = Enum.find(deer_tables, fn deer_table -> deer_table.id == table_id end)
 
     name
-  end
-
-  defp keys_to_atoms(%{} = map) do
-    Enum.reduce(map, %{}, fn
-    # String.to_existing_atom saves us from overloading the VM by
-    # creating too many atoms. It'll always succeed because all the fields
-    # in the database already exist as atoms at runtime.
-    {key, value}, acc when is_atom(key) -> Map.put(acc, key, value)
-      {key, value}, acc when is_binary(key) -> Map.put(acc, String.to_existing_atom(key), value)
-    end)
   end
 end

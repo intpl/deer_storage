@@ -163,11 +163,11 @@ msgid "Danger zone"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:19
-#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:12 lib/pjeski_web/templates/admin/subscription/index.html.eex:110
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:12 lib/pjeski_web/templates/admin/subscription/show.html.eex:133
-#: lib/pjeski_web/templates/admin/user/edit.html.eex:19 lib/pjeski_web/templates/admin/user/index.html.eex:130
-#: lib/pjeski_web/templates/admin/user/show.html.eex:19
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:12
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:19 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:110 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:133 lib/pjeski_web/templates/admin/user/edit.html.eex:19
+#: lib/pjeski_web/templates/admin/user/index.html.eex:130 lib/pjeski_web/templates/admin/user/show.html.eex:19
 msgid "Edit"
 msgstr ""
 
@@ -244,8 +244,9 @@ msgid "Expires on"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:125
-#: lib/pjeski_web/views/admin/subscription_view.ex:22 lib/pjeski_web/views/admin/subscription_view.ex:23
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:16
+#: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/views/admin/subscription_view.ex:22
+#: lib/pjeski_web/views/admin/subscription_view.ex:23
 msgid "Name"
 msgstr ""
 
@@ -574,12 +575,12 @@ msgid "Click the link in the confirmation email to change your email to:"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:107
+#: lib/pjeski_web/controllers/registration_controller.ex:109
 msgid "Click the link in the confirmation email to change your email."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:37
+#: lib/pjeski_web/controllers/registration_controller.ex:39
 msgid "Account updated"
 msgstr ""
 
@@ -770,7 +771,7 @@ msgid "This user has no last used subscription attached"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:70
+#: lib/pjeski_web/controllers/registration_controller.ex:72
 msgid "Current subscription changed"
 msgstr ""
 
@@ -845,8 +846,8 @@ msgid "Are you sure to REMOVE this record?"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:47
-#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:44
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:12
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:47 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:44
 msgid "Cancel"
 msgstr ""
 
@@ -877,17 +878,17 @@ msgid "New record"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:98
+#: lib/pjeski_web/live/deer_records_live/index.ex:99
 msgid "Record created successfully."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:131
+#: lib/pjeski_web/live/deer_records_live/index.ex:133
 msgid "Record deleted successfully."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:87
+#: lib/pjeski_web/live/deer_records_live/index.ex:88
 msgid "Record updated successfully."
 msgstr ""
 
@@ -909,4 +910,14 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/deer_dashboard/index.html.leex:8
 msgid "Welcome!"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
+msgid "Columns"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:32
+msgid "Submit"
 msgstr ""

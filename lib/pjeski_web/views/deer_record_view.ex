@@ -9,7 +9,10 @@ defmodule PjeskiWeb.DeerRecordView do
   end
 
   def deer_field_content_from_column_id(%DeerRecord{deer_fields: deer_fields}, column_id) do
-    Enum.find(deer_fields, fn field -> field.deer_column_id == column_id end).content
+    case Enum.find(deer_fields, fn field -> field.deer_column_id == column_id end) do
+      nil -> nil
+      field -> field.content
+    end
   end
 
   def deer_columns_from_subscription(%Subscription{deer_tables: deer_tables}, table_id) do
