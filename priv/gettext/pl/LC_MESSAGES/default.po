@@ -245,7 +245,7 @@ msgid "Expires on"
 msgstr "Wygasa"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:16
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:18
 #: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/views/admin/subscription_view.ex:22
 #: lib/pjeski_web/views/admin/subscription_view.ex:23
 msgid "Name"
@@ -848,7 +848,7 @@ msgid "Are you sure to REMOVE this record?"
 msgstr "Na pewno USUNĄĆ ten rekord?"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:12
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:14
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:47 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:44
 msgid "Cancel"
 msgstr "Anuluj"
@@ -915,11 +915,16 @@ msgid "Welcome!"
 msgstr "Witamy!"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:24
 msgid "Columns"
 msgstr "Kolumny"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:32
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:40
 msgid "Submit"
 msgstr "Wyślij"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:36
+msgid "Add column"
+msgstr "Dodaj kolumnę"

@@ -13,6 +13,7 @@ defmodule Pjeski.Subscriptions.DeerTable do
   def changeset(deer_table, attrs) do
     deer_table
     |> cast(attrs, [:name])
+    |> validate_required(:name)
     |> validate_length(:name, min: 3)
     |> validate_length(:name, max: 50)
     |> cast_embed(:deer_columns)

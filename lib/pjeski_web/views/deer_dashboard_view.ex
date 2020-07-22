@@ -17,7 +17,8 @@ defmodule PjeskiWeb.DeerDashboardView do
       PjeskiWeb.DeerDashboardLive.DeerTableEditComponent,
       id: "#{table.id}",
       table: table,
-      changeset: editing_table_changeset
+      changeset: editing_table_changeset,
+      show_add_column: true
     )
   end
 end
