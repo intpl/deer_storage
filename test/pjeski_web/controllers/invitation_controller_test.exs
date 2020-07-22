@@ -15,7 +15,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
   def valid_update_params_for(email \\ Faker.Internet.safe_email()) do
     %{
          email: email,
-         name: Faker.Name.name(),
+         name: Faker.Person.name(),
          password: "secret123",
          password_confirmation: "secret123"
     }

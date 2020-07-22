@@ -1,9 +1,9 @@
 defmodule Pjeski.Fixtures do
   alias Pjeski.{Repo, Users, Subscriptions.Subscription}
 
-  def random_subscription_attrs(), do: %Subscription{name: Faker.Name.name()}
+  def random_subscription_attrs(), do: %Subscription{name: Faker.Person.name()}
   def random_user_attrs(), do: %{email: Faker.Internet.safe_email(),
-                        name: Faker.Name.name(),
+                        name: Faker.Person.name(),
                         password: "secret123",
                         email_confirmed_at: DateTime.utc_now,
                         email_confirmation_token: nil,

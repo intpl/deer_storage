@@ -25,7 +25,7 @@ built_admin_structs = Enum.map(admin_emails, fn admin_email ->
   params = Map.merge(
   %{
     email: admin_email,
-    name: "Admin " <> Faker.Name.name(),
+    name: "Admin " <> Faker.Person.name(),
     locale: "pl",
     role: "admin"}, default_user_map)
 
@@ -79,7 +79,7 @@ for %Subscription{id: sub_id} = sub <- subscriptions do
       User.admin_changeset(%User{}, Map.merge(
             %{
               email: Faker.Internet.safe_email(),
-              name: Faker.Name.name(),
+              name: Faker.Person.name(),
               time_zone: Enum.random(Tzdata.zone_list),
               locale: Enum.random(["en", "pl"]),
               last_used_subscription_id: sub_id,
@@ -93,7 +93,7 @@ for %Subscription{id: sub_id} = sub <- subscriptions do
       User.admin_changeset(%User{}, Map.merge(
             %{
               email: Faker.Internet.safe_email(),
-              name: Faker.Name.name(),
+              name: Faker.Person.name(),
               time_zone: Enum.random(Tzdata.zone_list),
               locale: Enum.random(["en", "pl"]),
               last_used_subscription_id: sub_id,
