@@ -4,17 +4,18 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
 
-  alias Pjeski.Subscriptions.DeerTable
+  import PjeskiWeb.ErrorHelpers, only: [error_tag: 2]
 
-  def render(%{table: %{id: id} = deer_table} = assigns) do
+  def render(%{table: %{id: id} = deer_table, changeset: changeset} = assigns) do
     ~L"""
     <p>
       <a phx-click="cancel_edit"><%= gettext("Cancel") %></a>
-      <%= form_for change_deer_table(deer_table), "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn f -> %>
+      <%= form_for changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn f -> %>
         <%= hidden_input f, :id, value: id %>
 
         <%= label f, gettext("Name"), class: 'label field-label' %>
         <%= text_input f, :name, class: 'input' %>
+        <%= error_tag f, :name %>
 
         <br>
 
@@ -24,7 +25,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
           <div class="field-body">
             <div class="field">
               <%= text_input dc, :name, class: 'input' %>
-              <%#= error_tag dc, :name %>
+              <%= error_tag dc, :name %>
             </div>
           </div>
         <% end %>
@@ -34,6 +35,4 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
     </p>
     """
   end
-
-  defp change_deer_table(deer_table), do: DeerTable.changeset(deer_table, %{})
 end

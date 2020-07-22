@@ -11,12 +11,13 @@ defmodule PjeskiWeb.DeerDashboardView do
     )
   end
 
-  def render_table_edit_component(socket, table) do
+  def render_table_edit_component(socket, table, editing_table_changeset) do
     live_component(
       socket,
       PjeskiWeb.DeerDashboardLive.DeerTableEditComponent,
       id: "#{table.id}",
-      table: table
+      table: table,
+      changeset: editing_table_changeset
     )
   end
 end

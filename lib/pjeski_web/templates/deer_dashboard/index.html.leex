@@ -23,7 +23,7 @@
               <div class="content">
                 <%= case table.id == @editing_table_id do %>
                   <% true -> %>
-                    <%= render_table_edit_component(@socket, table) %>
+                    <%= render_table_edit_component(@socket, table, @editing_table_changeset) %>
                   <% false -> %>
                     <%= render_table_show_component(@socket, table, @editing_table_id) %>
                 <% end %>
