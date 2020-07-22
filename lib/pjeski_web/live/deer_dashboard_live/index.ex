@@ -7,12 +7,15 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   import Pjeski.Subscriptions, only: [update_deer_table!: 3, create_deer_table!: 3]
 
+  alias Phoenix.PubSub
   alias Pjeski.Repo
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
   alias Pjeski.Subscriptions.DeerTable
 
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
     #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
+    if connected?(socket), do: PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+
     user = get_live_user(socket, session)
 
     Gettext.put_locale(user.locale)
@@ -55,6 +58,14 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
                                        current_subscription_tables: updated_subscription.deer_tables
                                        )}
     end
+  end
+
+  def handle_info({:subscription_updated, subscription}, socket) do
+    {:noreply, socket |> assign(
+        current_subscription_tables: subscription.deer_tables,
+        current_subscription: subscription,
+        editing_table_id: nil
+      )}
   end
 
   def handle_info({:toggle_edit, table_id}, %{assigns: %{current_subscription: subscription}} = socket) do

@@ -1,5 +1,6 @@
 defmodule Pjeski.Subscriptions do
   import Ecto.Query, warn: false
+  alias Phoenix.PubSub
   alias Pjeski.Repo
 
   import Pjeski.Subscriptions.Helpers
@@ -86,6 +87,7 @@ defmodule Pjeski.Subscriptions do
     |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
     |> Ecto.Changeset.cast_embed(:deer_tables)
     |> Repo.update()
+    |> maybe_notify_about_updated_subscription
   end
 
   def update_deer_table!(subscription, table_id, attrs) do
@@ -98,6 +100,7 @@ defmodule Pjeski.Subscriptions do
     |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
     |> Ecto.Changeset.cast_embed(:deer_tables)
     |> Repo.update()
+    |> maybe_notify_about_updated_subscription
   end
 
   # TODO: this is used only in tests as of day this comment was made
@@ -127,6 +130,14 @@ defmodule Pjeski.Subscriptions do
   def admin_change_subscription(%Subscription{} = subscription) do
     Subscription.admin_changeset(subscription, %{})
   end
+
+  defp maybe_notify_about_updated_subscription({:error, _} = response), do: response
+  defp maybe_notify_about_updated_subscription({:ok, subscription}) do
+    PubSub.broadcast Pjeski.PubSub, "subscription:#{subscription.id}", {:subscription_updated, subscription}
+
+    {:ok, subscription}
+  end
+
 
   defp sort_subscriptions_by(q, ""), do: q
   defp sort_subscriptions_by(q, "name_desc"), do: q |> order_by(desc: :name)

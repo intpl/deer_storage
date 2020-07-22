@@ -1,8 +1,12 @@
 defmodule PjeskiWeb.SubscriptionNavigationLive do
   alias PjeskiWeb.Router.Helpers, as: Routes
+  alias Phoenix.PubSub
+  
   use Phoenix.LiveView
 
-  def mount(:not_mounted_at_router, %{"subscription_id" => _subscription_id, "subscription_tables" => subscription_tables}, socket) do
+  def mount(:not_mounted_at_router, %{"subscription_id" => subscription_id, "subscription_tables" => subscription_tables}, socket) do
+    if connected?(socket), do: PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+
     {:ok, assign(socket, subscription_tables: subscription_tables)}
   end
 
@@ -13,4 +17,6 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
       <% end %>
     """
   end
+
+  def handle_info({:subscription_updated, subscription}, socket), do: {:noreply, socket |> assign(subscription_tables: subscription.deer_tables)}
 end

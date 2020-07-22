@@ -65,7 +65,7 @@ defmodule PjeskiWeb.RegistrationController do
   defp maybe_update_user_and_put_subscription_into_session(true, conn, user, requested_subscription_id) do
     token = UserSessionUtils.get_token_from_conn(conn)
     Users.update_last_used_subscription_id!(user, requested_subscription_id)
-    Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", {:subscription_changed, requested_subscription_id})
+    Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", {:subscription_changed, requested_subscription_id}) # TODO USE THIS
 
     conn
     |> UserSessionUtils.put_into_session(:current_subscription_id, requested_subscription_id)
