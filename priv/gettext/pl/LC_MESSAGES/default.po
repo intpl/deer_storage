@@ -928,3 +928,18 @@ msgstr "Wyślij"
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:36
 msgid "Add column"
 msgstr "Dodaj kolumnę"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:38
+msgid "Add table"
+msgstr "Utwórz tabelę"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:29
+msgid "Example column 1"
+msgstr "Przykładowa kolumna 1"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:29
+msgid "New table"
+msgstr "Nowa tabela"

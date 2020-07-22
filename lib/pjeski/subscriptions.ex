@@ -77,6 +77,17 @@ defmodule Pjeski.Subscriptions do
     |> Repo.update()
   end
 
+  def create_deer_table!(subscription, name, columns) do
+    # todo reload subscription
+    new_table_attrs = [%{name: name, deer_columns: Enum.map(columns, fn col_name -> %{name: col_name} end)}]
+    deer_tables = deer_tables_to_attrs(subscription.deer_tables) ++ new_table_attrs
+
+    change_subscription_deer(subscription)
+    |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
+    |> Ecto.Changeset.cast_embed(:deer_tables)
+    |> Repo.update()
+  end
+
   def update_deer_table!(subscription, table_id, attrs) do
     # todo reload subscription
     deer_tables = subscription.deer_tables
