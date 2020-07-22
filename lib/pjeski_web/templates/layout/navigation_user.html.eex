@@ -13,23 +13,23 @@
   </div>
 
   <div id="navigation" class="navbar-menu">
-        <%= if @conn.assigns.current_subscription do %>
-            <%= live_render(
-                @conn,
-                PjeskiWeb.SubscriptionNavigationLive,
-                container: {:div, class: "navbar-start"},
-                session: %{
-                  "subscription_id" => @conn.assigns.current_subscription.id,
-                  "subscription_tables" => @conn.assigns.current_subscription.deer_tables
-                }
-            ) %>
-        <% else %>
-          <div class="navbar-start">
-            <div class="navbar-item">
-              <%= gettext("This account has no subscriptions") %>
-            </div>
-          </div>
-        <% end %>
+    <%= if @conn.assigns.current_subscription do %>
+      <%= live_render(
+          @conn,
+          PjeskiWeb.SubscriptionNavigationLive,
+          container: {:div, class: "navbar-start"},
+          session: %{
+            "subscription_id" => @conn.assigns.current_subscription.id,
+            "subscription_tables" => @conn.assigns.current_subscription.deer_tables
+          }
+      ) %>
+    <% else %>
+      <div class="navbar-start">
+        <div class="navbar-item">
+          <%= gettext("This account has no subscriptions") %>
+        </div>
+      </div>
+    <% end %>
 
     <div class="navbar-end">
       <div class="navbar-item">
