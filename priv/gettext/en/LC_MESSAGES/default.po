@@ -83,8 +83,8 @@ msgid "E-mail address"
 msgstr ""
 
 #, elixir-format
+#: lib/pjeski_web/live/subscription_navigation_live.ex:47
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:38
 msgid "Sign out"
 msgstr ""
 
@@ -128,8 +128,8 @@ msgid "Free demo"
 msgstr ""
 
 #, elixir-format
+#: lib/pjeski_web/live/subscription_navigation_live.ex:46
 #: lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:37
 msgid "Settings"
 msgstr ""
 
@@ -191,7 +191,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:37
-#: lib/pjeski_web/templates/admin/user/form.html.eex:50
+#: lib/pjeski_web/templates/admin/user/form.html.eex:50 lib/pjeski_web/templates/deer_dashboard/index.html.leex:10
 msgid "Save"
 msgstr ""
 
@@ -787,11 +787,6 @@ msgid "Changing user's last used subscription requires new session"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_user.html.eex:29
-msgid "This account has no subscriptions"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/views/layout_view.ex:11
 msgid "SUBSCRIPTION EXPIRED"
 msgstr ""
@@ -849,6 +844,7 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:14
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:47 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:44
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:13
 msgid "Cancel"
 msgstr ""
 
@@ -909,7 +905,7 @@ msgid "There are no more records"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:8
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:21
 msgid "Welcome!"
 msgstr ""
 
@@ -929,16 +925,21 @@ msgid "Add column"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:38
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:53
 msgid "Add table"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:29
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:44
 msgid "Example column 1"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:29
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:44
 msgid "New table"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:17
+msgid "Change name"
 msgstr ""
