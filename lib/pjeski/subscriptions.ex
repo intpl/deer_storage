@@ -103,7 +103,6 @@ defmodule Pjeski.Subscriptions do
     |> maybe_notify_about_updated_subscription
   end
 
-  # TODO: this is used only in tests as of day this comment was made
   def update_subscription_deer(%Subscription{} = subscription, attrs) do
     subscription |> Subscription.deer_changeset(attrs) |> Repo.update()
   end
@@ -112,13 +111,13 @@ defmodule Pjeski.Subscriptions do
     subscription
     |> Subscription.changeset(attrs)
     |> Repo.update()
+    |> maybe_notify_about_updated_subscription
   end
 
   def delete_subscription(%Subscription{} = subscription) do
     Repo.delete(subscription)
   end
 
-  # TODO: apparently this is not used
   def change_subscription_deer(%Subscription{} = subscription) do
     Subscription.deer_changeset(subscription, %{})
   end

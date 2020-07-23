@@ -5,7 +5,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1]
   import PjeskiWeb.Gettext
 
-  import Pjeski.Subscriptions, only: [update_deer_table!: 3, create_deer_table!: 3]
+  import Pjeski.Subscriptions, only: [update_deer_table!: 3, create_deer_table!: 3, update_subscription: 2]
 
   alias Phoenix.PubSub
   alias Pjeski.Repo
@@ -24,8 +24,19 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         current_user: user,
         current_subscription_id: subscription_id,
         token: token,
+        editing_subscription_name: false,
         editing_table_id: nil
       )}
+  end
+
+  def handle_event("save_subscription_name", %{"name" => new_name}, %{assigns: %{current_subscription: subscription}} = socket) do
+    update_subscription(subscription, %{name: new_name})
+
+    {:noreply, socket |> assign(editing_subscription_name: false)}
+  end
+
+  def handle_event("toggle_edit_subscription_name", %{}, %{assigns: %{editing_subscription_name: bool}} = socket) do
+    {:noreply, socket |> assign(editing_subscription_name: !bool, editing_table_id: nil)}
   end
 
   def handle_event("add_table", %{}, %{assigns: %{current_subscription: subscription}} = socket) do
@@ -52,6 +63,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
         {:noreply, socket |> assign(editing_table_changeset: invalid_changeset)}
       {:ok, updated_subscription} -> {:noreply, socket |> assign(
+                                       editing_subscription_name: false,
                                        editing_table_id: nil,
                                        editing_table_changeset: nil,
                                        current_subscription: updated_subscription,
@@ -62,7 +74,9 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def handle_info({:subscription_updated, subscription}, socket) do
     {:noreply, socket |> assign(
+        editing_subscription_name: false,
         current_subscription_tables: subscription.deer_tables,
+        current_subscription_name: subscription.name,
         current_subscription: subscription,
         editing_table_id: nil
       )}
@@ -71,7 +85,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   def handle_info({:toggle_edit, table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
     changeset = subscription.deer_tables |> Enum.find(fn dt -> dt.id == table_id end) |> DeerTable.changeset(%{})
 
-    {:noreply, socket |> assign(editing_table_id: table_id, editing_table_changeset: changeset)}
+    {:noreply, socket |> assign(editing_table_id: table_id, editing_table_changeset: changeset, editing_subscription_name: false)}
   end
 
   def handle_params(_params, _, %{assigns: %{current_user: user, current_subscription_id: subscription_id}} = socket) do

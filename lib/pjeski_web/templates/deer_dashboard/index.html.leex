@@ -2,7 +2,20 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= @current_subscription_name %></b>
+          <%= if @editing_subscription_name do %>
+            <div class="field has-addons">
+              <p class="control">
+                <form phx-submit="save_subscription_name">
+                  <input type="text" name="name" value="<%= @current_subscription_name %>" class="button"/>
+                  <input type="submit" value="<%= gettext("Save") %>" class="button"/>
+                </form>
+              </p>
+              <a phx-click="toggle_edit_subscription_name" class="has-text-weight-light is-size-5"><%= gettext("Cancel") %></a>
+            </div>
+          <% else %>
+            <%= @current_subscription_name %></b>
+            <a phx-click="toggle_edit_subscription_name" class="has-text-weight-light is-size-5"><%= gettext("Edit") %></a>
+          <% end %>
       </h1>
       <h2 class="subtitle">
         <%= gettext("Welcome!") %>
@@ -34,6 +47,8 @@
       <% end %>
     </div>
   <% end %>
+
   <br>
+
   <a phx-click="add_table"><%= gettext("Add table") %></a>
 </div>
