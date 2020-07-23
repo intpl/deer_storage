@@ -12,6 +12,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
   alias Pjeski.Subscriptions.DeerTable
 
+  def mount(_params, %{"pjeski_auth" => _token, "current_subscription_id" => nil}, socket), do: {:ok, push_redirect(socket, to: "/registration/edit")}
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
     #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
     if connected?(socket), do: PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")

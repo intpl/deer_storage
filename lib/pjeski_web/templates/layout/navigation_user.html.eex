@@ -1,43 +1,12 @@
-<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <%= live_redirect(
-        header_text(@conn),
-        to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index),
-        class: "navbar-item") %>
-
-    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  <div id="navigation" class="navbar-menu">
-    <%= if @conn.assigns.current_subscription do %>
-      <%= live_render(
-          @conn,
-          PjeskiWeb.SubscriptionNavigationLive,
-          container: {:div, class: "navbar-start"},
-          session: %{
-            "subscription_id" => @conn.assigns.current_subscription.id,
-            "subscription_tables" => @conn.assigns.current_subscription.deer_tables
-          }
-      ) %>
-    <% else %>
-      <div class="navbar-start">
-        <div class="navbar-item">
-          <%= gettext("This account has no subscriptions") %>
-        </div>
-      </div>
-    <% end %>
-
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons">
-          <%= link gettext("Settings"), to: Routes.registration_path(@conn, :edit), method: :get, class: "button is-dark navbar-item" %>
-          <%= link gettext("Sign out"), to: Routes.session_path(@conn, :delete), method: :delete, class: "button is-link navbar-item" %>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+<%= if @conn.assigns.current_subscription do %>
+  <%= live_render(
+      @conn,
+      PjeskiWeb.SubscriptionNavigationLive,
+      container: {:div, class: "navbar is-dark"},
+      session: %{
+        "header_text" => header_text(@conn),
+        "subscription_id" => @conn.assigns.current_subscription.id,
+        "subscription_tables" => @conn.assigns.current_subscription.deer_tables
+      }
+  ) %>
+<% end %>
