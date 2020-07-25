@@ -159,6 +159,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(records: search_records(subscription.id, table_id, query, page))}
   end
 
+  def handle_info({:subscription_updated, subscription}, socket) do
+    # TODO COLUMNS!!!!!!!!!
+
+    {:noreply, socket |> assign(subscription: subscription)}
+  end
+
   defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, table_id: table_id}} = socket) do
     records = search_records(subscription.id, table_id, query, new_page)
 
