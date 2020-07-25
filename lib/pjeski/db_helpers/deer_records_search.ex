@@ -11,6 +11,7 @@ defmodule Pjeski.DbHelpers.DeerRecordsSearch do
     |> where([dr], dr.subscription_id == ^subscription_id and dr.deer_table_id == ^table_id)
     |> offset(^calculate_offset(page))
     |> limit(^per_page())
+    |> order_by(desc: :updated_at)
 
     query = case query_string do
       nil -> initial_query
