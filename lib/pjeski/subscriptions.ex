@@ -137,7 +137,6 @@ defmodule Pjeski.Subscriptions do
     {:ok, subscription}
   end
 
-
   defp sort_subscriptions_by(q, ""), do: q
   defp sort_subscriptions_by(q, "name_desc"), do: q |> order_by(desc: :name)
   defp sort_subscriptions_by(q, "name_asc"), do: q |> order_by(asc: :name)

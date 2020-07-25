@@ -7,6 +7,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
   import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, append_missing_fields_to_record: 3]
 
+  alias Phoenix.PubSub
   alias Pjeski.Repo
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
@@ -45,6 +46,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
     case connected?(socket) do
       true ->
+        PubSub.subscribe(Pjeski.PubSub, "record:#{subscription_id}:#{table_id}")
+
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
@@ -82,7 +85,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
     {:ok, _} = update_record(subscription, record.data, attrs)
-    # TODO Notify subscribers here
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
     patch_to_index(socket |> put_flash(:info, gettext("Record updated successfully.")))
@@ -97,7 +99,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
           socket
           # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
           |> put_flash(:info, gettext("Record created successfully."))
-          |> assign(new_record: nil, query: nil))
+          |> assign(new_record: nil))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, socket |> assign(new_record: changeset)}
@@ -146,6 +148,16 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
+
+  def handle_info({:record_change, %{id: record_id} = record}, %{assigns: %{subscription: subscription, table_id: table_id, query: query, page: page, current_record: current_record}} = socket) when byte_size(query) <= 50 do
+    socket = case {record_id, record.__meta__.state, current_record} do
+               {^record_id, :loaded, %{id: ^record_id}} -> assign(socket, current_record: record, editing_record: nil)
+               {^record_id, :deleted, %{id: ^record_id}} -> assign(socket, current_record: nil, editing_record: nil)
+               _ -> socket
+             end
+
+    {:noreply, socket |> assign(records: search_records(subscription.id, table_id, query, page))}
+  end
 
   defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, table_id: table_id}} = socket) do
     records = search_records(subscription.id, table_id, query, new_page)
