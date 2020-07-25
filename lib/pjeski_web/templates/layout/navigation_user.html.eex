@@ -6,7 +6,8 @@
       session: %{
         "header_text" => header_text(@conn),
         "subscription_id" => @conn.assigns.current_subscription.id,
-        "subscription_tables" => @conn.assigns.current_subscription.deer_tables
+        "subscription_tables" => @conn.assigns.current_subscription.deer_tables,
+        "locale" => @conn.assigns.locale
       }
   ) %>
 <% end %>

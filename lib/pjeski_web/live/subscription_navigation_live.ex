@@ -11,9 +11,12 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
   def mount(:not_mounted_at_router,
     %{"header_text" => header_text,
       "subscription_id" => subscription_id,
-      "subscription_tables" => subscription_tables
+      "subscription_tables" => subscription_tables,
+      "locale" => locale
     }, socket) do
     if connected?(socket) && subscription_id != nil, do: PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+
+    Gettext.put_locale(PjeskiWeb.Gettext, locale)
 
     {:ok, assign(socket, subscription_tables: subscription_tables, header_text: header_text)}
   end
@@ -24,7 +27,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
         <%= live_redirect(
             @header_text,
             to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index),
-            class: "navbar-item") %>
+            class: "navbar-item has-text-weight-bold") %>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
           <span aria-hidden="true"></span>
