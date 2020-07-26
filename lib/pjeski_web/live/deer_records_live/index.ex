@@ -47,6 +47,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     case connected?(socket) do
       true ->
         PubSub.subscribe(Pjeski.PubSub, "record:#{subscription_id}:#{table_id}")
+        PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
 
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
@@ -74,7 +75,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, socket |> assign(editing_record: nil)}
 
-  # FIXME refactor
+  # TODO refactor
   def handle_event("validate_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, subscription: subscription, table_id: table_id}} = socket) do
     attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
@@ -88,6 +89,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
     patch_to_index(socket |> put_flash(:info, gettext("Record updated successfully.")))
+  end
+
+  # TODO refactor
+  def handle_event("validate_new", %{"deer_record" => attrs}, %{assigns: %{new_record: record, subscription: subscription, table_id: table_id}} = socket) do
+    attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
+
+    {:noreply, socket |> assign(new_record: change_record(subscription, record.data, attrs))}
   end
 
   def handle_event("save_new", %{"deer_record" => attrs}, %{assigns: %{subscription: subscription, table_id: table_id}} = socket) do
@@ -159,11 +167,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(records: search_records(subscription.id, table_id, query, page))}
   end
 
-  def handle_info({:subscription_updated, subscription}, socket) do
-    # TODO COLUMNS!!!!!!!!!
+  def handle_info({:subscription_updated, subscription}, %{assigns: %{editing_record: editing_record, new_record: new_record, current_record: current_record}} = socket) do
+    socket = socket
+    |> assign(subscription: subscription, table_name: "FIXME") # FIXME!!!
+    |> maybe_assign_record_changeset(:new_record, subscription, new_record)
+    |> maybe_assign_record_changeset(:editing_record, subscription, editing_record)
 
-    {:noreply, socket |> assign(subscription: subscription)}
-  end
+    {:noreply, socket}
+   end
 
   defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, table_id: table_id}} = socket) do
     records = search_records(subscription.id, table_id, query, new_page)
@@ -192,5 +203,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     %{name: name} = Enum.find(deer_tables, fn deer_table -> deer_table.id == table_id end)
 
     name
+  end
+
+  defp maybe_assign_record_changeset(socket, _type, _subscription, nil), do: socket
+  defp maybe_assign_record_changeset(socket, assign_name, subscription, %{data: %{deer_table_id: table_id}} = record) do
+    # FIXME: adding fields does not work
+    changeset = change_record(subscription, record, %{deer_table_id: table_id})
+
+    assign(socket, assign_name, changeset)
   end
 end

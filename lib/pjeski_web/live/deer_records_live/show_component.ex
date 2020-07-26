@@ -24,12 +24,12 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             </a>
           </h3>
           <ul>
-            <%= for %{id: column_id, name: column_name} <- deer_columns do %>
+            <%= Enum.map(deer_columns, fn %{id: column_id, name: column_name} -> %>
               <li>
                 <strong><%= column_name %>:</strong>
                 <%= deer_field_content_from_column_id(@record, column_id) %>
               </li>
-            <% end %>
+            <% end) %>
           </ul>
         </div>
       </div>

@@ -2,6 +2,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
+
   import PjeskiWeb.DeerRecordView, only: [
     deer_column_name_from_id: 2,
     deer_columns_from_subscription: 2
@@ -50,21 +51,5 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
         </div>
       </div>
     """
-  end
-
-  def handle_event("save", %{"record" => record_attrs}, socket) do
-    send self(), {:save_edit, record_attrs}
-    {:noreply, socket}
-  end
-
-  def handle_event("validate", %{"record" => record_attrs}, socket) do
-    send self(), {:validate_edit, record_attrs}
-    {:noreply, socket}
-  end
-
-  def handle_event("close", _, socket) do
-    send self(), :close_edit
-
-    {:noreply, socket}
   end
 end

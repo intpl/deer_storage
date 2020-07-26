@@ -20,7 +20,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
             </p>
             <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_new"></button>
           </header>
-          <%= form_for changeset, "#", [phx_submit: :save_new], fn f -> %>
+          <%= form_for changeset, "#", [phx_change: :validate_new, phx_submit: :save_new], fn f -> %>
             <section class="modal-card-body">
               <div class"container">
                 <%= inputs_for f, :deer_fields, fn df -> %>

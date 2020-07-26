@@ -108,6 +108,7 @@ end %>
             <%= live_component(
                 @socket,
                 PjeskiWeb.DeerRecordsLive.ShowComponent,
+                id: @current_record.id,
                 record: @current_record,
                 subscription: @subscription,
                 table_id: @table_id

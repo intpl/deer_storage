@@ -25,7 +25,7 @@ defmodule Pjeski.DeerRecords do
     |> maybe_notify_about_record_change
   end
 
-  def change_record(%Subscription{} = subscription, %DeerRecord{} = record, attrs) do
+  def change_record(%Subscription{} = subscription, record, attrs) do
     DeerRecord.changeset(record, attrs, subscription)
   end
 
