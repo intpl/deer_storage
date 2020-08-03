@@ -76,6 +76,7 @@
 ** KILL UserRecords::ShowLive + TESTS
 ** KILL write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** TODO gettext all submits
+** Update account -> make Enter work
 ** TODO validate unique table ids in subscriptions
 ** TODO change registeration process to not use 'last_used_subscription' (Ecto.Multi?)
 ** TODO remove default values when not needed (e.g. attrs \\ %{} in .create)
