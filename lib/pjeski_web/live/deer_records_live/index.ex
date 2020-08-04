@@ -5,13 +5,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   import PjeskiWeb.Gettext
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
-  import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, append_missing_fields_to_record: 3]
+  import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, append_missing_fields_to_record: 3, is_expired?: 1]
 
   alias Phoenix.PubSub
   alias Pjeski.Repo
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
+  import PjeskiWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
   import Pjeski.DeerRecords, only: [
     change_record: 3,
     create_record: 2,
@@ -32,6 +33,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         current_record: nil,
         editing_record: nil,
         new_record: nil,
+        table_name: nil,
         page: 1,
         per_page: per_page(),
         current_user: user,
@@ -52,10 +54,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
-        is_expired = Date.diff(subscription.expires_on, Date.utc_today) < 1
         table_name = table_name_from_subscription(subscription, table_id)
 
-        case is_expired do
+        case is_expired?(subscription) do
           true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
           false ->
             records = search_records(subscription.id, table_id, query, 1)
@@ -171,13 +172,21 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(records: search_records(subscription.id, table_id, query, page))}
   end
 
-  def handle_info({:subscription_updated, subscription}, %{assigns: %{editing_record: editing_record, new_record: new_record, current_record: current_record}} = socket) do
-    socket = socket
-    |> assign(subscription: subscription, table_name: "FIXME") # FIXME!!!
-    |> maybe_assign_record_changeset(:new_record, subscription, new_record)
-    |> maybe_assign_record_changeset(:editing_record, subscription, editing_record)
+  def handle_info({:subscription_updated, subscription}, %{assigns: %{editing_record: editing_record, new_record: new_record, table_id: table_id}} = socket) do
+    case is_expired?(subscription) do
+      true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
+      false ->
+        case deer_table_from_subscription(subscription, table_id) do
+          nil -> {:noreply, push_redirect(socket, to: "/dashboard")}
+          %{name: name} ->
+            socket = socket
+            |> assign(subscription: subscription, table_name: name)
+            |> maybe_assign_record_changeset(:new_record, subscription, new_record)
+            |> maybe_assign_record_changeset(:editing_record, subscription, editing_record)
 
-    {:noreply, socket}
+            {:noreply, socket}
+        end
+    end
    end
 
   defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, table_id: table_id}} = socket) do

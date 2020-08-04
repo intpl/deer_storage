@@ -7,7 +7,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
     deer_columns_from_subscription: 2
   ]
 
-  def render(%{changeset: changeset, subscription: subscription, table_id: table_id} = assigns) do
+  def render(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name} = assigns) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
     ~L"""
@@ -16,7 +16,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">
-              <%= gettext("New record") %>
+              <%= gettext("Insert record to table") %>: <%= table_name %>
             </p>
             <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_new"></button>
           </header>

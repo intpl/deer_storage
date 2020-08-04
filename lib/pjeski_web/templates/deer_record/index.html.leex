@@ -6,7 +6,8 @@
         id: "edit-#{@editing_record.data.id}",
         changeset: @editing_record,
         subscription: @subscription,
-        table_id: @table_id
+        table_id: @table_id,
+        table_name: @table_name
       )
     @new_record ->
       live_component(
@@ -15,7 +16,8 @@
         id: "new",
         changeset: @new_record,
         subscription: @subscription,
-        table_id: @table_id
+        table_id: @table_id,
+        table_name: @table_name
       )
     true -> ""
 end %>

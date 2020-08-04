@@ -2,7 +2,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   use Phoenix.LiveView
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
-  import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1]
+  import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, is_expired?: 1]
   import PjeskiWeb.Gettext
 
   import Pjeski.Subscriptions, only: [update_deer_table!: 3, create_deer_table!: 3, update_subscription: 2]
@@ -74,13 +74,16 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end
 
   def handle_info({:subscription_updated, subscription}, socket) do
-    {:noreply, socket |> assign(
+    case is_expired?(subscription) do
+      true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
+      false -> {:noreply, socket |> assign(
         editing_subscription_name: false,
         current_subscription_tables: subscription.deer_tables,
         current_subscription_name: subscription.name,
         current_subscription: subscription,
         editing_table_id: nil
       )}
+    end
   end
 
   def handle_info({:toggle_edit, table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
@@ -95,9 +98,8 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
-        is_expired = Date.diff(subscription.expires_on, Date.utc_today) < 1
 
-        case is_expired do
+        case is_expired?(subscription) do
           true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
           false -> {
             :noreply,

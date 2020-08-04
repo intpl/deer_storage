@@ -76,6 +76,7 @@ defmodule Pjeski.Subscriptions do
     subscription
     |> Subscription.admin_changeset(attrs)
     |> Repo.update()
+    |> maybe_notify_about_updated_subscription
   end
 
   def create_deer_table!(subscription, name, columns) do

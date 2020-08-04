@@ -1,6 +1,8 @@
 defmodule PjeskiWeb.LiveHelpers do
   alias Pjeski.DeerRecords.DeerField
 
+  def is_expired?(%{expires_on: date}), do: Date.diff(date, Date.utc_today) < 1
+
   def keys_to_atoms(%{} = map) do
     Enum.reduce(map, %{}, fn
     # String.to_existing_atom saves us from overloading the VM by
