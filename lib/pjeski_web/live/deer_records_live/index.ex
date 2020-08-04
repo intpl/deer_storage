@@ -52,21 +52,25 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
+        is_expired = Date.diff(subscription.expires_on, Date.utc_today) < 1
         table_name = table_name_from_subscription(subscription, table_id)
 
-        records = search_records(subscription.id, table_id, query, 1)
+        case is_expired do
+          true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
+          false ->
+            records = search_records(subscription.id, table_id, query, 1)
 
-        {:noreply,
-         socket |> assign(
-           count: length(records),
-           query: query,
-           records: records,
-           subscription: subscription,
-           table_id: table_id,
-           table_name: table_name,
-           user_subscription_link: user_subscription_link # TODO: permissions
-         )
-        }
+            {:noreply,
+             socket |> assign(
+               count: length(records),
+               query: query,
+               records: records,
+               subscription: subscription,
+               table_id: table_id,
+               table_name: table_name,
+               user_subscription_link: user_subscription_link # TODO: permissions
+             )}
+        end
       false -> {:noreply, socket |> assign(query: query, records: [], count: 0)}
     end
   end

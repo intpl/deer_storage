@@ -95,13 +95,20 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
+        is_expired = Date.diff(subscription.expires_on, Date.utc_today) < 1
 
-        {:noreply, socket |> assign(
-            current_subscription: subscription,
-            current_subscription_name: subscription.name,
-            current_subscription_tables: subscription.deer_tables,
-            user_subscription_link: user_subscription_link) # TODO: permissions
-        }
+        case is_expired do
+          true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
+          false -> {
+            :noreply,
+            socket |> assign(
+              current_subscription: subscription,
+              current_subscription_name: subscription.name,
+              current_subscription_tables: subscription.deer_tables,
+              user_subscription_link: user_subscription_link
+            )} # TODO: permissions
+        end
+
       false -> {:noreply, socket |> assign(current_subscription_name: "", current_subscription_tables: [])}
     end
   end
