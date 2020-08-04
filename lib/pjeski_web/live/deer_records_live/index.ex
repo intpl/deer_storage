@@ -54,7 +54,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
-        table_name = table_name_from_subscription(subscription, table_id)
+
+        socket = case table_from_subscription(subscription, table_id) do
+                   %{name: table_name} -> assign(socket, :table_name, table_name)
+                   nil -> push_redirect(socket, to: "/dashboard")
+                 end
 
         case is_expired?(subscription) do
           true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
@@ -68,7 +72,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                records: records,
                subscription: subscription,
                table_id: table_id,
-               table_name: table_name,
                user_subscription_link: user_subscription_link # TODO: permissions
              )}
         end
@@ -212,10 +215,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
      )}
   end
    
-  defp table_name_from_subscription(%{deer_tables: deer_tables}, table_id) do
-    %{name: name} = Enum.find(deer_tables, fn deer_table -> deer_table.id == table_id end)
-
-    name
+  defp table_from_subscription(%{deer_tables: deer_tables}, table_id) do
+    Enum.find(deer_tables, fn deer_table -> deer_table.id == table_id end)
   end
 
   defp maybe_assign_record_changeset(socket, _type, _subscription, nil), do: socket
