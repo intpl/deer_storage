@@ -2,6 +2,7 @@ defmodule Pjeski.DeerRecords do
   import Ecto.Query, warn: false
   alias Phoenix.PubSub
   alias Pjeski.Repo
+  alias DeerCache.RecordsCountsCache
 
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
@@ -16,6 +17,7 @@ defmodule Pjeski.DeerRecords do
     |> DeerRecord.changeset(attrs, subscription)
     |> Repo.insert()
     |> maybe_notify_about_record_change
+    |> maybe_increment_deer_cache
   end
 
   def update_record(%Subscription{} = subscription, %DeerRecord{} = record, attrs) do
@@ -30,7 +32,27 @@ defmodule Pjeski.DeerRecords do
   end
 
   def delete_record(%Subscription{id: subscription_id}, %DeerRecord{subscription_id: subscription_id} = record) do
-    Repo.delete(record) |> maybe_notify_about_record_change
+    Repo.delete(record) |> maybe_notify_about_record_change |> maybe_decrement_deer_cache
+  end
+
+  def count_records_grouped_by_deer_table_id do
+    Repo.all(
+      from r in DeerRecord,
+      group_by: r.deer_table_id,
+      select: %{deer_table_id: r.deer_table_id, count: count(r.id)}
+    )
+  end
+
+  defp maybe_decrement_deer_cache({:error, _} = response), do: response
+  defp maybe_decrement_deer_cache({:ok, %{deer_table_id: table_id} = record}) do
+    GenServer.cast(RecordsCountsCache, {:decrement, table_id})
+    {:ok, record}
+  end
+
+  defp maybe_increment_deer_cache({:error, _} = response), do: response
+  defp maybe_increment_deer_cache({:ok, %{deer_table_id: table_id} = record}) do
+    GenServer.cast(RecordsCountsCache, {:increment, table_id})
+    {:ok, record}
   end
 
   defp maybe_notify_about_record_change({:error, _} = response), do: response

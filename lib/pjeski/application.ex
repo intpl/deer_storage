@@ -10,6 +10,7 @@ defmodule Pjeski.Application do
     children = [
       {Phoenix.PubSub, [name: Pjeski.PubSub, adapter: Phoenix.PubSub.PG2]},
       Pjeski.Repo,
+      DeerCache.Supervisor,
       PjeskiWeb.Telemetry,
       PjeskiWeb.Endpoint,
       Pow.Store.Backend.MnesiaCache

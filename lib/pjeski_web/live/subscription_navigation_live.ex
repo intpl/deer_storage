@@ -4,6 +4,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
 
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Link, only: [link: 2]
+  import PjeskiWeb.DeerDashboardView, only: [count_for_table: 1]
 
   use Phoenix.LiveView
 
@@ -39,7 +40,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
       <div id="navigation" class="navbar-menu">
         <div class="navbar-start">
           <%= for %{name: table_name, id: table_id} <- @subscription_tables do %>
-            <%= live_redirect table_name, to: Routes.live_path(@socket, PjeskiWeb.DeerRecordsLive.Index, table_id), class: "navbar-item" %>
+            <%= live_redirect "#{table_name} (#{count_for_table(table_id)})", to: Routes.live_path(@socket, PjeskiWeb.DeerRecordsLive.Index, table_id), class: "navbar-item" %>
           <% end %>
         </div>
 
