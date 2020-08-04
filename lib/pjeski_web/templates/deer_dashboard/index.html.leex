@@ -34,7 +34,7 @@
           <div class="box">
             <article class="media">
               <div class="content">
-                <%= count_for_table(table.id) %>
+                <%= @cached_counts[table.id] %>
                 <%= case table.id == @editing_table_id do %>
                   <% true -> %>
                     <%= render_table_edit_component(@socket, table, @editing_table_changeset) %>

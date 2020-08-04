@@ -46,10 +46,14 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         invalid_changeset = subscription_changeset.changes.deer_tables |> Enum.find(fn dt -> dt.valid? == false end)
 
         {:noreply, socket |> assign(editing_table_changeset: invalid_changeset)}
-      {:ok, updated_subscription} -> {:noreply, socket |> assign(
-                                       current_subscription: updated_subscription,
-                                       current_subscription_tables: updated_subscription.deer_tables
-                                       )}
+      {:ok, updated_subscription} ->
+        created_table = List.last(updated_subscription.deer_tables)
+        PubSub.subscribe(Pjeski.PubSub, "records_counts:#{created_table.id}")
+
+        {:noreply, socket |> assign(
+            current_subscription: updated_subscription,
+            current_subscription_tables: updated_subscription.deer_tables
+          )}
     end
   end # {:noreply, assign(socket, :editing_table_id, nil)}
 
@@ -86,6 +90,10 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     end
   end
 
+  def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{cached_counts: cached_counts}} = socket) do
+    {:noreply, socket |> assign(cached_counts: Map.merge(cached_counts, %{table_id => count}))}
+  end
+
   def handle_info({:toggle_edit, table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
     changeset = subscription.deer_tables |> Enum.find(fn dt -> dt.id == table_id end) |> DeerTable.changeset(%{})
 
@@ -99,11 +107,20 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
 
+        cached_counts = Enum.reduce(subscription.deer_tables, %{}, fn %{id: id}, acc ->
+          Map.merge(acc, %{id => DeerCache.RecordsCountsCache.fetch_count(id)})
+        end)
+
+        for %{id: id} <- subscription.deer_tables do
+          PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")
+        end
+
         case is_expired?(subscription) do
           true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
           false -> {
             :noreply,
             socket |> assign(
+              cached_counts: cached_counts,
               current_subscription: subscription,
               current_subscription_name: subscription.name,
               current_subscription_tables: subscription.deer_tables,

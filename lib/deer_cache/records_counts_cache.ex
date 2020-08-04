@@ -1,5 +1,6 @@
 defmodule DeerCache.RecordsCountsCache do
   use GenServer
+  alias Phoenix.PubSub
 
   import Pjeski.DeerRecords, only: [count_records_grouped_by_deer_table_id: 0]
 
@@ -27,6 +28,8 @@ defmodule DeerCache.RecordsCountsCache do
 
     set(deer_table_id, new_count, state)
 
+    PubSub.broadcast Pjeski.PubSub, "records_counts:#{deer_table_id}", {:cached_records_count_changed, deer_table_id, new_count}
+
     {:noreply, state}
   end
 
@@ -35,6 +38,8 @@ defmodule DeerCache.RecordsCountsCache do
     new_count = count - 1
 
     set(deer_table_id, new_count, state)
+
+    PubSub.broadcast Pjeski.PubSub, "records_counts:#{deer_table_id}", {:cached_records_count_changed, deer_table_id, new_count}
 
     {:noreply, state}
   end
