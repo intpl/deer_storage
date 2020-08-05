@@ -4,7 +4,6 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
 
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Link, only: [link: 2]
-  import PjeskiWeb.DeerDashboardView, only: [count_for_table: 1]
 
   use Phoenix.LiveView
 
@@ -15,11 +14,22 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
       "subscription_tables" => subscription_tables,
       "locale" => locale
     }, socket) do
-    if connected?(socket) && subscription_id != nil, do: PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+
+    if connected?(socket) && subscription_id != nil do
+      PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+
+      for %{id: id} <- subscription_tables do
+        PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")
+      end
+    end
 
     Gettext.put_locale(PjeskiWeb.Gettext, locale)
 
-    {:ok, assign(socket, subscription_tables: subscription_tables, header_text: header_text)}
+    {:ok, assign(socket,
+        subscription_tables: fetch_cached_counts(subscription_tables),
+        header_text: header_text
+      )
+    }
   end
 
   def render(assigns) do
@@ -37,10 +47,10 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
         </a>
       </div>
 
-      <div id="navigation" class="navbar-menu">
+      <div id="navigation<%= :rand.uniform(200) %>" class="navbar-menu">
         <div class="navbar-start">
-          <%= for %{name: table_name, id: table_id} <- @subscription_tables do %>
-            <%= live_redirect "#{table_name} (#{count_for_table(table_id)})", to: Routes.live_path(@socket, PjeskiWeb.DeerRecordsLive.Index, table_id), class: "navbar-item" %>
+          <%= for dt <- @subscription_tables do %>
+            <%= live_redirect "#{dt.name} (#{dt.count})", to: Routes.live_path(@socket, PjeskiWeb.DeerRecordsLive.Index, dt.id), class: "navbar-item" %>
           <% end %>
         </div>
 
@@ -56,10 +66,30 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     """
   end
 
+  def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{subscription_tables: tables}} = socket) do
+  socket = socket |> assign(subscription_tables: overwrite_cached_count(tables, table_id, count), __changed__: %{subscription_tables: true})
+  IO.inspect socket.assigns
+    {:noreply, socket}
+  end
+
   def handle_info({:subscription_updated, subscription}, socket), do: {
+    # TODO subscribe to newly added table
     :noreply, socket |> assign(
-      subscription_tables: subscription.deer_tables,
+      subscription_tables: fetch_cached_counts(subscription.deer_tables), # lol remove this
       header_text: subscription.name
     )
   }
+
+  defp overwrite_cached_count(tables, table_id, count) do
+    target_index = Enum.find_index(tables, fn %{id: id} -> id == table_id end)
+
+    List.update_at(tables, target_index, fn dt -> Map.merge(dt, %{count: count}) end)
+
+  end
+
+  defp fetch_cached_counts(tables) do
+    Enum.map(tables, fn %{id: id, name: name} ->
+      %{id: id, name: name, count: DeerCache.RecordsCountsCache.fetch_count(id)}
+    end)
+  end
 end

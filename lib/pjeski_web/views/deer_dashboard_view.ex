@@ -1,8 +1,6 @@
 defmodule PjeskiWeb.DeerDashboardView do
   use PjeskiWeb, :view
 
-  def count_for_table(table_id), do: DeerCache.RecordsCountsCache.fetch_count(table_id)
-
   def render_table_show_component(socket, table, editing_table_id) do
     live_component(
       socket,

@@ -1,3 +1,18 @@
+<%= if @current_subscription_id do %>
+  <%= live_render(
+      @socket,
+      PjeskiWeb.SubscriptionNavigationLive,
+      container: {:div, class: "navbar is-dark"},
+      id: "navigation",
+      session: %{
+        "header_text" => @current_subscription_name,
+        "subscription_id" => @current_subscription_id,
+        "subscription_tables" => @current_subscription_tables,
+        "locale" => @locale
+      }
+  ) %>
+<% end %>
+
 <%= cond do
     @editing_record ->
       live_component(
@@ -5,7 +20,7 @@
         PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
         id: "edit-#{@editing_record.data.id}",
         changeset: @editing_record,
-        subscription: @subscription,
+        subscription: @current_subscription,
         table_id: @table_id,
         table_name: @table_name
       )
@@ -15,7 +30,7 @@
         PjeskiWeb.DeerRecordsLive.Modal.NewComponent,
         id: "new",
         changeset: @new_record,
-        subscription: @subscription,
+        subscription: @current_subscription,
         table_id: @table_id,
         table_name: @table_name
       )
@@ -89,7 +104,7 @@ end %>
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <%= for %{id: column_id, name: column_name} <- deer_columns_from_subscription(@subscription, @table_id) do %>
+                  <%= for %{id: column_id, name: column_name} <- deer_columns_from_subscription(@current_subscription, @table_id) do %>
                       <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong>
                   <% end %>
                 </div>
@@ -112,7 +127,7 @@ end %>
                 PjeskiWeb.DeerRecordsLive.ShowComponent,
                 id: @current_record.id,
                 record: @current_record,
-                subscription: @subscription,
+                subscription: @current_subscription,
                 table_id: @table_id
               )
             %>

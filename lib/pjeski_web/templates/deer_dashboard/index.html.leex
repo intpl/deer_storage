@@ -1,3 +1,18 @@
+<%= if @current_subscription_id do %>
+  <%= live_render(
+      @socket,
+      PjeskiWeb.SubscriptionNavigationLive,
+      container: {:div, class: "navbar is-dark"},
+      id: "navigation",
+      session: %{
+        "header_text" => @current_subscription_name,
+        "subscription_id" => @current_subscription_id,
+        "subscription_tables" => @current_subscription_tables,
+        "locale" => @locale
+      }
+  ) %>
+<% end %>
+
 <section class="hero is-primary">
   <div class="hero-body">
     <div class="container">

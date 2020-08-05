@@ -2,7 +2,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   use Phoenix.LiveView
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
-  import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, is_expired?: 1]
+  import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, is_expired?: 1, cached_counts: 1]
   import PjeskiWeb.Gettext
 
   import Pjeski.Subscriptions, only: [update_deer_table!: 3, create_deer_table!: 3, update_subscription: 2]
@@ -26,7 +26,8 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         current_subscription_id: subscription_id,
         token: token,
         editing_subscription_name: false,
-        editing_table_id: nil
+        editing_table_id: nil,
+        locale: user.locale
       )}
   end
 
@@ -107,10 +108,6 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         |> Repo.preload(:subscription)
         subscription = user_subscription_link.subscription
 
-        cached_counts = Enum.reduce(subscription.deer_tables, %{}, fn %{id: id}, acc ->
-          Map.merge(acc, %{id => DeerCache.RecordsCountsCache.fetch_count(id)})
-        end)
-
         for %{id: id} <- subscription.deer_tables do
           PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")
         end
@@ -120,7 +117,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
           false -> {
             :noreply,
             socket |> assign(
-              cached_counts: cached_counts,
+              cached_counts: cached_counts(subscription.deer_tables),
               current_subscription: subscription,
               current_subscription_name: subscription.name,
               current_subscription_tables: subscription.deer_tables,

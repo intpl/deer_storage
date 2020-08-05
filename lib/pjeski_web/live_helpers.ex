@@ -1,6 +1,12 @@
 defmodule PjeskiWeb.LiveHelpers do
   alias Pjeski.DeerRecords.DeerField
 
+  def cached_counts(deer_tables) do
+    Enum.reduce(deer_tables, %{}, fn %{id: id}, acc ->
+      Map.merge(acc, %{id => DeerCache.RecordsCountsCache.fetch_count(id)})
+    end)
+  end
+
   def is_expired?(%{expires_on: date}), do: Date.diff(date, Date.utc_today) < 1
 
   def keys_to_atoms(%{} = map) do

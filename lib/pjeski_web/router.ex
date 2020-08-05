@@ -23,8 +23,8 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
-    live "/dashboard", DeerDashboardLive.Index
-    live "/records/:table_id", DeerRecordsLive.Index
+    live "/dashboard", DeerDashboardLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
+    live "/records/:table_id", DeerRecordsLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
 

@@ -37,7 +37,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         page: 1,
         per_page: per_page(),
         current_user: user,
-        current_subscription_id: current_subscription_id
+        current_subscription: nil,
+        current_subscription_id: current_subscription_id,
+        current_subscription_name: nil,
+        current_subscription_tables: [],
+        locale: user.locale
       )}
   end
 
@@ -70,7 +74,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                count: length(records),
                query: query,
                records: records,
-               subscription: subscription,
+               current_subscription: subscription,
+               current_subscription_name: subscription.name,
+               current_subscription_tables: subscription.deer_tables,
                table_id: table_id,
                user_subscription_link: user_subscription_link # TODO: permissions
              )}
@@ -84,13 +90,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("close_edit", _, socket), do: {:noreply, socket |> assign(editing_record: nil)}
 
   # TODO refactor
-  def handle_event("validate_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, subscription: subscription, table_id: table_id}} = socket) do
+  def handle_event("validate_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, current_subscription: subscription, table_id: table_id}} = socket) do
     attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
     {:noreply, socket |> assign(editing_record: change_record(subscription, record.data, attrs))}
   end
 
-  def handle_event("save_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, subscription: subscription, table_id: table_id}} = socket) do
+  def handle_event("save_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, current_subscription: subscription, table_id: table_id}} = socket) do
     attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
     {:ok, _} = update_record(subscription, record.data, attrs)
@@ -100,13 +106,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   end
 
   # TODO refactor
-  def handle_event("validate_new", %{"deer_record" => attrs}, %{assigns: %{new_record: record, subscription: subscription, table_id: table_id}} = socket) do
+  def handle_event("validate_new", %{"deer_record" => attrs}, %{assigns: %{new_record: record, current_subscription: subscription, table_id: table_id}} = socket) do
     attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
     {:noreply, socket |> assign(new_record: change_record(subscription, record.data, attrs))}
   end
 
-  def handle_event("save_new", %{"deer_record" => attrs}, %{assigns: %{subscription: subscription, table_id: table_id}} = socket) do
+  def handle_event("save_new", %{"deer_record" => attrs}, %{assigns: %{current_subscription: subscription, table_id: table_id}} = socket) do
     attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
     case create_record(subscription, attrs) do
@@ -123,27 +129,27 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   end
 
-  def handle_event("show", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription}} = socket) do
+  def handle_event("show", %{"record_id" => record_id}, %{assigns: %{records: records, current_subscription: subscription}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
 
     {:noreply, socket |> assign(current_record: record)}
   end
 
-  def handle_event("new", _, %{assigns: %{subscription: %{deer_tables: deer_tables} = subscription, table_id: table_id}} = socket) do
+  def handle_event("new", _, %{assigns: %{current_subscription: %{deer_tables: deer_tables} = subscription, table_id: table_id}} = socket) do
     deer_columns = Enum.find(deer_tables, fn table -> table.id == table_id end).deer_columns
     deer_fields_attrs = Enum.map(deer_columns, fn %{id: column_id} -> %{deer_column_id: column_id, content: ""} end)
 
     {:noreply, socket |> assign(new_record: change_record(subscription, %DeerRecord{}, %{deer_table_id: table_id, deer_fields: deer_fields_attrs}))}
   end
 
-  def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription, table_id: table_id}} = socket) do
+  def handle_event("edit", %{"record_id" => record_id}, %{assigns: %{records: records, current_subscription: subscription, table_id: table_id}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
     |> append_missing_fields_to_record(table_id, subscription)
 
     {:noreply, socket |> assign(editing_record: change_record(subscription, record, %{deer_table_id: table_id}))}
   end
 
-  def handle_event("delete", %{"record_id" => record_id}, %{assigns: %{records: records, subscription: subscription}} = socket) do
+  def handle_event("delete", %{"record_id" => record_id}, %{assigns: %{records: records, current_subscription: subscription}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
     {:ok, _} = delete_record(subscription, record)
 
@@ -156,7 +162,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, push_redirect(socket |> assign(page: 1), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index, table_id))}
   end
 
-  def handle_event("filter", %{"query" => query}, %{assigns: %{subscription: subscription, table_id: table_id}} = socket) when byte_size(query) <= 50 do
+  def handle_event("filter", %{"query" => query}, %{assigns: %{current_subscription: subscription, table_id: table_id}} = socket) when byte_size(query) <= 50 do
     records = search_records(subscription.id, table_id, query, 1)
 
     {:noreply, socket |> assign(records: records, query: query, page: 1, count: length(records))}
@@ -165,7 +171,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
 
-  def handle_info({:record_change, %{id: record_id} = record}, %{assigns: %{subscription: subscription, table_id: table_id, query: query, page: page, current_record: current_record}} = socket) when byte_size(query) <= 50 do
+  def handle_info({:record_change, %{id: record_id} = record}, %{assigns: %{current_subscription: subscription, table_id: table_id, query: query, page: page, current_record: current_record}} = socket) when byte_size(query) <= 50 do
     socket = case {record_id, record.__meta__.state, current_record} do
                {^record_id, :loaded, %{id: ^record_id}} -> assign(socket, current_record: record, editing_record: nil)
                {^record_id, :deleted, %{id: ^record_id}} -> assign(socket, current_record: nil, editing_record: nil)
@@ -183,7 +189,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
           nil -> {:noreply, push_redirect(socket, to: "/dashboard")}
           %{name: name} ->
             socket = socket
-            |> assign(subscription: subscription, table_name: name)
+            |> assign(
+              current_subscription: subscription,
+              current_subscription_name: subscription.name,
+              current_subscription_tables: subscription.deer_tables,
+              table_name: name)
             |> maybe_assign_record_changeset(:new_record, subscription, new_record)
             |> maybe_assign_record_changeset(:editing_record, subscription, editing_record)
 
@@ -192,7 +202,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     end
    end
 
-  defp change_page(new_page, %{assigns: %{subscription: subscription, query: query, table_id: table_id}} = socket) do
+  defp change_page(new_page, %{assigns: %{current_subscription: subscription, query: query, table_id: table_id}} = socket) do
     records = search_records(subscription.id, table_id, query, new_page)
 
     {:noreply, socket |> assign(records: records, page: new_page, count: length(records))}
