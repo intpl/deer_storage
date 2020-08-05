@@ -119,8 +119,6 @@ end %>
     <%= for record <- @current_records do %>
       <div class="column">
         <div class="sticky overwrite-padding-top-60">
-          <a class="delete is-large is-pulled-left" phx-click="close_show" phx-value-id="<%= record.id %>"></a>
-
           <article class="section">
             <%= live_component(
                 @socket,

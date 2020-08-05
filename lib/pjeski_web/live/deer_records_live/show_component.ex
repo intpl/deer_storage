@@ -15,13 +15,18 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
       <div class="hero-body is-paddingless">
         <div class="container">
           <h3 class="subtitle">
-            <a phx-click="edit" phx-value-record_id="<%= record.id %>">
-              <%= gettext("Edit") %>
-            </a>
+            <button class="button" phx-click="close_show" phx-value-id="<%= record.id %>">
+              <span class="delete"></span>&nbsp;
+              <span><%= gettext("Close") %></span>
+            </button>
 
-            <a phx-click="delete" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this record?") %>">
+            <button class="button" phx-click="edit" phx-value-record_id="<%= record.id %>">
+              <%= gettext("Edit") %>
+            </button>
+
+            <button class="button is-danger is-outlined" phx-click="delete" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this record?") %>">
               <%= gettext("Delete") %>
-            </a>
+            </button>
           </h3>
           <ul>
             <%= Enum.map(deer_columns, fn %{id: column_id, name: column_name} -> %>

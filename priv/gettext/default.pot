@@ -164,7 +164,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:12
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:19 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:24 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:110 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:133 lib/pjeski_web/templates/admin/user/edit.html.eex:19
 #: lib/pjeski_web/templates/admin/user/index.html.eex:130 lib/pjeski_web/templates/admin/user/show.html.eex:19
@@ -831,7 +831,7 @@ msgid "Manage users or invite new"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:22
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:27
 msgid "Are you sure to REMOVE this record?"
 msgstr ""
 
@@ -853,7 +853,7 @@ msgid "Create record"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:23
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:28
 msgid "Delete"
 msgstr ""
 
@@ -863,17 +863,12 @@ msgid "New record"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:123
-msgid "Record created successfully."
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:157
+#: lib/pjeski_web/live/deer_records_live/index.ex:164
 msgid "Record deleted successfully."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:105
+#: lib/pjeski_web/live/deer_records_live/index.ex:117
 msgid "Record updated successfully."
 msgstr ""
 
@@ -945,4 +940,9 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:20
 msgid "Go back to your subscription"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:20
+msgid "Close"
 msgstr ""
