@@ -168,6 +168,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(records: records, query: query, page: 1, count: length(records))}
   end
 
+  def handle_event("submit", %{"query" => query}, socket), do: patch_to_index(socket |> assign(:query, query))
+
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
 
