@@ -68,7 +68,6 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
 
   def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{subscription_tables: tables}} = socket) do
   socket = socket |> assign(subscription_tables: overwrite_cached_count(tables, table_id, count), __changed__: %{subscription_tables: true})
-  IO.inspect socket.assigns
     {:noreply, socket}
   end
 

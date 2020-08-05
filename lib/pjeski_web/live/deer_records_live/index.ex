@@ -5,7 +5,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   import PjeskiWeb.Gettext
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
-  import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, append_missing_fields_to_record: 3, is_expired?: 1]
+  import PjeskiWeb.LiveHelpers, only: [
+    append_missing_fields_to_record: 3,
+    is_expired?: 1,
+    keys_to_atoms: 1,
+    maybe_update_record_in_list: 2,
+    maybe_delete_record_in_list: 2,
+    toggle_record_in_list: 2
+  ]
 
   alias Phoenix.PubSub
   alias Pjeski.Repo
@@ -30,7 +37,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     Gettext.put_locale(user.locale)
 
     {:ok, assign(socket,
-        current_record: nil,
+        current_records: [],
         editing_record: nil,
         new_record: nil,
         table_name: nil,
@@ -85,7 +92,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     end
   end
 
-  def handle_event("close_show", _, socket), do: {:noreply, socket |> assign(current_record: nil)}
+  def handle_event("close_show", %{"id" => id_string}, %{assigns: %{current_records: current_records}} = socket) do
+    id = String.to_integer(id_string)
+
+    {:noreply, socket |> assign(current_records: toggle_record_in_list(current_records, %{id: id}))}
+  end
+
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, socket |> assign(editing_record: nil)}
 
@@ -102,7 +114,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:ok, _} = update_record(subscription, record.data, attrs)
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    patch_to_index(socket |> put_flash(:info, gettext("Record updated successfully.")))
+    {:noreply, socket |> assign(:editing_record, nil) |> put_flash(:info, gettext("Record updated successfully."))}
   end
 
   # TODO refactor
@@ -117,22 +129,17 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
     case create_record(subscription, attrs) do
       {:ok, _} ->
-        patch_to_index(
-          socket
-          # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-          |> put_flash(:info, gettext("Record created successfully."))
-          |> assign(new_record: nil))
-
+        {:noreply, socket |> assign(new_record: nil, query: "")}
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, socket |> assign(new_record: changeset)}
     end
 
   end
 
-  def handle_event("show", %{"record_id" => record_id}, %{assigns: %{records: records, current_subscription: subscription}} = socket) do
+  def handle_event("show", %{"record_id" => record_id}, %{assigns: %{records: records, current_records: current_records, current_subscription: subscription}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
 
-    {:noreply, socket |> assign(current_record: record)}
+    {:noreply, socket |> assign(current_records: toggle_record_in_list(current_records, record))}
   end
 
   def handle_event("new", _, %{assigns: %{current_subscription: %{deer_tables: deer_tables} = subscription, table_id: table_id}} = socket) do
@@ -154,7 +161,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:ok, _} = delete_record(subscription, record)
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    patch_to_index(socket |> put_flash(:info, gettext("Record deleted successfully.")))
+    {:noreply, socket |> put_flash(:info, gettext("Record deleted successfully."))}
   end
 
   def handle_event("clear", _, %{assigns: %{table_id: table_id}} = socket) do
@@ -168,19 +175,34 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(records: records, query: query, page: 1, count: length(records))}
   end
 
-  def handle_event("submit", %{"query" => query}, socket), do: patch_to_index(socket |> assign(:query, query))
+  def handle_event("submit", %{"query" => query}, socket), do: {:noreply, assign(socket, :query, query)}
 
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
 
-  def handle_info({:record_change, %{id: record_id} = record}, %{assigns: %{current_subscription: subscription, table_id: table_id, query: query, page: page, current_record: current_record}} = socket) when byte_size(query) <= 50 do
-    socket = case {record_id, record.__meta__.state, current_record} do
-               {^record_id, :loaded, %{id: ^record_id}} -> assign(socket, current_record: record, editing_record: nil)
-               {^record_id, :deleted, %{id: ^record_id}} -> assign(socket, current_record: nil, editing_record: nil)
-               _ -> socket
-             end
+  def handle_info({:record_change, %{id: record_id} = record}, socket) do
+    %{current_subscription: current_subscription, table_id: table_id, query: query, page: page, current_records: current_records, editing_record: editing_record} = socket.assigns
 
-    {:noreply, socket |> assign(records: search_records(subscription.id, table_id, query, page))}
+    new_editing_record = case editing_record do
+                           nil -> nil
+                           _ ->
+                             case Ecto.Changeset.fetch_field!(editing_record, :id) do
+                               ^record_id -> nil
+                               ch -> ch
+                             end
+                         end
+
+    current_records = case record.__meta__.state do
+                        :loaded -> maybe_update_record_in_list(current_records, record)
+                        :deleted -> maybe_delete_record_in_list(current_records, record)
+                        _ -> socket
+                      end
+
+    {:noreply, socket |> assign(
+        editing_record: new_editing_record,
+        current_records: current_records,
+        records: search_records(current_subscription.id, table_id, query, page)
+      )}
   end
 
   def handle_info({:subscription_updated, subscription}, %{assigns: %{editing_record: editing_record, new_record: new_record, table_id: table_id}} = socket) do
@@ -217,16 +239,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     Enum.find(records, fn record -> record.id == id end) || find_record_in_database(id, subscription)
   end
 
-  defp patch_to_index(%{assigns: %{query: query, table_id: table_id}} = socket) do
-    {:noreply,
-     push_redirect(assign(socket,
-           current_record: nil,
-           editing_record: nil,
-           page: 1
-         ), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index, table_id, query: query)
-     )}
-  end
-   
   defp table_from_subscription(%{deer_tables: deer_tables}, table_id) do
     Enum.find(deer_tables, fn deer_table -> deer_table.id == table_id end)
   end

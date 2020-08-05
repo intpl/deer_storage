@@ -84,7 +84,7 @@ end %>
   </div>
 
   <div class="columns is-mobile">
-    <div class="column <%= if @current_record, do: "is-hidden-mobile is-half-tablet" %>">
+    <div class="column <%= if length(@current_records) > 0, do: "is-hidden-mobile is-half-tablet" %>">
         <%= if @count == 0 do %>
           <div class="section">
             <h1 class="title has-text-grey-light has-text-centered">
@@ -100,7 +100,7 @@ end %>
         <% end %>
 
         <%= for record <- @records do %>
-          <div class="box <%= classes_for_record_box(@current_user.id, record, @current_record) %>" phx-click="show" phx-value-record_id="<%= record.id %>">
+          <div class="box <%= classes_for_record_box(@current_user.id, record, @current_records) %>" phx-click="show" phx-value-record_id="<%= record.id %>">
             <article class="media">
               <div class="media-content">
                 <div class="content">
@@ -116,17 +116,17 @@ end %>
         <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
     </div>
 
-    <%= if @current_record do %>
-      <div class="column is-half-tablet">
+    <%= for record <- @current_records do %>
+      <div class="column">
         <div class="sticky overwrite-padding-top-60">
-          <a class="delete is-large is-pulled-left" phx-click="close_show"></a>
+          <a class="delete is-large is-pulled-left" phx-click="close_show" phx-value-id="<%= record.id %>"></a>
 
           <article class="section">
             <%= live_component(
                 @socket,
                 PjeskiWeb.DeerRecordsLive.ShowComponent,
-                id: @current_record.id,
-                record: @current_record,
+                id: record.id,
+                record: record,
                 subscription: @current_subscription,
                 table_id: @table_id
               )

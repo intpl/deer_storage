@@ -24,7 +24,11 @@ defmodule PjeskiWeb.DeerRecordView do
     Enum.find(deer_tables, fn table -> table.id == table_id end)
   end
 
-  def classes_for_record_box(_, %{id: record_id}, %{id: record_id}), do: "has-background-link has-text-white"
-  def classes_for_record_box(current_user_id, %{user_id: current_user_id}, _), do: "has-background-white has-text-link is-clickable"
-  def classes_for_record_box(_, _, _), do: "has-background-light has-text-link is-clickable"
+  def classes_for_record_box(user_id, record, records) do
+    case Enum.find(records, fn %{id: id} -> record.id == id end) do
+      nil -> "has-background-light has-text-link is-clickable"
+      %{user_id: ^user_id} -> "has-background-white has-text-link is-clickable"
+      _ -> "has-background-link has-text-white is-clickable"
+    end
+  end
 end

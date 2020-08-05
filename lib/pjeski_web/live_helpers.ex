@@ -7,6 +7,28 @@ defmodule PjeskiWeb.LiveHelpers do
     end)
   end
 
+  def toggle_record_in_list([], record), do: [record]
+  def toggle_record_in_list(list, record) do
+    case Enum.find_index(list, fn %{id: id} -> record.id == id end) do
+      nil -> [record | list]
+      idx ->  List.delete_at(list, idx)
+    end
+  end
+
+  def maybe_update_record_in_list(list, record) do
+    case Enum.find_index(list, fn %{id: id} -> record.id == id end) do
+      nil -> list
+      idx -> List.replace_at(list, idx, record)
+    end
+  end
+
+  def maybe_delete_record_in_list(list, record) do
+    case Enum.find_index(list, fn %{id: id} -> record.id == id end) do
+      nil -> list
+      idx -> List.delete_at(list, idx)
+    end
+  end
+
   def is_expired?(%{expires_on: date}), do: Date.diff(date, Date.utc_today) < 1
 
   def keys_to_atoms(%{} = map) do
