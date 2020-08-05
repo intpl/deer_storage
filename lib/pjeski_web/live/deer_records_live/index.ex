@@ -164,9 +164,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> put_flash(:info, gettext("Record deleted successfully."))}
   end
 
-  def handle_event("clear", _, %{assigns: %{table_id: table_id}} = socket) do
-    # TODO: refactor when there are records for multiple pages
-    {:noreply, push_redirect(socket |> assign(page: 1), to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index, table_id))}
+  def handle_event("clear", _, %{assigns: %{table_id: table_id, current_subscription_id: subscription_id}} = socket) do
+    records = search_records(subscription_id, table_id, "", 1)
+
+    {:noreply, socket |> assign(query: "", page: 1, records: records)}
   end
 
   def handle_event("filter", %{"query" => query}, %{assigns: %{current_subscription: subscription, table_id: table_id}} = socket) when byte_size(query) <= 50 do

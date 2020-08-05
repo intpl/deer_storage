@@ -50,13 +50,11 @@ end %>
     <div class="column is-8">
       <div class="field has-addons">
         <p class="control">
-          <button class="button is-inline" type="submit" phx-click="clear" onclick="window.scrollTo(0,0)">
-            <%= if @query == nil || @query == "" do %>
-              <%= gettext("Refresh") %>
-            <% else %>
-              <%= gettext("Clear") %>
+            <%= if @query != "" && @query != nil do %>
+              <button class="button is-inline" type="submit" phx-click="clear" onclick="window.scrollTo(0,0)">
+                <%= gettext("Clear") %>
+              </button>
             <% end %>
-          </button>
         </p>
 
         <p class="is-fullwidth">
