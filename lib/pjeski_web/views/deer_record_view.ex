@@ -24,6 +24,7 @@ defmodule PjeskiWeb.DeerRecordView do
     Enum.find(deer_tables, fn table -> table.id == table_id end)
   end
 
+  # FIXME this is the most unefficient code i have written in my whole entire life
   def classes_for_record_box(user_id, record, records) do
     case Enum.find(records, fn %{id: id} -> record.id == id end) do
       nil -> "has-background-light has-text-link is-clickable"
