@@ -16,7 +16,7 @@ defmodule Pjeski.DeerRecords do
     %DeerRecord{subscription_id: subscription.id}
     |> DeerRecord.changeset(attrs, subscription)
     |> Repo.insert()
-    |> maybe_notify_about_record_change
+    |> maybe_notify_about_record_update
     |> maybe_increment_deer_cache
   end
 
@@ -24,7 +24,7 @@ defmodule Pjeski.DeerRecords do
     record
     |> DeerRecord.changeset(attrs, subscription)
     |> Repo.update()
-    |> maybe_notify_about_record_change
+    |> maybe_notify_about_record_update
   end
 
   def change_record(%Subscription{} = subscription, record, attrs) do
@@ -32,7 +32,20 @@ defmodule Pjeski.DeerRecords do
   end
 
   def delete_record(%Subscription{id: subscription_id}, %DeerRecord{subscription_id: subscription_id} = record) do
-    Repo.delete(record) |> maybe_notify_about_record_change |> maybe_decrement_deer_cache
+    Repo.delete(record) |> maybe_notify_about_record_delete |> maybe_decrement_deer_cache
+  end
+
+  def batch_delete_records(%Subscription{id: subscription_id}, table_id, list_of_ids) do
+    {deleted_count, _} = DeerRecord
+    |> where([dr], dr.subscription_id == ^subscription_id)
+    |> where([dr], dr.deer_table_id == ^table_id)
+    |> where([dr], dr.id in ^list_of_ids)
+    |> Repo.delete_all
+
+    notify_about_batch_record_delete(subscription_id, table_id, list_of_ids)
+    decrement_deer_cache(table_id, deleted_count)
+
+    {:ok, deleted_count}
   end
 
   def count_records_grouped_by_deer_table_id do
@@ -45,8 +58,12 @@ defmodule Pjeski.DeerRecords do
 
   defp maybe_decrement_deer_cache({:error, _} = response), do: response
   defp maybe_decrement_deer_cache({:ok, %{deer_table_id: table_id} = record}) do
-    GenServer.cast(RecordsCountsCache, {:decrement, table_id})
+    decrement_deer_cache(table_id)
     {:ok, record}
+  end
+
+  defp decrement_deer_cache(table_id, by_count \\ 1) do
+    GenServer.cast(RecordsCountsCache, {:decrement, table_id, by_count})
   end
 
   defp maybe_increment_deer_cache({:error, _} = response), do: response
@@ -55,12 +72,29 @@ defmodule Pjeski.DeerRecords do
     {:ok, record}
   end
 
-  defp maybe_notify_about_record_change({:error, _} = response), do: response
-  defp maybe_notify_about_record_change({:ok, record}) do
+  defp maybe_notify_about_record_delete({:error, _} = response), do: response
+  defp maybe_notify_about_record_delete({:ok, record}) do
+    PubSub.broadcast(Pjeski.PubSub,
+      "record:#{record.subscription_id}:#{record.deer_table_id}",
+      {:record_delete, record.id}
+    )
+
+    {:ok, record}
+  end
+
+  defp notify_about_batch_record_delete(subscription_id, table_id, ids) do
+    PubSub.broadcast(Pjeski.PubSub,
+      "record:#{subscription_id}:#{table_id}",
+      {:batch_record_delete, ids}
+    )
+  end
+
+  defp maybe_notify_about_record_update({:error, _} = response), do: response
+  defp maybe_notify_about_record_update({:ok, record}) do
     PubSub.broadcast(
       Pjeski.PubSub,
       "record:#{record.subscription_id}:#{record.deer_table_id}",
-      {:record_change, record}
+      {:record_update, record}
     )
 
     {:ok, record}

@@ -1,7 +1,6 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index do
   use Phoenix.LiveView
 
-  alias PjeskiWeb.Router.Helpers, as: Routes
   import PjeskiWeb.Gettext
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
@@ -21,6 +20,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   import PjeskiWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
   import Pjeski.DeerRecords, only: [
+    batch_delete_records: 3,
     change_record: 3,
     create_record: 2,
     delete_record: 2,
@@ -156,6 +156,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(editing_record: change_record(subscription, record, %{deer_table_id: table_id}))}
   end
 
+  def handle_event("delete_selected", _, %{assigns: %{current_records: current_records, current_subscription: subscription, table_id: table_id}} = socket) do
+    ids = Enum.map(current_records, fn record -> record.id end)
+
+    {:ok, deleted_count} = batch_delete_records(subscription, table_id, ids)
+
+    # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
+    {:noreply, socket |> put_flash(:info, gettext("%{deleted_count} records deleted successfully.", deleted_count: deleted_count))} # FIXME
+  end
+
   def handle_event("delete", %{"record_id" => record_id}, %{assigns: %{records: records, current_subscription: subscription}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
     {:ok, _} = delete_record(subscription, record)
@@ -181,7 +190,44 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
 
-  def handle_info({:record_change, %{id: record_id} = record}, socket) do
+  def handle_info({:batch_record_delete, deleted_record_ids}, socket) do
+    %{current_subscription: current_subscription, table_id: table_id, query: query, page: page, current_records: current_records, editing_record: editing_record} = socket.assigns
+
+    new_current_records = Enum.reject(current_records, fn %{id: id} -> Enum.member?(deleted_record_ids, id) end)
+
+    new_editing_record = case editing_record do
+                           nil -> nil
+                           _ ->
+                             case Enum.member?(deleted_record_ids, Ecto.Changeset.fetch_field!(editing_record, :id)) do
+                              true -> nil
+                              false -> editing_record
+                             end
+                         end
+
+    {:noreply, socket |> assign(
+        editing_record: new_editing_record,
+        current_records: new_current_records,
+        records: search_records(current_subscription.id, table_id, query, page)
+      )}
+  end
+
+  def handle_info({:record_delete, record_id}, socket) do
+    %{current_subscription: current_subscription, table_id: table_id, query: query, page: page, current_records: current_records, editing_record: editing_record} = socket.assigns
+
+    new_editing_record = case editing_record do
+                           nil -> nil
+                           ^record_id -> nil
+                           _ -> editing_record
+                         end
+
+    {:noreply, socket |> assign(
+        editing_record: new_editing_record,
+        current_records: maybe_delete_record_in_list(current_records, record_id),
+        records: search_records(current_subscription.id, table_id, query, page)
+      )}
+  end
+
+  def handle_info({:record_update, %{id: record_id} = record}, socket) do
     %{current_subscription: current_subscription, table_id: table_id, query: query, page: page, current_records: current_records, editing_record: editing_record} = socket.assigns
 
     new_editing_record = case editing_record do
@@ -193,11 +239,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                              end
                          end
 
-    current_records = case record.__meta__.state do
-                        :loaded -> maybe_update_record_in_list(current_records, record)
-                        :deleted -> maybe_delete_record_in_list(current_records, record)
-                        _ -> socket
-                      end
+    current_records = maybe_update_record_in_list(current_records, record)
 
     {:noreply, socket |> assign(
         editing_record: new_editing_record,

@@ -22,8 +22,8 @@ defmodule PjeskiWeb.LiveHelpers do
     end
   end
 
-  def maybe_delete_record_in_list(list, record) do
-    case Enum.find_index(list, fn %{id: id} -> record.id == id end) do
+  def maybe_delete_record_in_list(list, record_id) do
+    case Enum.find_index(list, fn %{id: id} -> record_id == id end) do
       nil -> list
       idx -> List.delete_at(list, idx)
     end

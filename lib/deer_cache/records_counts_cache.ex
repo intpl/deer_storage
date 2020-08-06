@@ -33,9 +33,9 @@ defmodule DeerCache.RecordsCountsCache do
     {:noreply, state}
   end
 
-  def handle_cast({:decrement, deer_table_id}, state) do
+  def handle_cast({:decrement, deer_table_id, by_count}, state) do
     [{^deer_table_id, count}] = get(deer_table_id, state)
-    new_count = count - 1
+    new_count = count - by_count
 
     set(deer_table_id, new_count, state)
 
