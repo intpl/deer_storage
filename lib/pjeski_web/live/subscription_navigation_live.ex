@@ -47,7 +47,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
         </a>
       </div>
 
-      <div id="navigation<%= :rand.uniform(200) %>" class="navbar-menu">
+      <div id="navigation" class="navbar-menu" phx-hook="hookBurgerEvents">
         <div class="navbar-start">
           <%= for dt <- @subscription_tables do %>
             <%= live_redirect "#{dt.name} (#{dt.count})", to: Routes.live_path(@socket, PjeskiWeb.DeerRecordsLive.Index, dt.id), class: "navbar-item" %>
