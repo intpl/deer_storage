@@ -29,6 +29,24 @@ defmodule Pjeski.SubscriptionDeerTablesTest do
       }
     end
 
+    test "change order of columns", %{subscription: subscription, target_table: target_table, target_column: target_column, second_column_map: second_column_map} do
+      {:ok, %{deer_tables: updated_deer_tables} = updated_subscription} = update_deer_table!(
+        subscription,
+        target_table.id,
+        %{
+          id: target_table.id,
+          name: "new table name",
+          deer_columns: [second_column_map, Map.from_struct(target_column)]
+        }
+      )
+
+      assert subscription != updated_subscription
+      updated_table = Enum.find(updated_deer_tables, fn table -> table.id == target_table.id end)
+
+      assert Enum.at(updated_table.deer_columns, 0).id == second_column_map.id
+      assert Enum.at(updated_table.deer_columns, 1).id == target_column.id
+    end
+
     test "change name of one column leaving rest untouched", %{subscription: subscription, target_table: target_table, target_column: target_column, second_column_map: second_column_map} do
       {:ok, updated_subscription} = update_deer_table!(
         subscription,
