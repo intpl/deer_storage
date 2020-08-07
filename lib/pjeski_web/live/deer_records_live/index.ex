@@ -206,10 +206,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                              end
                          end
 
+    records = search_records(current_subscription.id, table_id, query, page)
+
     {:noreply, socket |> assign(
         editing_record: new_editing_record,
         current_records: new_current_records,
-        records: search_records(current_subscription.id, table_id, query, page)
+        records: records,
+        count: length(records)
       )}
   end
 
@@ -222,10 +225,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                            _ -> editing_record
                          end
 
+    records = search_records(current_subscription.id, table_id, query, page)
+
     {:noreply, socket |> assign(
         editing_record: new_editing_record,
         current_records: maybe_delete_record_in_list(current_records, record_id),
-        records: search_records(current_subscription.id, table_id, query, page)
+        records: records,
+        count: length(records)
       )}
   end
 
@@ -242,11 +248,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                          end
 
     current_records = maybe_update_record_in_list(current_records, record)
+    records = search_records(current_subscription.id, table_id, query, page)
 
     {:noreply, socket |> assign(
         editing_record: new_editing_record,
         current_records: current_records,
-        records: search_records(current_subscription.id, table_id, query, page)
+        records: records,
+        count: length(records)
       )}
   end
 
