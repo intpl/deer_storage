@@ -104,16 +104,12 @@ defmodule Pjeski.SubscriptionDeerTablesTest do
       assert subscription == updated_subscription
     end
 
-    @tag skip: "don't know what's going on here yet"
     test "does not change attrs table id when invalid", %{subscription: subscription, target_table: target_table, target_column: target_column, second_column_map: second_column_map} do
-      {:ok, updated_subscription} = update_deer_table!(subscription, target_table.id, %{id: "hacked", deer_columns: [%{id: target_column.id, name: "new value"}, second_column_map]})
-      assert subscription == updated_subscription
+      assert {:error, _} = update_deer_table!(subscription, target_table.id, %{id: "hacked", deer_columns: [%{id: target_column.id, name: "new value"}, second_column_map]})
     end
 
-    @tag skip: "don't know what's going on here yet"
     test "does not change column id when invalid", %{subscription: subscription, target_table: target_table, second_column_map: second_column_map} do
-      {:ok, updated_subscription} = update_deer_table!(subscription, target_table.id, %{id: target_table.id, deer_columns: [%{id: "hacked id", name: "hacked name"}, second_column_map]})
-      assert subscription == updated_subscription
+      assert {:error, _} = update_deer_table!(subscription, target_table.id, %{id: target_table.id, deer_columns: [%{id: "hacked id", name: "hacked name"}, second_column_map]})
     end
   end
 end

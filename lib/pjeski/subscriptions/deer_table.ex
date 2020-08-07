@@ -10,8 +10,26 @@ defmodule Pjeski.Subscriptions.DeerTable do
   end
 
   @doc false
-  def changeset(deer_table, attrs) do
-    deer_table
+  def ensure_no_columns_are_missing_changeset(deer_table_changeset, attrs, [subscription: subscription]) do
+    changeset = changeset(deer_table_changeset, attrs)
+    id = changeset.data.id # this should not be fetch_field
+
+    case Enum.find(subscription.deer_tables, fn dt -> id == dt.id end) do
+      nil -> add_error(changeset, :deer_columns, "missing")
+      table_before ->
+        columns_ids_before = Enum.map(table_before.deer_columns, fn dc -> dc.id end)
+        columns_ids_proposed = Enum.map(fetch_field!(changeset, :deer_columns), fn dc -> dc.id end)
+
+        case columns_ids_before -- columns_ids_proposed do
+          [] -> changeset
+          _ -> add_error(changeset, :deer_columns, "missing")
+        end
+    end
+  end
+
+  @doc false
+  def changeset(changeset, attrs) do
+    changeset
     |> cast(attrs, [:name])
     |> validate_required(:name)
     |> validate_length(:name, min: 3)

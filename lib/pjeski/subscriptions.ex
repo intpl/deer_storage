@@ -7,6 +7,7 @@ defmodule Pjeski.Subscriptions do
   import Pjeski.DbHelpers.ComposeSearchQuery
 
   alias Pjeski.Subscriptions.Subscription
+  alias Pjeski.Subscriptions.DeerTable
 
   def total_count(), do: Pjeski.Repo.aggregate(from(s in "subscriptions"), :count, :id)
 
@@ -99,11 +100,12 @@ defmodule Pjeski.Subscriptions do
 
     change_subscription_deer(subscription)
     |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
-    |> Ecto.Changeset.cast_embed(:deer_tables)
+    |> Ecto.Changeset.cast_embed(:deer_tables, with: {DeerTable, :ensure_no_columns_are_missing_changeset, [[subscription: subscription]]})
     |> Repo.update()
     |> maybe_notify_about_updated_subscription
   end
 
+  # this is used only in tests and seeds
   def update_subscription_deer(%Subscription{} = subscription, attrs) do
     subscription |> Subscription.deer_changeset(attrs) |> Repo.update()
   end
