@@ -1,8 +1,6 @@
 defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
   use Phoenix.LiveComponent
 
-  alias Pjeski.Subscriptions.DeerTable
-
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
 
@@ -32,23 +30,12 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
           </div>
         <% end %>
 
-        <%= if @show_add_column do %>
-          <a phx-click="add_column" phx-target="<%= @myself %>"><%= gettext("Add column") %></a>
-          <br><br>
-        <% end %>
+        <a phx-click="add_column"><%= gettext("Add column") %></a>
+        <br><br>
 
         <%= submit gettext("Submit"), class: "button" %>
       <% end %>
     </p>
     """
-  end
-
-  def handle_event("add_column", %{}, socket) do
-    changeset = socket.assigns.changeset
-    deer_columns = changeset.data.deer_columns |> Enum.map(&Map.from_struct/1)
-
-    new_changeset = DeerTable.changeset(changeset, %{deer_columns: deer_columns ++ [%{name: ""}]})
-
-    {:noreply, socket |> assign(changeset: new_changeset, show_add_column: false)}
   end
 end

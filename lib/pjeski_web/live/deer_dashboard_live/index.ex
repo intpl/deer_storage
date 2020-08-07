@@ -6,6 +6,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   import PjeskiWeb.Gettext
 
   import Pjeski.Subscriptions, only: [update_deer_table!: 3, create_deer_table!: 3, update_subscription: 2]
+  import Pjeski.Subscriptions.DeerTable, only: [add_empty_column_to_changeset: 1]
 
   alias Phoenix.PubSub
   alias Pjeski.Repo
@@ -76,6 +77,10 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
                                        current_subscription_tables: updated_subscription.deer_tables
                                        )}
     end
+  end
+
+  def handle_event("add_column", %{}, %{assigns: %{editing_table_changeset: changeset}} = socket) do
+    {:noreply, socket |> assign(editing_table_changeset: add_empty_column_to_changeset(changeset))}
   end
 
   def handle_info({:subscription_updated, subscription}, socket) do

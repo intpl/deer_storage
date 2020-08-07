@@ -18,4 +18,10 @@ defmodule Pjeski.Subscriptions.DeerTable do
     |> validate_length(:name, max: 50)
     |> cast_embed(:deer_columns)
   end
+
+  def add_empty_column_to_changeset(changeset) do
+    deer_columns = Ecto.Changeset.fetch_field!(changeset, :deer_columns) |> Enum.map(&Map.from_struct/1)
+
+    changeset(changeset, %{deer_columns: deer_columns ++ [%{name: ""}]})
+  end
 end
