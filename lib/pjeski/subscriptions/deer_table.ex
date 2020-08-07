@@ -19,9 +19,17 @@ defmodule Pjeski.Subscriptions.DeerTable do
     |> cast_embed(:deer_columns)
   end
 
-  def add_empty_column_to_changeset(changeset) do
-    deer_columns = Ecto.Changeset.fetch_field!(changeset, :deer_columns) |> Enum.map(&Map.from_struct/1)
+  def add_empty_column(changeset), do: changeset(changeset, %{deer_columns: deer_columns_attrs(changeset) ++ [%{name: ""}]})
 
-    changeset(changeset, %{deer_columns: deer_columns ++ [%{name: ""}]})
+  def move_column_to_index(changeset, current_index, new_index) do
+    deer_columns = deer_columns_attrs(changeset)
+
+    new_deer_columns = deer_columns
+    |> List.delete_at(current_index)
+    |> List.insert_at(new_index, Enum.at(deer_columns, current_index))
+
+    changeset(changeset, %{deer_columns: new_deer_columns})
   end
+
+  defp deer_columns_attrs(changeset), do: fetch_field!(changeset, :deer_columns) |> Enum.map(&Map.from_struct/1)
 end

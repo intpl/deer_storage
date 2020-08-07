@@ -22,11 +22,17 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
         <%= label f, gettext("Columns"), class: 'label field-label' %>
 
         <%= inputs_for f, :deer_columns, fn dc -> %>
-          <div class="field-body">
-            <div class="field">
-              <%= text_input dc, :name, class: 'input' %>
-              <%= error_tag dc, :name %>
-            </div>
+          <div class="field is-grouped">
+            <p class="control">
+              <a class="button is-small" phx-click="move_column_up" phx-value-index="<%= dc.index %>">▲</a>
+              <a class="button is-small" phx-click="move_column_down" phx-value-index="<%= dc.index %>">▼</a>
+            </p>
+            <p class="control">
+              <div class="field">
+                <%= text_input dc, :name, class: 'input is-small' %>
+                <%= error_tag dc, :name %>
+              </div>
+            </p>
           </div>
         <% end %>
 

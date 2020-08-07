@@ -6,7 +6,10 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   import PjeskiWeb.Gettext
 
   import Pjeski.Subscriptions, only: [update_deer_table!: 3, create_deer_table!: 3, update_subscription: 2]
-  import Pjeski.Subscriptions.DeerTable, only: [add_empty_column_to_changeset: 1]
+  import Pjeski.Subscriptions.DeerTable, only: [
+    add_empty_column: 1,
+    move_column_to_index: 3,
+  ]
 
   alias Phoenix.PubSub
   alias Pjeski.Repo
@@ -79,8 +82,18 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     end
   end
 
-  def handle_event("add_column", %{}, %{assigns: %{editing_table_changeset: changeset}} = socket) do
-    {:noreply, socket |> assign(editing_table_changeset: add_empty_column_to_changeset(changeset))}
+  def handle_event("move_column_up", %{"index" => index}, %{assigns: %{editing_table_changeset: ch}} = socket) do
+    index = String.to_integer index
+    {:noreply, socket |> assign(editing_table_changeset: move_column_to_index(ch, index, index - 1))}
+  end
+
+  def handle_event("move_column_down", %{"index" => index}, %{assigns: %{editing_table_changeset: ch}} = socket) do
+    index = String.to_integer index
+    {:noreply, socket |> assign(editing_table_changeset: move_column_to_index(ch, index, index + 1))}
+  end
+
+  def handle_event("add_column", %{}, %{assigns: %{editing_table_changeset: ch}} = socket) do
+    {:noreply, socket |> assign(editing_table_changeset: add_empty_column(ch))}
   end
 
   def handle_info({:subscription_updated, subscription}, socket) do
