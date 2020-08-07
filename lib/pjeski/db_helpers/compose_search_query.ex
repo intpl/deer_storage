@@ -25,5 +25,4 @@ defmodule Pjeski.DbHelpers.ComposeSearchQuery do
   defp recursive_dynamic_query(key, value) do
     dynamic([q], fragment("unaccent(?) ILIKE unaccent(?)", field(q, ^key), ^value))
   end
-
 end

@@ -190,8 +190,9 @@ msgid "Role"
 msgstr "Rola"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/_form.html.eex:37
-#: lib/pjeski_web/templates/admin/user/form.html.eex:50 lib/pjeski_web/templates/deer_dashboard/index.html.leex:25
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:42
+#: lib/pjeski_web/templates/admin/subscription/_form.html.eex:37 lib/pjeski_web/templates/admin/user/form.html.eex:50
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:25
 msgid "Save"
 msgstr "Zapisz"
 
@@ -245,7 +246,7 @@ msgid "Expires on"
 msgstr "Wygasa"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:18
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:16
 #: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/views/admin/subscription_view.ex:22
 #: lib/pjeski_web/views/admin/subscription_view.ex:23
 msgid "Name"
@@ -399,13 +400,13 @@ msgstr "Wyloguj tego użytkownika"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:39
-#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/deer_record/index.html.leex:77
+#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/deer_record/index.html.leex:75
 msgid "Search"
 msgstr "Szukaj"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:33
-#: lib/pjeski_web/templates/admin/user/index.html.eex:34 lib/pjeski_web/templates/deer_record/index.html.leex:69
+#: lib/pjeski_web/templates/admin/user/index.html.eex:34 lib/pjeski_web/templates/deer_record/index.html.leex:67
 msgid "Search..."
 msgstr "Szukaj..."
 
@@ -423,7 +424,7 @@ msgstr "Poprzednia"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:22
-#: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/deer_record/index.html.leex:57
+#: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/deer_record/index.html.leex:55
 msgid "Clear"
 msgstr "Wyczyść"
 
@@ -838,14 +839,14 @@ msgid "Are you sure to REMOVE this record?"
 msgstr "Na pewno USUNĄĆ ten rekord?"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:14
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:12
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:48 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:44
 #: lib/pjeski_web/templates/deer_dashboard/index.html.leex:28
 msgid "Cancel"
 msgstr "Anuluj"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:91
+#: lib/pjeski_web/templates/deer_record/index.html.leex:100
 msgid "Could not find anything..."
 msgstr "Nic nie znaleziono..."
 
@@ -865,7 +866,7 @@ msgid "New record"
 msgstr "Nowy rekord"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:164
+#: lib/pjeski_web/live/deer_records_live/index.ex:175
 msgid "Record deleted successfully."
 msgstr "Rekord usunięty."
 
@@ -875,17 +876,12 @@ msgid "Record updated successfully."
 msgstr "Rekord zaktualizowany."
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:55
-msgid "Refresh"
-msgstr "Odśwież"
-
-#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:45
 msgid "Save changes"
 msgstr "Zapisz zmiany"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:96
+#: lib/pjeski_web/templates/deer_record/index.html.leex:105
 msgid "There are no more records"
 msgstr "Nie ma więcej rekordów"
 
@@ -895,17 +891,12 @@ msgid "Welcome!"
 msgstr "Witamy!"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:24
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:22
 msgid "Columns"
 msgstr "Kolumny"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:40
-msgid "Submit"
-msgstr "Wyślij"
-
-#, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:36
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:39
 msgid "Add column"
 msgstr "Dodaj kolumnę"
 
@@ -915,12 +906,12 @@ msgid "Add table"
 msgstr "Utwórz tabelę"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:45
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:49
 msgid "Example column 1"
 msgstr "Przykładowa kolumna 1"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:45
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:49
 msgid "New table"
 msgstr "Nowa tabela"
 
@@ -948,3 +939,28 @@ msgstr "Powrót do Twojej subskrypcji"
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:20
 msgid "Close"
 msgstr "Zamknij"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/index.ex:167
+msgid "%{deleted_count} records deleted successfully."
+msgstr "Usunięto %{deleted_count} rekordów."
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/deer_record/index.html.leex:86
+msgid "Are you sure to REMOVE all %{count} selected records?"
+msgstr "Na pewno USUNĄĆ wszystkie %{count} rekordy/ów?"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/deer_record/index.html.leex:87
+msgid "Delete all %{count}"
+msgstr "Usuń wszystkie %{count}"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_record/index.html.leex:83
+msgid "Multiple records selected."
+msgstr "Zaznaczono wiele rekordów."
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_record/index.html.leex:84
+msgid "Unselect"
+msgstr "Odznacz"

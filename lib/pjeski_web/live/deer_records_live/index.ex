@@ -156,13 +156,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(editing_record: change_record(subscription, record, %{deer_table_id: table_id}))}
   end
 
+  def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :current_records, [])}
+
   def handle_event("delete_selected", _, %{assigns: %{current_records: current_records, current_subscription: subscription, table_id: table_id}} = socket) do
     ids = Enum.map(current_records, fn record -> record.id end)
 
     {:ok, deleted_count} = batch_delete_records(subscription, table_id, ids)
 
     # waiting for this to get resolved: https://github.com/phoenixframework/phoenix_live_view/issues/340
-    {:noreply, socket |> put_flash(:info, gettext("%{deleted_count} records deleted successfully.", deleted_count: deleted_count))} # FIXME
+    {:noreply, socket |> put_flash(:info, gettext("%{deleted_count} records deleted successfully.", deleted_count: deleted_count))}
   end
 
   def handle_event("delete", %{"record_id" => record_id}, %{assigns: %{records: records, current_subscription: subscription}} = socket) do

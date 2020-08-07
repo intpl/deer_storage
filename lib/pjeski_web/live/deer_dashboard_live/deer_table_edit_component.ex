@@ -39,7 +39,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
         <a phx-click="add_column"><%= gettext("Add column") %></a>
         <br><br>
 
-        <%= submit gettext("Submit"), class: "button" %>
+        <%= submit gettext("Save"), class: "button" %>
       <% end %>
     </p>
     """

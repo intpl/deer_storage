@@ -80,9 +80,11 @@ end %>
         </p>
       </div>
       <%= if (count = length(@current_records)) > 1 do %>
-        <%= gettext("%{count} records selected.", count: count) %>
+        <%= gettext("Multiple records selected.", count: count) %>
+        <a phx-click="clear_selected"><%= gettext("Unselect", count: count) %></a>
+        /
         <a phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: count) %>">
-          <%= gettext("Delete them?") %>
+          <%= gettext("Delete all %{count}", count: count) %>
         </a>
       <% else %>
         <br>
