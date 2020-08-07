@@ -49,12 +49,23 @@
           <div class="box">
             <article class="media">
               <div class="content">
-                <%= @cached_counts[table.id] %>
                 <%= case table.id == @editing_table_id do %>
                   <% true -> %>
-                    <%= render_table_edit_component(@socket, table, @editing_table_changeset) %>
+                    <%= live_component(
+                        @socket,
+                        PjeskiWeb.DeerDashboardLive.DeerTableEditComponent,
+                        id: "#{table.id}",
+                        table: table,
+                        changeset: @editing_table_changeset,
+                        cached_count: @cached_counts[table.id]) %>
                   <% false -> %>
-                    <%= render_table_show_component(@socket, table, @editing_table_id) %>
+                    <%= live_component(
+                        @socket,
+                        PjeskiWeb.DeerDashboardLive.DeerTableShowComponent,
+                        id: "#{table.id}",
+                        table: table,
+                        editing_table_id: @editing_table_id,
+                        cached_count: @cached_counts[table.id]) %>
                 <% end %>
               </div>
             </article>

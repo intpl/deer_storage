@@ -62,9 +62,9 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     end
   end # {:noreply, assign(socket, :editing_table_id, nil)}
 
-  def handle_event("cancel_edit", _, socket), do: {:noreply, assign(socket, :editing_table_id, nil)}
-  def handle_event("validate_edit", _, socket), do: {:noreply, socket} # TODO
-  def handle_event("save_edit", %{"deer_table" => attrs}, %{assigns: %{current_subscription: subscription}} = socket) do
+  def handle_event("cancel_table_edit", _, socket), do: {:noreply, assign(socket, editing_table_id: nil, editing_table_changeset: nil)}
+  def handle_event("validate_table_edit", _, socket), do: {:noreply, socket} # TODO
+  def handle_event("save_table_edit", %{"deer_table" => attrs}, %{assigns: %{current_subscription: subscription}} = socket) do
     {deer_table_attrs, deer_table_id} = attrs_to_deer_table(attrs)
 
     case update_deer_table!(subscription, deer_table_id, deer_table_attrs) do
@@ -96,6 +96,12 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     {:noreply, socket |> assign(editing_table_changeset: add_empty_column(ch))}
   end
 
+  def handle_event("toggle_table_edit", %{"table_id" => table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
+    changeset = subscription.deer_tables |> Enum.find(fn dt -> dt.id == table_id end) |> DeerTable.changeset(%{})
+
+    {:noreply, socket |> assign(editing_table_id: table_id, editing_table_changeset: changeset, editing_subscription_name: false)}
+  end
+
   def handle_info({:subscription_updated, subscription}, socket) do
     case is_expired?(subscription) do
       true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
@@ -111,12 +117,6 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{cached_counts: cached_counts}} = socket) do
     {:noreply, socket |> assign(cached_counts: Map.merge(cached_counts, %{table_id => count}))}
-  end
-
-  def handle_info({:toggle_edit, table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
-    changeset = subscription.deer_tables |> Enum.find(fn dt -> dt.id == table_id end) |> DeerTable.changeset(%{})
-
-    {:noreply, socket |> assign(editing_table_id: table_id, editing_table_changeset: changeset, editing_subscription_name: false)}
   end
 
   def handle_params(_params, _, %{assigns: %{current_user: user, current_subscription_id: subscription_id}} = socket) do
