@@ -8,9 +8,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     append_missing_fields_to_record: 3,
     is_expired?: 1,
     keys_to_atoms: 1,
-    maybe_update_record_in_list: 2,
     maybe_delete_record_in_list: 2,
-    toggle_record_in_list: 2
+    maybe_update_record_in_list: 2,
+    toggle_record_in_list: 2,
+    increment: 1
   ]
 
   alias Phoenix.PubSub
