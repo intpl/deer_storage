@@ -10,8 +10,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     keys_to_atoms: 1,
     maybe_delete_record_in_list: 2,
     maybe_update_record_in_list: 2,
-    toggle_record_in_list: 2,
-    increment: 1
+    toggle_record_in_list: 2
   ]
 
   alias Phoenix.PubSub
