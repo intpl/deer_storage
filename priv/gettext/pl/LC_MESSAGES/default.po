@@ -84,7 +84,7 @@ msgstr "Adres e-mail"
 
 #, elixir-format
 #: lib/pjeski_web/live/subscription_navigation_live.ex:61
-#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
+#: lib/pjeski_web/live/subscription_navigation_live.ex:95 lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -129,7 +129,7 @@ msgstr "Przetestuj za darmo"
 
 #, elixir-format
 #: lib/pjeski_web/live/subscription_navigation_live.ex:60
-#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
+#: lib/pjeski_web/live/subscription_navigation_live.ex:94 lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -164,7 +164,7 @@ msgid "Danger zone"
 msgstr "Strefa niebezpieczeństwa"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:19
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:21
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:24 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:110 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:133 lib/pjeski_web/templates/admin/user/edit.html.eex:19
@@ -445,7 +445,7 @@ msgstr "Zaloguj się do StorageDeer"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
-#: lib/pjeski_web/views/layout_view.ex:6 lib/pjeski_web/views/layout_view.ex:14
+#: lib/pjeski_web/views/layout_view.ex:6 lib/pjeski_web/views/layout_view.ex:18
 msgid "StorageDeer"
 msgstr "StorageDeer"
 
@@ -704,6 +704,7 @@ msgid "Make current"
 msgstr "Ustaw jako obecna"
 
 #, elixir-format
+#: lib/pjeski_web/live/subscription_navigation_live.ex:46
 #: lib/pjeski_web/templates/registration/edit.html.eex:68
 msgid "No subscription assigned"
 msgstr "Brak przypisanej subskrypcji"
@@ -784,7 +785,7 @@ msgid "Changing user's last used subscription requires new session"
 msgstr "Zmiana obecnej subskrypcji użytkownika wymaga jego ponownego zalogowania"
 
 #, elixir-format
-#: lib/pjeski_web/views/layout_view.ex:11
+#: lib/pjeski_web/views/layout_view.ex:15
 msgid "SUBSCRIPTION EXPIRED"
 msgstr "SUBSKRYPCJA WYGASŁA"
 
@@ -856,7 +857,7 @@ msgid "Create record"
 msgstr "Utwórz rekord"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:14
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:18
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:28
 msgid "Delete"
 msgstr "Usuń"
@@ -907,12 +908,12 @@ msgid "Add table"
 msgstr "Utwórz tabelę"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:49
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:60
 msgid "Example column 1"
 msgstr "Przykładowa kolumna 1"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:49
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:60
 msgid "New table"
 msgstr "Nowa tabela"
 
@@ -961,7 +962,7 @@ msgstr "Odznacz"
 msgid "Delete all (%{count})"
 msgstr "Usuń wszystkie (%{count})"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/deer_record/index.html.leex:86
 msgid "Are you sure to REMOVE all %{count} selected records?"
 msgstr "Na pewno USUNĄĆ wszystkie %{count} rekordy/ów?"
