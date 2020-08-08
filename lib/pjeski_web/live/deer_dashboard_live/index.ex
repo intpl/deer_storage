@@ -89,7 +89,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def handle_event("delete_table", %{"table_id" => table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
     case delete_deer_table!(subscription, table_id) do
-      {:error, subscription} ->
+      {:error, _subscription} ->
         {:noreply, socket |> assign(editing_table_changeset: nil)}
       {:ok, updated_subscription} -> {:noreply, socket |> assign(
                                        editing_subscription_name: false,
