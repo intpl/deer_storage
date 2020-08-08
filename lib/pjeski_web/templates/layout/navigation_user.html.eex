@@ -1,13 +1,20 @@
-<%= if @conn.assigns.current_subscription do %>
-  <%= live_render(
-      @conn,
-      PjeskiWeb.SubscriptionNavigationLive,
-      container: {:div, class: "navbar is-dark"},
-      session: %{
-        "header_text" => header_text(@conn),
-        "subscription_id" => @conn.assigns.current_subscription.id,
-        "subscription_tables" => @conn.assigns.current_subscription.deer_tables,
-        "locale" => @conn.assigns.locale
-      }
-  ) %>
-<% end %>
+<%= if @conn.assigns.current_subscription do
+      live_render(
+        @conn,
+        PjeskiWeb.SubscriptionNavigationLive,
+        container: {:div, class: "navbar is-dark"},
+        session: %{
+          "header_text" => header_text(@conn),
+          "subscription_id" => @conn.assigns.current_subscription.id,
+          "subscription_tables" => compact_tables_to_ids_and_names(@conn.assigns.current_subscription.deer_tables),
+          "locale" => @conn.assigns.locale
+        }
+      )
+    else
+      live_render(
+        @conn,
+        PjeskiWeb.SubscriptionNavigationLive,
+        container: {:div, class: "navbar is-dark"},
+        session: %{"missing_subscription" => true}
+      )
+end %>

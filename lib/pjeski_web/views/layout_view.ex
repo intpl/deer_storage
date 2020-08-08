@@ -8,6 +8,10 @@ defmodule PjeskiWeb.LayoutView do
     end
   end
 
+  def compact_tables_to_ids_and_names(deer_tables) do
+    Enum.map(deer_tables, fn %{id: id, name: name} = result -> result end)
+  end
+
   def header_text(%{assigns: %{current_subscription_is_expired: true}}), do: gettext("SUBSCRIPTION EXPIRED")
   def header_text(%{assigns: %{current_subscription: %{name: name}}}), do: name
   def header_text(%{assigns: %{current_user: %{name: name}}}), do: name
