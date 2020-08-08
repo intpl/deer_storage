@@ -164,7 +164,7 @@ msgid "Danger zone"
 msgstr "Strefa niebezpieczeństwa"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:12
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:19
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:24 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:110 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:133 lib/pjeski_web/templates/admin/user/edit.html.eex:19
@@ -856,6 +856,7 @@ msgid "Create record"
 msgstr "Utwórz rekord"
 
 #, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:14
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:28
 msgid "Delete"
 msgstr "Usuń"
@@ -901,7 +902,7 @@ msgid "Add column"
 msgstr "Dodaj kolumnę"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:69
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:80
 msgid "Add table"
 msgstr "Utwórz tabelę"
 
@@ -945,16 +946,6 @@ msgstr "Zamknij"
 msgid "%{deleted_count} records deleted successfully."
 msgstr "Usunięto %{deleted_count} rekordów."
 
-#, elixir-format, fuzzy
-#: lib/pjeski_web/templates/deer_record/index.html.leex:86
-msgid "Are you sure to REMOVE all %{count} selected records?"
-msgstr "Na pewno USUNĄĆ wszystkie %{count} rekordy/ów?"
-
-#, elixir-format, fuzzy
-#: lib/pjeski_web/templates/deer_record/index.html.leex:87
-msgid "Delete all %{count}"
-msgstr "Usuń wszystkie %{count}"
-
 #, elixir-format
 #: lib/pjeski_web/templates/deer_record/index.html.leex:83
 msgid "Multiple records selected."
@@ -964,3 +955,13 @@ msgstr "Zaznaczono wiele rekordów."
 #: lib/pjeski_web/templates/deer_record/index.html.leex:84
 msgid "Unselect"
 msgstr "Odznacz"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_record/index.html.leex:87
+msgid "Delete all (%{count})"
+msgstr "Usuń wszystkie (%{count})"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/deer_record/index.html.leex:86
+msgid "Are you sure to REMOVE all %{count} selected records?"
+msgstr "Na pewno USUNĄĆ wszystkie %{count} rekordy/ów?"

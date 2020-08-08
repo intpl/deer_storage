@@ -84,7 +84,7 @@ end %>
         <a phx-click="clear_selected"><%= gettext("Unselect", count: count) %></a>
         /
         <a phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: count) %>">
-          <%= gettext("Delete all %{count}", count: count) %>
+          <%= gettext("Delete all (%{count})", count: count) %>
         </a>
       <% else %>
         <br>
