@@ -76,5 +76,7 @@
 
   <br>
 
-  <a phx-click="add_table"><%= gettext("Add table") %></a>
+  <%= if @editing_table_id == nil do %>
+    <a phx-click="add_table"><%= gettext("Add table") %></a>
+  <% end %>
 </div>
