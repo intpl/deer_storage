@@ -7,6 +7,15 @@ defmodule Pjeski.DeerRecords do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
+  def at_least_one_record_with_table_id?(%Subscription{id: subscription_id}, table_id) do
+    query = DeerRecord
+    |> where([dr], dr.subscription_id == ^subscription_id)
+    |> where([dr], dr.deer_table_id == ^table_id)
+    |> limit(1)
+
+    !!Repo.one(query)
+  end
+
   def get_record!(%Subscription{id: subscription_id}, id) do
     DeerRecord
     |> Repo.get_by!(id: id, subscription_id: subscription_id)

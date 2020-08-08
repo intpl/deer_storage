@@ -5,7 +5,12 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1, is_expired?: 1, cached_counts: 1]
   import PjeskiWeb.Gettext
 
-  import Pjeski.Subscriptions, only: [update_deer_table!: 3, create_deer_table!: 3, update_subscription: 2]
+  import Pjeski.Subscriptions, only: [
+    update_deer_table!: 3,
+    create_deer_table!: 3,
+    update_subscription: 2,
+    delete_deer_table!: 2
+  ]
   import Pjeski.Subscriptions.DeerTable, only: [
     add_empty_column: 1,
     move_column_to_index: 3,
@@ -72,6 +77,20 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         invalid_changeset = subscription_changeset.changes.deer_tables |> Enum.find(fn dt -> dt.data.id == deer_table_id end)
 
         {:noreply, socket |> assign(editing_table_changeset: invalid_changeset)}
+      {:ok, updated_subscription} -> {:noreply, socket |> assign(
+                                       editing_subscription_name: false,
+                                       editing_table_id: nil,
+                                       editing_table_changeset: nil,
+                                       current_subscription: updated_subscription,
+                                       current_subscription_tables: updated_subscription.deer_tables
+                                       )}
+    end
+  end
+
+  def handle_event("delete_table", %{"table_id" => table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
+    case delete_deer_table!(subscription, table_id) do
+      {:error, subscription} ->
+        {:noreply, socket |> assign(editing_table_changeset: nil)}
       {:ok, updated_subscription} -> {:noreply, socket |> assign(
                                        editing_subscription_name: false,
                                        editing_table_id: nil,

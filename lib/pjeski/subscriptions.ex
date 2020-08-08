@@ -8,6 +8,7 @@ defmodule Pjeski.Subscriptions do
 
   alias Pjeski.Subscriptions.Subscription
   alias Pjeski.Subscriptions.DeerTable
+  alias Pjeski.DeerRecords
 
   def total_count(), do: Pjeski.Repo.aggregate(from(s in "subscriptions"), :count, :id)
 
@@ -103,6 +104,22 @@ defmodule Pjeski.Subscriptions do
     |> Ecto.Changeset.cast_embed(:deer_tables, with: {DeerTable, :ensure_no_columns_are_missing_changeset, [[subscription: subscription]]})
     |> Repo.update()
     |> maybe_notify_about_updated_subscription
+  end
+
+  def delete_deer_table!(subscription, table_id) do
+    # todo reload subscription
+    deer_tables = subscription.deer_tables
+    |> deer_tables_to_attrs
+    |> Enum.reject(fn dt -> dt.id == table_id end)
+
+    case DeerRecords.at_least_one_record_with_table_id?(subscription, table_id) do
+      true -> {:error, subscription}
+      false -> change_subscription_deer(subscription)
+      |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
+      |> Ecto.Changeset.cast_embed(:deer_tables)
+      |> Repo.update()
+      |> maybe_notify_about_updated_subscription
+    end
   end
 
   # this is used only in tests and seeds

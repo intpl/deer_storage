@@ -56,8 +56,7 @@
                         PjeskiWeb.DeerDashboardLive.DeerTableEditComponent,
                         id: "#{table.id}",
                         table: table,
-                        changeset: @editing_table_changeset,
-                        cached_count: @cached_counts[table.id]) %>
+                        changeset: @editing_table_changeset) %>
                   <% false -> %>
                     <%= live_component(
                         @socket,
@@ -65,7 +64,7 @@
                         id: "#{table.id}",
                         table: table,
                         editing_table_id: @editing_table_id,
-                        cached_count: @cached_counts[table.id]) %>
+                        cached_count: @cached_counts[table.id] || 0) %>
                 <% end %>
               </div>
             </article>
