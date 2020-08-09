@@ -15,6 +15,9 @@
         @conn,
         PjeskiWeb.SubscriptionNavigationLive,
         container: {:div, class: "navbar is-dark"},
-        session: %{"missing_subscription" => true}
+        session: %{
+          "missing_subscription" => true,
+          "locale" => @conn.assigns.locale
+        }
       )
 end %>
