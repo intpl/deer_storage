@@ -14,7 +14,7 @@ defmodule Pjeski.DeerRecords.DeerField do
     |> validate_tables_and_columns_integrity(table_id, subscription)
   end
 
-  def validate_tables_and_columns_integrity(changeset, table_id, subscription) do
+  defp validate_tables_and_columns_integrity(changeset, table_id, subscription) do
     case Enum.find(subscription.deer_tables, fn table -> table.id == table_id end) do
       nil ->
         add_error(changeset, :deer_column_id, "empty")

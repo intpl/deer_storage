@@ -105,7 +105,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("validate_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, current_subscription: subscription, table_id: table_id}} = socket) do
     attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
-    {:noreply, socket |> assign(editing_record: change_record(subscription, record.data, attrs))}
+    {:noreply, socket |> assign(editing_record: change_record(subscription, record, attrs))}
   end
 
   def handle_event("save_edit", %{"deer_record" => attrs}, %{assigns: %{editing_record: record, current_subscription: subscription, table_id: table_id}} = socket) do
@@ -264,13 +264,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       false ->
         case deer_table_from_subscription(subscription, table_id) do
           nil -> {:noreply, push_redirect(socket, to: "/dashboard")}
-          %{name: name} ->
+          %{name: table_name} ->
             socket = socket
             |> assign(
               current_subscription: subscription,
               current_subscription_name: subscription.name,
               current_subscription_tables: subscription.deer_tables,
-              table_name: name)
+              table_name: table_name)
             |> maybe_assign_record_changeset(:new_record, subscription, new_record)
             |> maybe_assign_record_changeset(:editing_record, subscription, editing_record)
 
