@@ -1,3 +1,4 @@
+# FIXME REFACTOR THIS BECAUSE IT'S THE SAME AS NEW COMPONENT
 defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext

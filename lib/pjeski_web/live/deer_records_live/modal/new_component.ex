@@ -1,37 +1,52 @@
+# FIXME REFACTOR THIS BECAUSE IT'S THE SAME AS EDIT COMPONENT
 defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
-  import PjeskiWeb.DeerRecordView, only: [
-    deer_column_name_from_id: 2,
-    deer_columns_from_subscription: 2
-  ]
+  import PjeskiWeb.DeerRecordView, only: [deer_columns_from_subscription: 2]
 
-  def render(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name} = assigns) do
+  def update(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name}, socket) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
+    deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
 
+    prepare_field = fn {dc, index} -> %{
+          id: dc.id,
+          index: index,
+          name: dc.name,
+          value: Enum.find_value(deer_fields, fn df -> df.deer_column_id == dc.id && df.content end)
+      }
+    end
+
+    {:ok, assign(socket,
+      changeset: changeset,
+      deer_columns: deer_columns,
+      prepared_fields: deer_columns |> Enum.with_index |> Enum.map(prepare_field),
+      table_name: table_name
+    )}
+  end
+
+  def render(assigns) do
     ~L"""
       <div class="modal is-active" id="new_record">
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">
-              <%= gettext("Insert record to table") %>: <%= table_name %>
+              <%= gettext("Insert record to table") %>: <%= @table_name %>
             </p>
             <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_new"></button>
           </header>
-          <%= form_for changeset, "#", [phx_change: :validate_new, phx_submit: :save_new], fn f -> %>
+          <%= form_for @changeset, "#", [phx_change: :validate_new, phx_submit: :save_new], fn _ -> %>
             <section class="modal-card-body">
               <div class"container">
-                <%= inputs_for f, :deer_fields, fn df -> %>
+                <%= for %{id: column_id, name: column_name, index: index, value: value} <- @prepared_fields do %>
                   <div class="field is-horizontal">
-                    <%= label df, deer_column_name_from_id(deer_columns, df.params["deer_column_id"]), class: 'label field-label' %>
+                    <label class="label field-label"><%= column_name %></label>
 
                     <div class="field-body">
                       <div class="field">
-                        <%= hidden_input df, :deer_column_id %>
-                        <%= text_input df, :content, class: 'input' %>
-                        <%#= error_tag df, :content %>
+                        <input id="deer_record_deer_fields_<%= index %>_deer_column_id" name="deer_record[deer_fields][<%= index %>][deer_column_id]" type="hidden" value="<%= column_id %>">
+                        <input class="input" id="deer_record_deer_fields_<%= index %>_content" name="deer_record[deer_fields][<%= index %>][content]" type="text" value="<%= value %>">
                       </div>
                     </div>
                   </div>
@@ -40,7 +55,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
             </section>
 
             <footer class="modal-card-foot">
-              <%= submit gettext("Create record"), class: "button is-success", onclick: "window.scrollTo(0,0)" %>
+              <%# FIXME = if @changeset.valid? do %>
+                <%= submit gettext("Create record"), class: "button is-success" %>
+
               <a class="button" data-bulma-modal="close" phx-click="close_new"><%= gettext("Cancel") %></a>
             </footer>
           <% end %>
