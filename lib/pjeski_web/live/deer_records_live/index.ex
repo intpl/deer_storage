@@ -298,7 +298,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   defp maybe_assign_record_changeset(socket, _type, _subscription, nil), do: socket
   defp maybe_assign_record_changeset(socket, assign_name, subscription, %{data: %{deer_table_id: table_id}} = record) do
-    # FIXME: adding fields does not work
     changeset = change_record(subscription, record, %{deer_table_id: table_id})
 
     assign(socket, assign_name, changeset)
