@@ -54,14 +54,12 @@
                     <%= live_component(
                         @socket,
                         PjeskiWeb.DeerDashboardLive.DeerTableEditComponent,
-                        id: "#{table.id}-#{@update_iteration}",
                         table: table,
                         changeset: @editing_table_changeset) %>
                   <% false -> %>
                     <%= live_component(
                         @socket,
                         PjeskiWeb.DeerDashboardLive.DeerTableShowComponent,
-                        id: "#{table.id}-#{@update_iteration}",
                         table: table,
                         editing_table_id: @editing_table_id,
                         cached_count: @cached_counts[table.id] || 0) %>

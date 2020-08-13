@@ -5,8 +5,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   import PjeskiWeb.LiveHelpers, only: [
     cached_counts: 1,
     is_expired?: 1,
-    keys_to_atoms: 1,
-    increment: 1
+    keys_to_atoms: 1
   ]
   import PjeskiWeb.Gettext
 
@@ -36,7 +35,6 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     Gettext.put_locale(user.locale)
 
     {:ok, socket |> assign(
-        update_iteration: 0,
         current_user: user,
         current_subscription_id: subscription_id,
         token: token,
@@ -118,10 +116,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end
 
   def handle_event("add_column", %{}, %{assigns: %{editing_table_changeset: ch}} = socket) do
-    {:noreply, socket |> assign(
-        update_iteration: socket.assigns.update_iteration |> increment,
-        editing_table_changeset: add_empty_column(ch)
-      )}
+    {:noreply, socket |> assign(editing_table_changeset: add_empty_column(ch))}
   end
 
   def handle_event("toggle_table_edit", %{"table_id" => table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
@@ -134,7 +129,6 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     case is_expired?(subscription) do
       true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
       false -> {:noreply, socket |> assign(
-        update_iteration: socket.assigns.update_iteration |> increment,
         editing_subscription_name: false,
         current_subscription_tables: subscription.deer_tables,
         current_subscription_name: subscription.name,
@@ -145,7 +139,6 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end
 
   def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{cached_counts: cached_counts}} = socket) do
-    # FIXME THIS DOES NOT WORK
     {:noreply, socket |> assign(cached_counts: Map.merge(cached_counts, %{table_id => count}))}
   end
 

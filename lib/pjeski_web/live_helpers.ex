@@ -1,8 +1,6 @@
 defmodule PjeskiWeb.LiveHelpers do
   alias Pjeski.DeerRecords.DeerField
 
-  def increment(n), do: n + 1
-
   def cached_counts(deer_tables) do
     Enum.reduce(deer_tables, %{}, fn %{id: id}, acc ->
       Map.merge(acc, %{id => DeerCache.RecordsCountsCache.fetch_count(id)})
