@@ -83,8 +83,8 @@ msgid "E-mail address"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:61
-#: lib/pjeski_web/live/subscription_navigation_live.ex:95 lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
+#: lib/pjeski_web/live/subscription_navigation_live.ex:70
+#: lib/pjeski_web/live/subscription_navigation_live.ex:101 lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
 msgid "Sign out"
 msgstr ""
 
@@ -128,8 +128,8 @@ msgid "Free demo"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:60
-#: lib/pjeski_web/live/subscription_navigation_live.ex:94 lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
+#: lib/pjeski_web/live/subscription_navigation_live.ex:69
+#: lib/pjeski_web/live/subscription_navigation_live.ex:100 lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
 msgid "Settings"
 msgstr ""
 
@@ -444,7 +444,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
-#: lib/pjeski_web/views/layout_view.ex:6 lib/pjeski_web/views/layout_view.ex:18
+#: lib/pjeski_web/views/layout_view.ex:23 lib/pjeski_web/views/layout_view.ex:35
 msgid "StorageDeer"
 msgstr ""
 
@@ -703,7 +703,7 @@ msgid "Make current"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:46
+#: lib/pjeski_web/live/subscription_navigation_live.ex:55
 #: lib/pjeski_web/templates/registration/edit.html.eex:68
 msgid "No subscription assigned"
 msgstr ""
@@ -784,7 +784,7 @@ msgid "Changing user's last used subscription requires new session"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/views/layout_view.ex:15
+#: lib/pjeski_web/views/layout_view.ex:32
 msgid "SUBSCRIPTION EXPIRED"
 msgstr ""
 
@@ -840,7 +840,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:12
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:48 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:44
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:62 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:61
 #: lib/pjeski_web/templates/deer_dashboard/index.html.leex:28
 msgid "Cancel"
 msgstr ""
@@ -851,7 +851,7 @@ msgid "Could not find anything..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:43
+#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:59
 msgid "Create record"
 msgstr ""
 
@@ -877,7 +877,7 @@ msgid "Record updated successfully."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:45
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:59
 msgid "Save changes"
 msgstr ""
 
@@ -902,17 +902,17 @@ msgid "Add column"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:80
+#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:78
 msgid "Add table"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:60
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:58
 msgid "Example column 1"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:60
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:58
 msgid "New table"
 msgstr ""
 
@@ -922,12 +922,12 @@ msgid "Change name"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:20
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:35
 msgid "Edit record from table"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:19
+#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:35
 msgid "Insert record to table"
 msgstr ""
 
@@ -947,11 +947,6 @@ msgid "%{deleted_count} records deleted successfully."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:83
-msgid "Multiple records selected."
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/deer_record/index.html.leex:84
 msgid "Unselect"
 msgstr ""
@@ -964,4 +959,9 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/deer_record/index.html.leex:86
 msgid "Are you sure to REMOVE all %{count} selected records?"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_record/index.html.leex:83
+msgid "They are %{count} records selected."
 msgstr ""
