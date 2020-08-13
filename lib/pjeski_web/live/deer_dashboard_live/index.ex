@@ -145,6 +145,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end
 
   def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{cached_counts: cached_counts}} = socket) do
+    # FIXME THIS DOES NOT WORK
     {:noreply, socket |> assign(cached_counts: Map.merge(cached_counts, %{table_id => count}))}
   end
 

@@ -1,6 +1,23 @@
 defmodule PjeskiWeb.LayoutView do
   use PjeskiWeb, :view
 
+  def maybe_active_dashboard_link(socket, header_text) do
+    class = case socket.root_view do
+                PjeskiWeb.DeerDashboardLive.Index -> "navbar-item has-text-weight-bold is-active"
+              _ -> "navbar-item has-text-weight-bold"
+              end
+
+    live_redirect(header_text, to: Routes.live_path(socket, PjeskiWeb.DeerDashboardLive.Index), class: class)
+  end
+
+  def maybe_active_records_link(socket, %{id: id} = dt, id) do
+    live_redirect "#{dt.name} (#{dt.count})", to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index, dt.id), class: "navbar-item is-active"
+  end
+
+  def maybe_active_records_link(socket, dt, _) do
+    live_redirect "#{dt.name} (#{dt.count})", to: Routes.live_path(socket, PjeskiWeb.DeerRecordsLive.Index, dt.id), class: "navbar-item"
+  end
+
   def title(conn) do
     case conn.assigns[:title] do
       nil -> gettext("StorageDeer")

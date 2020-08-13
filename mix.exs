@@ -48,7 +48,6 @@ defmodule Pjeski.MixProject do
       # Non-default
       {:pow, "~> 1.0.20"},
       {:bamboo, "~> 1.4"},
-      {:phoenix_active_link, "~> 0.3.0"},
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.0.1"},
       {:phoenix_live_view, "~> 0.14.1"},

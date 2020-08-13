@@ -4,8 +4,13 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
 
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Link, only: [link: 2]
-  import PjeskiWeb.LayoutView, only: [compact_tables_to_ids_and_names: 1]
+  import PjeskiWeb.LayoutView, only: [
+    compact_tables_to_ids_and_names: 1,
+    maybe_active_dashboard_link: 2,
+    maybe_active_records_link: 3
+  ]
 
+  import GenServer, only: [call: 2]
   use Phoenix.LiveView
 
   def mount(:not_mounted_at_router, %{"missing_subscription" => true, "locale" => locale}, socket) do
@@ -22,19 +27,23 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
       "locale" => locale
     }, socket) do
 
-    if connected?(socket) do
+    # TODO: refactor this
+    records_table_id = if connected?(socket) do
       PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
 
       for %{id: id} <- subscription_tables do
         PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")
       end
+
+     if socket.root_view == PjeskiWeb.DeerRecordsLive.Index, do: call(socket.root_pid, :whats_my_table_id)
     end
 
     Gettext.put_locale(PjeskiWeb.Gettext, locale)
 
     {:ok, assign(socket,
         subscription_tables: fetch_cached_counts(subscription_tables),
-        header_text: header_text
+        header_text: header_text,
+        records_table_id: records_table_id
       )
     }
   end
@@ -57,8 +66,8 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <%= link gettext("Settings"), to: Routes.registration_path(PjeskiWeb.Endpoint, :edit), method: :get, class: "button is-dark navbar-item" %>
-              <%= link gettext("Sign out"), to: Routes.session_path(PjeskiWeb.Endpoint, :delete), method: :delete, class: "button is-link navbar-item" %>
+              <%= link gettext("Settings"), to: Routes.registration_path(@socket, :edit), method: :get, class: "button is-dark navbar-item" %>
+              <%= link gettext("Sign out"), to: Routes.session_path(@socket, :delete), method: :delete, class: "button is-link navbar-item" %>
             </div>
           </div>
         </div>
@@ -69,10 +78,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
   def render(assigns) do
     ~L"""
       <div class="navbar-brand">
-        <%= live_redirect(
-            @header_text,
-            to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index),
-            class: "navbar-item has-text-weight-bold") %>
+        <%= maybe_active_dashboard_link(@socket, @header_text) %>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
           <span aria-hidden="true"></span>
@@ -83,16 +89,16 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
 
       <div id="navigation" class="navbar-menu" phx-hook="hookBurgerEvents">
         <div class="navbar-start">
-          <%= for dt <- @subscription_tables do %>
-            <%= live_redirect "#{dt.name} (#{dt.count})", to: Routes.live_path(@socket, PjeskiWeb.DeerRecordsLive.Index, dt.id), class: "navbar-item" %>
-          <% end %>
+          <%=
+            for dt <- @subscription_tables, do: maybe_active_records_link(@socket, dt, @records_table_id)
+          %>
         </div>
 
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <%= link gettext("Settings"), to: Routes.registration_path(PjeskiWeb.Endpoint, :edit), method: :get, class: "button is-dark navbar-item" %>
-              <%= link gettext("Sign out"), to: Routes.session_path(PjeskiWeb.Endpoint, :delete), method: :delete, class: "button is-link navbar-item" %>
+              <%= link gettext("Settings"), to: Routes.registration_path(@socket, :edit), method: :get, class: "button is-dark navbar-item" %>
+              <%= link gettext("Sign out"), to: Routes.session_path(@socket, :delete), method: :delete, class: "button is-link navbar-item" %>
             </div>
           </div>
         </div>
