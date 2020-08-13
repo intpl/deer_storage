@@ -19,7 +19,8 @@ config :pjeski, PjeskiWeb.Endpoint,
   render_errors: [view: PjeskiWeb.ErrorView, accepts: ~w(html json)],
   pubsub_server: Pjeski.PubSub,
   live_view: [
-    signing_salt: "Cx4+NQzV+jnvqWiZKk+v0u1YPxyS/vIg" # overwrite in production
+    signing_salt: "Cx4+NQzV+jnvqWiZKk+v0u1YPxyS/vIg", # overwrite in production
+    hibernate_after: 3_600_000 # 1 hour
   ]
 
 # Configures Elixir's Logger
