@@ -41,6 +41,7 @@ defmodule Pjeski.Subscriptions.DeerTable do
 
   def move_column_to_index(changeset, current_index, new_index) do
     deer_columns = deer_columns_attrs(changeset)
+    new_index = if new_index > (length(deer_columns) - 1), do: 0, else: new_index
 
     new_deer_columns = deer_columns
     |> List.delete_at(current_index)
