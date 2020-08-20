@@ -1,7 +1,6 @@
 #+TITLE: TODO
 
-* TODO [5%] [1/17]
-** WAIT Optimizing IEx for Ecto (book)
+* TODO [6%] [1/16]
 ** WAIT Users permissions, control panel to change them
 ** DONE Unconfirmed invited user resend invitation email
 ** TODO user_from_auth_token(token) -> research better method
