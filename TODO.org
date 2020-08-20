@@ -1,96 +1,20 @@
 #+TITLE: TODO
 
-* TODO [65%] [57/87] DEADLINE: <2020-03-31 Tue>
-** DONE Clean up everything related to Animals, create new git repo if necessary
-** DONE Solve tech debt, upgrade all packages to new versions, fork/clone if necessary
-** DONE Fix SSL issue
-** DONE Pow.Plug.clear_authenticated_user/1 is deprecated. Use `delete/1` instead
-** DONE Sorting by columns in Admin#index (users and subscriptions)
-** DONE Admin#index two queries for users and subscriptions
-** DONE Add select box in Admin#index (users and subscriptions) - responsive reasons
-** KILL Soring in admin indexes: |> order_by([p], fragment("?::time", p.inserted_at))
-** DONE unaccent in CSQ
-** DONE Add "copy e-mail from subscription" link in form
-** DONE Migrate time zone to user and modify Admin users and subscriptions controllers
-** DONE Select2 for time zones
-** DONE AdminDashboard at least counts LIVE
-** DONE VALIDATE SUBSCRIPTION FIELDS PRESENCE IN REGISTRATION CONTROLLER
-** DONE Fix preload subscription for registration edit
-** DONE sessions in ~/code/pjeski/lib/pjeski_web/plugs/user_data.ex + PRELOAD
-** DONE Write tests for registration process, updating user/subscription, restricted nested attributes
-** DONE Pow Reset password
-** DONE Test registration controller + Email sending
-** DONE Test resetting password controller + Email sending
-** DONE Test session controller
-** DONE Pow Email Confirmation
-** DONE Pow Email Confirmation fields in admin panel (TOKEN)
-** DONE POW Invitation and display subscription's users in Settings page + TESTS
-** DONE Field labels 'for' translated!
-** DONE Allow User to change their subscription. Allow users to invite to their subscription + TESTS
-*** DONE Migrations: available_subscriptions+has_many_through[users<->subscriptions]
-*** DONE invitation: if user exists: add subscription to available_subscriptions, if not: don't forget to create available_subscriptions link
-*** DONE users: + disconnect from subscription
-*** DONE user settings: change subscription (if more than one link) - select box: "name (email)"
-** KILL Counter cache for subscriptions.users_count
-** KILL sign in: ensure current_subscription_id is in available_subscriptions, if not: overwrite current_subscription_id with last (sort by inserted_at) from available_subscriptions
-** DONE Remove "email" from subscription
-** DONE Allow users without subscription to log in and see that they do not have any subscription, maybe buy?
-** DONE Allow users with expired subscription to log in
-** DONE Enable administrators to edit users' available_subscriptions
-** DONE Enable administrators to delete subscriptions and reset all their users' subscription_id and join tables
-** HOLD :pow_session_metadata
+* TODO [5%] [1/17]
 ** WAIT Optimizing IEx for Ecto (book)
 ** WAIT Users permissions, control panel to change them
-** DONE Pow v1.0.19 signed tokens (maybe this will help:) https://hexdocs.pm/pow/README.html#authorization-plug
-** DONE Pow updated, fix all
 ** DONE Unconfirmed invited user resend invitation email
-** DONE When user's subscription_id is nil...
-** DONE user_from_auth_token(token) -> research better method
-** DONE Add logout PubSub callback
-** STRT START WRITING TESTS in 3..2..1..
-** DONE Rename 'subscription_id' to 'last_used_subscription_id' and keep real 'subscription_id' in the session
-** DONE "Become administrator"
-** DONE Fix specs for "Become administrator"
-** DONE Tests for registration/reset_subscription
-** DONE Check if invitation can assign another subscription after changing inviting user's current one
-** DONE navigation/sign in path fixes for administrators with subscription assigned
-** DONE admin panel connecting users/subscriptions: exclude connected
-** DONE Remove that "search by users and subscriptions" nonsense
-** DONE Changing email -> can force change email: https://github.com/danschultzer/pow/issues/512
-** DONE Migrate database, write seeds with a proper structure
-** STRT UserRecords::IndexLive + TESTS
-** STRT CRUD Dashboard->Tables + TESTS
-** TODO Validation for deer record: at least one field has to be filled in
-** TODO Model validations everywhere (records and tables)
-** DONE Make Admin users/subcriptions select2 pagination/limit
-** KILL Add "changed subscription" PubSub callback
+** TODO user_from_auth_token(token) -> research better method
+** [?] Validation for deer record: at least one field has to be filled in
+** [?] Model validations everywhere (records and tables)
 ** TODO Adapt layout to subscription's tables
-** TODO Counter cache for subscription tables, records, files
-** TODO Translate select2 "Did not found" with gettext
-- UserRecords::SearchComponent + TESTS
-- UserRecords::IndexComponent + TESTS
-- UserRecords::DisplayComponent + TESTS
-- UserRecords::EditComponent + TESTS
-- UserRecords::NewComponent + TESTS
-** PROJ Temporary assigns?
-** KILL UserRecords::ShowLive + TESTS
-** KILL write Select2 abstraction for Live components: https://www.poeticoding.com/phoenix-liveview-javascript-hooks-and-select2/
 ** TODO gettext all submits
-** Update account -> make Enter work
-** TODO validate unique table ids in subscriptions
-** TODO change registeration process to not use 'last_used_subscription' (Ecto.Multi?)
-** TODO remove default values when not needed (e.g. attrs \\ %{} in .create)
+** TODO Update account -> make Enter work
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
 ** TODO Invitation can enumerate users -> think of that?
 ** WAIT use jaro_distance to colorize fields
 ** TODO "Notes" markdown everywhere
-** TODO Ensure displayed "DB-inconsistency" errors
 ** TODO Add "failed login attempts" to user: https://elixirforum.com/t/how-to-increment-database-table-column/15457/2
 ** TODO Upload files, sharing (both just file and entire record) + TESTS
 ** TODO Restrict file uploads per subscriptions and total size
-** TODO Optimize indexes
-** TODO Fix that annoying EtsCacheMock in tests
-** TODO Add "Enterprise" to the database ?
-** TODO Deploy using Ansible: https://www.cogini.com/blog/deploying-elixir-apps-with-ansible/
-** TODO Use Docker: https://docs.ansible.com/ansible/latest/scenario_guides/guide_docker.html
