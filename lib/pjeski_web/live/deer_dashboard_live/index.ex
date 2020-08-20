@@ -5,7 +5,8 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   import PjeskiWeb.LiveHelpers, only: [
     cached_counts: 1,
     is_expired?: 1,
-    keys_to_atoms: 1
+    keys_to_atoms: 1,
+    list_new_table_ids: 2
   ]
   import PjeskiWeb.Gettext
 
@@ -125,7 +126,10 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     {:noreply, socket |> assign(editing_table_id: table_id, editing_table_changeset: changeset, editing_subscription_name: false)}
   end
 
-  def handle_info({:subscription_updated, subscription}, socket) do
+  def handle_info({:subscription_updated, %{deer_tables: new_tables} = subscription}, %{assigns: %{current_subscription: %{deer_tables: old_tables}}} = socket) do
+    list_new_table_ids(old_tables, new_tables)
+    |> Enum.each(fn id -> PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}") end)
+
     case is_expired?(subscription) do
       true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
       false -> {:noreply, socket |> assign(

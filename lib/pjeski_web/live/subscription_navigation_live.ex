@@ -10,6 +10,8 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     maybe_active_records_link: 3
   ]
 
+  import PjeskiWeb.LiveHelpers, only: [list_new_table_ids: 2]
+
   import GenServer, only: [call: 2]
   use Phoenix.LiveView
 
@@ -111,12 +113,15 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     {:noreply, socket}
   end
 
-  def handle_info({:subscription_updated, subscription}, socket) do
-    tables = compact_tables_to_ids_and_names(subscription.deer_tables)
+  def handle_info({:subscription_updated, subscription}, %{assigns: %{subscription_tables: old_tables}} = socket) do
+    new_tables = compact_tables_to_ids_and_names(subscription.deer_tables)
+
+    list_new_table_ids(old_tables, new_tables)
+    |> Enum.each(fn id -> PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}") end)
 
     # TODO subscribe to newly added table
     {:noreply, socket |> assign(
-      subscription_tables: fetch_cached_counts(tables), # lol remove this
+      subscription_tables: fetch_cached_counts(new_tables), # non optimal
       header_text: subscription.name)}
   end
 
