@@ -1,7 +1,6 @@
 defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
-  import Phoenix.Controller, only: [get_csrf_token: 0]
 
   import PjeskiWeb.DeerRecordView, only: [
     deer_columns_from_subscription: 2,

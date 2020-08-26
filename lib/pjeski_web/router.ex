@@ -16,14 +16,25 @@ defmodule PjeskiWeb.Router do
     plug PjeskiWeb.GetCurrentSubscriptionPlug
   end
 
+  pipeline :uploads do
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   pipeline :protected, do: plug Pow.Plug.RequireAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :not_authenticated, do: plug Pow.Plug.RequireNotAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :admin, do: plug PjeskiWeb.EnsureRolePlug, :admin
 
+  scope "/upload", PjeskiWeb do
+    pipe_through [:uploads, :protected]
+
+    post "/record/:record_id", UploadsController, :upload_for_record
+  end
+
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
-
-    put "/upload", UploadsController, :upload_file
 
     live "/dashboard", DeerDashboardLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
     live "/records/:table_id", DeerRecordsLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
