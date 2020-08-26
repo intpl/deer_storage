@@ -83,8 +83,8 @@ msgid "E-mail address"
 msgstr "Adres e-mail"
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:70
-#: lib/pjeski_web/live/subscription_navigation_live.ex:101 lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
+#: lib/pjeski_web/live/subscription_navigation_live.ex:72
+#: lib/pjeski_web/live/subscription_navigation_live.ex:103 lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -128,8 +128,8 @@ msgid "Free demo"
 msgstr "Przetestuj za darmo"
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:69
-#: lib/pjeski_web/live/subscription_navigation_live.ex:100 lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
+#: lib/pjeski_web/live/subscription_navigation_live.ex:71
+#: lib/pjeski_web/live/subscription_navigation_live.ex:102 lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -704,7 +704,7 @@ msgid "Make current"
 msgstr "Ustaw jako obecna"
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:55
+#: lib/pjeski_web/live/subscription_navigation_live.ex:57
 #: lib/pjeski_web/templates/registration/edit.html.eex:68
 msgid "No subscription assigned"
 msgstr "Brak przypisanej subskrypcji"
@@ -847,7 +847,7 @@ msgid "Cancel"
 msgstr "Anuluj"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:100
+#: lib/pjeski_web/templates/deer_record/index.html.leex:101
 msgid "Could not find anything..."
 msgstr "Nic nie znaleziono..."
 
@@ -883,7 +883,7 @@ msgid "Save changes"
 msgstr "Zapisz zmiany"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:105
+#: lib/pjeski_web/templates/deer_record/index.html.leex:106
 msgid "There are no more records"
 msgstr "Nie ma więcej rekordów"
 
@@ -908,12 +908,12 @@ msgid "Add table"
 msgstr "Utwórz tabelę"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:58
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:59
 msgid "Example column 1"
 msgstr "Przykładowa kolumna 1"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:58
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:59
 msgid "New table"
 msgstr "Nowa tabela"
 
@@ -948,17 +948,17 @@ msgid "%{deleted_count} records deleted successfully."
 msgstr "Usunięto %{deleted_count} rekordów."
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:84
+#: lib/pjeski_web/templates/deer_record/index.html.leex:85
 msgid "Unselect"
 msgstr "Odznacz"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:87
+#: lib/pjeski_web/templates/deer_record/index.html.leex:88
 msgid "Delete all (%{count})"
 msgstr "Usuń wszystkie (%{count})"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:86
+#: lib/pjeski_web/templates/deer_record/index.html.leex:87
 msgid "Are you sure to REMOVE all %{count} selected records?"
 msgstr "Na pewno USUNĄĆ wszystkie %{count} rekordy/ów?"
 
@@ -966,3 +966,8 @@ msgstr "Na pewno USUNĄĆ wszystkie %{count} rekordy/ów?"
 #: lib/pjeski_web/templates/deer_record/index.html.leex:83
 msgid "They are %{count} records selected."
 msgstr "Zaznaczono %{count} rekordy/-ów"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/dropzone_component.ex:17
+msgid "Drop files here or click to upload."
+msgstr "Upuść pliki tutaj lub kliknij żeby wybrać pliki do wysłania."

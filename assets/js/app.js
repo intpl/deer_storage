@@ -4,8 +4,8 @@
 import css from "../css/app.scss"
 import NProgress from "nprogress"
 
-// Import jQuery
 window.$ = window.jQuery = require("jquery");
+window.Dropzone = require("dropzone");
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
