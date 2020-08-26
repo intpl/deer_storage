@@ -23,6 +23,8 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
+    put "/upload", UploadsController, :upload_file
+
     live "/dashboard", DeerDashboardLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
     live "/records/:table_id", DeerRecordsLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
 

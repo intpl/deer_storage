@@ -1,6 +1,7 @@
 defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
+  import Phoenix.Controller, only: [get_csrf_token: 0]
 
   import PjeskiWeb.DeerRecordView, only: [
     deer_columns_from_subscription: 2,
@@ -37,6 +38,20 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             <% end) %>
           </ul>
         </div>
+
+        <form action="/upload" class="dropzone needsclick" id="dropzone-for-<%= record.id %>">
+          <div class="dz-message needsclick">
+            <button type="button" class="dz-button">Drop files here or click to upload.</button><br />
+            <span class="note needsclick">(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+          </div>
+        </form>
+
+        <script>
+        $("#dropzone-for-<%= record.id %>").dropzone({
+          url: "/upload",
+          headers: {'_csrf_token': "<%= get_csrf_token() %>"},
+        });
+        </script>
       </div>
     </section>
     </div>
