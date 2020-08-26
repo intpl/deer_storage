@@ -139,6 +139,8 @@ end %>
                 table_id: @table_id
               )
             %>
+
+            <%= live_component(@socket, PjeskiWeb.DeerRecordsLive.DropzoneComponent, id: record.id) %>
           </article>
         </div>
       </div>
