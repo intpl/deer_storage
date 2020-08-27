@@ -16,6 +16,7 @@ defmodule Pjeski.DeerRecords do
     !!Repo.one(query)
   end
 
+  def get_record!(id), do: Repo.get!(DeerRecord, id)
   def get_record!(%Subscription{id: subscription_id}, id) do
     DeerRecord
     |> Repo.get_by!(id: id, subscription_id: subscription_id)
@@ -41,7 +42,10 @@ defmodule Pjeski.DeerRecords do
   end
 
   def delete_record(%Subscription{id: subscription_id}, %DeerRecord{subscription_id: subscription_id} = record) do
-    Repo.delete(record) |> maybe_notify_about_record_delete |> maybe_decrement_deer_cache
+    Repo.delete(record)
+    |> maybe_notify_about_record_delete
+    |> maybe_decrement_deer_cache
+    |> maybe_delete_deer_files_directory
   end
 
   def batch_delete_records(%Subscription{id: subscription_id}, table_id, list_of_ids) do
@@ -63,6 +67,13 @@ defmodule Pjeski.DeerRecords do
       group_by: r.deer_table_id,
       select: %{deer_table_id: r.deer_table_id, count: count(r.id)}
     )
+  end
+
+  def prepend_record_with_deer_file(%{id: id} = _record, deer_file) do
+    get_record!(id) # reload
+    |> DeerRecord.prepend_deer_file_to_changeset(deer_file)
+    |> Repo.update()
+    |> maybe_notify_about_record_update
   end
 
   defp maybe_decrement_deer_cache({:error, _} = response), do: response
@@ -105,6 +116,13 @@ defmodule Pjeski.DeerRecords do
       "record:#{record.subscription_id}:#{record.deer_table_id}",
       {:record_update, record}
     )
+
+    {:ok, record}
+  end
+
+  defp maybe_delete_deer_files_directory({:error, _} = response), do: response
+  defp maybe_delete_deer_files_directory({:ok, record}) do
+    File.rm_rf!(File.cwd! <> "/uploaded_files/#{record.subscription_id}/#{record.id}")
 
     {:ok, record}
   end

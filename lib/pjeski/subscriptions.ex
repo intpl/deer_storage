@@ -135,6 +135,8 @@ defmodule Pjeski.Subscriptions do
   end
 
   def delete_subscription(%Subscription{} = subscription) do
+    File.rm_rf!(File.cwd! <> "/uploaded_files/#{subscription.id}")
+
     Repo.delete(subscription)
   end
 

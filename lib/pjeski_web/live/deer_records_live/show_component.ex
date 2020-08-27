@@ -35,6 +35,16 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             </li>
           <% end) %>
         </ul>
+
+        <hr>
+
+        <ul>
+          <%= Enum.map(record.deer_files, fn %{md5sum: md5sum, original_filename: name} -> %>
+            <li>
+              <%= name %>
+            </li>
+          <% end) %>
+        </ul>
       </div>
     </div>
     """

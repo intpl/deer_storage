@@ -27,10 +27,10 @@ defmodule PjeskiWeb.Router do
   pipeline :not_authenticated, do: plug Pow.Plug.RequireNotAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :admin, do: plug PjeskiWeb.EnsureRolePlug, :admin
 
-  scope "/upload", PjeskiWeb do
+  scope "/files", PjeskiWeb do
     pipe_through [:uploads, :protected]
 
-    post "/record/:record_id", UploadsController, :upload_for_record
+    post "/record/:record_id", DeerFilesController, :upload_for_record
   end
 
   scope "/", PjeskiWeb do

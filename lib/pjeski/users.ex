@@ -150,9 +150,12 @@ defmodule Pjeski.Users do
     )
   end
 
-  defp remove_user_subscription_link(user_id, subscription_id) do
+  def ensure_user_subscription_link!(user_id, subscription_id) do
     Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user_id, subscription_id: subscription_id])
-    |> Repo.delete!
+  end
+
+  defp remove_user_subscription_link(user_id, subscription_id) do
+    ensure_user_subscription_link!(user_id, subscription_id) |> Repo.delete!
   end
 
   defp sort_users_by(q, ""), do: q

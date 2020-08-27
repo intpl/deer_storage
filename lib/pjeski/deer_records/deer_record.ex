@@ -6,6 +6,7 @@ defmodule Pjeski.DeerRecords.DeerRecord do
   alias Pjeski.Users.User
 
   alias Pjeski.DeerRecords.DeerField
+  alias Pjeski.DeerRecords.DeerFile
 
   schema "deer_records" do
     belongs_to :subscription, Subscription
@@ -14,6 +15,7 @@ defmodule Pjeski.DeerRecords.DeerRecord do
     field :deer_table_id, :string
 
     embeds_many :deer_fields, DeerField, on_replace: :delete
+    embeds_many :deer_files, DeerFile, on_replace: :delete
 
     timestamps()
   end
@@ -28,5 +30,14 @@ defmodule Pjeski.DeerRecords.DeerRecord do
     |> validate_required([:deer_table_id])
     |> validate_inclusion(:deer_table_id, deer_tables_ids)
     |> cast_embed(:deer_fields, with: {DeerField, :changeset, [[deer_table_id: attrs.deer_table_id, subscription: subscription]]})
+  end
+
+  def prepend_deer_file_to_changeset(deer_record, deer_file) do
+    existing_deer_files = Enum.map(deer_record.deer_files, fn df -> Map.from_struct(df) end)
+
+    deer_record
+    |> change
+    |> cast(%{deer_files: [deer_file | existing_deer_files]}, [])
+    |> cast_embed(:deer_files)
   end
 end

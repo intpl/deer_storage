@@ -35,3 +35,5 @@ npm-debug.log
 
 /Mnesia.*/
 /.elixir_ls/
+
+/uploaded_files/
