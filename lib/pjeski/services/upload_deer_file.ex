@@ -4,21 +4,25 @@ defmodule Pjeski.Services.UploadDeerFile do
   import Ecto.Query, warn: false
   alias Pjeski.Repo
 
-  import Pjeski.DeerRecords, only: [get_record!: 1, prepend_record_with_deer_file: 2]
+  alias Pjeski.DeerRecords.DeerRecord
+
+  import Pjeski.DeerRecords, only: [prepend_record_with_deer_file: 2]
   import Pjeski.Users, only: [ensure_user_subscription_link!: 2]
 
   def run!(tmp_path, original_filename, record_id, user_id) do
-    record = get_record!(String.to_integer(record_id)) |> Repo.preload(:subscription)
-    assigns = %__MODULE__{tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id}
+    Repo.transaction(fn ->
+      record = Repo.one(from(dr in DeerRecord, where: dr.id == ^record_id, lock: "FOR UPDATE")) |> Repo.preload(:subscription)
+      assigns = %__MODULE__{tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id}
 
-    assigns
-    |> ensure_user_subscription_link!
-    |> ensure_available_space_for_subscription
-    |> calculate_md5sum
-    |> ensure_md5sum_uniqueness
-    |> copy_file!
-    |> notify_subscription_storage_cache
-    |> update_record
+      assigns
+      |> ensure_user_subscription_link!
+      |> ensure_available_space_for_subscription # you will need to lock subscription too
+      |> calculate_md5sum # FIXME you don't need to calculate md5sum
+      |> ensure_md5sum_uniqueness # FIXME
+      |> copy_file!
+      |> notify_subscription_storage_cache
+      |> update_record
+    end)
   end
 
   defp ensure_user_subscription_link!(%{uploaded_by_user_id: user_id, subscription_id: subscription_id} = assigns) do

@@ -69,8 +69,8 @@ defmodule Pjeski.DeerRecords do
     )
   end
 
-  def prepend_record_with_deer_file(%{id: id} = _record, deer_file) do
-    get_record!(id) # reload
+  def prepend_record_with_deer_file(record, deer_file) do
+    record
     |> DeerRecord.prepend_deer_file_to_changeset(deer_file)
     |> Repo.update()
     |> maybe_notify_about_record_update
