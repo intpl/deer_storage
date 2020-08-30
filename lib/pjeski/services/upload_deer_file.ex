@@ -1,5 +1,5 @@
 defmodule Pjeski.Services.UploadDeerFile do
-  defstruct [:tmp_path, :record, :original_filename, :subscription, :subscription_id, :uploaded_by_user_id, :md5sum, :kilobytes]
+  defstruct [:tmp_path, :record, :original_filename, :subscription, :subscription_id, :uploaded_by_user_id, :id, :kilobytes]
 
   import Ecto.Query, warn: false
   alias Pjeski.Repo
@@ -17,8 +17,7 @@ defmodule Pjeski.Services.UploadDeerFile do
       assigns
       |> ensure_user_subscription_link!
       |> ensure_available_space_for_subscription # you will need to lock subscription too
-      |> calculate_md5sum # FIXME you don't need to calculate md5sum
-      |> ensure_md5sum_uniqueness # FIXME
+      |> generate_random_id
       |> copy_file!
       |> notify_subscription_storage_cache
       |> update_record
@@ -33,26 +32,17 @@ defmodule Pjeski.Services.UploadDeerFile do
 
   defp ensure_available_space_for_subscription(todo), do: todo
 
-  defp calculate_md5sum(%{tmp_path: tmp_path} = assigns) do
-    {:ok, content} = File.read tmp_path
-    md5sum = :crypto.hash(:md5, content) |> Base.encode16
+  defp generate_random_id(assigns) do
+    id = :crypto.strong_rand_bytes(20) |> Base.url_encode64 |> binary_part(0, 20)
 
-    Map.merge(assigns, %{md5sum: md5sum})
+    Map.merge(assigns, %{id: id})
   end
 
-  defp ensure_md5sum_uniqueness(%{record: record, md5sum: md5sum} = assigns) do
-    existing_md5sums = record.deer_files |> Enum.map(fn df -> df.md5sum end)
-    case Enum.member?(existing_md5sums, md5sum) do
-      true -> {:error, "file is already assigned"}
-      false -> assigns
-    end
-  end
-
-  defp copy_file!(%{tmp_path: tmp_path, md5sum: md5sum, subscription_id: subscription_id, record: %{id: record_id}} = assigns) do
+  defp copy_file!(%{tmp_path: tmp_path, id: id, subscription_id: subscription_id, record: %{id: record_id}} = assigns) do
     dir_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{record_id}"
     File.mkdir_p!(dir_path)
 
-    dest_path = dir_path <> "/#{md5sum}"
+    dest_path = dir_path <> "/#{id}"
     # TODO: check if this file already exists
     {:ok, bytes_copied} = File.copy(tmp_path, dest_path)
 

@@ -39,7 +39,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         <hr>
 
         <ul>
-          <%= Enum.map(record.deer_files, fn %{md5sum: md5sum, original_filename: name} -> %>
+          <%= Enum.map(record.deer_files, fn %{id: id, original_filename: name} -> %>
             <li>
               <%= name %>
             </li>
