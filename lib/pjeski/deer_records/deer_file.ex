@@ -9,7 +9,7 @@ defmodule Pjeski.DeerRecords.DeerFile do
     field :subscription_id, :id
     field :uploaded_by_user_id, :id
 
-    timestamps()
+    timestamps(updated_at: false)
   end
 
   @doc false
