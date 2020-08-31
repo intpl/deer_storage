@@ -178,7 +178,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("clear", _, %{assigns: %{table_id: table_id, current_subscription_id: subscription_id}} = socket) do
     records = search_records(subscription_id, table_id, "", 1)
 
-    {:noreply, socket |> assign(query: "", page: 1, records: records)}
+    {:noreply, socket |> assign(query: "", page: 1, records: records, count: length(records))}
   end
 
   def handle_event("filter", %{"query" => query}, %{assigns: %{current_subscription: subscription, table_id: table_id}} = socket) when byte_size(query) <= 50 do
@@ -237,8 +237,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       )}
   end
 
-  def handle_info({:record_update, %{id: record_id} = record}, socket) do
-    %{current_subscription: current_subscription, table_id: table_id, query: query, page: page, current_records: current_records, editing_record: editing_record} = socket.assigns
+  def handle_info({:record_update, %{id: record_id} = record}, %{assigns: assigns} = socket) do
+    %{current_records: current_records, editing_record: editing_record, records: records} = assigns
 
     new_editing_record = case editing_record do
                            nil -> nil
@@ -250,7 +250,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                          end
 
     current_records = maybe_update_record_in_list(current_records, record)
-    records = search_records(current_subscription.id, table_id, query, page)
+    records = replace_record_or_run_search_query(records, record, assigns)
 
     {:noreply, socket |> assign(
         editing_record: new_editing_record,
@@ -280,6 +280,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         end
     end
    end
+
+  defp replace_record_or_run_search_query(records, record, %{current_subscription: %{id: subscription_id}, table_id: table_id, query: query, page: page}) do
+    case Enum.find_index(records, fn %{id: id} -> record.id == id end) do
+      nil -> search_records(subscription_id, table_id, query, page)
+      idx -> List.replace_at(records, idx, record)
+    end
+  end
 
   defp change_page(new_page, %{assigns: %{current_subscription: subscription, query: query, table_id: table_id}} = socket) do
     records = search_records(subscription.id, table_id, query, new_page)

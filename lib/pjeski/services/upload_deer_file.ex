@@ -11,7 +11,7 @@ defmodule Pjeski.Services.UploadDeerFile do
 
   def run!(tmp_path, original_filename, record_id, user_id) do
     Repo.transaction(fn ->
-      record = Repo.one(from(dr in DeerRecord, where: dr.id == ^record_id, lock: "FOR UPDATE")) |> Repo.preload(:subscription)
+      record = Repo.one!(from(dr in DeerRecord, where: dr.id == ^record_id, lock: "FOR UPDATE")) |> Repo.preload(:subscription)
       assigns = %__MODULE__{tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id}
 
       assigns

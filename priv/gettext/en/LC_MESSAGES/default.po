@@ -165,7 +165,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:21
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:24 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:23 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:110 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:133 lib/pjeski_web/templates/admin/user/edit.html.eex:19
 #: lib/pjeski_web/templates/admin/user/index.html.eex:130 lib/pjeski_web/templates/admin/user/show.html.eex:19
@@ -834,7 +834,7 @@ msgid "Manage users or invite new"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:27
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:26
 msgid "Are you sure to REMOVE this record?"
 msgstr ""
 
@@ -857,7 +857,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:18
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:28
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:27
 msgid "Delete"
 msgstr ""
 
@@ -937,7 +937,7 @@ msgid "Go back to your subscription"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:20
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:19
 msgid "Close"
 msgstr ""
 
@@ -967,6 +967,6 @@ msgid "They are %{count} records selected."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/dropzone_component.ex:17
+#: lib/pjeski_web/live/deer_records_live/dropzone_component.ex:12
 msgid "Drop files here or click to upload."
 msgstr ""
