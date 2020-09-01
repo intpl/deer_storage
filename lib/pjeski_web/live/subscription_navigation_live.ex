@@ -32,6 +32,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     # TODO: refactor this
     records_table_id = if connected?(socket) do
       PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+      PubSub.subscribe(Pjeski.PubSub, "subscription_deer_storage:#{subscription_id}")
 
       for %{id: id} <- subscription_tables do
         PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")
@@ -41,9 +42,11 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     end
 
     Gettext.put_locale(PjeskiWeb.Gettext, locale)
+    {_files, subscription_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription_id)
 
     {:ok, assign(socket,
         subscription_tables: fetch_cached_counts(subscription_tables),
+        subscription_storage_kilobytes: subscription_storage_kilobytes,
         header_text: header_text,
         records_table_id: records_table_id
       )
@@ -99,6 +102,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
+              <button class="button navbar-item is-dark" disabled> <%= Float.ceil(@subscription_storage_kilobytes / 1024, 2) %> MB used out of XXX MB</button>
               <%= link gettext("Settings"), to: Routes.registration_path(@socket, :edit), method: :get, class: "button is-dark navbar-item" %>
               <%= link gettext("Sign out"), to: Routes.session_path(@socket, :delete), method: :delete, class: "button is-link navbar-item" %>
             </div>
@@ -107,6 +111,8 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
       </div>
     """
   end
+
+  def handle_info({:cached_deer_storage_changed, {_files, kilobytes}}, socket), do: {:noreply, assign(socket, subscription_storage_kilobytes: kilobytes)}
 
   def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{subscription_tables: tables}} = socket) do
   socket = socket |> assign(subscription_tables: overwrite_cached_count(tables, table_id, count), __changed__: %{subscription_tables: true})
