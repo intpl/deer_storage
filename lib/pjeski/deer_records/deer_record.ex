@@ -40,4 +40,10 @@ defmodule Pjeski.DeerRecords.DeerRecord do
     |> cast(%{deer_files: [deer_file | existing_deer_files]}, [])
     |> cast_embed(:deer_files)
   end
+
+  def deer_files_stats(deer_record) do
+    Enum.reduce(deer_record.deer_files, {0, 0}, fn deer_file, {files, kilobytes} ->
+      {files + 1, kilobytes + deer_file.kilobytes}
+    end)
+  end
 end

@@ -3,9 +3,12 @@ defmodule Pjeski.DeerRecords do
   alias Phoenix.PubSub
   alias Pjeski.Repo
   alias DeerCache.RecordsCountsCache
+  alias DeerCache.SubscriptionStorageCache
 
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
+
+  import Pjeski.DeerRecords.DeerRecord, only: [deer_files_stats: 1]
 
   def at_least_one_record_with_table_id?(%Subscription{id: subscription_id}, table_id) do
     query = DeerRecord
@@ -46,17 +49,31 @@ defmodule Pjeski.DeerRecords do
     |> maybe_notify_about_record_delete
     |> maybe_decrement_deer_cache
     |> maybe_delete_deer_files_directory
+    |> maybe_notify_about_deer_files_deletion
   end
 
   def batch_delete_records(%Subscription{id: subscription_id}, table_id, list_of_ids) do
-    {deleted_count, _} = DeerRecord
+    query = DeerRecord
     |> where([dr], dr.subscription_id == ^subscription_id)
     |> where([dr], dr.deer_table_id == ^table_id)
     |> where([dr], dr.id in ^list_of_ids)
-    |> Repo.delete_all
 
+    records = Repo.all(query)
+
+    {files_count, kilobytes} = Enum.reduce(records, {0, 0}, fn dr, {total_files, total_kilobytes} ->
+      {dr_files, dr_kilobytes} = deer_files_stats(dr)
+
+      {total_files + dr_files, total_kilobytes + dr_kilobytes}
+    end)
+
+    {deleted_count, _} = Repo.delete_all(query)
+
+
+    notify_about_deer_files_deletion(subscription_id, files_count, kilobytes)
     notify_about_batch_record_delete(subscription_id, table_id, list_of_ids)
     decrement_deer_cache(table_id, deleted_count)
+
+    if length(records) != deleted_count, do: raise("not all records has been removed (cache is now invalid)")
 
     {:ok, deleted_count}
   end
@@ -129,5 +146,17 @@ defmodule Pjeski.DeerRecords do
     File.rm_rf!(File.cwd! <> "/uploaded_files/#{record.subscription_id}/#{record.id}")
 
     {:ok, record}
+  end
+
+  defp maybe_notify_about_deer_files_deletion({:error, _} = response), do: response
+  defp maybe_notify_about_deer_files_deletion({:ok, record}) do
+    {count, kilobytes} = deer_files_stats(record)
+    notify_about_deer_files_deletion(record.subscription_id, count, kilobytes)
+
+    {:ok, record}
+  end
+
+  defp notify_about_deer_files_deletion(subscription_id, count, kilobytes) do
+    GenServer.cast(SubscriptionStorageCache, {:removed_files, subscription_id, count, kilobytes})
   end
 end
