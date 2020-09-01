@@ -6,7 +6,7 @@ defmodule DeerCache.SubscriptionStorageCache do
 
   def fetch_data(subscription_id) do
     case GenServer.call(__MODULE__, {:get, subscription_id}) do
-      [] -> [0, 0]
+      [] -> {0, 0}
       [{_subscription_id, data}] -> data
     end
   end
