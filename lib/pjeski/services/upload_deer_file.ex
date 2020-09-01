@@ -50,7 +50,11 @@ defmodule Pjeski.Services.UploadDeerFile do
     Map.merge(assigns, %{kilobytes: ceil(bytes_copied/1024)})
   end
 
-  defp notify_subscription_storage_cache(todo), do: todo
+  defp notify_subscription_storage_cache(%{subscription: %{id: subscription_id}, kilobytes: kilobytes} = assigns) do
+    GenServer.cast(DeerCache.SubscriptionStorageCache, {:uploaded_file, subscription_id, kilobytes})
+
+    assigns
+  end
 
   defp update_record(%{record: record} = assigns) do
     {:ok, _record} = prepend_record_with_deer_file(record, Map.from_struct(assigns))
