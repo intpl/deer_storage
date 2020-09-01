@@ -9,6 +9,7 @@ export default {
       $(this.el).dropzone({
         url: "/files/record/" + this.el.dataset.recordId,
         headers: {'x-csrf-token': csrfToken},
+        success: function (file) {this.removeFile(file);}
       });
     }
   }
