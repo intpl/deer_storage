@@ -36,6 +36,8 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
 
+    get "/files/record/:record_id/:file_id", DeerFilesController, :download_record
+
     live "/dashboard", DeerDashboardLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
     live "/records/:table_id", DeerRecordsLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
 

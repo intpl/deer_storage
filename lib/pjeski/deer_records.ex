@@ -76,6 +76,10 @@ defmodule Pjeski.DeerRecords do
     |> maybe_notify_about_record_update
   end
 
+  def ensure_deer_file_exists_in_record!(deer_record, deer_file_id) do
+    Enum.find(deer_record.deer_files, fn df -> df.id == deer_file_id end) || raise("invalid file id")
+  end
+
   defp maybe_decrement_deer_cache({:error, _} = response), do: response
   defp maybe_decrement_deer_cache({:ok, %{deer_table_id: table_id} = record}) do
     decrement_deer_cache(table_id)

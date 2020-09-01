@@ -1,5 +1,7 @@
 defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
   use Phoenix.LiveComponent
+  alias PjeskiWeb.Router.Helpers, as: Routes
+  import Phoenix.HTML.Link, only: [link: 2]
   import PjeskiWeb.Gettext
 
   import PjeskiWeb.DeerRecordView, only: [
@@ -39,9 +41,11 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         <hr>
 
         <ul>
-          <%= Enum.map(record.deer_files, fn %{id: id, original_filename: name} -> %>
+          <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name} -> %>
             <li>
-              <%= name %>
+              <span>
+                <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
+              </span>
             </li>
           <% end) %>
         </ul>
