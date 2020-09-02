@@ -104,7 +104,13 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <button class="button navbar-item is-dark" disabled> <%= Float.ceil(@used_storage_kilobytes / 1024, 2) %> MB used out of <%= @storage_limit_megabytes %> MB</button>
+              <button class="button navbar-item is-dark" disabled>
+                <%= gettext(
+                  "%{used_space} MB used out of %{available_space} MB",
+                  used_space: Float.ceil(@used_storage_kilobytes / 1024, 2),
+                  available_space: @storage_limit_megabytes
+                ) %>
+              </button>
               <%= link gettext("Settings"), to: Routes.registration_path(@socket, :edit), method: :get, class: "button is-dark navbar-item" %>
               <%= link gettext("Sign out"), to: Routes.session_path(@socket, :delete), method: :delete, class: "button is-link navbar-item" %>
             </div>

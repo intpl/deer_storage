@@ -21,6 +21,7 @@ defmodule PjeskiWeb.Router do
     plug :fetch_session
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug PjeskiWeb.LocalePlug
   end
 
   pipeline :protected, do: plug Pow.Plug.RequireAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler

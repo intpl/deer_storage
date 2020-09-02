@@ -5,9 +5,11 @@ defmodule PjeskiWeb.DeerFilesController do
   import Pjeski.Users, only: [ensure_user_subscription_link!: 2]
 
   def upload_for_record(%Plug.Conn{assigns: %{current_user: user}} = conn, %{"record_id" => record_id, "file" => %Plug.Upload{filename: filename, path: path}}) do
-    Pjeski.Services.UploadDeerFile.run!(path, filename, record_id, user.id)
-
-    send_resp(conn, 200, "")
+    case Pjeski.Services.UploadDeerFile.run!(path, filename, record_id, user.id) do
+      {:error, key} ->
+        send_resp(conn, 403, translate_error(key))
+      _ -> send_resp(conn, 200, "")
+    end
   end
 
   def download_record(%Plug.Conn{assigns: %{current_user: user}} = conn, %{"record_id" => record_id, "file_id" => file_id}) do
@@ -22,4 +24,6 @@ defmodule PjeskiWeb.DeerFilesController do
 
     send_download(conn, {:file, file_path}, filename: deer_file.original_filename)
   end
+
+  defp translate_error(:ensure_limits_for_subscription), do: gettext("Space limit exceeded for this subscription")
 end
