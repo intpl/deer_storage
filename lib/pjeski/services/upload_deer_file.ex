@@ -16,7 +16,7 @@ defmodule Pjeski.Services.UploadDeerFile do
 
       assigns
       |> ensure_user_subscription_link!
-      |> ensure_available_space_for_subscription # TODO
+      |> ensure_limits_for_subscription
       |> generate_random_id
       |> copy_file!
       |> notify_subscription_storage_cache
@@ -30,7 +30,19 @@ defmodule Pjeski.Services.UploadDeerFile do
     assigns
   end
 
-  defp ensure_available_space_for_subscription(todo), do: todo
+  defp ensure_limits_for_subscription(%{tmp_path: tmp_path, subscription: %{id: subscription_id, storage_limit_kilobytes: storage_limit_kilobytes}} = assigns) do
+    %File.Stat{size: filesize_bytes} = File.stat!(tmp_path)
+    filesize_kilobytes = ceil(filesize_bytes/1024)
+    {_files, used_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription_id) # TODO files count
+
+    if (storage_limit_kilobytes - used_storage_kilobytes) > filesize_kilobytes do
+      Map.merge(assigns, %{kilobytes: filesize_kilobytes})
+    else
+      {name, _arity} = __ENV__.function
+
+      {:error, name}
+    end
+  end
 
   defp generate_random_id(assigns) do
     id = :crypto.strong_rand_bytes(20) |> Base.url_encode64 |> binary_part(0, 20)
@@ -40,14 +52,11 @@ defmodule Pjeski.Services.UploadDeerFile do
 
   defp copy_file!(%{tmp_path: tmp_path, id: id, subscription_id: subscription_id, record: %{id: record_id}} = assigns) do
     dir_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{record_id}"
+
     File.mkdir_p!(dir_path)
+    File.copy!(tmp_path, dir_path <> "/#{id}")
 
-    dest_path = dir_path <> "/#{id}"
-    # TODO: check if this file already exists
-    {:ok, bytes_copied} = File.copy(tmp_path, dest_path)
-
-    # TODO: move assignment to ensure_available_space_for_subscription
-    Map.merge(assigns, %{kilobytes: ceil(bytes_copied/1024)})
+    assigns
   end
 
   defp notify_subscription_storage_cache(%{subscription: %{id: subscription_id}, kilobytes: kilobytes} = assigns) do
