@@ -26,6 +26,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     %{"header_text" => header_text,
       "subscription_id" => subscription_id,
       "subscription_tables" => subscription_tables,
+      "storage_limit_kilobytes" => storage_limit_kilobytes,
       "locale" => locale
     }, socket) do
 
@@ -42,11 +43,12 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     end
 
     Gettext.put_locale(PjeskiWeb.Gettext, locale)
-    {_files, subscription_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription_id)
+    {_files, used_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription_id)
 
     {:ok, assign(socket,
         subscription_tables: fetch_cached_counts(subscription_tables),
-        subscription_storage_kilobytes: subscription_storage_kilobytes,
+        used_storage_kilobytes: used_storage_kilobytes,
+        storage_limit_megabytes: ceil(storage_limit_kilobytes / 1024),
         header_text: header_text,
         records_table_id: records_table_id
       )
@@ -102,7 +104,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <button class="button navbar-item is-dark" disabled> <%= Float.ceil(@subscription_storage_kilobytes / 1024, 2) %> MB used out of XXX MB</button>
+              <button class="button navbar-item is-dark" disabled> <%= Float.ceil(@used_storage_kilobytes / 1024, 2) %> MB used out of <%= @storage_limit_megabytes %> MB</button>
               <%= link gettext("Settings"), to: Routes.registration_path(@socket, :edit), method: :get, class: "button is-dark navbar-item" %>
               <%= link gettext("Sign out"), to: Routes.session_path(@socket, :delete), method: :delete, class: "button is-link navbar-item" %>
             </div>
@@ -112,7 +114,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     """
   end
 
-  def handle_info({:cached_deer_storage_changed, {_files, kilobytes}}, socket), do: {:noreply, assign(socket, subscription_storage_kilobytes: kilobytes)}
+  def handle_info({:cached_deer_storage_changed, {_files, kilobytes}}, socket), do: {:noreply, assign(socket, used_storage_kilobytes: kilobytes)}
 
   def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{subscription_tables: tables}} = socket) do
   socket = socket |> assign(subscription_tables: overwrite_cached_count(tables, table_id, count), __changed__: %{subscription_tables: true})
@@ -128,6 +130,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     # TODO subscribe to newly added table
     {:noreply, socket |> assign(
       subscription_tables: fetch_cached_counts(new_tables), # non optimal
+      storage_limit_megabytes: ceil(subscription.storage_limit_kilobytes / 1024),
       header_text: subscription.name)}
   end
 
@@ -135,7 +138,6 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     target_index = Enum.find_index(tables, fn %{id: id} -> id == table_id end)
 
     List.update_at(tables, target_index, fn dt -> Map.merge(dt, %{count: count}) end)
-
   end
 
   defp fetch_cached_counts(tables) do

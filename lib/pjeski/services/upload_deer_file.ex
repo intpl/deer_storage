@@ -16,7 +16,7 @@ defmodule Pjeski.Services.UploadDeerFile do
 
       assigns
       |> ensure_user_subscription_link!
-      |> ensure_available_space_for_subscription # you will need to lock subscription too
+      |> ensure_available_space_for_subscription # TODO
       |> generate_random_id
       |> copy_file!
       |> notify_subscription_storage_cache

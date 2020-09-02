@@ -48,6 +48,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         current_subscription_id: current_subscription_id,
         current_subscription_name: nil,
         current_subscription_tables: [],
+        storage_limit_kilobytes: 0,
         locale: user.locale
       )}
   end
@@ -84,6 +85,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                current_subscription: subscription,
                current_subscription_name: subscription.name,
                current_subscription_tables: subscription.deer_tables,
+               storage_limit_kilobytes: subscription.storage_limit_kilobytes,
                table_id: table_id,
                user_subscription_link: user_subscription_link # TODO: permissions
              )}
@@ -272,6 +274,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
               current_subscription: subscription,
               current_subscription_name: subscription.name,
               current_subscription_tables: subscription.deer_tables,
+              storage_limit_kilobytes: subscription.storage_limit_kilobytes,
               table_name: table_name)
             |> maybe_assign_record_changeset(:new_record, subscription, new_record)
             |> maybe_assign_record_changeset(:editing_record, subscription, editing_record)

@@ -41,6 +41,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         token: token,
         editing_subscription_name: false,
         editing_table_id: nil,
+        storage_limit_kilobytes: 0,
         locale: user.locale
       )}
   end
@@ -136,6 +137,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         editing_subscription_name: false,
         current_subscription_tables: subscription.deer_tables,
         current_subscription_name: subscription.name,
+        storage_limit_kilobytes: subscription.storage_limit_kilobytes,
         current_subscription: subscription,
         editing_table_id: nil
       )}
@@ -166,6 +168,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
               current_subscription: subscription,
               current_subscription_name: subscription.name,
               current_subscription_tables: subscription.deer_tables,
+              storage_limit_kilobytes: subscription.storage_limit_kilobytes,
               user_subscription_link: user_subscription_link
             )} # TODO: permissions
         end

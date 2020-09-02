@@ -7,6 +7,7 @@
           "header_text" => header_text(@conn),
           "subscription_id" => @conn.assigns.current_subscription.id,
           "subscription_tables" => compact_tables_to_ids_and_names(@conn.assigns.current_subscription.deer_tables),
+          "storage_limit_kilobytes" => @conn.assigns.current_subscription.storage_limit_kilobytes,
           "locale" => @conn.assigns.locale
         }
       )
