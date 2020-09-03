@@ -6,7 +6,6 @@ defmodule Pjeski.DeerRecords.DeerFile do
   embedded_schema do
     field :original_filename, :string
     field :kilobytes, :integer
-    field :subscription_id, :id
     field :uploaded_by_user_id, :id
 
     timestamps(updated_at: false)
@@ -15,7 +14,7 @@ defmodule Pjeski.DeerRecords.DeerFile do
   @doc false
   def changeset(deer_file, attrs) do
     deer_file
-    |> cast(attrs, [:id, :kilobytes, :original_filename, :subscription_id, :uploaded_by_user_id])
-    |> validate_required([:id, :kilobytes, :original_filename, :subscription_id, :uploaded_by_user_id])
+    |> cast(attrs, [:id, :kilobytes, :original_filename, :uploaded_by_user_id])
+    |> validate_required([:id, :kilobytes, :original_filename, :uploaded_by_user_id])
   end
 end
