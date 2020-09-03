@@ -30,9 +30,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   import Pjeski.DbHelpers.DeerRecordsSearch
 
-  def mount(_params, %{"pjeski_auth" => _token, "current_subscription_id" => current_subscription_id} = session, socket) do
-    #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
+  def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => current_subscription_id} = session, socket) do
     user = get_live_user(socket, session)
+
+    if connected?(socket) do
+      PubSub.subscribe(Pjeski.PubSub, "session_#{token}")
+      PubSub.subscribe(Pjeski.PubSub, "user_#{user.id}")
+    end
 
     Gettext.put_locale(user.locale)
 
@@ -283,6 +287,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         end
     end
    end
+
+  def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
 
   defp replace_record_or_run_search_query(records, record, %{current_subscription: %{id: subscription_id}, table_id: table_id, query: query, page: page}) do
     case Enum.find_index(records, fn %{id: id} -> record.id == id end) do

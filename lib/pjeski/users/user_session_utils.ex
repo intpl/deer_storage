@@ -29,12 +29,10 @@ def get_live_user(socket, %{"pjeski_auth" => signed_token}) do
     CredentialsCache.sessions(@credentials_cache_config, user)
   end
 
-  def delete_all_sessions_for_user(user) do
+  def delete_all_sessions_for_user!(user) do
     for session_key <- user_sessions_keys(user) do
       CredentialsCache.delete(@credentials_cache_config, session_key)
     end
-
-    {:ok}
   end
 
   def maybe_put_subscription_into_session(%{assigns: %{current_user: %{last_used_subscription_id: nil, role: "admin"}}} = conn) do

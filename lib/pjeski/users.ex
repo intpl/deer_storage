@@ -131,13 +131,13 @@ defmodule Pjeski.Users do
 
   def remove_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id, last_used_subscription_id: subscription_id} = user, subscription_id) do
     Repo.transaction(fn ->
-      remove_user_subscription_link(user_id, subscription_id)
+      remove_user_subscription_link!(user_id, subscription_id)
       update_last_used_subscription_id!(user, nil)
     end)
   end
 
   def remove_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id}, subscription_id) when is_number(subscription_id) do
-    remove_user_subscription_link(user_id, subscription_id)
+    remove_user_subscription_link!(user_id, subscription_id)
   end
 
   def upsert_subscription_link!(user_id, subscription_id, on_conflict) do
@@ -154,7 +154,7 @@ defmodule Pjeski.Users do
     Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user_id, subscription_id: subscription_id])
   end
 
-  defp remove_user_subscription_link(user_id, subscription_id) do
+  defp remove_user_subscription_link!(user_id, subscription_id) do
     ensure_user_subscription_link!(user_id, subscription_id) |> Repo.delete!
   end
 

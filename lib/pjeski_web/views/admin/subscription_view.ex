@@ -3,7 +3,7 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
   use PjeskiWeb, :view
 
   def storage_limit_from_kilobytes(requested_val) do
-    case Enum.find(storage_limit_options(), fn {key, val} -> val == requested_val end) do
+    case Enum.find(storage_limit_options(), fn {_key, val} -> val == requested_val end) do
       nil -> "#{requested_val} KB"
       {text, _size} -> text
     end

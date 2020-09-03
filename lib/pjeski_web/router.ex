@@ -49,7 +49,9 @@ defmodule PjeskiWeb.Router do
 
     resources "/session", SessionController, singleton: true, only: [:delete]
     resources "/invitation", InvitationController, only: [:new, :create]
-    resources "/users", UserController, only: [:index]
+    resources "/users", UserController, only: [:index] do
+      put "/unlink/:subscription_id", UserController, :unlink
+    end
 
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]

@@ -113,7 +113,7 @@ defmodule PjeskiWeb.Admin.UserController do
 
   def log_out_from_devices(conn, %{"user_id" => id}) do
     user = Users.get_user!(id)
-    {:ok} = UserSessionUtils.delete_all_sessions_for_user(user)
+    UserSessionUtils.delete_all_sessions_for_user!(user)
     Phoenix.PubSub.broadcast!(Pjeski.PubSub, "user_#{user.id}", :logout)
 
     conn

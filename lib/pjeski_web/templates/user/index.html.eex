@@ -21,7 +21,11 @@
 
   <div class="container">
     <%= for user <- @users do %>
-      <%= user.name || gettext("empty") %> (<%= user.email %>)<br>
+      <%= user.name || gettext("empty") %> (<%= user.email %>)
+      <%= if user.id != @current_user.id do %>
+        <%= link gettext("Unlink"), to: Routes.user_user_path(@conn, :unlink, user.id, @current_subscription.id), method: :put, data: [confirm: gettext("Are you sure?")] %>
+      <% end %>
+      <br>
     <% end %>
   </div>
 </section>

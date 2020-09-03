@@ -134,8 +134,8 @@ msgid "Settings"
 msgstr "Ustawienia"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:77
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:108 lib/pjeski_web/templates/admin/user/index.html.eex:82
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:78
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:112 lib/pjeski_web/templates/admin/user/index.html.eex:82
 #: lib/pjeski_web/templates/admin/user/index.html.eex:128
 msgid "Actions"
 msgstr "Działania"
@@ -154,7 +154,7 @@ msgstr "Panel administracyjny"
 #: lib/pjeski_web/templates/admin/subscription/edit.html.eex:24
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:83 lib/pjeski_web/templates/admin/subscription/show.html.eex:142
 #: lib/pjeski_web/templates/admin/user/edit.html.eex:50 lib/pjeski_web/templates/admin/user/show.html.eex:148
-#: lib/pjeski_web/views/admin/user_view.ex:24
+#: lib/pjeski_web/templates/user/index.html.eex:26 lib/pjeski_web/views/admin/user_view.ex:24
 msgid "Are you sure?"
 msgstr "Jesteś pewien?"
 
@@ -166,7 +166,7 @@ msgstr "Strefa niebezpieczeństwa"
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:21
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:25 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:110 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:114 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:138 lib/pjeski_web/templates/admin/user/edit.html.eex:19
 #: lib/pjeski_web/templates/admin/user/index.html.eex:130 lib/pjeski_web/templates/admin/user/show.html.eex:19
 msgid "Edit"
@@ -203,10 +203,10 @@ msgstr "Użytkownik"
 
 #, elixir-format
 #: lib/pjeski_web/live/admin_dashboard_live/index.ex:35
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:75 lib/pjeski_web/templates/admin/subscription/index.html.eex:95
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:76 lib/pjeski_web/templates/admin/subscription/index.html.eex:99
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:74 lib/pjeski_web/templates/admin/user/_header.html.eex:5
-#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:17 lib/pjeski_web/views/admin/subscription_view.ex:54
-#: lib/pjeski_web/views/admin/subscription_view.ex:55
+#: lib/pjeski_web/templates/layout/navigation_admin.html.eex:17 lib/pjeski_web/views/admin/subscription_view.ex:56
+#: lib/pjeski_web/views/admin/subscription_view.ex:57
 msgid "Users"
 msgstr "Użytkownicy"
 
@@ -239,7 +239,7 @@ msgstr "Utworzono"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:21
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:72 lib/pjeski_web/templates/admin/subscription/index.html.eex:86
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:72 lib/pjeski_web/templates/admin/subscription/index.html.eex:87
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:38 lib/pjeski_web/templates/admin/user/show.html.eex:128
 #: lib/pjeski_web/views/admin/subscription_view.ex:46 lib/pjeski_web/views/admin/subscription_view.ex:47
 msgid "Expires on"
@@ -277,11 +277,11 @@ msgid "Subscription name"
 msgstr "Nazwa subskrypcji"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:74
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:92 lib/pjeski_web/templates/admin/subscription/show.html.eex:50
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:75
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:96 lib/pjeski_web/templates/admin/subscription/show.html.eex:50
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:120 lib/pjeski_web/templates/admin/user/index.html.eex:77
 #: lib/pjeski_web/templates/admin/user/index.html.eex:106 lib/pjeski_web/templates/admin/user/show.html.eex:90
-#: lib/pjeski_web/views/admin/subscription_view.ex:52 lib/pjeski_web/views/admin/subscription_view.ex:53
+#: lib/pjeski_web/views/admin/subscription_view.ex:54 lib/pjeski_web/views/admin/subscription_view.ex:55
 #: lib/pjeski_web/views/admin/user_view.ex:62 lib/pjeski_web/views/admin/user_view.ex:63
 msgid "Updated at"
 msgstr "Ostatnia aktualizacja"
@@ -337,7 +337,7 @@ msgid "All users"
 msgstr "Użytkownicy"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:109
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:113
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:137 lib/pjeski_web/templates/admin/user/index.html.eex:129
 msgid "Show"
 msgstr "Pokaż"
@@ -466,19 +466,19 @@ msgstr "Baza danych plików nie dla jeleni!"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:34
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:76 lib/pjeski_web/templates/admin/subscription/index.html.eex:98
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:77 lib/pjeski_web/templates/admin/subscription/index.html.eex:102
 #: lib/pjeski_web/templates/admin/user/form.html.eex:39 lib/pjeski_web/templates/admin/user/index.html.eex:80
-#: lib/pjeski_web/templates/admin/user/index.html.eex:115 lib/pjeski_web/views/admin/subscription_view.ex:48
-#: lib/pjeski_web/views/admin/subscription_view.ex:49 lib/pjeski_web/views/admin/user_view.ex:58
+#: lib/pjeski_web/templates/admin/user/index.html.eex:115 lib/pjeski_web/views/admin/subscription_view.ex:50
+#: lib/pjeski_web/views/admin/subscription_view.ex:51 lib/pjeski_web/views/admin/user_view.ex:58
 #: lib/pjeski_web/views/admin/user_view.ex:59
 msgid "Admin notes"
 msgstr "Notatki administratora"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:73
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:89 lib/pjeski_web/templates/admin/user/index.html.eex:76
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:74
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:93 lib/pjeski_web/templates/admin/user/index.html.eex:76
 #: lib/pjeski_web/templates/admin/user/index.html.eex:103 lib/pjeski_web/templates/admin/user/show.html.eex:87
-#: lib/pjeski_web/views/admin/subscription_view.ex:50 lib/pjeski_web/views/admin/subscription_view.ex:51
+#: lib/pjeski_web/views/admin/subscription_view.ex:52 lib/pjeski_web/views/admin/subscription_view.ex:53
 #: lib/pjeski_web/views/admin/user_view.ex:60 lib/pjeski_web/views/admin/user_view.ex:61
 msgid "Inserted at"
 msgstr "Utworzono"
@@ -868,12 +868,12 @@ msgid "New record"
 msgstr "Nowy rekord"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:177
+#: lib/pjeski_web/live/deer_records_live/index.ex:181
 msgid "Record deleted successfully."
 msgstr "Rekord usunięty."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:119
+#: lib/pjeski_web/live/deer_records_live/index.ex:123
 msgid "Record updated successfully."
 msgstr "Rekord zaktualizowany."
 
@@ -908,12 +908,12 @@ msgid "Add table"
 msgstr "Utwórz tabelę"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:60
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:64
 msgid "Example column 1"
 msgstr "Przykładowa kolumna 1"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:60
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:64
 msgid "New table"
 msgstr "Nowa tabela"
 
@@ -943,7 +943,7 @@ msgid "Close"
 msgstr "Zamknij"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:169
+#: lib/pjeski_web/live/deer_records_live/index.ex:173
 msgid "%{deleted_count} records deleted successfully."
 msgstr "Usunięto %{deleted_count} rekordów."
 
@@ -974,7 +974,9 @@ msgstr "Upuść pliki tutaj lub kliknij żeby wybrać pliki do wysłania."
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:15
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:33
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:73 lib/pjeski_web/templates/admin/subscription/index.html.eex:90
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:33 lib/pjeski_web/views/admin/subscription_view.ex:48
+#: lib/pjeski_web/views/admin/subscription_view.ex:49
 msgid "Storage limit"
 msgstr "Limit miejsca na dysku"
 
@@ -987,3 +989,13 @@ msgstr "Przekroczono limit przestrzeni dla tej subskrypcji"
 #: lib/pjeski_web/live/subscription_navigation_live.ex:108
 msgid "%{used_space} MB used out of %{available_space} MB"
 msgstr "Wykorzystano %{used_space} MB z dostępnych %{available_space} MB"
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:26
+msgid "Unlink"
+msgstr "Odłącz"
+
+#, elixir-format
+#: lib/pjeski_web/controllers/user_controller.ex:23
+msgid "User has been removed from your subscription"
+msgstr "Użytkownik został usunięty z Twojej subskrypcji"

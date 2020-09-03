@@ -28,10 +28,14 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def mount(_params, %{"pjeski_auth" => _token, "current_subscription_id" => nil}, socket), do: {:ok, push_redirect(socket, to: "/registration/edit")}
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
-    #if connected?(socket), do: :timer.send_interval(30000, self(), :update)
-    if connected?(socket), do: PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
-
     user = get_live_user(socket, session)
+
+    if connected?(socket) do
+      # TODO: Renewing tokens
+      PubSub.subscribe(Pjeski.PubSub, "user_#{user.id}")
+      PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+      PubSub.subscribe(Pjeski.PubSub, "session_#{token}")
+    end
 
     Gettext.put_locale(user.locale)
 
@@ -147,6 +151,8 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{cached_counts: cached_counts}} = socket) do
     {:noreply, socket |> assign(cached_counts: Map.merge(cached_counts, %{table_id => count}))}
   end
+
+  def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
 
   def handle_params(_params, _, %{assigns: %{current_user: user, current_subscription_id: subscription_id}} = socket) do
     case connected?(socket) do
