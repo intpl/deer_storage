@@ -164,6 +164,8 @@ defmodule Pjeski.Subscriptions do
   defp sort_subscriptions_by(q, "name_asc"), do: q |> order_by(asc: :name)
   defp sort_subscriptions_by(q, "expires_on_desc"), do: q |> order_by(desc: :expires_on)
   defp sort_subscriptions_by(q, "expires_on_asc"), do: q |> order_by(asc: :expires_on)
+  defp sort_subscriptions_by(q, "storage_limit_kilobytes_desc"), do: q |> order_by(desc: :storage_limit_kilobytes)
+  defp sort_subscriptions_by(q, "storage_limit_kilobytes_asc"), do: q |> order_by(asc: :storage_limit_kilobytes)
   defp sort_subscriptions_by(q, "admin_notes_desc"), do: q |> order_by(desc_nulls_last: :admin_notes)
   defp sort_subscriptions_by(q, "admin_notes_asc"), do: q |> order_by(asc_nulls_first: :admin_notes)
   defp sort_subscriptions_by(q, "inserted_at_desc"), do: q |> order_by(desc: :inserted_at)

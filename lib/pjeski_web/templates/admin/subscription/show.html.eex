@@ -30,6 +30,11 @@
 
         <ul>
           <li>
+            <strong><%= gettext("Storage limit") %>:</strong>
+            <%= storage_limit_from_kilobytes(@subscription.storage_limit_kilobytes) %>
+          </li>
+
+          <li>
             <strong><%= gettext("Expires on") %>:</strong>
             <%= @subscription.expires_on %>
           </li>

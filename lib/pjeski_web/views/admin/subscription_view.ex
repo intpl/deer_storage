@@ -2,6 +2,13 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
   alias PjeskiWeb.Router.Helpers, as: Routes
   use PjeskiWeb, :view
 
+  def storage_limit_from_kilobytes(requested_val) do
+    case Enum.find(storage_limit_options(), fn {key, val} -> val == requested_val end) do
+      nil -> "#{requested_val} KB"
+      {text, _size} -> text
+    end
+  end
+
   def storage_limit_options() do
     [
       {"0 MB", 0},
@@ -38,6 +45,8 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
       ["name_asc", gettext("Name") <> ascending],
       ["expires_on_desc", gettext("Expires on") <> descending],
       ["expires_on_asc", gettext("Expires on") <> ascending],
+      ["storage_limit_kilobytes_desc", gettext("Storage limit") <> descending],
+      ["storage_limit_kilobytes_asc", gettext("Storage limit") <> ascending],
       ["admin_notes_desc", gettext("Admin notes") <> descending],
       ["admin_notes_asc", gettext("Admin notes") <> ascending],
       ["inserted_at_desc", gettext("Inserted at") <> descending],
