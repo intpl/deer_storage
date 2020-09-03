@@ -27,7 +27,12 @@ defmodule Pjeski.DbHelpers.DeerRecordsSearch do
   defp recursive_dynamic_query([head| []]), do: dynamic(^recursive_dynamic_query(head))
   defp recursive_dynamic_query([head | tail]), do: dynamic(^recursive_dynamic_query(head) and ^recursive_dynamic_query(tail))
   defp recursive_dynamic_query(word) do
-    dynamic([q], fragment("exists (select * from unnest(?) obj where obj->>'content' ilike ?)", field(q, :deer_fields), ^"%#{word}%"))
+    word = "%#{word}%"
+
+    matched_fields = dynamic([q], fragment("exists (select * from unnest(?) obj where obj->>'content' ilike ?)", field(q, :deer_fields), ^word))
+    matched_files = dynamic([q], fragment("exists (select * from unnest(?) obj where obj->>'original_filename' ilike ?)", field(q, :deer_files), ^word))
+
+    dynamic(^matched_fields or ^matched_files)
   end
 
   defp calculate_offset(page) when page > 0, do: (page - 1) * per_page()
