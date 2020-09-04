@@ -93,6 +93,19 @@ defmodule Pjeski.DeerRecords do
     |> maybe_notify_about_record_update
   end
 
+  def delete_file_from_record!(subscription_id, record_id, file_id) do
+    {:ok, _} = Repo.transaction(fn ->
+      record = Repo.one!(from dr in DeerRecord, where: dr.id == ^record_id and dr.subscription_id == ^subscription_id, lock: "FOR UPDATE")
+      deer_file = Enum.find(record.deer_files, fn deer_file -> deer_file.id == file_id end) || raise("invalid file id")
+
+      updated_record = Repo.update!(DeerRecord.reject_file_from_changeset(record, file_id))
+      File.rm!(File.cwd! <> "/uploaded_files/#{subscription_id}/#{record_id}/#{file_id}")
+
+      notify_about_record_update(updated_record)
+      notify_about_deer_files_deletion(subscription_id, 1, deer_file.kilobytes)
+    end)
+  end
+
   def ensure_deer_file_exists_in_record!(deer_record, deer_file_id) do
     Enum.find(deer_record.deer_files, fn df -> df.id == deer_file_id end) || raise("invalid file id")
   end
@@ -132,13 +145,17 @@ defmodule Pjeski.DeerRecords do
 
   defp maybe_notify_about_record_update({:error, _} = response), do: response
   defp maybe_notify_about_record_update({:ok, record}) do
+    notify_about_record_update(record)
+
+    {:ok, record}
+  end
+
+  defp notify_about_record_update(record) do
     PubSub.broadcast(
       Pjeski.PubSub,
       "record:#{record.subscription_id}:#{record.deer_table_id}",
       {:record_update, record}
     )
-
-    {:ok, record}
   end
 
   defp maybe_delete_deer_files_directory({:error, _} = response), do: response

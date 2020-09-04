@@ -857,7 +857,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:18
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:29
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:29 lib/pjeski_web/live/deer_records_live/show_component.ex:51
 msgid "Delete"
 msgstr ""
 
@@ -867,12 +867,12 @@ msgid "New record"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:181
+#: lib/pjeski_web/live/deer_records_live/index.ex:182
 msgid "Record deleted successfully."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:123
+#: lib/pjeski_web/live/deer_records_live/index.ex:124
 msgid "Record updated successfully."
 msgstr ""
 
@@ -942,7 +942,7 @@ msgid "Close"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/index.ex:173
+#: lib/pjeski_web/live/deer_records_live/index.ex:174
 msgid "%{deleted_count} records deleted successfully."
 msgstr ""
 
@@ -997,4 +997,9 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/controllers/user_controller.ex:23
 msgid "User has been removed from your subscription"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:49
+msgid "Are you sure to DELETE this file?"
 msgstr ""

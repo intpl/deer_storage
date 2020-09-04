@@ -20,6 +20,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   import PjeskiWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
   import Pjeski.DeerRecords, only: [
+    delete_file_from_record!: 3,
     batch_delete_records: 3,
     change_record: 3,
     create_record: 2,
@@ -197,6 +198,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: change_page(page + 1, socket)
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: change_page(page - 1, socket)
+
+
+  def handle_event("delete_record_file", %{"file-id" => file_id, "record-id" => record_id}, %{assigns: %{current_subscription: %{id: subscription_id}}} = socket) do
+    delete_file_from_record!(subscription_id, record_id, file_id)
+
+    {:noreply, socket}
+  end
 
   def handle_call(:whats_my_table_id, _pid, %{assigns: %{table_id: table_id}} = socket), do: {:reply, table_id, socket}
 

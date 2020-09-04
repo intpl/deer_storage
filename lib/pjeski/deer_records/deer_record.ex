@@ -41,6 +41,16 @@ defmodule Pjeski.DeerRecords.DeerRecord do
     |> cast_embed(:deer_files)
   end
 
+  def reject_file_from_changeset(deer_record, file_id) do
+    new_deer_files = Enum.map(deer_record.deer_files, &Map.from_struct/1)
+    |> Enum.reject(fn deer_file -> deer_file.id == file_id end)
+
+    deer_record
+    |> change
+    |> cast(%{deer_files: new_deer_files}, [])
+    |> cast_embed(:deer_files)
+  end
+
   def deer_files_stats(deer_record) do
     Enum.reduce(deer_record.deer_files, {0, 0}, fn deer_file, {files, kilobytes} ->
       {files + 1, kilobytes + deer_file.kilobytes}
