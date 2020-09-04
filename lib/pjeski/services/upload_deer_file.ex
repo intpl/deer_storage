@@ -6,7 +6,7 @@ defmodule Pjeski.Services.UploadDeerFile do
 
   alias Pjeski.DeerRecords.DeerRecord
 
-  import Pjeski.DeerRecords, only: [prepend_record_with_deer_file: 2]
+  import Pjeski.DeerRecords, only: [prepend_record_with_deer_file!: 2]
   import Pjeski.Users, only: [ensure_user_subscription_link!: 2]
 
   def run!(tmp_path, original_filename, record_id, user_id) do
@@ -72,6 +72,6 @@ defmodule Pjeski.Services.UploadDeerFile do
 
   defp update_record({:error, _} = result), do: result
   defp update_record(%{record: record} = assigns) do
-    {:ok, _record} = prepend_record_with_deer_file(record, Map.from_struct(assigns))
+    {:ok, _record} = prepend_record_with_deer_file!(record, Map.from_struct(assigns))
   end
 end
