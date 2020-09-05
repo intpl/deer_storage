@@ -118,7 +118,7 @@ msgstr ""
 #: lib/pjeski_web/templates/admin/user/index.html.eex:72
 #: lib/pjeski_web/templates/admin/user/index.html.eex:91 lib/pjeski_web/templates/admin/user/show.html.eex:75
 #: lib/pjeski_web/templates/invitation/new.html.eex:23 lib/pjeski_web/templates/session/new.html.eex:24
-#: lib/pjeski_web/templates/user/index.html.eex:27 lib/pjeski_web/views/admin/user_view.ex:50
+#: lib/pjeski_web/templates/user/index.html.eex:29 lib/pjeski_web/views/admin/user_view.ex:50
 #: lib/pjeski_web/views/admin/user_view.ex:51
 msgid "E-mail"
 msgstr ""
@@ -155,7 +155,7 @@ msgstr ""
 #: lib/pjeski_web/templates/admin/subscription/edit.html.eex:24
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:83 lib/pjeski_web/templates/admin/subscription/show.html.eex:142
 #: lib/pjeski_web/templates/admin/user/edit.html.eex:50 lib/pjeski_web/templates/admin/user/show.html.eex:148
-#: lib/pjeski_web/templates/user/index.html.eex:40 lib/pjeski_web/views/admin/user_view.ex:24
+#: lib/pjeski_web/views/admin/user_view.ex:24
 msgid "Are you sure?"
 msgstr ""
 
@@ -248,8 +248,8 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:16
-#: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/templates/user/index.html.eex:26
-#: lib/pjeski_web/views/admin/subscription_view.ex:44 lib/pjeski_web/views/admin/subscription_view.ex:45
+#: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/views/admin/subscription_view.ex:44
+#: lib/pjeski_web/views/admin/subscription_view.ex:45
 msgid "Name"
 msgstr ""
 
@@ -291,8 +291,8 @@ msgstr ""
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:131
 #: lib/pjeski_web/templates/admin/user/edit.html.eex:10 lib/pjeski_web/templates/admin/user/show.html.eex:10
 #: lib/pjeski_web/templates/admin/user/show.html.eex:94 lib/pjeski_web/templates/admin/user/show.html.eex:98
-#: lib/pjeski_web/templates/admin/user/show.html.eex:107 lib/pjeski_web/templates/user/index.html.eex:35
-#: lib/pjeski_web/views/admin/user_view.ex:34 lib/pjeski_web/views/admin/user_view.ex:39
+#: lib/pjeski_web/templates/admin/user/show.html.eex:107 lib/pjeski_web/views/admin/user_view.ex:34
+#: lib/pjeski_web/views/admin/user_view.ex:39
 msgid "empty"
 msgstr ""
 
@@ -300,7 +300,8 @@ msgstr ""
 #: lib/pjeski_web/templates/admin/user/form.html.eex:9
 #: lib/pjeski_web/templates/admin/user/index.html.eex:71 lib/pjeski_web/templates/admin/user/show.html.eex:72
 #: lib/pjeski_web/templates/registration/new.html.eex:44 lib/pjeski_web/templates/registration/user_fields.html.eex:19
-#: lib/pjeski_web/views/admin/user_view.ex:48 lib/pjeski_web/views/admin/user_view.ex:49
+#: lib/pjeski_web/templates/user/index.html.eex:28 lib/pjeski_web/views/admin/user_view.ex:48
+#: lib/pjeski_web/views/admin/user_view.ex:49
 msgid "Name and surname"
 msgstr ""
 
@@ -614,7 +615,7 @@ msgid "Invitation e-mail sent"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:17
+#: lib/pjeski_web/templates/user/index.html.eex:18
 msgid "Invite new user"
 msgstr ""
 
@@ -991,7 +992,7 @@ msgid "%{used_space} MB used out of %{available_space} MB"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:40
+#: lib/pjeski_web/templates/user/index.html.eex:42
 msgid "Unlink"
 msgstr ""
 
@@ -1011,7 +1012,7 @@ msgid "Are you sure to change this permission?"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:28
+#: lib/pjeski_web/templates/user/index.html.eex:30
 msgid "Can manage users?"
 msgstr ""
 
@@ -1031,6 +1032,21 @@ msgid "Yes"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:29
+#: lib/pjeski_web/templates/user/index.html.eex:31
 msgid "Other"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/user/index.html.eex:57
+msgid "Are you sure to leave subscription %{name}?"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:45
+msgid "Are you sure to unlink %{name} from your subscription?"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/user/index.html.eex:54
+msgid "Leave this subscription"
 msgstr ""
