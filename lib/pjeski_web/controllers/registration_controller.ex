@@ -16,7 +16,7 @@ defmodule PjeskiWeb.RegistrationController do
     |> Pow.Plug.create_user(user_params)
     |> case do
       {:ok, user, conn} ->
-        Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise)
+        Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise, permission_to_manage_users: true)
         Users.notify_subscribers!([:user, :created], user)
         send_confirmation_email(user, conn)
 

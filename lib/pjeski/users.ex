@@ -1,12 +1,9 @@
 defmodule Pjeski.Users do
   import Ecto.Query, warn: false
   import Ecto.Changeset, only: [change: 2]
-
-  alias Pjeski.Repo
-  alias Pjeski.Subscriptions
-
   import Pjeski.DbHelpers.ComposeSearchQuery
 
+  alias Pjeski.Repo
   alias Pjeski.Users.User
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
@@ -49,8 +46,13 @@ defmodule Pjeski.Users do
     User |> where([u], u.id not in ^ids) |> Repo.all
   end
 
-  def list_users_for_subscription_id(subscription_id) when is_number(subscription_id) do
-    Subscriptions.get_subscription!(subscription_id).users
+  def list_users_for_subscription_id_with_permissions(subscription_id) when is_number(subscription_id) do
+    from(u in User,
+      join: l in UserAvailableSubscriptionLink,
+      on: l.subscription_id == ^subscription_id and l.user_id == u.id,
+      select: {u, %{subscription_id: l.subscription_id, permission_to_manage_users: l.permission_to_manage_users}},
+      order_by: [desc: field(u, :id)]
+    ) |> Repo.all
   end
 
   def get_user!(id) do
@@ -107,6 +109,13 @@ defmodule Pjeski.Users do
     |> Repo.update()
   end
 
+  def toggle_permission_for_user_subscription_link!(%UserAvailableSubscriptionLink{} = user_subscription_link, permission_key) do
+    previous_value = Map.fetch!(user_subscription_link, permission_key)
+    changeset = change(user_subscription_link, %{permission_key => !previous_value})
+
+    Repo.update! changeset
+  end
+
   def update_last_used_subscription_id!(%User{} = user, subscription_id) do
     Repo.update!(change(user, last_used_subscription_id: subscription_id))
     |> Repo.preload(:last_used_subscription)
@@ -140,18 +149,16 @@ defmodule Pjeski.Users do
     remove_user_subscription_link!(user_id, subscription_id)
   end
 
-  def upsert_subscription_link!(user_id, subscription_id, on_conflict) do
-    Repo.insert(
-      %UserAvailableSubscriptionLink{
-        user_id: user_id,
-        subscription_id: subscription_id
-      },
-      on_conflict: on_conflict
-    )
+  def upsert_subscription_link!(user_id, subscription_id, on_conflict, attrs \\ %{})do
+    %UserAvailableSubscriptionLink{user_id: user_id, subscription_id: subscription_id}
+    |> Map.merge(attrs)
+    |> Repo.insert!(on_conflict: on_conflict)
   end
 
-  def ensure_user_subscription_link!(user_id, subscription_id) do
-    Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user_id, subscription_id: subscription_id])
+  def ensure_user_subscription_link!(user_id, subscription_id, required_permissions \\ []) do
+    params = [user_id: user_id, subscription_id: subscription_id] ++ Enum.map(required_permissions, fn k -> {k, true} end)
+
+    Repo.get_by!(UserAvailableSubscriptionLink, params)
   end
 
   defp remove_user_subscription_link!(user_id, subscription_id) do

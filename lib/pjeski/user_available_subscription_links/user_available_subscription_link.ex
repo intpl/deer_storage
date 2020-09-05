@@ -8,13 +8,14 @@ defmodule Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink do
   schema "user_available_subscription_links" do
     belongs_to :user, User
     belongs_to :subscription, Subscription
+    field :permission_to_manage_users, :boolean, default: false
 
     timestamps()
   end
 
   def changeset(user_available_subscription_link, params \\ %{}) do
     user_available_subscription_link
-    |> cast(params, [:user_id, :subscription_id])
+    |> cast(params, [:user_id, :subscription_id, :permission_to_manage_users])
     |> foreign_key_constraint(:subscription_id)
     |> foreign_key_constraint(:user_id)
     |> unique_constraint([:user_id, :subscription_id],

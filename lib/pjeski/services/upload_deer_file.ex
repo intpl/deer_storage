@@ -15,7 +15,7 @@ defmodule Pjeski.Services.UploadDeerFile do
       assigns = %__MODULE__{tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id}
 
       assigns
-      |> ensure_user_subscription_link!
+      |> ensure_user_subscription_link_from_assigns!
       |> ensure_limits_for_subscription
       |> generate_random_id
       |> copy_file!
@@ -26,7 +26,7 @@ defmodule Pjeski.Services.UploadDeerFile do
     inside_transaction_result
   end
 
-  defp ensure_user_subscription_link!(%{uploaded_by_user_id: user_id, subscription_id: subscription_id} = assigns) do
+  defp ensure_user_subscription_link_from_assigns!(%{uploaded_by_user_id: user_id, subscription_id: subscription_id} = assigns) do
     ensure_user_subscription_link!(user_id, subscription_id)
 
     assigns

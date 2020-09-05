@@ -15,6 +15,7 @@ defmodule PjeskiWeb.InvitationController do
   plug :load_user_from_invitation_token when action in [:show, :edit, :update]
   plug :assign_create_path when action in [:new, :create]
   plug :assign_update_path when action in [:edit, :update]
+  plug :ensure_user_can_manage_users! when action in [:new, :edit, :create]
 
   def new(conn, _params) do
     conn
@@ -76,7 +77,20 @@ defmodule PjeskiWeb.InvitationController do
     end
   end
 
+  defp ensure_user_can_manage_users!(%{assigns: %{current_subscription: %{id: current_subscription_id}}} = conn, _) do
+    current_user = Pow.Plug.current_user(conn)
+    case current_user.role do
+      "admin" -> conn
+      "user" ->
+        Users.ensure_user_subscription_link!(
+          current_user.id,
+          current_subscription_id,
+          [:permission_to_manage_users]
+        )
 
+        conn
+    end
+  end
 
   defp deliver_email(conn, user) do
     url        = invitation_url(conn, user)

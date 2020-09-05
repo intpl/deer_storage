@@ -14,18 +14,41 @@
 
 <section class="section">
   <div class="container">
-    <%= link(gettext("Invite new user"), to: Routes.invitation_path(@conn, :new)) %>
+    <%= if @current_user_can_manage_users do %>
+      <%= link(gettext("Invite new user"), to: Routes.invitation_path(@conn, :new)) %>
+    <% end %>
   </div>
 
   <br>
 
   <div class="container">
-    <%= for user <- @users do %>
-      <%= user.name || gettext("empty") %> (<%= user.email %>)
-      <%= if user.id != @current_user.id do %>
-        <%= link gettext("Unlink"), to: Routes.user_user_path(@conn, :unlink, user.id, @current_subscription.id), method: :put, data: [confirm: gettext("Are you sure?")] %>
-      <% end %>
-      <br>
-    <% end %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th><%= gettext("Name") %></th>
+          <th><%= gettext("E-mail") %></th>
+          <th><%= gettext("Can manage users?") %></th>
+          <th><%= gettext("Other") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for {user, user_subscription_link} <- @users do %>
+          <tr>
+            <th><%= user.name || gettext("empty") %></th>
+            <td><%= user.email %></td>
+            <td><%= link_to_toggle_permission(user, user_subscription_link, :permission_to_manage_users, @current_user_can_manage_users, @current_user) %></td>
+            <td>
+              <%= if @current_user_can_manage_users do %>
+                  <%= button gettext("Unlink"),
+                  to: Routes.user_user_path(@conn, :unlink, user.id, @current_subscription.id),
+                  method: :put,
+                  data: [confirm: gettext("Are you sure?")],
+                  class: "button is-danger" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </section>

@@ -51,6 +51,7 @@ defmodule PjeskiWeb.Router do
     resources "/invitation", InvitationController, only: [:new, :create]
     resources "/users", UserController, only: [:index] do
       put "/unlink/:subscription_id", UserController, :unlink
+      put "/toggle_permission/:subscription_id/:permission_key", UserController, :toggle_permission
     end
 
     scope "/admin", Admin, as: :admin do

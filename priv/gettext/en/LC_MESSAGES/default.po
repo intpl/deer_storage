@@ -118,7 +118,8 @@ msgstr ""
 #: lib/pjeski_web/templates/admin/user/index.html.eex:72
 #: lib/pjeski_web/templates/admin/user/index.html.eex:91 lib/pjeski_web/templates/admin/user/show.html.eex:75
 #: lib/pjeski_web/templates/invitation/new.html.eex:23 lib/pjeski_web/templates/session/new.html.eex:24
-#: lib/pjeski_web/views/admin/user_view.ex:50 lib/pjeski_web/views/admin/user_view.ex:51
+#: lib/pjeski_web/templates/user/index.html.eex:27 lib/pjeski_web/views/admin/user_view.ex:50
+#: lib/pjeski_web/views/admin/user_view.ex:51
 msgid "E-mail"
 msgstr ""
 
@@ -154,7 +155,7 @@ msgstr ""
 #: lib/pjeski_web/templates/admin/subscription/edit.html.eex:24
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:83 lib/pjeski_web/templates/admin/subscription/show.html.eex:142
 #: lib/pjeski_web/templates/admin/user/edit.html.eex:50 lib/pjeski_web/templates/admin/user/show.html.eex:148
-#: lib/pjeski_web/templates/user/index.html.eex:26 lib/pjeski_web/views/admin/user_view.ex:24
+#: lib/pjeski_web/templates/user/index.html.eex:40 lib/pjeski_web/views/admin/user_view.ex:24
 msgid "Are you sure?"
 msgstr ""
 
@@ -247,8 +248,8 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:16
-#: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/views/admin/subscription_view.ex:44
-#: lib/pjeski_web/views/admin/subscription_view.ex:45
+#: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/templates/user/index.html.eex:26
+#: lib/pjeski_web/views/admin/subscription_view.ex:44 lib/pjeski_web/views/admin/subscription_view.ex:45
 msgid "Name"
 msgstr ""
 
@@ -290,7 +291,7 @@ msgstr ""
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:131
 #: lib/pjeski_web/templates/admin/user/edit.html.eex:10 lib/pjeski_web/templates/admin/user/show.html.eex:10
 #: lib/pjeski_web/templates/admin/user/show.html.eex:94 lib/pjeski_web/templates/admin/user/show.html.eex:98
-#: lib/pjeski_web/templates/admin/user/show.html.eex:107 lib/pjeski_web/templates/user/index.html.eex:24
+#: lib/pjeski_web/templates/admin/user/show.html.eex:107 lib/pjeski_web/templates/user/index.html.eex:35
 #: lib/pjeski_web/views/admin/user_view.ex:34 lib/pjeski_web/views/admin/user_view.ex:39
 msgid "empty"
 msgstr ""
@@ -520,7 +521,7 @@ msgid "Email has been sent"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:71
+#: lib/pjeski_web/controllers/invitation_controller.ex:72
 #: lib/pjeski_web/controllers/reset_password_controller.ex:68
 msgid "Invalid token"
 msgstr ""
@@ -608,7 +609,7 @@ msgid "Unconfirmed email"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:110
+#: lib/pjeski_web/controllers/invitation_controller.ex:124
 msgid "Invitation e-mail sent"
 msgstr ""
 
@@ -643,7 +644,7 @@ msgid "Sends a link to a desired email allowing them to join your subscription"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:57
+#: lib/pjeski_web/controllers/invitation_controller.ex:58
 msgid "User has been created"
 msgstr ""
 
@@ -739,7 +740,7 @@ msgid "User current subscription has been reset"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:116
+#: lib/pjeski_web/controllers/invitation_controller.ex:130
 msgid "Added user to your subscription"
 msgstr ""
 
@@ -990,16 +991,46 @@ msgid "%{used_space} MB used out of %{available_space} MB"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:26
+#: lib/pjeski_web/templates/user/index.html.eex:40
 msgid "Unlink"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/user_controller.ex:23
+#: lib/pjeski_web/controllers/user_controller.ex:48
 msgid "User has been removed from your subscription"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:49
 msgid "Are you sure to DELETE this file?"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/views/user_view.ex:34
+msgid "Are you sure to change this permission?"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:28
+msgid "Can manage users?"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/views/user_view.ex:41
+msgid "No"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/user_controller.ex:30
+msgid "User's permissions changed"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/views/user_view.ex:40
+msgid "Yes"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:29
+msgid "Other"
 msgstr ""
