@@ -9,7 +9,7 @@ defmodule PjeskiWeb.Admin.UserController do
     query = params["query"] || ""
 
     users = Users.list_users(query, 1, 100, "")
-    |> Enum.map(fn user -> %{id: user.id, text: user.name <> " (#{user.email})"} end)
+    |> Enum.map(fn user -> %{id: user.id, text: "#{user.name} (#{user.email})"} end)
 
     json(conn, users)
   end

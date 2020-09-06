@@ -34,7 +34,13 @@
       <tbody>
         <%= for {user, user_subscription_link} <- @users do %>
           <tr>
-            <th><%= user.name %></th>
+            <th>
+              <%= if user.name do %>
+                <%= user.name %>
+              <% else %>
+                <span class="has-text-danger"><%= gettext("(empty)") %></span>
+              <% end %>
+            </th>
             <td><%= user.email %></td>
             <td><%= link_to_toggle_permission(user, user_subscription_link, :permission_to_manage_users, @current_user_can_manage_users, @current_user) %></td>
             <td>
