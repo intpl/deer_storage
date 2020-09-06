@@ -36,7 +36,11 @@ defmodule PjeskiWeb.UserController do
 
     case current_user_role do
       "admin" -> nil
-      "user" -> ensure_user_subscription_link!(current_user_id, subscription_id, [:permission_to_manage_users])
+      "user" ->
+        case {current_user_id, user_id} do
+          {id, id} -> nil
+          _ -> ensure_user_subscription_link!(current_user_id, subscription_id, [:permission_to_manage_users])
+        end
     end
 
     user = Repo.get!(User, user_id)
