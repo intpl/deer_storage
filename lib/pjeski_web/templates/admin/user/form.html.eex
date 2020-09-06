@@ -30,12 +30,6 @@
   </div>
 
   <div class="field">
-    <%= label f, :password, gettext("New password"), class: 'label' %>
-    <%= password_input f, :password, class: 'input' %>
-    <%= error_tag f, :password %>
-  </div>
-
-  <div class="field">
     <%= label f, :admin_notes, gettext("Admin notes"), class: 'label' %>
     <%= textarea f, :admin_notes, class: 'textarea' %>
     <%= error_tag f, :admin_notes %>
