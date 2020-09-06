@@ -42,11 +42,12 @@ defmodule PjeskiWeb.UserController do
     user = Repo.get!(User, user_id)
 
     remove_subscription_link_and_maybe_change_last_used_subscription_id(user, subscription_id)
-    maybe_logout_user!(user, subscription_id)
 
     conn
-    |> put_flash(:info, gettext("User has been removed from your subscription"))
-    |> redirect(to: Routes.user_path(conn, :index))
+      |> maybe_reset_current_session_subscription_id!(user_id)
+      |> maybe_logout_user!(user, subscription_id)
+      |> put_flash(:info, gettext("User has been removed from your subscription"))
+      |> redirect_to_registration_or_user_index(user_id)
   end
 
   def index(%{assigns: %{current_user: %{id: current_user_id, role: current_user_role}, current_subscription: %{id: current_subscription_id}}} = conn, _params) do
@@ -59,10 +60,22 @@ defmodule PjeskiWeb.UserController do
     |> render("index.html")
   end
 
-  defp maybe_logout_user!(%{last_used_subscription_id: subscription_id} = user, subscription_id) do
+  defp maybe_logout_user!(%{assigns: %{current_user: %{id: current_user_id}}} = conn, current_user_id, _), do: conn
+  defp maybe_logout_user!(conn, %{last_used_subscription_id: subscription_id, role: "user"} = user, subscription_id) do
     Phoenix.PubSub.broadcast!(Pjeski.PubSub, "user_#{user.id}", :logout)
     UserSessionUtils.delete_all_sessions_for_user!(user)
+
+    conn
   end
 
-  defp maybe_logout_user!(_, _), do: nil
+  defp maybe_logout_user!(conn, _, _), do: conn
+
+  defp maybe_reset_current_session_subscription_id!(%{assigns: %{current_user: %{id: user_id}}} = conn, user_id) do
+    UserSessionUtils.put_into_session(conn, :current_subscription_id, nil)
+  end
+
+  defp maybe_reset_current_session_subscription_id!(conn, _), do: conn
+
+  defp redirect_to_registration_or_user_index(%{assigns: %{current_user: %{id: id}}} = conn, id), do: redirect(conn, to: Routes.registration_path(conn, :edit))
+  defp redirect_to_registration_or_user_index(conn, _), do: redirect(conn, to: Routes.user_path(conn, :index))
 end

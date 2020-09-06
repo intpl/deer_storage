@@ -23,41 +23,10 @@
       <div class="columns">
         <div class="column is-one-third">
           <%= if @current_subscription do %>
-            <%= if @changeset.data.role == "admin" do %>
-              <%= link gettext("Switch to admin panel"),
-              to: Routes.registration_path(@conn, :reset_subscription_id),
-              method: :put,
-              class: "button is-medium is-dark is-fullwidth" %>
-              <br>
-            <% end %>
-
-            <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
-            <div class="box">
-              <article class="media">
-                <div class="media-content">
-                  <div class="content">
-                    <p>
-                      <strong> <%= @current_subscription.name %> </strong><br><br>
-                      <span>
-                        <%= link(gettext("Manage users or invite new"), to: Routes.user_path(@conn, :index)) %><br>
-                        <%= gettext("Connected users: %{users_count}", users_count: length(@current_subscription.users)) %>
-                      </span>
-
-
-                      <% days = days_to_expire(@current_subscription) %>
-                      <%= if days < 1 do %>
-                        <div class="notification is-danger">
-                          <%= gettext("This subscription expired") %>
-                        </div>
-                      <% else %>
-                        <br />
-                        <%= gettext("Expires in: %{days} days", days: days) %>
-                      <% end %>
-                    </p>
-                  </div>
-                </div>
-              </article>
-            </div>
+            <%= render "current_subscription.html",
+            conn: @conn,
+            changeset: @changeset,
+            current_subscription: @current_subscription %>
           <% else %>
             <%= if @changeset.data.role == "admin" do %>
               <button class="button is-medium is-black is-fullwidth" disabled>

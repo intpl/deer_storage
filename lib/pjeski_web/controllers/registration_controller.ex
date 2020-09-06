@@ -5,7 +5,6 @@ defmodule PjeskiWeb.RegistrationController do
   alias Pjeski.Repo
   alias Pjeski.Users
   alias Pjeski.Users.User
-  alias Pjeski.Subscriptions
 
   import PjeskiWeb.ControllerHelpers.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
@@ -63,36 +62,25 @@ defmodule PjeskiWeb.RegistrationController do
 
   # let it fail if false is unmatched
   defp maybe_update_user_and_put_subscription_into_session(true, conn, user, requested_subscription_id) do
-    token = UserSessionUtils.get_token_from_conn(conn)
     Users.update_last_used_subscription_id!(user, requested_subscription_id)
-    Phoenix.PubSub.broadcast!(Pjeski.PubSub, "session_#{token}", {:subscription_changed, requested_subscription_id}) # TODO USE THIS
 
     conn
     |> UserSessionUtils.put_into_session(:current_subscription_id, requested_subscription_id)
     |> put_flash(:info, gettext("Current subscription changed"))
   end
 
-  defp render_edit_for_current_user(%{assigns: %{current_subscription: %{id: current_subscription_id}}} = conn, changeset) do
+  defp render_edit_for_current_user(%{assigns: %{current_subscription: current_subscription}} = conn, changeset) do
     user = current_user_with_preloaded_subscriptions(conn)
 
-    available_subscriptions = Enum.reject(
-      user.available_subscriptions, fn s -> s.id == current_subscription_id end
-    )
+    available_subscriptions = case current_subscription do
+                                nil -> user.available_subscriptions
+                                %{id: sub_id} -> Enum.reject(user.available_subscriptions, fn s -> s.id == sub_id end)
+                              end
 
     render(conn, "edit.html",
       changeset: changeset,
       available_subscriptions: available_subscriptions,
-      current_subscription: current_subscription_id |> Subscriptions.get_subscription!
-    )
-  end
-
-  defp render_edit_for_current_user(%{assigns: %{current_subscription: nil}} = conn, changeset) do
-    user = current_user_with_preloaded_subscriptions(conn)
-
-    render(conn, "edit.html",
-      changeset: changeset,
-      available_subscriptions: user.available_subscriptions,
-      current_subscription: nil
+      current_subscription: current_subscription |> maybe_preload_users
     )
   end
 
@@ -108,4 +96,7 @@ defmodule PjeskiWeb.RegistrationController do
     conn
     |> put_flash(:info, gettext("Click the link in the confirmation email to change your email."))
   end
+
+  defp maybe_preload_users(nil), do: nil
+  defp maybe_preload_users(subscription), do: Repo.preload(subscription, :users)
 end

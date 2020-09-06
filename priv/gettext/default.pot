@@ -563,7 +563,7 @@ msgid "Failed to confirm e-mail"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:25
+#: lib/pjeski_web/controllers/registration_controller.ex:24
 msgid "Please confirm your e-mail before logging in"
 msgstr ""
 
@@ -573,12 +573,12 @@ msgid "Click the link in the confirmation email to change your email to:"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:109
+#: lib/pjeski_web/controllers/registration_controller.ex:97
 msgid "Click the link in the confirmation email to change your email."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:39
+#: lib/pjeski_web/controllers/registration_controller.ex:38
 msgid "Account updated"
 msgstr ""
 
@@ -655,7 +655,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:136
-#: lib/pjeski_web/templates/registration/edit.html.eex:75
+#: lib/pjeski_web/templates/registration/edit.html.eex:44
 msgid "Available subscriptions"
 msgstr ""
 
@@ -666,7 +666,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:117
-#: lib/pjeski_web/templates/registration/edit.html.eex:34
+#: lib/pjeski_web/templates/registration/current_subscription.html.eex:9
 msgid "Current subscription"
 msgstr ""
 
@@ -705,7 +705,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/subscription_navigation_live.ex:62
-#: lib/pjeski_web/templates/registration/edit.html.eex:68
+#: lib/pjeski_web/templates/registration/edit.html.eex:37
 msgid "No subscription assigned"
 msgstr ""
 
@@ -720,7 +720,7 @@ msgid "Reset"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:83
+#: lib/pjeski_web/templates/registration/edit.html.eex:52
 msgid "Switch"
 msgstr ""
 
@@ -760,7 +760,7 @@ msgid "Last used subscription"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:50
+#: lib/pjeski_web/templates/registration/current_subscription.html.eex:24
 msgid "This subscription expired"
 msgstr ""
 
@@ -770,12 +770,12 @@ msgid "This user has no last used subscription attached"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:72
+#: lib/pjeski_web/controllers/registration_controller.ex:69
 msgid "Current subscription changed"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:64
+#: lib/pjeski_web/templates/registration/edit.html.eex:33
 msgid "You are an administrator"
 msgstr ""
 
@@ -795,7 +795,7 @@ msgid "Phoenix LiveDashboard"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:27
+#: lib/pjeski_web/templates/registration/current_subscription.html.eex:2
 msgid "Switch to admin panel"
 msgstr ""
 
@@ -820,17 +820,17 @@ msgid "Connect user"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:54
+#: lib/pjeski_web/templates/registration/current_subscription.html.eex:28
 msgid "Expires in: %{days} days"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:43
+#: lib/pjeski_web/templates/registration/current_subscription.html.eex:18
 msgid "Connected users: %{users_count}"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/edit.html.eex:42
+#: lib/pjeski_web/templates/registration/current_subscription.html.eex:17
 msgid "Manage users or invite new"
 msgstr ""
 
@@ -996,7 +996,7 @@ msgid "Unlink"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/user_controller.ex:48
+#: lib/pjeski_web/controllers/user_controller.ex:49
 msgid "User has been removed from your subscription"
 msgstr ""
 
