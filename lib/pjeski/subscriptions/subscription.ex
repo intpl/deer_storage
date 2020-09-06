@@ -13,6 +13,8 @@ defmodule Pjeski.Subscriptions.Subscription do
     field :expires_on, :date, default: Date.add(Date.utc_today, 14)
     field :deer_files_limit, :integer, default: 100
     field :storage_limit_kilobytes, :integer, default: 51_200 # 50 MB
+    field :deer_records_per_table_limit, :integer, default: 100
+    field :deer_tables_limit, :integer, default: 5
 
     has_many :user_subscription_links, UserAvailableSubscriptionLink
     many_to_many :users, User, join_through: UserAvailableSubscriptionLink
@@ -23,6 +25,7 @@ defmodule Pjeski.Subscriptions.Subscription do
     timestamps()
   end
 
+  # NOTE deer tables limit check happens in Subscriptions.create_deer_table!
   @doc false
   def deer_changeset(subscription, attrs) do
     subscription
@@ -43,7 +46,7 @@ defmodule Pjeski.Subscriptions.Subscription do
   @doc false
   def admin_changeset(subscription, attrs) do
     subscription
-    |> cast(attrs, [:name, :expires_on, :admin_notes, :storage_limit_kilobytes, :deer_files_limit])
+    |> cast(attrs, [:name, :expires_on, :admin_notes, :storage_limit_kilobytes, :deer_files_limit, :deer_tables_limit, :deer_records_per_table_limit])
     |> validate_required([:name])
   end
 end

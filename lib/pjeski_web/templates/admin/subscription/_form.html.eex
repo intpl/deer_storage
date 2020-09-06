@@ -24,6 +24,18 @@
   </div>
 
   <div class="field">
+    <%= label f, :deer_tables_limit, gettext("Tables limit"), class: 'label' %>
+    <%= number_input f, :deer_tables_limit, class: 'input' %>
+    <%= error_tag f, :deer_tables_limit %>
+  </div>
+
+  <div class="field">
+    <%= label f, :deer_records_per_table_limit, gettext("Records per table limit"), class: 'label' %>
+    <%= number_input f, :deer_records_per_table_limit, class: 'input' %>
+    <%= error_tag f, :deer_records_per_table_limit %>
+  </div>
+
+  <div class="field">
     <%= label f, :expires_on, gettext("Expires on"), class: 'label' %>
 
     <div class="control">

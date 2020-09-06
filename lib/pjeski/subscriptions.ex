@@ -89,6 +89,7 @@ defmodule Pjeski.Subscriptions do
     change_subscription_deer(subscription)
     |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
     |> Ecto.Changeset.cast_embed(:deer_tables)
+    |> Ecto.Changeset.validate_length(:deer_tables, max: subscription.deer_tables_limit)
     |> Repo.update()
     |> maybe_notify_about_updated_subscription
   end
@@ -166,6 +167,10 @@ defmodule Pjeski.Subscriptions do
   defp sort_subscriptions_by(q, "expires_on_asc"), do: q |> order_by(asc: :expires_on)
   defp sort_subscriptions_by(q, "files_limit_desc"), do: q |> order_by(desc: :deer_files_limit)
   defp sort_subscriptions_by(q, "files_limit_asc"), do: q |> order_by(asc: :deer_files_limit)
+  defp sort_subscriptions_by(q, "tables_limit_desc"), do: q |> order_by(desc: :deer_tables_limit)
+  defp sort_subscriptions_by(q, "tables_limit_asc"), do: q |> order_by(asc: :deer_tables_limit)
+  defp sort_subscriptions_by(q, "records_per_table_limit_desc"), do: q |> order_by(desc: :deer_records_per_table_limit)
+  defp sort_subscriptions_by(q, "records_per_table_limit_asc"), do: q |> order_by(asc: :deer_records_per_table_limit)
   defp sort_subscriptions_by(q, "storage_limit_kilobytes_desc"), do: q |> order_by(desc: :storage_limit_kilobytes)
   defp sort_subscriptions_by(q, "storage_limit_kilobytes_asc"), do: q |> order_by(asc: :storage_limit_kilobytes)
   defp sort_subscriptions_by(q, "admin_notes_desc"), do: q |> order_by(desc_nulls_last: :admin_notes)

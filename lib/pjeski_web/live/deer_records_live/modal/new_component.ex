@@ -5,7 +5,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
   import Phoenix.HTML.Form
   import PjeskiWeb.DeerRecordView, only: [deer_columns_from_subscription: 2]
 
-  def update(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name}, socket) do
+  def update(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name, cached_count: cached_count}, socket) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
     deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
 
@@ -21,6 +21,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
       changeset: changeset,
       deer_columns: deer_columns,
       prepared_fields: deer_columns |> Enum.with_index |> Enum.map(prepare_field),
+      can_create_records: cached_count < subscription.deer_records_per_table_limit,
       table_name: table_name
     )}
   end
@@ -56,7 +57,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
 
             <footer class="modal-card-foot">
               <%# FIXME = if @changeset.valid? do %>
+              <%= if assigns.can_create_records do %>
                 <%= submit gettext("Create record"), class: "button is-success" %>
+              <% end %>
 
               <a class="button" data-bulma-modal="close" phx-click="close_new"><%= gettext("Cancel") %></a>
             </footer>

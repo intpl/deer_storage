@@ -4,7 +4,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableShowComponent do
 
   import PjeskiWeb.Gettext
 
-  def render(%{table: %{id: table_id, name: table_name, deer_columns: deer_columns}, cached_count: cached_count} = assigns) do
+  def render(%{table: %{id: table_id, name: table_name, deer_columns: deer_columns}, cached_count: cached_count, per_table_limit: per_table_limit} = assigns) do
     ~L"""
     <div>
       <%= if @editing_table_id == nil do %>
@@ -12,7 +12,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableShowComponent do
           <%= live_redirect "#{table_name}", to: Routes.live_path(@socket, PjeskiWeb.DeerRecordsLive.Index, table_id) %>
         </strong>
 
-        (<%= cached_count %>)
+        (<%= cached_count %>/<%= per_table_limit %>)
 
         <%= if cached_count == 0 do %>
           <a phx-click="delete_table" phx-value-table_id="<%= table_id %>"><%= gettext("Delete") %></a>

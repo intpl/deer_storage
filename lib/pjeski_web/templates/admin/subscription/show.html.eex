@@ -40,6 +40,16 @@
           </li>
 
           <li>
+            <strong><%= gettext("Tables limit") %>:</strong>
+            <%= @subscription.deer_tables_limit %>
+          </li>
+
+          <li>
+            <strong><%= gettext("Records per table limit") %>:</strong>
+            <%= @subscription.deer_records_per_table_limit %>
+          </li>
+
+          <li>
             <strong><%= gettext("Expires on") %>:</strong>
             <%= @subscription.expires_on %>
           </li>

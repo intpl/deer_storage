@@ -23,7 +23,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     delete_file_from_record!: 3,
     batch_delete_records: 3,
     change_record: 3,
-    create_record: 2,
+    check_limits_and_create_record: 3,
     delete_record: 2,
     get_record!: 2,
     update_record: 3
@@ -48,11 +48,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         table_name: nil,
         page: 1,
         per_page: per_page(),
+        cached_count: -1, # don't blink red button on load
         current_user: user,
         current_subscription: nil,
         current_subscription_id: current_subscription_id,
         current_subscription_name: nil,
         current_subscription_tables: [],
+        current_subscription_deer_records_per_table_limit: 0,
         storage_limit_kilobytes: 0,
         locale: user.locale
       )}
@@ -67,6 +69,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       true ->
         PubSub.subscribe(Pjeski.PubSub, "record:#{subscription_id}:#{table_id}")
         PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+        PubSub.subscribe(Pjeski.PubSub, "records_counts:#{table_id}")
 
         user_subscription_link = Repo.get_by!(UserAvailableSubscriptionLink, [user_id: user.id, subscription_id: subscription_id])
         |> Repo.preload(:subscription)
@@ -87,9 +90,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                count: length(records),
                query: query,
                records: records,
+               cached_count: DeerCache.RecordsCountsCache.fetch_count(table_id),
                current_subscription: subscription,
                current_subscription_name: subscription.name,
                current_subscription_tables: subscription.deer_tables,
+               current_subscription_deer_records_per_table_limit: subscription.deer_records_per_table_limit,
                storage_limit_kilobytes: subscription.storage_limit_kilobytes,
                table_id: table_id,
                user_subscription_link: user_subscription_link # TODO: permissions
@@ -131,10 +136,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(new_record: change_record(subscription, record.data, attrs))}
   end
 
-  def handle_event("save_new", %{"deer_record" => attrs}, %{assigns: %{current_subscription: subscription, table_id: table_id}} = socket) do
+  def handle_event("save_new", %{"deer_record" => attrs}, %{assigns: %{current_subscription: subscription, table_id: table_id, cached_count: cached_count}} = socket) do
     attrs = Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
-    case create_record(subscription, attrs) do
+    case check_limits_and_create_record(subscription, attrs, cached_count) do
       {:ok, _} ->
         {:noreply, socket |> assign(new_record: nil, query: "")}
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -286,17 +291,22 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
               current_subscription: subscription,
               current_subscription_name: subscription.name,
               current_subscription_tables: subscription.deer_tables,
+              current_subscription_deer_records_per_table_limit: subscription.deer_records_per_table_limit,
               storage_limit_kilobytes: subscription.storage_limit_kilobytes,
               table_name: table_name)
             |> maybe_assign_record_changeset(:new_record, subscription, new_record)
             |> maybe_assign_record_changeset(:editing_record, subscription, editing_record)
 
             {:noreply, socket}
-        end
-    end
+       end
+     end
    end
 
   def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
+
+  def handle_info({:cached_records_count_changed, _table_id, new_count}, %{assigns: %{cached_count: _}} = socket) do
+    {:noreply, socket |> assign(cached_count: new_count)}
+  end
 
   defp replace_record_or_run_search_query(records, record, %{current_subscription: %{id: subscription_id}, table_id: table_id, query: query, page: page}) do
     case Enum.find_index(records, fn %{id: id} -> record.id == id end) do

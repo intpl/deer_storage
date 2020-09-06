@@ -26,6 +26,8 @@
           <br />
           <%= gettext("Total space limit: %{megabytes} MB", megabytes: @current_subscription.storage_limit_kilobytes / 1024) %><br>
           <%= gettext("Total files limit: %{deer_files_limit}", deer_files_limit: @current_subscription.deer_files_limit) %><br>
+          <%= gettext("Total tables limit: %{deer_tables_limit}", deer_tables_limit: @current_subscription.deer_tables_limit) %><br>
+          <%= gettext("Total records per table limit: %{deer_records_per_table_limit}", deer_records_per_table_limit: @current_subscription.deer_records_per_table_limit) %><br>
           <%= gettext("Expires in: %{days} days", days: days) %>
           <% end %>
         </p>
