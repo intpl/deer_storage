@@ -32,14 +32,14 @@ defmodule Pjeski.Services.UploadDeerFile do
     assigns
   end
 
-  defp ensure_limits_for_subscription(%{tmp_path: tmp_path, subscription: %{id: subscription_id, storage_limit_kilobytes: storage_limit_kilobytes}} = assigns) do
+  defp ensure_limits_for_subscription(%{tmp_path: tmp_path, subscription: %{id: subscription_id, storage_limit_kilobytes: storage_limit_kilobytes, deer_files_limit: deer_files_limit}} = assigns) do
     %File.Stat{size: filesize_bytes} = File.stat!(tmp_path)
     filesize_kilobytes = ceil(filesize_bytes/1024)
-    {_files_count, used_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription_id)
+    {files_count, used_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription_id)
 
-    if (storage_limit_kilobytes - used_storage_kilobytes) > filesize_kilobytes do
+    if (storage_limit_kilobytes - used_storage_kilobytes) > filesize_kilobytes && files_count < deer_files_limit do
       Map.merge(assigns, %{kilobytes: filesize_kilobytes})
-    else # TODO files count
+    else
       {name, _arity} = __ENV__.function
 
       {:error, name}

@@ -25,5 +25,5 @@ defmodule PjeskiWeb.DeerFilesController do
     send_download(conn, {:file, file_path}, filename: deer_file.original_filename)
   end
 
-  defp translate_error(:ensure_limits_for_subscription), do: gettext("Space limit exceeded for this subscription")
+  defp translate_error(:ensure_limits_for_subscription), do: gettext("This subscription limits has been met")
 end

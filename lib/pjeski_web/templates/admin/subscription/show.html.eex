@@ -35,6 +35,11 @@
           </li>
 
           <li>
+            <strong><%= gettext("Files limit") %>:</strong>
+            <%= @subscription.deer_files_limit %>
+          </li>
+
+          <li>
             <strong><%= gettext("Expires on") %>:</strong>
             <%= @subscription.expires_on %>
           </li>

@@ -71,6 +71,7 @@
       <th><%= determine_if_sorted(gettext("Subscription name"), "name", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Expires on"), "expires_on", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Storage limit"), "storage_limit_kilobytes", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Files limit"), "files_limit", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Users"), "users_count", @sort_by, @query) %></th>
@@ -89,6 +90,9 @@
           </td>
           <td data-label="<%= gettext("Storage limit") %>: ">
             <%= storage_limit_from_kilobytes(subscription.storage_limit_kilobytes) %>
+          </td>
+          <td data-label="<%= gettext("Files limit") %>: ">
+            <%= subscription.deer_files_limit %>
           </td>
           <td data-label="<%= gettext("Inserted at") %>: ">
             <%= dt @conn, subscription.inserted_at %>

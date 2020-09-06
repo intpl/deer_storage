@@ -11,6 +11,7 @@ defmodule Pjeski.Subscriptions.Subscription do
     field :admin_notes, :string
     field :name, :string
     field :expires_on, :date, default: Date.add(Date.utc_today, 14)
+    field :deer_files_limit, :integer, default: 100
     field :storage_limit_kilobytes, :integer, default: 51_200 # 50 MB
 
     has_many :user_subscription_links, UserAvailableSubscriptionLink
@@ -42,7 +43,7 @@ defmodule Pjeski.Subscriptions.Subscription do
   @doc false
   def admin_changeset(subscription, attrs) do
     subscription
-    |> cast(attrs, [:name, :expires_on, :admin_notes, :storage_limit_kilobytes])
+    |> cast(attrs, [:name, :expires_on, :admin_notes, :storage_limit_kilobytes, :deer_files_limit])
     |> validate_required([:name])
   end
 end

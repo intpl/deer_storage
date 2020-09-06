@@ -45,6 +45,8 @@ defmodule PjeskiWeb.Admin.SubscriptionView do
       ["name_asc", gettext("Name") <> ascending],
       ["expires_on_desc", gettext("Expires on") <> descending],
       ["expires_on_asc", gettext("Expires on") <> ascending],
+      ["files_limit_desc", gettext("Files limit") <> descending],
+      ["files_limit_asc", gettext("Files limit") <> ascending],
       ["storage_limit_kilobytes_desc", gettext("Storage limit") <> descending],
       ["storage_limit_kilobytes_asc", gettext("Storage limit") <> ascending],
       ["admin_notes_desc", gettext("Admin notes") <> descending],

@@ -18,6 +18,12 @@
   </div>
 
   <div class="field">
+    <%= label f, :deer_files_limit, gettext("Files limit"), class: 'label' %>
+    <%= number_input f, :deer_files_limit, class: 'input' %>
+    <%= error_tag f, :deer_files_limit %>
+  </div>
+
+  <div class="field">
     <%= label f, :expires_on, gettext("Expires on"), class: 'label' %>
 
     <div class="control">

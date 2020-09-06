@@ -6,7 +6,6 @@
     <br>
 <% end %>
 
-<h4 class="title is-4"><%= gettext("Current subscription") %></h4>
 <div class="box">
   <article class="media">
     <div class="media-content">
@@ -15,7 +14,7 @@
           <strong> <%= @current_subscription.name %> </strong><br><br>
           <span>
           <%= link(gettext("Manage users or invite new"), to: Routes.user_path(@conn, :index)) %><br>
-          <%= gettext("Connected users: %{users_count}", users_count: length(@current_subscription.users)) %>
+          <%= gettext("Connected users: %{users_count}", users_count: length(@current_subscription.users)) %><br>
           </span>
 
           <% days = days_to_expire(@current_subscription) %>
@@ -25,6 +24,8 @@
           </div>
           <% else %>
           <br />
+          <%= gettext("Total space limit: %{megabytes} MB", megabytes: @current_subscription.storage_limit_kilobytes / 1024) %><br>
+          <%= gettext("Total files limit: %{deer_files_limit}", deer_files_limit: @current_subscription.deer_files_limit) %><br>
           <%= gettext("Expires in: %{days} days", days: days) %>
           <% end %>
         </p>
