@@ -25,7 +25,7 @@
       <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
 
       <div>
-        <%= submit "Submit", class: "button" %>
+        <%= submit gettext("Submit"), class: "button" %>
       </div>
     <% end %>
   </div>

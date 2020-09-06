@@ -38,7 +38,7 @@
       <%= error_tag f, :password_confirmation %>
 
       <div>
-        <%= submit "Submit", class: "button" %>
+        <%= submit gettext("Submit"), class: "button" %>
       </div>
     <% end %>
   </div>

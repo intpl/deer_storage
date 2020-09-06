@@ -1,10 +1,9 @@
 #+TITLE: TODO
 
-* TODO [10%] [2/20]
+* TODO [10%] [2/19]
 ** WAIT Users permissions, control panel to change them
 ** DONE Unconfirmed invited user resend invitation email
 ** DONE IMPORTANT admin panel -> update user does not work at all
-** TODO add "confirm this user now" button
 ** TODO IMPORTANT display "unconfirmed" in user/index and admin user/index, ability to confirm users in admin panel
 ** TODO Display modal error on limits exceeded
 ** TODO user_from_auth_token(token) -> research better method

@@ -27,7 +27,7 @@
       </div>
 
       <div class="field">
-        <%= submit "Submit", class: 'button' %>
+        <%= submit gettext("Submit"), class: 'button' %>
       </div>
     <% end %>
     </div>

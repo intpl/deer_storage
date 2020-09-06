@@ -33,8 +33,8 @@ msgstr "Zarejestruj się"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:21
-#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/session/new.html.eex:5
-#: lib/pjeski_web/templates/session/new.html.eex:41
+#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/reset_password/edit.html.eex:41
+#: lib/pjeski_web/templates/session/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
 msgstr "Zaloguj się"
 
@@ -109,7 +109,6 @@ msgid "General settings"
 msgstr "Ustawienia ogólne"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/form.html.eex:33
 #: lib/pjeski_web/templates/registration/user_fields.html.eex:49
 msgid "New password"
 msgstr "Nowe hasło"
@@ -192,7 +191,7 @@ msgstr "Rola"
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:42
-#: lib/pjeski_web/templates/admin/subscription/_form.html.eex:49 lib/pjeski_web/templates/admin/user/form.html.eex:50
+#: lib/pjeski_web/templates/admin/subscription/_form.html.eex:49 lib/pjeski_web/templates/admin/user/form.html.eex:44
 #: lib/pjeski_web/templates/deer_dashboard/index.html.leex:26
 msgid "Save"
 msgstr "Zapisz"
@@ -469,7 +468,7 @@ msgstr "Baza danych plików nie dla jeleni!"
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:40
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:78 lib/pjeski_web/templates/admin/subscription/index.html.eex:106
-#: lib/pjeski_web/templates/admin/user/form.html.eex:39 lib/pjeski_web/templates/admin/user/index.html.eex:80
+#: lib/pjeski_web/templates/admin/user/form.html.eex:33 lib/pjeski_web/templates/admin/user/index.html.eex:80
 #: lib/pjeski_web/templates/admin/user/index.html.eex:115 lib/pjeski_web/views/admin/subscription_view.ex:52
 #: lib/pjeski_web/views/admin/subscription_view.ex:53 lib/pjeski_web/views/admin/user_view.ex:58
 #: lib/pjeski_web/views/admin/user_view.ex:59
@@ -695,7 +694,7 @@ msgstr "Połącz"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:164
-#: lib/pjeski_web/templates/admin/user/form.html.eex:57 lib/pjeski_web/templates/admin/user/show.html.eex:171
+#: lib/pjeski_web/templates/admin/user/form.html.eex:51 lib/pjeski_web/templates/admin/user/show.html.eex:171
 msgid "Empty"
 msgstr "Puste"
 
@@ -756,7 +755,7 @@ msgid "Current"
 msgstr "Obecna"
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/form.html.eex:45
+#: lib/pjeski_web/templates/admin/user/form.html.eex:39
 msgid "Last used subscription"
 msgstr "Ostatnio użyta subskrypcja"
 
@@ -987,7 +986,7 @@ msgid "%{used_space} MB used out of %{available_space} MB"
 msgstr "Wykorzystano %{used_space} MB z dostępnych %{available_space} MB"
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:42
+#: lib/pjeski_web/templates/user/index.html.eex:48
 msgid "Unlink"
 msgstr "Odłącz"
 
@@ -1032,17 +1031,17 @@ msgid "Other"
 msgstr "Inne"
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:57
+#: lib/pjeski_web/templates/user/index.html.eex:63
 msgid "Are you sure to leave subscription %{name}?"
 msgstr "Na pewno chcesz wypisać się z subskrypcji %{name}?"
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:45
+#: lib/pjeski_web/templates/user/index.html.eex:51
 msgid "Are you sure to unlink %{name} from your subscription?"
 msgstr "Na pewno usunąć %{name} z Twojej subskrypcji?"
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:54
+#: lib/pjeski_web/templates/user/index.html.eex:60
 msgid "Leave this subscription"
 msgstr "Opuść tę Subskrypcję"
 
@@ -1064,7 +1063,19 @@ msgstr "Limit miejsca: %{megabytes} MB"
 msgid "This subscription limits has been met"
 msgstr "Przekroczono limit plików lub dostępnego miejsca"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/registration/current_subscription.html.eex:28
 msgid "Total files limit: %{deer_files_limit}"
 msgstr "Limit plików: %{deer_files_limit}"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/user/index.html.eex:41
+msgid "(empty)"
+msgstr "puste"
+
+#, elixir-format
+#: lib/pjeski_web/templates/invitation/edit.html.eex:41
+#: lib/pjeski_web/templates/invitation/new.html.eex:28 lib/pjeski_web/templates/reset_password/edit.html.eex:36
+#: lib/pjeski_web/templates/reset_password/new.html.eex:30
+msgid "Submit"
+msgstr "Wyślij"
