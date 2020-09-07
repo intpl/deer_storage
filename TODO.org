@@ -4,7 +4,7 @@
 ** WAIT Users permissions, control panel to change them
 ** DONE Unconfirmed invited user resend invitation email
 ** DONE IMPORTANT admin panel -> update user does not work at all
-** TODO IMPORTANT display "unconfirmed" in user/index and admin user/index, ability to confirm users in admin panel
+** TODO static code analysis: https://github.com/jeremyjh/dialyxir
 ** TODO Display modal error on limits exceeded
 ** TODO user_from_auth_token(token) -> research better method
 ** [?] Validation for deer record: at least one field has to be filled in
