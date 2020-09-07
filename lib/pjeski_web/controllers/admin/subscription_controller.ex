@@ -62,12 +62,16 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
     |> Enum.map(fn u -> u.id end)
     |> Poison.encode!
 
+    {uploaded_files_count, used_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription.id)
+
     render(
       conn,
       "show.html",
       subscription: subscription,
       users: subscription_users,
-      excluded_users_ids: excluded_users_ids
+      excluded_users_ids: excluded_users_ids,
+      used_storage_megabytes: Float.ceil(used_storage_kilobytes / 1024, 2),
+      uploaded_files_count: uploaded_files_count
     )
   end
 

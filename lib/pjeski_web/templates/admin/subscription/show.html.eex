@@ -30,14 +30,16 @@
 
         <ul>
           <li>
-            <strong><%= gettext("Storage limit") %>:</strong>
-            <%= storage_limit_from_kilobytes(@subscription.storage_limit_kilobytes) %>
+            <strong><%= gettext("Used space") %>:</strong>
+            <%= @used_storage_megabytes %> MB / <%= storage_limit_from_kilobytes(@subscription.storage_limit_kilobytes) %>
           </li>
 
           <li>
-            <strong><%= gettext("Files limit") %>:</strong>
-            <%= @subscription.deer_files_limit %>
+            <strong><%= gettext("Uploaded files") %>:</strong>
+            <%= @uploaded_files_count %> / <%= @subscription.deer_files_limit %>
           </li>
+
+          <br>
 
           <li>
             <strong><%= gettext("Tables limit") %>:</strong>
