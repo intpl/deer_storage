@@ -52,10 +52,8 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
-import_config "prod.secret.exs"
+# moved to releases.exs // import_config "prod.secret.exs"
 
 
-config :pjeski, PjeskiWeb.PowMailer,
-  # FIXME
-  adapter: Bamboo.MandrillAdapter, # Specify your preferred adapter
-  api_key: "my_api_key" # Specify adapter-specific configuration
+# FIXME
+config :pjeski, PjeskiWeb.PowMailer, adapter: Bamboo.LocalAdapter
