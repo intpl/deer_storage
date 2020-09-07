@@ -1,0 +1,36 @@
+# Version of docker-compose
+version: '3'
+
+# Containers we are going to run
+services:
+  phoenix:
+    build:
+      # Here we define that it should build from the current directory
+      context: .
+    environment:
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+      APP_HOST: "${APP_HOST}"
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: pjeski
+      PGPORT: 5432
+      PGHOST: db
+    ports:
+      - "${APP_PORT}:80"
+    depends_on:
+      - db
+    volumes:
+      - uploaded_files:/app/uploaded_files
+  db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  # TODO: mnesia
+  pgdata:
+  uploaded_files:
