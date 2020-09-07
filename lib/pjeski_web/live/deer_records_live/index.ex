@@ -48,7 +48,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         table_name: nil,
         page: 1,
         per_page: per_page(),
-        cached_count: -1, # don't blink red button on load
+        cached_count: 0,
         current_user: user,
         current_subscription: nil,
         current_subscription_id: current_subscription_id,
