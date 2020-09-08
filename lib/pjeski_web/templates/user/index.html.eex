@@ -5,7 +5,7 @@
         <%= gettext("Manage users") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Invite or remove connected StorageDeer users") %>
+        <%= gettext("Invite or remove connected DeerStorage users") %>
       </h2>
     </div>
   </div>

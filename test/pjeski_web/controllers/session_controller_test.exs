@@ -9,7 +9,7 @@ defmodule PjeskiWeb.SessionControllerTest do
   describe "new" do
     test "[guest] GET /session/new", %{conn: conn} do
       conn = get(conn, "/session/new")
-      assert html_response(conn, 200) =~ "Zaloguj się do StorageDeer"
+      assert html_response(conn, 200) =~ "Zaloguj się do DeerStorage"
     end
   end
 

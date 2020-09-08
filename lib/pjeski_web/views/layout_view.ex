@@ -20,7 +20,7 @@ defmodule PjeskiWeb.LayoutView do
 
   def title(conn) do
     case conn.assigns[:title] do
-      nil -> gettext("StorageDeer")
+      nil -> gettext("DeerStorage")
       title -> title
     end
   end
@@ -32,7 +32,7 @@ defmodule PjeskiWeb.LayoutView do
   def header_text(%{assigns: %{current_subscription_is_expired: true}}), do: gettext("SUBSCRIPTION EXPIRED")
   def header_text(%{assigns: %{current_subscription: %{name: name}}}), do: name
   def header_text(%{assigns: %{current_user: %{name: name}}}), do: name
-  def header_text(_), do: gettext("StorageDeer")
+  def header_text(_), do: gettext("DeerStorage")
 
   def render_navigation(%{assigns: %{current_user: nil}} = conn), do: render "navigation_guest.html", conn: conn
   def render_navigation(%{assigns: %{current_user: %{role: "admin"}, current_subscription: nil}} = conn) do

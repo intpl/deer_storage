@@ -431,24 +431,24 @@ msgstr "Wyczyść"
 
 #, elixir-format
 #: lib/pjeski_web/templates/registration/edit.html.eex:8
-msgid "Edit your StorageDeer account"
-msgstr "Edytuj swoje konto w StorageDeer"
+msgid "Edit your DeerStorage account"
+msgstr "Edytuj swoje konto w DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/registration/new.html.eex:8
-msgid "Register to StorageDeer"
-msgstr "Zarejestruj się w StorageDeer"
+msgid "Register to DeerStorage"
+msgstr "Zarejestruj się w DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/session/new.html.eex:8
-msgid "Sign in to StorageDeer"
-msgstr "Zaloguj się do StorageDeer"
+msgid "Sign in to DeerStorage"
+msgstr "Zaloguj się do DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
 #: lib/pjeski_web/views/layout_view.ex:23 lib/pjeski_web/views/layout_view.ex:35
-msgid "StorageDeer"
-msgstr "StorageDeer"
+msgid "DeerStorage"
+msgstr "DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/registration/new.html.eex:28
@@ -457,8 +457,8 @@ msgstr "Nazwa subskrypcji"
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:5
-msgid "Welcome to StorageDeer"
-msgstr "Witamy w StorageDeer"
+msgid "Welcome to DeerStorage"
+msgstr "Witamy w DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:8
@@ -621,8 +621,8 @@ msgstr "Zaproś nowego użytkownika"
 
 #, elixir-format
 #: lib/pjeski_web/templates/user/index.html.eex:8
-msgid "Invite or remove connected StorageDeer users"
-msgstr "Zaproś lub odłącz użytkowników StorageDeer"
+msgid "Invite or remove connected DeerStorage users"
+msgstr "Zaproś lub odłącz użytkowników DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/invitation/new.html.eex:5
@@ -631,8 +631,8 @@ msgstr "Zaproś użytkownika"
 
 #, elixir-format
 #: lib/pjeski_web/templates/invitation/edit.html.eex:5
-msgid "Join StorageDeer!"
-msgstr "Dołącz do StorageDeer"
+msgid "Join DeerStorage!"
+msgstr "Dołącz do DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/user/index.html.eex:5
@@ -651,8 +651,8 @@ msgstr "Użytkownik utworzony"
 
 #, elixir-format
 #: lib/pjeski_web/templates/invitation/edit.html.eex:8
-msgid "You have been invited to join StorageDeer team!"
-msgstr "Zostałeś zaproszony do subskrypcji w StorageDeer!"
+msgid "You have been invited to join DeerStorage team!"
+msgstr "Zostałeś zaproszony do subskrypcji w DeerStorage!"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:136
@@ -801,13 +801,13 @@ msgstr "Przełącz na panel administracyjny"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_header.html.eex:8
-msgid "All StorageDeer subscriptions"
-msgstr "Wszystkie subskrypcje StorageDeer"
+msgid "All DeerStorage subscriptions"
+msgstr "Wszystkie subskrypcje DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/_header.html.eex:8
-msgid "All StorageDeer users"
-msgstr "Wszyscy użytkownicy StorageDeer"
+msgid "All DeerStorage users"
+msgstr "Wszyscy użytkownicy DeerStorage"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:39

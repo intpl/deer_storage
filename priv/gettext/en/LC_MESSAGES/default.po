@@ -430,23 +430,23 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/registration/edit.html.eex:8
-msgid "Edit your StorageDeer account"
+msgid "Edit your DeerStorage account"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/registration/new.html.eex:8
-msgid "Register to StorageDeer"
+msgid "Register to DeerStorage"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/session/new.html.eex:8
-msgid "Sign in to StorageDeer"
+msgid "Sign in to DeerStorage"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
 #: lib/pjeski_web/views/layout_view.ex:23 lib/pjeski_web/views/layout_view.ex:35
-msgid "StorageDeer"
+msgid "DeerStorage"
 msgstr ""
 
 #, elixir-format
@@ -456,7 +456,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:5
-msgid "Welcome to StorageDeer"
+msgid "Welcome to DeerStorage"
 msgstr ""
 
 #, elixir-format
@@ -620,7 +620,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/user/index.html.eex:8
-msgid "Invite or remove connected StorageDeer users"
+msgid "Invite or remove connected DeerStorage users"
 msgstr ""
 
 #, elixir-format
@@ -630,7 +630,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/invitation/edit.html.eex:5
-msgid "Join StorageDeer!"
+msgid "Join DeerStorage!"
 msgstr ""
 
 #, elixir-format
@@ -650,7 +650,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/invitation/edit.html.eex:8
-msgid "You have been invited to join StorageDeer team!"
+msgid "You have been invited to join DeerStorage team!"
 msgstr ""
 
 #, elixir-format
@@ -800,12 +800,12 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_header.html.eex:8
-msgid "All StorageDeer subscriptions"
+msgid "All DeerStorage subscriptions"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/_header.html.eex:8
-msgid "All StorageDeer users"
+msgid "All DeerStorage users"
 msgstr ""
 
 #, elixir-format

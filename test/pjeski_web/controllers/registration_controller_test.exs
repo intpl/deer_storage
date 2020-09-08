@@ -34,7 +34,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
   describe "new" do
     test "[guest] GET /registration/new", %{conn: conn} do
       conn = get(conn, "/registration/new")
-      assert html_response(conn, 200) =~ "Zarejestruj się w StorageDeer"
+      assert html_response(conn, 200) =~ "Zarejestruj się w DeerStorage"
     end
   end
 
@@ -44,7 +44,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       conn = assign_user_to_session(conn, user)
 
       conn = get(conn, "/registration/edit")
-      assert html_response(conn, 200) =~ "Edytuj swoje konto w StorageDeer"
+      assert html_response(conn, 200) =~ "Edytuj swoje konto w DeerStorage"
     end
 
     test "[user without subscription] GET /registration/edit", %{conn: conn} do
@@ -55,7 +55,7 @@ defmodule PjeskiWeb.RegistrationControllerTest do
       conn = assign_user_to_session(conn, user)
 
       conn = get(conn, "/registration/edit")
-      assert html_response(conn, 200) =~ "Edytuj swoje konto w StorageDeer"
+      assert html_response(conn, 200) =~ "Edytuj swoje konto w DeerStorage"
     end
   end
 

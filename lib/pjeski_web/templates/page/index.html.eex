@@ -2,7 +2,7 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= gettext("Welcome to StorageDeer") %>
+        <%= gettext("Welcome to DeerStorage") %>
       </h1>
       <h2 class="subtitle">
         <%= gettext("Your group files' deer-ectory!") %>

@@ -2,10 +2,10 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= gettext("Join StorageDeer!") %>
+        <%= gettext("Join DeerStorage!") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("You have been invited to join StorageDeer team!") %>
+        <%= gettext("You have been invited to join DeerStorage team!") %>
       </h2>
     </div>
   </div>

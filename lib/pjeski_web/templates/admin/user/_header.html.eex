@@ -5,7 +5,7 @@
         <%= gettext("Users") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("All StorageDeer users") %>
+        <%= gettext("All DeerStorage users") %>
       </h2>
     </div>
   </div>

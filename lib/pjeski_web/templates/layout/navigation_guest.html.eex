@@ -2,7 +2,7 @@
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
       <strong>
-        🐶<%= gettext("StorageDeer") %>
+        🐶<%= gettext("DeerStorage") %>
       </strong>
     </a>
 

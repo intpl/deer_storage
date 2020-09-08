@@ -88,7 +88,7 @@ defmodule PjeskiWeb.InvitationControllerTest do
       assert new_user.password_hash == nil
 
       conn = get(conn, "/invitation/#{sign_token(conn, new_user.invitation_token)}/edit")
-      assert html_response(conn, 200) =~ "Zostałeś zaproszony do subskrypcji w StorageDeer!"
+      assert html_response(conn, 200) =~ "Zostałeś zaproszony do subskrypcji w DeerStorage!"
     end
 
     # test "[guest] [invalid params] GET /invitation/:id/edit", %{conn: conn} do
