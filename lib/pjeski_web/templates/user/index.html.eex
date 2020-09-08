@@ -57,9 +57,10 @@
       </tbody>
     </table>
 
-    <%= link gettext("Leave this subscription"),
+    <%= link gettext("Disconnect from this subscription"),
     to: Routes.user_user_path(@conn, :unlink, @current_user.id, @current_subscription.id),
     method: :put,
-    data: [confirm: gettext("Are you sure to leave subscription %{name}?", name: @current_subscription.name)] %>
+    data: [confirm: gettext("Are you sure to DISCONNECT from subscription %{name}?", name: @current_subscription.name)] %>
+    (<%= gettext("Requires invitation to join again") %>)
   </div>
 </section>

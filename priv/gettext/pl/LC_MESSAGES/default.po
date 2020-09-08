@@ -401,13 +401,13 @@ msgstr "Wyloguj tego użytkownika"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:39
-#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/deer_record/index.html.leex:81
+#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/deer_record/index.html.leex:79
 msgid "Search"
 msgstr "Szukaj"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:33
-#: lib/pjeski_web/templates/admin/user/index.html.eex:34 lib/pjeski_web/templates/deer_record/index.html.leex:73
+#: lib/pjeski_web/templates/admin/user/index.html.eex:34 lib/pjeski_web/templates/deer_record/index.html.leex:71
 msgid "Search..."
 msgstr "Szukaj..."
 
@@ -425,7 +425,7 @@ msgstr "Poprzednia"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:22
-#: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/deer_record/index.html.leex:61
+#: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/deer_record/index.html.leex:59
 msgid "Clear"
 msgstr "Wyczyść"
 
@@ -847,7 +847,7 @@ msgid "Cancel"
 msgstr "Anuluj"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:107
+#: lib/pjeski_web/templates/deer_record/index.html.leex:105
 msgid "Could not find anything..."
 msgstr "Nic nie znaleziono..."
 
@@ -883,7 +883,7 @@ msgid "Save changes"
 msgstr "Zapisz zmiany"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:112
+#: lib/pjeski_web/templates/deer_record/index.html.leex:110
 msgid "There are no more records"
 msgstr "Nie ma więcej rekordów"
 
@@ -948,22 +948,22 @@ msgid "%{deleted_count} records deleted successfully."
 msgstr "Usunięto %{deleted_count} rekordów."
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:91
+#: lib/pjeski_web/templates/deer_record/index.html.leex:89
 msgid "Unselect"
 msgstr "Odznacz"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:94
+#: lib/pjeski_web/templates/deer_record/index.html.leex:92
 msgid "Delete all (%{count})"
 msgstr "Usuń wszystkie (%{count})"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:93
+#: lib/pjeski_web/templates/deer_record/index.html.leex:91
 msgid "Are you sure to REMOVE all %{count} selected records?"
 msgstr "Na pewno USUNĄĆ wszystkie %{count} rekordy/ów?"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:89
+#: lib/pjeski_web/templates/deer_record/index.html.leex:87
 msgid "They are %{count} records selected."
 msgstr "Zaznaczono %{count} rekordy/-ów"
 
@@ -1030,19 +1030,9 @@ msgid "Other"
 msgstr "Inne"
 
 #, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:63
-msgid "Are you sure to leave subscription %{name}?"
-msgstr "Na pewno chcesz wypisać się z subskrypcji %{name}?"
-
-#, elixir-format
 #: lib/pjeski_web/templates/user/index.html.eex:51
 msgid "Are you sure to unlink %{name} from your subscription?"
 msgstr "Na pewno usunąć %{name} z Twojej subskrypcji?"
-
-#, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:60
-msgid "Leave this subscription"
-msgstr "Opuść tę Subskrypcję"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:21
@@ -1110,11 +1100,6 @@ msgid "You can't add new tables due to subscription limits"
 msgstr "Nie możesz dodać więcej tabel z powodu limitów Twojej subskrypcji"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:51
-msgid "You can't create more records"
-msgstr "Nie możesz dodać więcej rekordów"
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:38
 msgid "Uploaded files"
 msgstr "Wysłane pliki"
@@ -1123,3 +1108,18 @@ msgstr "Wysłane pliki"
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:33
 msgid "Used space"
 msgstr "Użyte miejsce"
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:60
+msgid "Disconnect from this subscription"
+msgstr "Opuść subskrypcję"
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:63
+msgid "Are you sure to DISCONNECT from subscription %{name}?"
+msgstr "Na pewno chcesz OPUŚCIĆ %{name}?"
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:64
+msgid "Requires invitation to join again"
+msgstr "Ponowne dołączenie wymaga zaproszenia"
