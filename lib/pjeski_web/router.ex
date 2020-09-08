@@ -28,10 +28,22 @@ defmodule PjeskiWeb.Router do
   pipeline :not_authenticated, do: plug Pow.Plug.RequireNotAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :admin, do: plug PjeskiWeb.EnsureRolePlug, :admin
 
+  pipeline :well_known do
+    plug Plug.Static, at: "/.well-known", from: {:pjeski, "priv/.well-known"}
+  end
+
   scope "/files", PjeskiWeb do
     pipe_through [:uploads, :protected]
 
     post "/record/:record_id", DeerFilesController, :upload_for_record
+  end
+
+  scope "/", PjeskiWeb do
+    scope "/.well-known" do
+      pipe_through :well_known
+
+      get "/*path", PageController, :not_found
+    end
   end
 
   scope "/", PjeskiWeb do
