@@ -1,7 +1,7 @@
 defmodule PjeskiWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :pjeski
 
-  @session_options store: :cookie, key: "_session_key", signing_salt: "KLHKFqia" # FIXME: change this before production release
+  @session_options store: :cookie, key: "_session_key", signing_salt: "KLHKFqia"
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
