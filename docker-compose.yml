@@ -4,8 +4,9 @@ version: '3'
 # Containers we are going to run
 services:
   phoenix:
+    image: pjeski-prod
     build:
-      # Here we define that it should build from the current directory
+      dockerfile: prod.Dockerfile
       context: .
     environment:
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
@@ -20,6 +21,7 @@ services:
     depends_on:
       - db
     volumes:
+      # TODO: mnesia
       - uploaded_files:/app/uploaded_files
   db:
     image: postgres:11-alpine
@@ -31,6 +33,5 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 volumes:
-  # TODO: mnesia
   pgdata:
   uploaded_files:
