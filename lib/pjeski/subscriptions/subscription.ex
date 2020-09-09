@@ -10,7 +10,7 @@ defmodule Pjeski.Subscriptions.Subscription do
   schema "subscriptions" do
     field :admin_notes, :string
     field :name, :string
-    field :expires_on, :date, default: Date.add(Date.utc_today, 14)
+    field :expires_on, :date, default: Date.add(Date.utc_today, 90)
     field :deer_files_limit, :integer, default: 100
     field :storage_limit_kilobytes, :integer, default: 51_200 # 50 MB
     field :deer_records_per_table_limit, :integer, default: 100
