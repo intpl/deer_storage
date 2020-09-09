@@ -56,6 +56,7 @@
                         @socket,
                         PjeskiWeb.DeerDashboardLive.DeerTableEditComponent,
                         table: table,
+                        columns_per_table_limit: @subscription_deer_columns_per_table_limit,
                         changeset: @editing_table_changeset) %>
                   <% false -> %>
                     <%= live_component(
@@ -63,7 +64,7 @@
                         PjeskiWeb.DeerDashboardLive.DeerTableShowComponent,
                         table: table,
                         editing_table_id: @editing_table_id,
-                        per_table_limit: @subscription_deer_records_per_table_limit,
+                        records_per_table_limit: @subscription_deer_records_per_table_limit,
                         cached_count: @cached_counts[table.id] || 0) %>
                 <% end %>
               </div>

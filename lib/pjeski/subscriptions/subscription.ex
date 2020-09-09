@@ -14,6 +14,7 @@ defmodule Pjeski.Subscriptions.Subscription do
     field :deer_files_limit, :integer, default: 100
     field :storage_limit_kilobytes, :integer, default: 51_200 # 50 MB
     field :deer_records_per_table_limit, :integer, default: 100
+    field :deer_columns_per_table_limit, :integer, default: 10
     field :deer_tables_limit, :integer, default: 5
 
     has_many :user_subscription_links, UserAvailableSubscriptionLink
@@ -46,7 +47,14 @@ defmodule Pjeski.Subscriptions.Subscription do
   @doc false
   def admin_changeset(subscription, attrs) do
     subscription
-    |> cast(attrs, [:name, :expires_on, :admin_notes, :storage_limit_kilobytes, :deer_files_limit, :deer_tables_limit, :deer_records_per_table_limit])
+    |> cast(attrs, [:name,
+                   :expires_on,
+                   :admin_notes,
+                   :storage_limit_kilobytes,
+                   :deer_files_limit,
+                   :deer_tables_limit,
+                   :deer_records_per_table_limit,
+                   :deer_columns_per_table_limit])
     |> validate_required([:name])
   end
 end

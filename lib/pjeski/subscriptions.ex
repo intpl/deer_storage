@@ -82,7 +82,6 @@ defmodule Pjeski.Subscriptions do
   end
 
   def create_deer_table!(subscription, name, columns) do
-    # todo reload subscription
     new_table_attrs = [%{name: name, deer_columns: Enum.map(columns, fn col_name -> %{name: col_name} end)}]
     deer_tables = deer_tables_to_attrs(subscription.deer_tables) ++ new_table_attrs
 
@@ -95,7 +94,6 @@ defmodule Pjeski.Subscriptions do
   end
 
   def update_deer_table!(subscription, table_id, attrs) do
-    # todo reload subscription
     deer_tables = subscription.deer_tables
     |> deer_tables_to_attrs
     |> overwrite_table_with_attrs(table_id, attrs)
@@ -108,7 +106,6 @@ defmodule Pjeski.Subscriptions do
   end
 
   def delete_deer_table!(subscription, table_id) do
-    # todo reload subscription
     deer_tables = subscription.deer_tables
     |> deer_tables_to_attrs
     |> Enum.reject(fn dt -> dt.id == table_id end)
@@ -169,6 +166,8 @@ defmodule Pjeski.Subscriptions do
   defp sort_subscriptions_by(q, "files_limit_asc"), do: q |> order_by(asc: :deer_files_limit)
   defp sort_subscriptions_by(q, "tables_limit_desc"), do: q |> order_by(desc: :deer_tables_limit)
   defp sort_subscriptions_by(q, "tables_limit_asc"), do: q |> order_by(asc: :deer_tables_limit)
+  defp sort_subscriptions_by(q, "columns_per_table_limit_desc"), do: q |> order_by(desc: :deer_columns_per_table_limit)
+  defp sort_subscriptions_by(q, "columns_per_table_limit_asc"), do: q |> order_by(asc: :deer_columns_per_table_limit)
   defp sort_subscriptions_by(q, "records_per_table_limit_desc"), do: q |> order_by(desc: :deer_records_per_table_limit)
   defp sort_subscriptions_by(q, "records_per_table_limit_asc"), do: q |> order_by(asc: :deer_records_per_table_limit)
   defp sort_subscriptions_by(q, "storage_limit_kilobytes_desc"), do: q |> order_by(desc: :storage_limit_kilobytes)

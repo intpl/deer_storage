@@ -47,6 +47,11 @@
           </li>
 
           <li>
+            <strong><%= gettext("Columns per table limit") %>:</strong>
+            <%= @subscription.deer_columns_per_table_limit %>
+          </li>
+
+          <li>
             <strong><%= gettext("Records per table limit") %>:</strong>
             <%= @subscription.deer_records_per_table_limit %>
           </li>

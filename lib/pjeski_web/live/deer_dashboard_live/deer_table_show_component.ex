@@ -4,7 +4,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableShowComponent do
 
   import PjeskiWeb.Gettext
 
-  def render(%{table: %{id: table_id, name: table_name, deer_columns: deer_columns}, cached_count: cached_count, per_table_limit: per_table_limit} = assigns) do
+  def render(%{table: %{id: table_id, name: table_name, deer_columns: deer_columns}, cached_count: cached_count, records_per_table_limit: per_table_limit} = assigns) do
     ~L"""
     <div>
       <%= if @editing_table_id == nil do %>

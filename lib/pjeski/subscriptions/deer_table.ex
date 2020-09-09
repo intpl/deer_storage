@@ -21,7 +21,9 @@ defmodule Pjeski.Subscriptions.DeerTable do
         columns_ids_proposed = Enum.map(fetch_field!(changeset, :deer_columns), fn dc -> dc.id end)
 
         case columns_ids_before -- columns_ids_proposed do
-          [] -> changeset
+          [] ->
+            changeset
+            |> validate_length(:deer_columns, max: subscription.deer_columns_per_table_limit)
           _ -> add_error(changeset, :deer_columns, "missing")
         end
     end

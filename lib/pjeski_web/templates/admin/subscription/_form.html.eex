@@ -30,6 +30,12 @@
   </div>
 
   <div class="field">
+    <%= label f, :deer_columns_per_table_limit, gettext("Columns per table limit"), class: 'label' %>
+    <%= number_input f, :deer_columns_per_table_limit, class: 'input' %>
+    <%= error_tag f, :deer_columns_per_table_limit %>
+  </div>
+
+  <div class="field">
     <%= label f, :deer_records_per_table_limit, gettext("Records per table limit"), class: 'label' %>
     <%= number_input f, :deer_records_per_table_limit, class: 'input' %>
     <%= error_tag f, :deer_records_per_table_limit %>

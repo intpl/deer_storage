@@ -48,6 +48,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         storage_limit_kilobytes: 0,
         subscription_deer_tables_limit: 0,
         subscription_deer_records_per_table_limit: 0,
+        subscription_deer_columns_per_table_limit: 0,
         locale: user.locale
       )}
   end
@@ -146,6 +147,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         storage_limit_kilobytes: subscription.storage_limit_kilobytes,
         subscription_deer_tables_limit: subscription.deer_tables_limit,
         subscription_deer_records_per_table_limit: subscription.deer_records_per_table_limit,
+        subscription_deer_columns_per_table_limit: subscription.deer_columns_per_table_limit,
         current_subscription: subscription,
         editing_table_id: nil
       )}
@@ -181,6 +183,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
               storage_limit_kilobytes: subscription.storage_limit_kilobytes,
               subscription_deer_tables_limit: subscription.deer_tables_limit,
               subscription_deer_records_per_table_limit: subscription.deer_records_per_table_limit,
+              subscription_deer_columns_per_table_limit: subscription.deer_columns_per_table_limit,
               user_subscription_link: user_subscription_link
             )} # TODO: permissions
         end
