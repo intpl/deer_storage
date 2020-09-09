@@ -6,7 +6,8 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
 
   import PjeskiWeb.DeerRecordView, only: [
     deer_columns_from_subscription: 2,
-    deer_field_content_from_column_id: 2
+    deer_field_content_from_column_id: 2,
+    display_filesize_from_kilobytes: 1
   ]
 
   def render(%{record: record, subscription: subscription, table_id: table_id} = assigns) do
@@ -41,10 +42,11 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         <hr>
 
         <ul>
-          <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name} -> %>
+          <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
             <li>
               <p>
                 <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
+                (<%= display_filesize_from_kilobytes(kilobytes) %>)
 
                 <button class="button" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
                   <span class="delete"></span>&nbsp;

@@ -4,6 +4,13 @@ defmodule PjeskiWeb.DeerRecordView do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
+  def display_filesize_from_kilobytes(kilobytes) when kilobytes <= 1024, do: "#{kilobytes} KB"
+  def display_filesize_from_kilobytes(kilobytes) do
+    megabytes = Float.ceil(kilobytes / 1024, 2)
+
+    "#{megabytes} MB"
+  end
+
   def deer_column_name_from_id(deer_columns, column_id) do
     Enum.find(deer_columns, fn column -> column.id == column_id end).name
   end
