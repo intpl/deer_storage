@@ -7,8 +7,7 @@ services:
     image: nginx:1.19-alpine
     environment:
       APP_HOST: ${APP_HOST}
-      NGINX_ENVSUBST_TEMPLATE_SUFFIX: ".template"
-      PHOENIX: http://phoenix
+      PHOENIX: phoenix
     ports:
       - "${APP_HTTP_PORT}:80"
       - "${APP_HTTPS_PORT}:443"
@@ -29,7 +28,7 @@ services:
   phoenix:
     image: pjeski-prod
     build:
-      dockerfile: prod.Dockerfile
+      dockerfile: Dockerfile.prod
       context: .
     environment:
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
