@@ -1,0 +1,4 @@
+FROM nginx:1.19-alpine
+
+COPY default.conf.template /etc/nginx/templates/
+COPY docker-entrypoint.d/* /docker-entrypoint.d/
