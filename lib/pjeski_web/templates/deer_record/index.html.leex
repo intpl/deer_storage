@@ -83,17 +83,19 @@ end %>
 
         </p>
       </div>
-      <%= if (current_records_count = length(@current_records)) > 0 do %>
-        <%= gettext("They are %{count} records selected.", count: current_records_count) %>
-        |
-        <a phx-click="clear_selected"><%= gettext("Unselect") %></a>
-        |
-        <a phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: current_records_count) %>">
-          <%= gettext("Delete all (%{count})", count: current_records_count) %>
-        </a>
-      <% else %>
-        <br>
-      <% end %>
+      <div class="is-hidden-mobile">
+        <%= if (current_records_count = length(@current_records)) > 0 do %>
+          <%= gettext("They are %{count} records selected.", count: current_records_count) %>
+          |
+          <a phx-click="clear_selected"><%= gettext("Unselect") %></a>
+          |
+          <a phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: current_records_count) %>">
+            <%= gettext("Delete all (%{count})", count: current_records_count) %>
+          </a>
+        <% else %>
+          <br>
+        <% end %>
+      </div>
     </div>
   </div>
 
