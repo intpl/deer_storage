@@ -34,7 +34,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
             <p class="modal-card-title">
               <%= gettext("Edit record from table") %>: <%= @table_name %>
             </p>
-            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_edit"></button>
+            <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="close_edit"></a>
           </header>
           <%= form_for @changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn _ -> %>
             <section class="modal-card-body">
@@ -59,7 +59,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
                 <%= submit gettext("Save changes"), class: "button is-success" %>
               <% end %>
 
-              <a class="button" data-bulma-modal="close" phx-click="close_edit"><%= gettext("Cancel") %></a>
+              <a class="button" data-bulma-modal="close" href="#" phx-click="close_edit"><%= gettext("Cancel") %></a>
             </footer>
           <% end %>
         </div>

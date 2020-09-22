@@ -11,7 +11,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
 
     ~L"""
     <div>
-      <a phx-click="cancel_table_edit"><%= gettext("Cancel") %></a>
+      <a href="#" phx-click="cancel_table_edit"><%= gettext("Cancel") %></a>
       <%= form_for changeset, "#", [phx_change: :validate_table_edit, phx_submit: :save_table_edit], fn f -> %>
         <%= hidden_input f, :id, value: id %>
 
@@ -26,8 +26,8 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
         <%= inputs_for f, :deer_columns, fn dc -> %>
           <div class="field is-grouped">
             <p class="control">
-              <a class="button is-small" phx-click="move_column_up" phx-value-index="<%= dc.index %>">▲</a>
-              <a class="button is-small" phx-click="move_column_down" phx-value-index="<%= dc.index %>">▼</a>
+              <a class="button is-small" href="#" phx-click="move_column_up" phx-value-index="<%= dc.index %>">▲</a>
+              <a class="button is-small" href="#" phx-click="move_column_down" phx-value-index="<%= dc.index %>">▼</a>
             </p>
             <p class="control">
               <div class="field">
@@ -39,7 +39,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
         <% end %>
 
         <%= if taken_columns < @columns_per_table_limit do %>
-          <a phx-click="add_column"><%= gettext("Add column") %></a>
+          <a href="#" phx-click="add_column"><%= gettext("Add column") %></a>
           (<%= taken_columns %>/<%= @columns_per_table_limit %>)
         <% else %>
           <i><%= gettext("You can't add more columns") %></i>

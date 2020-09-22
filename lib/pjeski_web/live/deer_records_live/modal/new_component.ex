@@ -35,7 +35,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
             <p class="modal-card-title">
               <%= gettext("Insert record to table") %>: <%= @table_name %>
             </p>
-            <button class="delete" aria-label="close" data-bulma-modal="close" phx-click="close_new"></button>
+            <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="close_new"></a>
           </header>
           <%= form_for @changeset, "#", [phx_change: :validate_new, phx_submit: :save_new], fn _ -> %>
             <section class="modal-card-body">
@@ -61,7 +61,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
                 <%= submit gettext("Create record"), class: "button is-success" %>
               <% end %>
 
-              <a class="button" data-bulma-modal="close" phx-click="close_new"><%= gettext("Cancel") %></a>
+              <a class="button" data-bulma-modal="close" href="#" phx-click="close_new"><%= gettext("Cancel") %></a>
             </footer>
           <% end %>
         </div>

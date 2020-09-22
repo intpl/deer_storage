@@ -15,10 +15,10 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableShowComponent do
         (<%= cached_count %>/<%= per_table_limit %>)
 
         <%= if cached_count == 0 do %>
-          <a phx-click="delete_table" phx-value-table_id="<%= table_id %>"><%= gettext("Delete") %></a>
+          <a href="#" phx-click="delete_table" phx-value-table_id="<%= table_id %>"><%= gettext("Delete") %></a>
         <% end %>
 
-        <a phx-click="toggle_table_edit" phx-value-table_id="<%= table_id %>"><%= gettext("Edit") %></a>
+        <a href="#" phx-click="toggle_table_edit" phx-value-table_id="<%= table_id %>"><%= gettext("Edit") %></a>
       <% else %>
         <strong><%= table_name %></strong>
         (<%= cached_count %>)
