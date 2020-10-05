@@ -206,11 +206,15 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     attrs_without_deer_columns = keys_to_atoms(Map.delete(attrs, "deer_columns"))
 
     deer_columns = attrs["deer_columns"]
-    |> Map.values
+    |> Enum.map(fn {idx_string, dc} -> {String.to_integer(idx_string), dc} end)
+    |> Enum.sort(&(first_tuple_element(&1) < first_tuple_element(&2)))
+    |> Enum.map(fn {_idx, dc} -> dc end)
     |> Enum.map(fn deer_column -> keys_to_atoms(deer_column) end)
 
     deer_table = Map.merge(%{deer_columns: deer_columns}, attrs_without_deer_columns)
 
     {deer_table, attrs["id"]}
   end
+
+  defp first_tuple_element({el, _}), do: el
 end
