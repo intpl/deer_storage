@@ -20,9 +20,3 @@ window.hook_navbar_burger = function() {
     }
   });
 }
-
-// exclude all paths that use liveview navigation, as phx-hooks take care of calling window.hook_navbar_burger
-// FIXME: root path shows live navigation
-if (!window.location.href.match('^(.*(records|dashboard|registration/edit|users|invitation)).*$')) {
-  window.addEventListener('load', window.hook_navbar_burger);
-}

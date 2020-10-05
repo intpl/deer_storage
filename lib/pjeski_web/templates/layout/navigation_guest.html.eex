@@ -24,3 +24,7 @@
     </div>
   </div>
 </nav>
+
+<script type="text/javascript">
+  window.hook_navbar_burger();
+</script>
