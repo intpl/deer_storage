@@ -7,7 +7,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
   import PjeskiWeb.ErrorHelpers, only: [error_tag: 2]
 
   def render(%{table: %{id: id}, changeset: changeset} = assigns) do
-    taken_columns = length(Ecto.Changeset.fetch_field!(changeset, :deer_columns))
+    columns_count = length(Ecto.Changeset.fetch_field!(changeset, :deer_columns))
 
     ~L"""
     <div>
@@ -38,9 +38,9 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
           </div>
         <% end %>
 
-        <%= if taken_columns < @columns_per_table_limit do %>
+        <%= if columns_count < @columns_per_table_limit do %>
           <a href="#" phx-click="add_column"><%= gettext("Add column") %></a>
-          (<%= taken_columns %>/<%= @columns_per_table_limit %>)
+          (<%= columns_count %>/<%= @columns_per_table_limit %>)
         <% else %>
           <i><%= gettext("You can't add more columns") %></i>
         <% end %>
