@@ -81,7 +81,13 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end # {:noreply, assign(socket, :editing_table_id, nil)}
 
   def handle_event("cancel_table_edit", _, socket), do: {:noreply, assign(socket, editing_table_id: nil, editing_table_changeset: nil)}
-  def handle_event("validate_table_edit", _, socket), do: {:noreply, socket} # TODO
+
+  def handle_event("validate_table_edit", %{"deer_table" => attrs}, %{assigns: %{editing_table_changeset: ch}} = socket) do
+    {deer_table_attrs, _id} = attrs_to_deer_table(attrs)
+
+    {:noreply, socket |> assign(editing_table_changeset: DeerTable.changeset(ch, deer_table_attrs))}
+  end
+
   def handle_event("save_table_edit", %{"deer_table" => attrs}, %{assigns: %{current_subscription: subscription}} = socket) do
     {deer_table_attrs, deer_table_id} = attrs_to_deer_table(attrs)
 
