@@ -256,23 +256,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       )}
   end
 
-  def handle_info({:record_update, %{id: record_id} = record}, %{assigns: assigns} = socket) do
-    %{current_records: current_records, editing_record: editing_record, records: records} = assigns
+  def handle_info({:record_update, record}, %{assigns: assigns} = socket) do
+    %{current_records: current_records, records: records} = assigns
 
-    new_editing_record = case editing_record do
-                           nil -> nil
-                           _ ->
-                             case Ecto.Changeset.fetch_field!(editing_record, :id) do
-                               ^record_id -> nil
-                               ch -> ch
-                             end
-                         end
-
+    socket = maybe_assign_editing_record_if_changed(socket, record)
     current_records = maybe_update_record_in_list(current_records, record)
     records = replace_record_or_run_search_query(records, record, assigns)
 
     {:noreply, socket |> assign(
-        editing_record: new_editing_record,
         current_records: current_records,
         records: records,
         count: length(records)
@@ -338,4 +329,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
     assign(socket, assign_name, changeset)
   end
+
+  defp maybe_assign_editing_record_if_changed(%{assigns: %{editing_record: %{data: %{id: record_id}}}} = socket, %{id: record_id}) do
+    assign(socket, editing_record: nil)
+  end
+
+  defp maybe_assign_editing_record_if_changed(socket, _record), do: socket
 end
