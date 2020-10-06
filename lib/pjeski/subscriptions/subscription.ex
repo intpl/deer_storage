@@ -10,7 +10,7 @@ defmodule Pjeski.Subscriptions.Subscription do
   schema "subscriptions" do
     field :admin_notes, :string
     field :name, :string
-    field :expires_on, :date, default: Date.add(Date.utc_today, 90)
+    field :expires_on, :date
     field :deer_files_limit, :integer, default: 100
     field :storage_limit_kilobytes, :integer, default: 51_200 # 50 MB
     field :deer_records_per_table_limit, :integer, default: 100
@@ -41,7 +41,7 @@ defmodule Pjeski.Subscriptions.Subscription do
     |> validate_required([:name])
     |> validate_length(:name, min: 3)
     |> validate_length(:name, max: 100)
-    # |> unique_constraint(:name)
+    |> maybe_add_expires_on_date
   end
 
   @doc false
@@ -57,4 +57,10 @@ defmodule Pjeski.Subscriptions.Subscription do
                    :deer_columns_per_table_limit])
     |> validate_required([:name])
   end
+
+  defp maybe_add_expires_on_date(%{data: %{expires_on: nil}} = changeset) do
+    put_change(changeset, :expires_on, Date.add(Date.utc_today, 90))
+  end
+
+  defp maybe_add_expires_on_date(changeset), do: changeset
 end
