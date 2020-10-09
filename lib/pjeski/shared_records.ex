@@ -3,7 +3,7 @@ defmodule Pjeski.SharedRecords do
   alias Pjeski.Repo
   alias Pjeski.SharedRecords.SharedRecord
 
-  def get_record!(uuid), do: Repo.get!(SharedRecord, uuid)
+  def get_record!(uuid), do: Repo.one!(available_query() |> where([sr], sr.id == ^uuid))
 
   def create_record!(subscription_id, user_id, deer_record_id) do
     Repo.insert!(
@@ -14,4 +14,9 @@ defmodule Pjeski.SharedRecords do
       )
     )
   end
+
+  def delete_outdated!, do: Repo.delete_all(outdated_query())
+
+  defp available_query, do: from sr in SharedRecord, where: ^DateTime.utc_now < sr.expires_on
+  defp outdated_query, do: from sr in SharedRecord, where: ^DateTime.utc_now >= sr.expires_on
 end
