@@ -15,6 +15,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   alias Phoenix.PubSub
   alias Pjeski.Repo
+  alias Pjeski.SharedRecords
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
@@ -55,6 +56,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         current_subscription_name: nil,
         current_subscription_tables: [],
         current_subscription_deer_records_per_table_limit: 0,
+        current_shared_record_uuid: nil,
         storage_limit_kilobytes: 0,
         locale: user.locale
       )}
@@ -111,6 +113,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   end
 
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
+  def handle_event("close_shared_record", _, socket), do: {:noreply, socket |> assign(current_shared_record_uuid: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, socket |> assign(editing_record: nil)}
 
   # TODO refactor
@@ -152,6 +155,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     record = find_record_in_list_or_database(record_id, records, subscription)
 
     {:noreply, socket |> assign(current_records: toggle_record_in_list(current_records, record))}
+  end
+
+  def handle_event("share", %{"record_id" => record_id}, %{assigns: %{current_user: user, current_subscription: subscription}} = socket) do
+    %{id: uuid} = SharedRecords.create_record!(subscription.id, user.id, String.to_integer(record_id))
+
+    {:noreply, socket |> assign(current_shared_record_uuid: uuid)}
   end
 
   def handle_event("new", _, %{assigns: %{current_subscription: %{deer_tables: deer_tables} = subscription, table_id: table_id}} = socket) do

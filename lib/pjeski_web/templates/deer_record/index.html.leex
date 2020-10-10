@@ -14,6 +14,16 @@
   ) %>
 <% end %>
 
+<%= if @current_shared_record_uuid do %>
+  <%= live_component(
+        @socket,
+        PjeskiWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent,
+        id: "shared_record_component",
+        subscription_id: @current_subscription_id,
+        current_shared_record_uuid: @current_shared_record_uuid
+  ) %>
+<% end %>
+
 <%= cond do
     @editing_record ->
       live_component(

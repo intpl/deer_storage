@@ -4,6 +4,10 @@ defmodule PjeskiWeb.DeerRecordView do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
+  def shared_record_days_to_expire(shared_record) do
+    floor(DateTime.diff(shared_record.expires_on, DateTime.utc_now, :second) / 86_400)
+  end
+
   def display_filesize_from_kilobytes(kilobytes) when kilobytes <= 1024, do: "#{kilobytes} KB"
   def display_filesize_from_kilobytes(kilobytes) do
     megabytes = Float.ceil(kilobytes / 1024, 2)

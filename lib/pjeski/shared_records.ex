@@ -3,9 +3,16 @@ defmodule Pjeski.SharedRecords do
   alias Pjeski.Repo
   alias Pjeski.SharedRecords.SharedRecord
 
-  def get_record!(uuid), do: Repo.one!(available_query() |> where([sr], sr.id == ^uuid))
+  def get_record!(subscription_id, uuid) do
+    Repo.one!(
+      available_query()
+      |> where([sr], sr.id == ^uuid)
+      |> where([sr], sr.subscription_id == ^subscription_id)
+    )
+  end
 
   def create_record!(subscription_id, user_id, deer_record_id) do
+    # TODO: track limits: user shared records per day e.g. 100
     Repo.insert!(
       SharedRecord.changeset(%SharedRecord{}, %{
             subscription_id: subscription_id,

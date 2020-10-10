@@ -2,7 +2,7 @@
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
       <strong>
-        🐶<%= gettext("DeerStorage") %>
+        🦌 <%= gettext("DeerStorage") %>
       </strong>
     </a>
 
@@ -17,8 +17,8 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-primary" href="<%= Routes.registration_path(@conn, :new) %>"> <strong><%= gettext("Free demo") %></strong> </a>
-          <%= link gettext("Sign in"), to: Routes.session_path(@conn, :new), class: 'button is-light' %>
+          <a class="button is-primary" href="<%= Routes.registration_path(PjeskiWeb.Endpoint, :new) %>"> <strong><%= gettext("Free demo") %></strong> </a>
+          <%= link gettext("Sign in"), to: Routes.session_path(PjeskiWeb.Endpoint, :new), class: 'button is-light' %>
         </div>
       </div>
     </div>
