@@ -1,0 +1,41 @@
+<%= render(PjeskiWeb.LayoutView, "navigation_guest.html") %>
+
+<%= if @deer_record do %>
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          <%= gettext("\"%{subscription_name}\" invited you to see this record", subscription_name: @subscription.name) %>
+        </h1>
+        <h2 class="subtitle">
+          <%= gettext("This link will expire in %{days} days", days: shared_record_days_to_expire(@shared_record)) %>
+        </h2>
+      </div>
+    </div>
+  </section>
+  <div class="hero-body">
+    <div class="container">
+      <ul>
+        <%= Enum.map(deer_columns_from_subscription(@subscription, @deer_record.deer_table_id), fn %{id: column_id, name: column_name} -> %>
+        <li>
+          <strong><%= column_name %>:</strong>
+          <%= deer_field_content_from_column_id(@deer_record, column_id) %>
+        </li>
+        <% end) %>
+      </ul>
+
+      <br>
+
+      <ul>
+        <%= Enum.map(@deer_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
+          <li>
+              <p>
+                <%= link "#{name}", to: Routes.shared_record_files_path(PjeskiWeb.Endpoint, :download_file, @subscription.id, @shared_record.id, file_id) %>
+                (<%= display_filesize_from_kilobytes(kilobytes) %>)
+              </p>
+          </li>
+        <% end) %>
+      </ul>
+    </div>
+  </div>
+<% end %>

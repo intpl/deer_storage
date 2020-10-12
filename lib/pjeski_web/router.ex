@@ -102,6 +102,9 @@ defmodule PjeskiWeb.Router do
   scope "/", PjeskiWeb do
     pipe_through :browser
 
+    live "/share/:subscription_id/:shared_record_uuid", SharedRecordsLive.Show, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
+    get "/:subscription_id/shared_record/:shared_record_id/:file_id", SharedRecordFilesController, :download_file
+
     resources "/confirm-email", ConfirmationController, only: [:show]
 
     get "/", PageController, :index

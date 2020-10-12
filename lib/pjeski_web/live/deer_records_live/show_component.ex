@@ -26,6 +26,10 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             <%= gettext("Edit") %>
           </a>
 
+          <a class="button is-success" href="#" phx-click="share" phx-value-record_id="<%= record.id %>">
+            <%= gettext("Share") %>
+          </a>
+
           <a class="button is-danger is-outlined" href="#" phx-click="delete" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this record?") %>">
             <%= gettext("Delete") %>
           </a>
