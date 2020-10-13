@@ -21,6 +21,7 @@ secret_key_base =
     """
 
 config :pjeski, PjeskiWeb.Endpoint,
-  http: [:inet6, port: String.to_integer(System.get_env("PORT") || "80")],
+  url: [host: {:system, "APP_HOST"}, port: 443, scheme: "https"],
+  http: [port: 80],
   server: true,
   secret_key_base: secret_key_base
