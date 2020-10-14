@@ -63,13 +63,11 @@ end %>
 
     <div class="column is-8">
       <div class="field has-addons">
-        <p class="control">
-            <%= if @query != "" && @query != nil do %>
-              <a class="button is-inline" type="submit" href="#" phx-click="clear" onclick="window.scrollTo(0,0)">
-                <%= gettext("Clear") %>
-              </a>
-            <% end %>
-        </p>
+          <%= if @query != "" && @query != nil do %>
+            <a class="button is-inline" type="submit" href="#" phx-click="clear" onclick="window.scrollTo(0,0)">
+              <%= gettext("Clear") %>
+            </a>
+          <% end %>
 
         <p class="is-fullwidth">
           <form phx-submit="submit" phx-change="filter" class="field has-addons overwrite-fullwidth">
