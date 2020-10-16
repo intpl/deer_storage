@@ -6,7 +6,7 @@ defmodule Pjeski.SharedRecordsTest do
 
   alias Pjeski.SharedRecords
 
-  describe "create_record!/3 and get_record!/1" do
+  describe "create_record!/3 and get_record!/2" do
     setup do
       subscription = create_valid_subscription_with_tables(1, 2)
       user = create_user_without_subscription()
@@ -21,7 +21,7 @@ defmodule Pjeski.SharedRecordsTest do
     test "valid attrs", %{subscription: subscription, user: user, record: record} do
       created_record = SharedRecords.create_record!(subscription.id, user.id, record.id)
 
-      loaded_record = SharedRecords.get_record!(created_record.id)
+      loaded_record = SharedRecords.get_record!(subscription.id, created_record.id)
 
       assert loaded_record.deer_record_id == record.id
     end
