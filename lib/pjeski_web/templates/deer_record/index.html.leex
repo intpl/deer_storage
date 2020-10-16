@@ -14,39 +14,37 @@
   ) %>
 <% end %>
 
-<%= if @current_shared_record_uuid do %>
-  <%= live_component(
-        @socket,
-        PjeskiWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent,
-        id: "shared_record_component",
-        subscription_id: @current_subscription_id,
-        current_shared_record_uuid: @current_shared_record_uuid
-  ) %>
-<% end %>
-
 <%= cond do
-    @editing_record ->
-      live_component(
-        @socket,
-        PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
-        id: "edit",
-        changeset: @editing_record,
-        subscription: @current_subscription,
-        table_id: @table_id,
-        table_name: @table_name
-      )
-    @new_record ->
-      live_component(
-        @socket,
-        PjeskiWeb.DeerRecordsLive.Modal.NewComponent,
-        id: "new",
-        changeset: @new_record,
-        subscription: @current_subscription,
-        table_id: @table_id,
-        table_name: @table_name,
-        cached_count: @cached_count 
-      )
-    true -> ""
+  @current_shared_record_uuid ->
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent,
+      id: "shared_record_component",
+      subscription_id: @current_subscription_id,
+      current_shared_record_uuid: @current_shared_record_uuid
+    )
+  @editing_record ->
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
+      id: "edit",
+      changeset: @editing_record,
+      subscription: @current_subscription,
+      table_id: @table_id,
+      table_name: @table_name
+    )
+  @new_record ->
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.NewComponent,
+      id: "new",
+      changeset: @new_record,
+      subscription: @current_subscription,
+      table_id: @table_id,
+      table_name: @table_name,
+      cached_count: @cached_count
+    )
+  true -> ""
 end %>
 
 <section class="section">
