@@ -14,6 +14,7 @@ defmodule Pjeski.DeerRecords.DeerRecord do
     belongs_to :updated_by_user, User
     field :deer_table_id, :string
 
+    field :connected_deer_records_ids, {:array, :integer}, default: []
     embeds_many :deer_fields, DeerField, on_replace: :delete
     embeds_many :deer_files, DeerFile, on_replace: :delete
 
@@ -30,6 +31,12 @@ defmodule Pjeski.DeerRecords.DeerRecord do
     |> validate_required([:deer_table_id])
     |> validate_inclusion(:deer_table_id, deer_tables_ids)
     |> cast_embed(:deer_fields, with: {DeerField, :changeset, [[deer_table_id: attrs.deer_table_id, subscription: subscription]]})
+  end
+
+  def append_id_to_connected_deer_records(deer_record, id) when is_integer(id) do
+    new_records_ids = deer_record.connected_deer_records_ids ++ [id]
+
+    deer_record |> change |> put_change(:connected_deer_records_ids, new_records_ids)
   end
 
   def prepend_deer_file_to_changeset(deer_record, deer_file) do
