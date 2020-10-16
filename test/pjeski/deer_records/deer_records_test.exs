@@ -192,5 +192,9 @@ defmodule Pjeski.DeerRecordsTest do
       assert DeerRecords.get_record!(subscription, r1.id).connected_deer_records_ids == []
       assert DeerRecords.get_record!(subscription, r2.id).connected_deer_records_ids == []
     end
+
+    test "cannot connect record to itself", %{subscription: subscription, records_for_subscription: [record, _]} do
+      assert_raise RuntimeError, fn -> DeerRecords.connect_records!(record, record, subscription.id) end
+    end
   end
 end

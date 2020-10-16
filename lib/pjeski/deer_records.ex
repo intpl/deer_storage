@@ -126,6 +126,7 @@ defmodule Pjeski.DeerRecords do
     end)
   end
 
+  def connect_records!(%DeerRecord{id: id}, %DeerRecord{id: id}, _subscription_id), do: raise("attempt to connect the same record")
   def connect_records!(%DeerRecord{subscription_id: subscription_id} = record1, %DeerRecord{subscription_id: subscription_id} = record2, subscription_id) do
     # TODO: validations
     record1_changeset = append_id_to_connected_deer_records(record1, record2.id)
