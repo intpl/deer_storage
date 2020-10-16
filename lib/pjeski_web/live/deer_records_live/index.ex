@@ -157,8 +157,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(current_records: toggle_record_in_list(current_records, record))}
   end
 
-  def handle_event("share", %{"record_id" => record_id}, %{assigns: %{current_user: user, current_subscription: subscription}} = socket) do
-    %{id: uuid} = SharedRecords.create_record!(subscription.id, user.id, String.to_integer(record_id))
+  def handle_event("share", %{"record_id" => record_id}, %{assigns: %{current_user: user, current_subscription: subscription, records: records}} = socket) do
+    record = find_record_in_list_or_database(record_id, records, subscription)
+
+    %{id: uuid} = SharedRecords.create_record!(subscription.id, user.id, record.id)
 
     {:noreply, socket |> assign(current_shared_record_uuid: uuid)}
   end
