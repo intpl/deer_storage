@@ -169,24 +169,28 @@ defmodule Pjeski.DeerRecordsTest do
     end
   end
 
-  describe "connect_records/3" do
+  describe "connect_records/3 and disconnect_records!/3" do
     setup do
       subscription = create_valid_subscription_with_tables(1)
 
       {:ok,
        subscription: subscription,
-       records_for_subscription: create_valid_records_for_subscription(subscription, 3),
+       records_for_subscription: create_valid_records_for_subscription(subscription, 2),
       }
     end
 
-    test "upserts ids and returns updated first record", %{subscription: subscription, records_for_subscription: records} do
-      [r1, r2, r3] = records
+    test "connect and disconnect records", %{subscription: subscription, records_for_subscription: records} do
+      [r1, r2] = records
 
       DeerRecords.connect_records!(r1, r2, subscription.id)
 
       assert DeerRecords.get_record!(subscription, r1.id).connected_deer_records_ids == [r2.id]
       assert DeerRecords.get_record!(subscription, r2.id).connected_deer_records_ids == [r1.id]
-      assert DeerRecords.get_record!(subscription, r3.id).connected_deer_records_ids == []
+
+      DeerRecords.disconnect_records!(r1, r2, subscription.id)
+
+      assert DeerRecords.get_record!(subscription, r1.id).connected_deer_records_ids == []
+      assert DeerRecords.get_record!(subscription, r2.id).connected_deer_records_ids == []
     end
   end
 end

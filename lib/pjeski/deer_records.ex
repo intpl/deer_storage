@@ -8,7 +8,11 @@ defmodule Pjeski.DeerRecords do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
-  import Pjeski.DeerRecords.DeerRecord, only: [deer_files_stats: 1, append_id_to_connected_deer_records: 2]
+  import Pjeski.DeerRecords.DeerRecord, only: [
+    deer_files_stats: 1,
+    append_id_to_connected_deer_records: 2,
+    remove_id_from_connected_deer_records: 2
+  ]
 
   def at_least_one_record_with_table_id?(%Subscription{id: subscription_id}, table_id) do
     query = DeerRecord
@@ -111,14 +115,25 @@ defmodule Pjeski.DeerRecords do
     end)
   end
 
+  def disconnect_records!(%DeerRecord{subscription_id: subscription_id} = record1, %DeerRecord{subscription_id: subscription_id} = record2, subscription_id) do
+    # TODO: validations
+    record1_changeset = remove_id_from_connected_deer_records(record1, record2.id)
+    record2_changeset = remove_id_from_connected_deer_records(record2, record1.id)
+
+    {:ok, _} = Repo.transaction(fn ->
+      Repo.update!(record1_changeset) |> notify_about_record_update
+      Repo.update!(record2_changeset) |> notify_about_record_update
+    end)
+  end
+
   def connect_records!(%DeerRecord{subscription_id: subscription_id} = record1, %DeerRecord{subscription_id: subscription_id} = record2, subscription_id) do
     # TODO: validations
     record1_changeset = append_id_to_connected_deer_records(record1, record2.id)
     record2_changeset = append_id_to_connected_deer_records(record2, record1.id)
 
     {:ok, _} = Repo.transaction(fn ->
-      Repo.update(record1_changeset) |> maybe_notify_about_record_update
-      Repo.update(record2_changeset) |> maybe_notify_about_record_update
+      Repo.update!(record1_changeset) |> notify_about_record_update
+      Repo.update!(record2_changeset) |> notify_about_record_update
     end)
   end
 
