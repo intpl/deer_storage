@@ -15,6 +15,15 @@
 <% end %>
 
 <%= cond do
+  @currently_connecting_record_id ->
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent,
+      id: "currently_connecting_record_component",
+      subscription_id: @current_subscription_id,
+      currently_connecting_record_id: @currently_connecting_record_id,
+      connecting_record_query: @currently_connecting_record_query,
+    )
   @current_shared_record_uuid ->
     live_component(
       @socket,

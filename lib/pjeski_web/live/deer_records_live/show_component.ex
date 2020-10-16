@@ -60,6 +60,18 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             </li>
           <% end) %>
         </ul>
+
+        <h3>Connected records:</h3>
+
+        <ul>
+          <%= Enum.map(record.connected_deer_records_ids, fn id -> %>
+            <%= id %>
+          <% end) %>
+        </ul>
+
+        <a class="button is-success" href="#" phx-click="connect_record" phx-value-record_id="<%= record.id %>">
+          <span><%= gettext("Connect a record") %></span>
+        </a>
       </div>
     </div>
     """

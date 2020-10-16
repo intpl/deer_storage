@@ -57,6 +57,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
         current_subscription_tables: [],
         current_subscription_deer_records_per_table_limit: 0,
         current_shared_record_uuid: nil,
+        currently_connecting_record_id: nil,
+        currently_connecting_record_query: nil,
         storage_limit_kilobytes: 0,
         locale: user.locale
       )}
@@ -114,6 +116,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
   def handle_event("close_shared_record", _, socket), do: {:noreply, socket |> assign(current_shared_record_uuid: nil)}
+  def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(currently_connecting_record_id: nil, currently_connecting_record_query: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, socket |> assign(editing_record: nil)}
 
   # TODO refactor
@@ -157,13 +160,24 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(current_records: toggle_record_in_list(current_records, record))}
   end
 
-  def handle_event("share", %{"record_id" => record_id}, %{assigns: %{current_user: user, current_subscription: subscription, records: records}} = socket) do
+  def handle_event("share", %{"record_id" => record_id}, %{assigns: %{records: records, current_user: user, current_subscription: subscription}} = socket) do
     record = find_record_in_list_or_database(record_id, records, subscription)
 
     %{id: uuid} = SharedRecords.create_record!(subscription.id, user.id, record.id)
 
     {:noreply, socket |> assign(current_shared_record_uuid: uuid)}
   end
+
+  def handle_event("connect_record", %{"record_id" => record_id}, %{assigns: %{records: records, current_subscription: subscription}} = socket) do
+    record = find_record_in_list_or_database(record_id, records, subscription)
+
+    {:noreply, socket |> assign(currently_connecting_record_id: record.id)}
+  end
+
+  def handle_event("connecting_record_filter", %{"query" => query}, %{assigns: %{current_subscription: subscription, table_id: table_id}} = socket) when byte_size(query) <= 50 do
+    {:noreply, socket |> assign(currently_connecting_record_query: query)}
+  end
+
 
   def handle_event("new", _, %{assigns: %{current_subscription: %{deer_tables: deer_tables} = subscription, table_id: table_id}} = socket) do
     deer_columns = Enum.find(deer_tables, fn table -> table.id == table_id end).deer_columns
