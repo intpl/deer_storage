@@ -38,7 +38,8 @@ defmodule Pjeski.DeerRecords.DeerRecord do
   end
 
   def append_id_to_connected_deer_records(deer_record, id) when is_integer(id) do
-    change(deer_record) |> force_change(:connected_deer_records_ids, deer_record.connected_deer_records_ids ++ [id])
+    new_connected_deer_records_ids = Enum.uniq(deer_record.connected_deer_records_ids ++ [id])
+    change(deer_record) |> force_change(:connected_deer_records_ids, new_connected_deer_records_ids)
   end
 
   def prepend_deer_file_to_changeset(deer_record, deer_file) do

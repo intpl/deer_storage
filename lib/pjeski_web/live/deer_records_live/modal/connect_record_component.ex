@@ -1,7 +1,24 @@
 defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
   use Phoenix.LiveComponent
 
+  import PjeskiWeb.DeerRecordView
   import PjeskiWeb.Gettext
+
+  def update(%{
+        subscription: %{deer_tables: deer_tables} = subscription,
+        excluded_records_ids: excluded_record_ids,
+        connecting_record_query: query,
+        connecting_record_records: records,
+        connecting_record_selected_table_id: table_id}, socket) do
+
+    {:ok, assign(socket,
+      deer_columns: deer_columns_from_subscription(subscription, table_id),
+      deer_tables: deer_tables,
+      table_id: table_id,
+      records: records,
+      query: query
+    )}
+  end
 
   def render(assigns) do
     ~L"""
@@ -20,6 +37,17 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
               <div class="field has-addons">
                 <p class="is-fullwidth">
                   <form phx-change="connecting_record_filter" class="field has-addons overwrite-fullwidth">
+                    <p class="control">
+                      <span class="select">
+                        <select name="table_id">
+                          <%= for %{id: id, name: name} <- @deer_tables do %>
+                            <option value="<%= id %>" <%= if @table_id == id, do: "selected" %>>
+                              <%= name %>
+                            </option>
+                          <% end %>
+                        </select>
+                      </span>
+                    </p>
                     <p class="control is-expanded">
                       <input
                         class="input"
@@ -27,12 +55,29 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
                         type="text"
                         list="matches"
                         placeholder="<%= gettext("Search...") %>"
-                        value="<%= @connecting_record_query %>"
+                        value="<%= @query %>"
                         onkeypress="window.scrollTo(0,0)"
                         phx-debounce="300" />
                     </p>
                   </form>
                 </p>
+              </div>
+            </div>
+            <div class="columns is-mobile">
+              <div class="column">
+                <%= for record <- @records do %>
+                  <a class="box" href="#" phx-click="execute_connect_records" phx-value-record_id="<%= record.id %>">
+                    <article class="media">
+                      <div class="media-content">
+                        <div class="content">
+                          <%= for %{id: column_id, name: column_name} <- @deer_columns do %>
+                            <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong>
+                          <% end %>
+                        </div>
+                      </div>
+                    </article>
+                  </a>
+                <% end %>
               </div>
             </div>
           </section>

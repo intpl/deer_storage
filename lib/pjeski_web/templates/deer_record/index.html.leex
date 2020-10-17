@@ -20,9 +20,11 @@
       @socket,
       PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent,
       id: "currently_connecting_record_component",
-      subscription_id: @current_subscription_id,
-      currently_connecting_record_id: @currently_connecting_record_id,
+      subscription: @current_subscription,
+      excluded_records_ids: [@currently_connecting_record_id], # FIXME
       connecting_record_query: @currently_connecting_record_query,
+      connecting_record_records: @currently_connecting_record_records,
+      connecting_record_selected_table_id: @currently_connecting_record_selected_table_id
     )
   @current_shared_record_uuid ->
     live_component(
@@ -130,18 +132,22 @@ end %>
           </div>
         <% end %>
 
-        <%= for record <- @records do %>
-          <a class="box <%= classes_for_record_box(@current_user.id, record, @current_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
-            <article class="media">
-              <div class="media-content">
-                <div class="content">
-                  <%= for %{id: column_id, name: column_name} <- deer_columns_from_subscription(@current_subscription, @table_id) do %>
+        <%= if assigns[:table_id] do %>
+          <% deer_columns = deer_columns_from_subscription(@current_subscription, @table_id) %>
+
+          <%= for record <- @records do %>
+            <a class="box <%= classes_for_record_box(@current_user.id, record, @current_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <%= for %{id: column_id, name: column_name} <- deer_columns do %>
                       <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong>
-                  <% end %>
+                    <% end %>
+                  </div>
                 </div>
-              </div>
-            </article>
-          </a>
+              </article>
+            </a>
+          <% end %>
         <% end %>
 
         <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
@@ -157,7 +163,8 @@ end %>
                 id: record.id,
                 record: record,
                 subscription: @current_subscription,
-                table_id: @table_id
+                table_id: @table_id,
+                connected_records: []
               )
             %>
 

@@ -30,6 +30,11 @@ defmodule Pjeski.DeerRecords do
     |> Repo.get_by!(id: id, subscription_id: subscription_id)
   end
 
+  def get_records!(subscription_id, []), do: []
+  def get_records!(subscription_id, ids) do
+    DeerRecord |> where([r], r.id in ^ids) |> where([r], r.subscription_id == ^subscription_id) |> Repo.all()
+  end
+
   def check_limits_and_create_record(%Subscription{deer_records_per_table_limit: limit} = subscription, attrs, cached_count) when cached_count < limit do
     create_record(subscription, attrs)
   end
