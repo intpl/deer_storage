@@ -158,7 +158,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   end
 
-  def handle_event("show", %{"record_id" => record_id}, %{assigns: %{records: records, current_records: current_records, current_subscription: subscription}} = socket) do
+  def handle_event("show", %{"record_id" => record_id}, %{assigns: %{records: records, current_records: current_records, current_subscription: subscription}} = socket) when length(current_records) < 10 do
     record = find_record_in_list_or_database(record_id, records, subscription)
     send(self(), {:fetch_connected_records_and_update_show_component, String.to_integer(record_id), record.connected_deer_records_ids})
 
