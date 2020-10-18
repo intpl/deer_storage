@@ -153,7 +153,7 @@ end %>
         <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
     </div>
 
-    <%= for record <- @current_records do %>
+    <%= for [record, connected_records] <- @current_records do %>
       <div class="column">
         <div class="sticky overwrite-padding-top-60">
           <article class="section">
@@ -164,7 +164,7 @@ end %>
                 record: record,
                 subscription: @current_subscription,
                 table_id: @table_id,
-                connected_records: []
+                connected_records: connected_records
               )
             %>
 

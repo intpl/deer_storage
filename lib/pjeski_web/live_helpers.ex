@@ -14,23 +14,32 @@ defmodule PjeskiWeb.LiveHelpers do
     end)
   end
 
-  def toggle_record_in_list([], record), do: [record]
-  def toggle_record_in_list(list, record) do
-    case Enum.find_index(list, fn %{id: id} -> record.id == id end) do
-      nil -> [record | list]
+  def update_current_record_with_connected_records(list, id, connected_records) do
+    case Enum.find_index(list, fn [%{id: record_id}, _old_connected_record] -> id == record_id end) do
+      nil -> list # this is neccessary due to race condition
+      idx ->
+        [record, _old_connected_records] = Enum.at(list, idx)
+        List.replace_at(list, idx, [record, connected_records])
+    end
+  end
+
+  def toggle_current_record_in_list([], current_record), do: [current_record]
+  def toggle_current_record_in_list(list, [%{id: record_id}, _] = current_record) do
+    case Enum.find_index(list, fn [%{id: id}, _connected_records] -> record_id == id end) do
+      nil -> [current_record | list]
       idx ->  List.delete_at(list, idx)
     end
   end
 
-  def maybe_update_record_in_list(list, record) do
-    case Enum.find_index(list, fn %{id: id} -> record.id == id end) do
+  def maybe_update_current_record_in_list(list, [record, connected_records] = current_record) do
+    case Enum.find_index(list, fn [%{id: id}, _connected_records] -> record.id == id end) do
       nil -> list
-      idx -> List.replace_at(list, idx, record)
+      idx -> List.replace_at(list, idx, current_record)
     end
   end
 
-  def maybe_delete_record_in_list(list, record_id) do
-    case Enum.find_index(list, fn %{id: id} -> record_id == id end) do
+  def maybe_delete_current_record_in_list(list, record_id) do
+    case Enum.find_index(list, fn [%{id: id}, _] -> record_id == id end) do
       nil -> list
       idx -> List.delete_at(list, idx)
     end
