@@ -14,6 +14,17 @@ defmodule PjeskiWeb.LiveHelpers do
     end)
   end
 
+  def maybe_delete_records_from_list_by_ids(list, ids) do
+    Enum.reject(list, fn %{id: id} -> Enum.member?(ids, id) end)
+  end
+
+  def maybe_delete_record_from_list_by_id(list, record_id) do
+    case Enum.find_index(list, fn %{id: id} -> record_id == id end) do
+      nil -> list
+      idx -> List.delete_at(list, idx)
+    end
+  end
+
   def update_current_record_with_connected_records(list, id, connected_records) do
     case Enum.find_index(list, fn [%{id: record_id}, _old_connected_record] -> id == record_id end) do
       nil -> list # this is neccessary due to race condition
@@ -38,7 +49,7 @@ defmodule PjeskiWeb.LiveHelpers do
     end
   end
 
-  def maybe_delete_current_record_in_list(list, record_id) do
+  def maybe_delete_current_record_from_list(list, record_id) do
     case Enum.find_index(list, fn [%{id: id}, _] -> record_id == id end) do
       nil -> list
       idx -> List.delete_at(list, idx)

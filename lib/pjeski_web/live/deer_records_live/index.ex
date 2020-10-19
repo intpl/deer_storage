@@ -8,7 +8,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     append_missing_fields_to_record: 3,
     is_expired?: 1,
     keys_to_atoms: 1,
-    maybe_delete_current_record_in_list: 2,
+    maybe_delete_record_from_list_by_id: 2,
+    maybe_delete_records_from_list_by_ids: 2,
+    maybe_delete_current_record_from_list: 2,
     maybe_update_current_record_in_list: 2,
     update_current_record_with_connected_records: 3,
     toggle_current_record_in_list: 2
@@ -291,7 +293,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   end
 
   def handle_info({:batch_record_delete, deleted_record_ids}, socket) do
-    %{current_subscription: current_subscription, table_id: table_id, query: query, page: page, current_records: current_records, editing_record: editing_record} = socket.assigns
+    %{records: records, current_records: current_records, editing_record: editing_record, currently_connecting_record_records: currently_connecting_record_records} = socket.assigns
 
     new_current_records = Enum.reject(current_records, fn [%{id: id}, _connected_records] -> Enum.member?(deleted_record_ids, id) end)
 
@@ -304,46 +306,49 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
                              end
                          end
 
-    records = search_records(current_subscription.id, table_id, query, page) # TODO: remove from list instead
+    records = maybe_delete_records_from_list_by_ids(records, deleted_record_ids)
 
     {:noreply, socket |> assign(
         editing_record: new_editing_record,
         current_records: new_current_records,
         records: records,
+        currently_connecting_record_records: maybe_delete_records_from_list_by_ids(currently_connecting_record_records, deleted_record_ids),
         count: length(records)
       )}
   end
 
   def handle_info({:record_delete, record_id}, socket) do
-    %{current_subscription: current_subscription, table_id: table_id, query: query, page: page, current_records: current_records, editing_record: editing_record} = socket.assigns
+    %{records: records, current_records: current_records, editing_record: editing_record, currently_connecting_record_records: currently_connecting_record_records} = socket.assigns
 
     new_editing_record = case editing_record do
                            nil -> nil
-                           ^record_id -> nil
+                           ^record_id -> nil # FIXME: co to kurwa jest?
                            _ -> editing_record
                          end
 
-    records = search_records(current_subscription.id, table_id, query, page) # TODO: remove from list instead
+    records = maybe_delete_record_from_list_by_id(records, record_id)
 
     {:noreply, socket |> assign(
         editing_record: new_editing_record,
-        current_records: maybe_delete_current_record_in_list(current_records, record_id),
+        current_records: maybe_delete_current_record_from_list(current_records, record_id),
+        currently_connecting_record_records: maybe_delete_record_from_list_by_id(currently_connecting_record_records, record_id),
         records: records,
         count: length(records)
       )}
   end
 
   def handle_info({:record_update, record}, %{assigns: assigns} = socket) do
-    %{current_records: current_records, records: records} = assigns
+    %{current_records: current_records, records: records, currently_connecting_record_records: currently_connecting_record_records} = assigns
 
     socket = maybe_assign_editing_record_if_changed(socket, record)
     current_records = maybe_update_current_record_in_list(current_records, [record, []])
-    records = replace_record_or_run_search_query(records, record, assigns)
+    records = replace_record_or_run_search_query(records, record, assigns, :records)
 
     maybe_send_fetch_connected_records(current_records, record)
 
     {:noreply, socket |> assign(
         current_records: current_records,
+        currently_connecting_record_records: replace_record_or_run_search_query(currently_connecting_record_records, record, assigns, :currently_connecting_record_records),
         records: records,
         count: length(records)
       )}
@@ -378,7 +383,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(cached_count: new_count)}
   end
 
-  defp replace_record_or_run_search_query(records, record, %{current_subscription: %{id: subscription_id}, table_id: table_id, query: query, page: page}) do
+  defp replace_record_or_run_search_query(currently_connected_record_records, record, %{current_subscription: %{id: subscription_id}, currently_connecting_record_selected_table_id: currently_connecting_record_selected_table_id, currently_connecting_record_query: currently_connecting_record_query}, :currently_connecting_record_records) do
+    case Enum.find_index(currently_connected_record_records, fn %{id: id} -> record.id == id end) do
+      nil -> search_records(subscription_id, currently_connecting_record_selected_table_id, currently_connecting_record_query, 1) # TODO: pagination
+      idx -> List.replace_at(currently_connected_record_records, idx, record)
+    end
+  end
+
+  defp replace_record_or_run_search_query(records, record, %{current_subscription: %{id: subscription_id}, table_id: table_id, query: query, page: page}, :records) do
     case Enum.find_index(records, fn %{id: id} -> record.id == id end) do
       nil -> search_records(subscription_id, table_id, query, page)
       idx -> List.replace_at(records, idx, record)
