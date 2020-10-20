@@ -42,7 +42,9 @@
       changeset: @editing_record,
       subscription: @current_subscription,
       table_id: @table_id,
-      table_name: @table_name
+      table_name: @table_name,
+      editing_record_has_been_removed: @editing_record_has_been_removed,
+      editing_record_has_been_updated_data: @editing_record_has_been_updated_data
     )
   @new_record ->
     live_component(

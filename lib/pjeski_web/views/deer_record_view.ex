@@ -4,6 +4,19 @@ defmodule PjeskiWeb.DeerRecordView do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
+  def compare_deer_fields_from_changeset_with_record(changeset, record) do
+    changeset_deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
+
+    Enum.reduce(changeset_deer_fields, [], fn %{deer_column_id: column_id, content: content}, acc ->
+      record_deer_field = Enum.find(record.deer_fields, fn df -> df.deer_column_id == column_id end)
+
+      case record_deer_field.content != content do
+        true -> acc ++ [column_id]
+        false -> acc
+      end
+    end)
+  end
+
   def shared_record_days_to_expire(shared_record) do
     floor(DateTime.diff(shared_record.expires_on, DateTime.utc_now, :second) / 86_400)
   end

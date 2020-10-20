@@ -46,6 +46,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
 
                     <div class="field-body">
                       <div class="field">
+
+      <%# TO JEST GOWNO %>
                         <input id="deer_record_deer_fields_<%= index %>_deer_column_id" name="deer_record[deer_fields][<%= index %>][deer_column_id]" type="hidden" value="<%= column_id %>">
                         <input class="input" id="deer_record_deer_fields_<%= index %>_content" name="deer_record[deer_fields][<%= index %>][content]" type="text" value="<%= value %>">
                       </div>
@@ -56,8 +58,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
             </section>
 
             <footer class="modal-card-foot">
-              <%# FIXME = if @changeset.valid? do %>
-              <%= if assigns.can_create_records do %>
+              <%= if @changeset.valid? && assigns.can_create_records do %>
                 <%= submit gettext("Create record"), class: "button is-success" %>
               <% end %>
 

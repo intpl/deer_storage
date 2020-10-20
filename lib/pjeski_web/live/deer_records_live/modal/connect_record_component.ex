@@ -66,7 +66,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
             <div class="columns is-mobile">
               <div class="column">
                 <%= for record <- @records do %>
-                  <a class="box" href="#" phx-click="execute_connect_records" phx-value-record_id="<%= record.id %>">
+                  <a class="box" href="#" phx-click="connect_records" phx-value-record_id="<%= record.id %>">
                     <article class="media">
                       <div class="media-content">
                         <div class="content">
