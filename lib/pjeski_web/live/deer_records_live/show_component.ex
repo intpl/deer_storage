@@ -68,7 +68,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             <article class="message">
               <div class="message-header">
                 <p><%= table_name %></p>
-                <a class="button is-danger is-outlined is-light" href="#" phx-click="disconnect_records" phx-value-current_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
+                <a class="button is-danger is-outlined is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
                   <%= gettext("Disconnect") %>
                 </a>
               </div>

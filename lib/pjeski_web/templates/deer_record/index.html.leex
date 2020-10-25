@@ -103,13 +103,13 @@ end %>
         </p>
       </div>
       <div class="is-hidden-mobile">
-        <%= if (current_records_count = length(@current_records)) > 0 do %>
-          <%= gettext("They are %{count} records selected.", count: current_records_count) %>
+        <%= if (opened_records_count = length(@opened_records)) > 0 do %>
+          <%= gettext("They are %{count} records selected.", count: opened_records_count) %>
           |
           <a href="#" phx-click="clear_selected"><%= gettext("Unselect") %></a>
           |
-          <a href="#" phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: current_records_count) %>">
-            <%= gettext("Delete all (%{count})", count: current_records_count) %>
+          <a href="#" phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: opened_records_count) %>">
+            <%= gettext("Delete all (%{count})", count: opened_records_count) %>
           </a>
         <% else %>
           <br>
@@ -119,7 +119,7 @@ end %>
   </div>
 
   <div class="columns is-mobile">
-    <div class="column <%= if length(@current_records) > 0, do: "is-hidden-mobile is-half-tablet" %>">
+    <div class="column <%= if length(@opened_records) > 0, do: "is-hidden-mobile is-half-tablet" %>">
         <%= if @count == 0 do %>
           <div class="section">
             <h1 class="title has-text-grey-light has-text-centered">
@@ -138,7 +138,7 @@ end %>
           <% deer_columns = deer_columns_from_subscription(@current_subscription, @table_id) %>
 
           <%= for record <- @records do %>
-            <a class="box <%= classes_for_record_box(@current_user.id, record, @current_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
+            <a class="box <%= classes_for_record_box(@current_user.id, record, @opened_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
               <article class="media">
                 <div class="media-content">
                   <div class="content">
@@ -155,7 +155,7 @@ end %>
         <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
     </div>
 
-    <%= for [record, connected_records] <- @current_records do %>
+    <%= for [record, connected_records] <- @opened_records do %>
       <div class="column">
         <div class="sticky overwrite-padding-top-60">
           <article class="section">

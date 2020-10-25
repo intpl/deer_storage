@@ -58,17 +58,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     assign(socket, currently_connecting_record_records: new_records) # add count
   end
 
-  # TODO: current_records => opened_records
-
   def assign_records_after_update(%{assigns: %{current_subscription: %{id: subscription_id}, table_id: table_id, query: query, page: page, records: records}} = socket, updated_record) do
     new_records = try_to_replace_record(records, updated_record) || search_records(subscription_id, table_id, query, page)
 
     assign(socket, records: new_records, count: length(new_records))
   end
 
-  def assign_current_records_after_update(%{assigns: %{current_records: []}} = socket, _), do: socket
-  def assign_current_records_after_update(%{assigns: %{current_records: current_records}} = socket, %{id: updated_record_id} = updated_record) do
-    new_current_records = reduce_current_records_with_function(current_records, fn record ->
+  def assign_opened_records_after_update(%{assigns: %{opened_records: []}} = socket, _), do: socket
+  def assign_opened_records_after_update(%{assigns: %{opened_records: opened_records}} = socket, %{id: updated_record_id} = updated_record) do
+    new_opened_records = reduce_opened_records_with_function(opened_records, fn record ->
       case record.id do
         ^updated_record_id ->
           maybe_send_assign_connected_records(record, updated_record)
@@ -78,7 +76,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
       end
     end)
 
-    assign(socket, current_records: new_current_records)
+    assign(socket, opened_records: new_opened_records)
   end
 
 
@@ -110,13 +108,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     assign(socket, records: new_records, count: length(new_records))
   end
 
-  def assign_current_records_after_delete(%{assigns: %{current_records: []}} = socket, _), do: socket
-  def assign_current_records_after_delete(%{assigns: %{current_records: current_records}} = socket, id) when is_number(id) do
-    assign(socket, current_records: reduce_current_records_with_function(current_records, fn record -> unless(id == record.id, do: record) end))
+  def assign_opened_records_after_delete(%{assigns: %{opened_records: []}} = socket, _), do: socket
+  def assign_opened_records_after_delete(%{assigns: %{opened_records: opened_records}} = socket, id) when is_number(id) do
+    assign(socket, opened_records: reduce_opened_records_with_function(opened_records, fn record -> unless(id == record.id, do: record) end))
   end
 
-  def assign_current_records_after_delete(%{assigns: %{current_records: current_records}} = socket, ids) when is_list(ids) do
-    assign(socket, current_records: reduce_current_records_with_function(current_records, fn record -> unless(Enum.member?(ids, record.id), do: record) end))
+  def assign_opened_records_after_delete(%{assigns: %{opened_records: opened_records}} = socket, ids) when is_list(ids) do
+    assign(socket, opened_records: reduce_opened_records_with_function(opened_records, fn record -> unless(Enum.member?(ids, record.id), do: record) end))
   end
 
   def assign_currently_connecting_records_and_count_after_delete(%{assigns: %{currently_connecting_record_records: []}} = socket, _), do: socket
@@ -141,7 +139,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     end
   end
 
-  def update_current_record_with_connected_records(list, id, connected_records) do
+  def update_opened_record_with_connected_records(list, id, connected_records) do
     case Enum.find_index(list, fn [%{id: record_id}, _old_connected_record] -> id == record_id end) do
       nil -> list # this is neccessary due to race condition after toggling two times quickly
       idx ->
@@ -150,16 +148,16 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     end
   end
 
-  def toggle_current_record_in_list([], current_record), do: [current_record]
-  def toggle_current_record_in_list(list, [%{id: record_id}, _] = current_record) do
+  def toggle_opened_record_in_list([], opened_record), do: [opened_record]
+  def toggle_opened_record_in_list(list, [%{id: record_id}, _] = opened_record) do
     case Enum.find_index(list, fn [%{id: id}, _connected_records] -> record_id == id end) do
-      nil -> [current_record | list]
+      nil -> [opened_record | list]
       idx ->  List.delete_at(list, idx)
     end
   end
 
-  def reduce_current_records_with_function(current_records, function) do
-    Enum.reduce(current_records, [], fn [record, connected_records], acc_list ->
+  def reduce_opened_records_with_function(opened_records, function) do
+    Enum.reduce(opened_records, [], fn [record, connected_records], acc_list ->
       case function.(record) do
         nil -> acc_list
         reduced_record -> acc_list ++ [
@@ -178,14 +176,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     end)
   end
 
-  def maybe_update_current_record_in_list(list, [record, _connected_records] = current_record) do
+  def maybe_update_opened_record_in_list(list, [record, _connected_records] = opened_record) do
     case Enum.find_index(list, fn [%{id: id}, _connected_records] -> record.id == id end) do
       nil -> list
-      idx -> List.replace_at(list, idx, current_record)
+      idx -> List.replace_at(list, idx, opened_record)
     end
   end
 
-  def maybe_delete_current_record_from_list(list, record_id) do
+  def maybe_delete_opened_record_from_list(list, record_id) do
     case Enum.find_index(list, fn [%{id: id}, _] -> record_id == id end) do
       nil -> list
       idx -> List.delete_at(list, idx)
@@ -202,8 +200,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     Map.merge(record, %{deer_fields: record.deer_fields ++ missing_fields})
   end
 
-  def handle_delete_all_opened_records(%{assigns: %{current_records: current_records, current_subscription: subscription, table_id: table_id}} = socket) do
-    ids = Enum.map(current_records, fn [record, _connected_records] -> record.id end)
+  def handle_delete_all_opened_records(%{assigns: %{opened_records: opened_records, current_subscription: subscription, table_id: table_id}} = socket) do
+    ids = Enum.map(opened_records, fn [record, _connected_records] -> record.id end)
     {:ok, _deleted_count} = batch_delete_records(subscription, table_id, ids)
 
     socket
@@ -246,8 +244,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     socket
   end
 
-  def handle_disconnecting_records(%{assigns: %{current_records: current_records, current_subscription: subscription}} = socket, record1_id, record2_id) do
-    [record1, connected_records] = Enum.find(current_records, fn [record, _connected_records] -> record.id == record1_id end)
+  def handle_disconnecting_records(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record1_id, record2_id) do
+    [record1, connected_records] = Enum.find(opened_records, fn [record, _connected_records] -> record.id == record1_id end)
     record2 = Enum.find(connected_records, fn record -> record.id == record2_id end)
 
     disconnect_records!(record1, record2, subscription.id)
@@ -255,8 +253,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     socket
   end
 
-  def handle_connecting_records(%{assigns: %{current_records: current_records, currently_connecting_record_id: currently_connecting_record_id, currently_connecting_record_records: connecting_record_records, current_subscription: subscription}} = socket, selected_record_id) do
-    [record1, _connected_records] = Enum.find(current_records, fn [record, _connected_records] -> record.id == currently_connecting_record_id end)
+  def handle_connecting_records(%{assigns: %{opened_records: opened_records, currently_connecting_record_id: currently_connecting_record_id, currently_connecting_record_records: connecting_record_records, current_subscription: subscription}} = socket, selected_record_id) do
+    [record1, _connected_records] = Enum.find(opened_records, fn [record, _connected_records] -> record.id == currently_connecting_record_id end)
     record2 = Enum.find(connecting_record_records, fn record -> record.id == selected_record_id end)
 
     connect_records!(record1, record2, subscription.id)
@@ -270,19 +268,19 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
     assign(socket, current_shared_record_uuid: uuid)
   end
 
-  def assign_opened_record_and_fetch_connected_records(%{assigns: %{records: records, current_records: current_records, current_subscription: subscription}} = socket, record_id) when length(current_records) < 50 do
+  def assign_opened_record_and_fetch_connected_records(%{assigns: %{records: records, opened_records: opened_records, current_subscription: subscription}} = socket, record_id) when length(opened_records) < 50 do
     record = find_record_in_list_or_database(subscription, records, record_id)
-    current_records = toggle_current_record_in_list(current_records, [record, []])
+    opened_records = toggle_opened_record_in_list(opened_records, [record, []])
 
     send(self(), {:assign_connected_records_to_record, record.id, record.connected_deer_records_ids})
 
-    assign(socket, current_records: current_records)
+    assign(socket, opened_records: opened_records)
   end
 
-  def assign_connected_records_to_record(%{assigns: %{current_subscription: subscription, current_records: current_records}} = socket, record_id, ids) do
-    new_current_records = update_current_record_with_connected_records(current_records, record_id, get_records!(subscription.id, ids))
+  def assign_connected_records_to_record(%{assigns: %{current_subscription: subscription, opened_records: opened_records}} = socket, record_id, ids) do
+    new_opened_records = update_opened_record_with_connected_records(opened_records, record_id, get_records!(subscription.id, ids))
 
-    assign(socket, current_records: new_current_records)
+    assign(socket, opened_records: new_opened_records)
   end
 
   def assign_saved_record(%{assigns: %{current_subscription: subscription, table_id: table_id, cached_count: cached_count}} = socket, attrs) do
@@ -382,7 +380,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.Helpers do
 
   def assign_initial_mount_data(socket, user, current_subscription_id) do
     assign(socket,
-      current_records: [],
+      opened_records: [],
       editing_record: nil,
       editing_record_has_been_removed: false,
       editing_record_has_been_updated_data: nil,

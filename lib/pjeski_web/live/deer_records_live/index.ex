@@ -31,15 +31,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     end
   end
 
-  def handle_event("close_show", %{"id" => id_string}, %{assigns: %{current_records: current_records}} = socket) do
-    {:noreply, socket |> assign(current_records: toggle_current_record_in_list(current_records, [%{id: String.to_integer(id_string)}, []]))}
+  def handle_event("close_show", %{"id" => id_string}, %{assigns: %{opened_records: opened_records}} = socket) do
+    {:noreply, socket |> assign(opened_records: toggle_opened_record_in_list(opened_records, [%{id: String.to_integer(id_string)}, []]))}
   end
 
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
   def handle_event("close_shared_record", _, socket), do: {:noreply, socket |> assign(current_shared_record_uuid: nil)}
   def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(currently_connecting_record_id: nil, currently_connecting_record_query: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, assign_closed_editing_record(socket)}
-  def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :current_records, [])}
+  def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :opened_records, [])}
 
   def handle_event("validate_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_editing_record(socket, attrs)}
   def handle_event("validate_new", %{"deer_record" => attrs}, socket), do: {:noreply, assign_new_record(socket, attrs)}
@@ -58,8 +58,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("connecting_record_filter", %{"query" => query, "table_id" => new_table_id}, socket), do: {:noreply, assign_filtered_connected_records(socket, query, new_table_id)}
   def handle_event("connect_records", %{"record_id" => record_id}, socket), do: {:noreply, handle_connecting_records(socket, String.to_integer(record_id))}
-  def handle_event("disconnect_records", %{"current_record_id" => current_record_id, "connected_record_id" => connected_record_id}, socket) do
-    {:noreply, handle_disconnecting_records(socket, String.to_integer(current_record_id), String.to_integer(connected_record_id))}
+  def handle_event("disconnect_records", %{"opened_record_id" => opened_record_id, "connected_record_id" => connected_record_id}, socket) do
+    {:noreply, handle_disconnecting_records(socket, String.to_integer(opened_record_id), String.to_integer(connected_record_id))}
   end
 
   def handle_event("delete_selected", _, socket), do: {:noreply, handle_delete_all_opened_records(socket)}
@@ -86,7 +86,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     socket = socket
     |> assign_records_after_update(record)
     |> assign_currently_connected_records_after_update(record)
-    |> assign_current_records_after_update(record)
+    |> assign_opened_records_after_update(record)
     |> assign_editing_record_after_update(record)
 
     {:noreply, socket}
@@ -95,7 +95,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   defp remove_record_from_assigns(socket, id_or_ids) do
     socket
     |> assign_records_and_count_after_delete(id_or_ids)
-    |> assign_current_records_after_delete(id_or_ids)
+    |> assign_opened_records_after_delete(id_or_ids)
     |> assign_currently_connecting_records_and_count_after_delete(id_or_ids)
     |> assign_editing_record_after_delete(id_or_ids)
   end
