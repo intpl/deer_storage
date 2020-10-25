@@ -1,9 +1,10 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index do
   use Phoenix.LiveView
+  alias Phoenix.PubSub
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
-
-  import PjeskiWeb.DeerRecordsLive.Index.Helpers
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, Records, OpenedRecords, ConnectingRecords}
+  import Pjeski.DbHelpers.DeerRecordsSearch, only: [per_page: 0]
 
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
     user = get_live_user(socket, session)
@@ -11,7 +12,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
     if connected?(socket), do: subscribe_to_user_channels(token, user.id)
 
-    {:ok, assign_initial_mount_data(socket, user, subscription_id)}
+    {:ok, assign_initial_data(socket, user, subscription_id)}
   end
 
   def render(assigns), do: PjeskiWeb.DeerRecordView.render("index.html", assigns)
@@ -43,11 +44,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("validate_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_editing_record(socket, attrs)}
   def handle_event("validate_new", %{"deer_record" => attrs}, socket), do: {:noreply, assign_new_record(socket, attrs)}
-  def handle_event("save_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_updated_record(socket, attrs)}
-  def handle_event("save_new", %{"deer_record" => attrs}, socket), do: {:noreply, assign_saved_record(socket, attrs)}
-  def handle_event("move_editing_record_data_to_new_record", _, socket) do
-    {:noreply, socket |> copy_editing_record_to_new_record |> assign_closed_editing_record}
-  end
+  def handle_event("save_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_saved_editing_record(socket, attrs)}
+  def handle_event("save_new", %{"deer_record" => attrs}, socket), do: {:noreply, assign_created_record(socket, attrs)}
+  def handle_event("move_editing_record_data_to_new_record", _, socket), do: {:noreply, socket |> copy_editing_record_to_new_record}
 
   def handle_event("show_connect_record_modal", %{"record_id" => record_id}, socket), do: {:noreply, assign_modal_for_connecting_records(socket, record_id)}
   def handle_event("show", %{"record_id" => record_id}, socket), do: {:noreply, assign_opened_record_and_fetch_connected_records(socket, record_id)}
@@ -62,9 +61,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, handle_disconnecting_records(socket, String.to_integer(opened_record_id), String.to_integer(connected_record_id))}
   end
 
-  def handle_event("delete_selected", _, socket), do: {:noreply, handle_delete_all_opened_records(socket)}
-  def handle_event("delete", %{"record_id" => record_id}, socket), do: {:noreply, handle_delete_record(socket, record_id)}
-  def handle_event("delete_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, handle_file_delete(socket, record_id, file_id)}
+  def handle_event("delete_selected", _, socket), do: {:noreply, dispatch_delete_selected_records(socket)}
+  def handle_event("delete", %{"record_id" => record_id}, socket), do: {:noreply, dispatch_delete_record(socket, record_id)}
+  def handle_event("delete_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, dispatch_delete_file(socket, record_id, file_id)}
 
   def handle_event("clear", _, socket), do: {:noreply, run_search_query_and_assign_results(socket, "", 1)}
   def handle_event("filter", %{"query" => query}, socket) when byte_size(query) <= 50, do: {:noreply, run_search_query_and_assign_results(socket, query, 1)}
@@ -78,7 +77,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
   def handle_info({:subscription_updated, subscription}, socket), do: {:noreply, assign_updated_subscription(socket, subscription)}
   def handle_info({:cached_records_count_changed, _table_id, new_count}, %{assigns: %{cached_count: _}} = socket), do: {:noreply, socket |> assign(cached_count: new_count)}
-  def handle_info({:assign_connected_records_to_record, record_id, ids}, socket), do: {:noreply, assign_connected_records_to_record(socket, record_id, ids)}
+  def handle_info({:assign_connected_records_to_opened_record, record_id, ids}, socket), do: {:noreply, assign_connected_records_to_opened_record(socket, record_id, ids)}
   def handle_info({:batch_record_delete, deleted_records_ids}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_records_ids)}
   def handle_info({:record_delete, deleted_record_id}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_record_id)}
 
@@ -86,7 +85,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     socket = socket
     |> assign_records_after_update(record)
     |> assign_currently_connected_records_after_update(record)
-    |> assign_opened_records_after_update(record)
+    |> assign_opened_records_after_record_update(record)
     |> assign_editing_record_after_update(record)
 
     {:noreply, socket}
@@ -98,5 +97,43 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_opened_records_after_delete(id_or_ids)
     |> assign_currently_connecting_records_and_count_after_delete(id_or_ids)
     |> assign_editing_record_after_delete(id_or_ids)
+  end
+
+  defp assign_initial_data(socket, user, current_subscription_id) do
+    assign(socket,
+      opened_records: [],
+      editing_record: nil,
+      editing_record_has_been_removed: false,
+      editing_record_has_been_updated_data: nil,
+      new_record: nil,
+      table_name: nil,
+      page: 1,
+      per_page: per_page(),
+      cached_count: 0,
+      current_user: user,
+      current_subscription: nil,
+      current_subscription_id: current_subscription_id,
+      current_subscription_name: nil,
+      current_subscription_tables: [],
+      current_subscription_deer_records_per_table_limit: 0,
+      current_shared_record_uuid: nil,
+      currently_connecting_record_id: nil,
+      currently_connecting_record_query: nil,
+      currently_connecting_record_records: [],
+      currently_connecting_record_selected_table_id: nil,
+      storage_limit_kilobytes: 0,
+      locale: user.locale
+    )
+  end
+
+  defp subscribe_to_user_channels(token, user_id) do
+    PubSub.subscribe(Pjeski.PubSub, "session_#{token}")
+    PubSub.subscribe(Pjeski.PubSub, "user_#{user_id}")
+  end
+
+  defp subscribe_to_deer_channels(subscription_id, table_id) do
+    PubSub.subscribe(Pjeski.PubSub, "record:#{subscription_id}:#{table_id}")
+    PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+    PubSub.subscribe(Pjeski.PubSub, "records_counts:#{table_id}")
   end
 end

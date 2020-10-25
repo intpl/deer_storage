@@ -30,7 +30,7 @@ defmodule Pjeski.DeerRecords do
     |> Repo.get_by!(id: id, subscription_id: subscription_id)
   end
 
-  def get_records!(subscription_id, []), do: []
+  def get_records!(_subscription_id, []), do: []
   def get_records!(subscription_id, ids) do
     DeerRecord |> where([r], r.id in ^ids) |> where([r], r.subscription_id == ^subscription_id) |> Repo.all()
   end
