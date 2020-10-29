@@ -3,7 +3,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
-  import PjeskiWeb.DeerRecordView, only: [deer_columns_from_subscription: 2, deer_field_content_from_column_id: 2, compare_deer_fields_from_changeset_with_record: 2]
+  import PjeskiWeb.DeerRecordView, only: [deer_columns_from_subscription: 2, deer_field_content_from_column_id: 2]
 
   def update(%{changeset: changeset} = assigns, socket) do
     deer_columns = deer_columns_from_subscription(assigns.subscription, assigns.table_id)
@@ -23,7 +23,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
       prepared_fields: deer_columns |> Enum.with_index |> Enum.map(prepare_field),
       table_name: assigns.table_name,
       editing_record_has_been_removed: assigns.editing_record_has_been_removed,
-      editing_record_has_been_updated_data: assigns.editing_record_has_been_updated_data
+      old_editing_record: assigns.old_editing_record
     )}
   end
 
@@ -57,10 +57,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
             </section>
 
               <%= cond do %>
-                <% @editing_record_has_been_updated_data -> %>
-                  <% updated_record = @editing_record_has_been_updated_data %>
-                  <% different_fields_ids = compare_deer_fields_from_changeset_with_record(@changeset, updated_record) %>
-
+                <% @old_editing_record -> %>
                   <div class="modal-card-body">
                     <p class="has-text-weight-semibold has-text-danger">
                       <%= gettext("This record has been updated while you were editing it.") %><br /><br />
@@ -73,16 +70,21 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
                     <br />
 
                     <ul>
+                      <% changeset_deer_fields = Ecto.Changeset.fetch_field!(@changeset, :deer_fields) %>
+                      <% old_deer_fields = Ecto.Changeset.fetch_field!(@old_editing_record, :deer_fields) %>
                       <%= Enum.map(@deer_columns, fn %{id: column_id, name: column_name} -> %>
                         <li>
                           <strong><%= column_name %>:</strong>
-                            <%= if Enum.member?(different_fields_ids, column_id) do %>
-                              <span class="has-text-weight-semibold has-text-danger">
-                                <%= deer_field_content_from_column_id(updated_record, column_id) %>
-                              </span>
-                            <% else %>
-                              <%= deer_field_content_from_column_id(updated_record, column_id) %>
-                            <% end %>
+                          <% old_content = deer_field_content_from_column_id(old_deer_fields, column_id) %>
+                          <% changeset_content = deer_field_content_from_column_id(changeset_deer_fields, column_id) %>
+
+                          <%= if old_content == changeset_content do %>
+                            <%= old_content %>
+                          <% else %>
+                            <span class="has-text-weight-semibold has-text-danger">
+                              <%= old_content %>
+                            </span>
+                          <% end %>
                         </li>
                       <% end) %>
                     </ul>

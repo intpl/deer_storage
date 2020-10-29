@@ -3,25 +3,24 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
 
   alias Pjeski.DeerRecords.DeerField
 
-  import PjeskiWeb.DeerRecordView, only: [compare_deer_fields_from_changeset_with_record: 2]
-  import Phoenix.LiveView, only: [assign: 2, assign: 3]
+  import PjeskiWeb.DeerRecordView, only: [different_deer_fields: 2]
+  import Phoenix.LiveView, only: [assign: 2]
 
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2]
   import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3]
 
-  import Ecto.Changeset, only: [fetch_field!: 2, change: 2]
-  import Phoenix.LiveView, only: [assign: 2]
+  import Ecto.Changeset, only: [fetch_field!: 2, change: 1, put_embed: 3, apply_changes: 1]
 
-  def assign_closed_editing_record(socket), do: assign(socket, editing_record: nil, editing_record_has_been_removed: false, editing_record_has_been_updated_data: nil)
+  def assign_closed_editing_record(socket), do: assign(socket, editing_record: nil, editing_record_has_been_removed: false, old_editing_record: nil)
 
-  def assign_editing_record_after_update(%{assigns: %{editing_record: %{data: %{id: record_id}} = editing_record}} = socket, %{id: record_id} = updated_record) do
-    case Enum.any?(compare_deer_fields_from_changeset_with_record(editing_record, updated_record)) do
-      true -> assign_error_editing_record_updated(socket, updated_record)
-      false ->
-        deer_fields = fetch_field!(editing_record, :deer_fields)
-        changeset = change(updated_record, %{deer_fields: deer_fields})
+  def assign_editing_record_after_update(%{assigns: %{editing_record: %{data: %{id: record_id}} = old_editing_record_changeset}} = socket, %{id: record_id} = record_in_database) do
+    new_editing_record_changeset = overwrite_deer_fields(record_in_database, fetch_field!(old_editing_record_changeset, :deer_fields))
 
-        assign(socket, editing_record: changeset)
+    socket = assign(socket, editing_record: new_editing_record_changeset)
+
+    case Enum.any?(different_deer_fields(new_editing_record_changeset, record_in_database)) do
+      true -> assign(socket, old_editing_record: change(record_in_database))
+      false -> socket
     end
   end
 
@@ -54,10 +53,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
     atomized_attrs = atomize_and_merge_table_id_to_attrs(attrs, table_id)
 
     {:ok, _} = update_record(subscription, record.data, atomized_attrs)
-    socket |> assign(
-      editing_record: nil,
-      editing_record_has_been_updated_data: nil
-    )
+    assign(socket, editing_record: nil, old_editing_record: nil)
   end
 
   def assign_editing_record(%{assigns: %{current_subscription: subscription, table_id: table_id, editing_record: editing_record}} = socket, attrs) do
@@ -69,7 +65,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   end
 
   defp assign_error_editing_record_removed(socket), do: assign(socket, editing_record_has_been_removed: true)
-  defp assign_error_editing_record_updated(socket, record), do: assign(socket, editing_record_has_been_updated_data: record)
 
   defp append_missing_fields_to_record(record, table_id, subscription) do
     table = Enum.find(subscription.deer_tables, fn dt -> dt.id == table_id end)
@@ -79,5 +74,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
     missing_fields = (table_columns_ids -- fields_ids) |> Enum.map(fn id -> %DeerField{deer_column_id: id, content: nil} end)
 
     Map.merge(record, %{deer_fields: record.deer_fields ++ missing_fields})
+  end
+
+  defp overwrite_deer_fields(record, deer_fields) do
+    record
+    |> change
+    |> put_embed(:deer_fields, [])
+    |> apply_changes
+    |> change
+    |> put_embed(:deer_fields, deer_fields)
   end
 end

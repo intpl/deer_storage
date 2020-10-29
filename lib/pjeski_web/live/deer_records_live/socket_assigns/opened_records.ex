@@ -92,7 +92,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   end
 
   def handle_disconnecting_records(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record1_id, record2_id) do
-    [record1, connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record1_id))
+    [record1, connected_records] = find_record_in_opened_records(opened_records, record1_id)
     record2 = Enum.find(connected_records, fn record -> record.id == record2_id end)
 
     disconnect_records!(record1, record2, subscription.id)
@@ -100,7 +100,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     socket
   end
 
-  def assign_connected_records_to_opened_record(socket, _record_id, []), do: socket
   def assign_connected_records_to_opened_record(%{assigns: %{current_subscription: subscription, opened_records: opened_records}} = socket, record_id, ids) do
     new_opened_records = update_opened_record_with_connected_records(opened_records, record_id, get_records!(subscription.id, ids))
 

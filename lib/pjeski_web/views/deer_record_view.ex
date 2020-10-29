@@ -1,13 +1,15 @@
 defmodule PjeskiWeb.DeerRecordView do
   use PjeskiWeb, :view
 
+  import Ecto.Changeset, only: [fetch_field!: 2]
+
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
-  def compare_deer_fields_from_changeset_with_record(changeset, record) do
-    changeset_deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
+  def different_deer_fields(changeset, record) do
+    deer_fields = fetch_field!(changeset, :deer_fields)
 
-    Enum.reduce(changeset_deer_fields, [], fn %{deer_column_id: column_id, content: content}, acc ->
+    Enum.reduce(deer_fields, [], fn %{deer_column_id: column_id, content: content}, acc ->
       record_deer_field = Enum.find(record.deer_fields, fn df -> df.deer_column_id == column_id end)
 
       case record_deer_field.content != content do
@@ -32,7 +34,8 @@ defmodule PjeskiWeb.DeerRecordView do
     Enum.find(deer_columns, fn column -> column.id == column_id end).name
   end
 
-  def deer_field_content_from_column_id(%DeerRecord{deer_fields: deer_fields}, column_id) do
+  def deer_field_content_from_column_id(%DeerRecord{deer_fields: deer_fields}, column_id), do: deer_field_content_from_column_id(deer_fields, column_id)
+  def deer_field_content_from_column_id(deer_fields, column_id) when is_list(deer_fields) do
     case Enum.find(deer_fields, fn field -> field.deer_column_id == column_id end) do
       nil -> nil
       field -> field.content

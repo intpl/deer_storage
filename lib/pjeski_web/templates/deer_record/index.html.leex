@@ -15,16 +15,16 @@
 <% end %>
 
 <%= cond do
-  @currently_connecting_record_id ->
+  @connecting_id ->
     live_component(
       @socket,
       PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent,
-      id: "currently_connecting_record_component",
+      id: "connecting_component",
       subscription: @current_subscription,
-      excluded_records_ids: [@currently_connecting_record_id], # FIXME
-      connecting_record_query: @currently_connecting_record_query,
-      connecting_record_records: @currently_connecting_record_records,
-      connecting_record_selected_table_id: @currently_connecting_record_selected_table_id
+      excluded_records_ids: [@connecting_id], # FIXME
+      connecting_record_query: @connecting_query,
+      connecting_record_records: @connecting_records,
+      connecting_record_selected_table_id: @connecting_selected_table_id
     )
   @current_shared_record_uuid ->
     live_component(
@@ -44,7 +44,7 @@
       table_id: @table_id,
       table_name: @table_name,
       editing_record_has_been_removed: @editing_record_has_been_removed,
-      editing_record_has_been_updated_data: @editing_record_has_been_updated_data
+      old_editing_record: @old_editing_record
     )
   @new_record ->
     live_component(

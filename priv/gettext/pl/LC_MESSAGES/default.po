@@ -842,8 +842,8 @@ msgstr "Na pewno USUNĄĆ ten rekord?"
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:96 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:113
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:119 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:123
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:98 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:115
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:121 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:125
 #: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:65 lib/pjeski_web/templates/deer_dashboard/index.html.leex:29
 msgid "Cancel"
 msgstr "Anuluj"
@@ -870,7 +870,7 @@ msgid "New record"
 msgstr "Nowy rekord"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:118
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:120
 msgid "Save changes"
 msgstr "Zapisz zmiany"
 
@@ -1155,7 +1155,7 @@ msgid "This link will expire in %{days} days"
 msgstr "Ten link wygaśnie za %{days} dni"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:106
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:108
 msgid "All uploaded files for this record are removed and record connections are lost."
 msgstr "Wszystkie wgrane pliki dla tego rekordu zostały usunięte i połączenia między tym rekordem już nie istnieją"
 
@@ -1164,43 +1164,43 @@ msgstr "Wszystkie wgrane pliki dla tego rekordu zostały usunięte i połączeni
 msgid "Are you sure you want to unlink these records from each other?"
 msgstr "Czy na pewno odłączyć od siebie te rekordy?"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:88
 msgid "Connect a record"
 msgstr "Połącz"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:30
 msgid "Connect record"
 msgstr "Połącz"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:94
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:112
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:96
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:114
 msgid "Open form to create new record with this data"
 msgstr "Otwórz formularz nowego rekordu"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:92
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:94
 msgid "Overwrite displayed changes"
 msgstr "Nadpisz wyświetlone zmiany"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:102
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:104
 msgid "This record has been removed while you were editing it."
 msgstr "Ten rekord został usunięty w trakcie, kiedy go edytowałeś"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:66
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:63
 msgid "This record has been updated while you were editing it."
 msgstr "Ten rekord został zaktualizowany w trakcie, kiedy go edytowałeś"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:70
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:67
 msgid "You can overwrite the following changes or copy your changes to an entirely new record."
 msgstr "Możesz nadpisać poniższe zmiany lub skopiować Twoje dane do nowego rekordu"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:107
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:109
 msgid "You can still save this form data, but it will appear as a new record."
 msgstr "Możesz w dalszym ciągu zapisać ten rekord jako zupełnie nowy."

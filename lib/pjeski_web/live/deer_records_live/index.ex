@@ -38,7 +38,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
   def handle_event("close_shared_record", _, socket), do: {:noreply, socket |> assign(current_shared_record_uuid: nil)}
-  def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(currently_connecting_record_id: nil, currently_connecting_record_query: nil)}
+  def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(connecting_id: nil, connecting_query: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, assign_closed_editing_record(socket)}
   def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :opened_records, [])}
 
@@ -84,7 +84,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_info({:record_update, record}, socket) do
     socket = socket
     |> assign_records_after_update(record)
-    |> assign_currently_connected_records_after_update(record)
+    |> assign_connected_records_after_update(record)
     |> assign_opened_records_after_record_update(record)
     |> assign_editing_record_after_update(record)
 
@@ -95,7 +95,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     socket
     |> assign_records_and_count_after_delete(id_or_ids)
     |> assign_opened_records_after_delete(id_or_ids)
-    |> assign_currently_connecting_records_and_count_after_delete(id_or_ids)
+    |> assign_connecting_records_and_count_after_delete(id_or_ids)
     |> assign_editing_record_after_delete(id_or_ids)
   end
 
@@ -104,7 +104,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       opened_records: [],
       editing_record: nil,
       editing_record_has_been_removed: false,
-      editing_record_has_been_updated_data: nil,
+      old_editing_record: nil,
       new_record: nil,
       table_name: nil,
       page: 1,
@@ -117,10 +117,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       current_subscription_tables: [],
       current_subscription_deer_records_per_table_limit: 0,
       current_shared_record_uuid: nil,
-      currently_connecting_record_id: nil,
-      currently_connecting_record_query: nil,
-      currently_connecting_record_records: [],
-      currently_connecting_record_selected_table_id: nil,
+      connecting_id: nil,
+      connecting_query: nil,
+      connecting_records: [],
+      connecting_selected_table_id: nil,
       storage_limit_kilobytes: 0,
       locale: user.locale
     )

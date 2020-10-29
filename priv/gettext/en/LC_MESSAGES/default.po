@@ -841,8 +841,8 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:96 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:113
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:119 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:123
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:98 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:115
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:121 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:125
 #: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:65 lib/pjeski_web/templates/deer_dashboard/index.html.leex:29
 msgid "Cancel"
 msgstr ""
@@ -869,7 +869,7 @@ msgid "New record"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:118
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:120
 msgid "Save changes"
 msgstr ""
 
@@ -1154,7 +1154,7 @@ msgid "This link will expire in %{days} days"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:106
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:108
 msgid "All uploaded files for this record are removed and record connections are lost."
 msgstr ""
 
@@ -1163,43 +1163,43 @@ msgstr ""
 msgid "Are you sure you want to unlink these records from each other?"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:88
 msgid "Connect a record"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:30
 msgid "Connect record"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:94
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:112
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:96
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:114
 msgid "Open form to create new record with this data"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:92
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:94
 msgid "Overwrite displayed changes"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:102
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:104
 msgid "This record has been removed while you were editing it."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:66
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:63
 msgid "This record has been updated while you were editing it."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:70
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:67
 msgid "You can overwrite the following changes or copy your changes to an entirely new record."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:107
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:109
 msgid "You can still save this form data, but it will appear as a new record."
 msgstr ""
