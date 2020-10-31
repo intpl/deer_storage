@@ -80,7 +80,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
   def handle_info({:subscription_updated, subscription}, socket), do: {:noreply, assign_updated_subscription(socket, subscription)}
   def handle_info({:cached_records_count_changed, _table_id, new_count}, %{assigns: %{cached_count: _}} = socket), do: {:noreply, socket |> assign(cached_count: new_count)}
-  def handle_info({:assign_connected_records_to_opened_record, record_id, ids}, socket), do: {:noreply, assign_connected_records_to_opened_record(socket, record_id, ids)}
+  def handle_info({:assign_connected_records_to_opened_record, record, ids}, socket), do: {:noreply, assign_connected_records_to_opened_record(socket, record, ids)}
+  def handle_info({:remove_orphans_after_receiveing_connected_records, record, records}, socket), do: {:noreply, remove_orphans_after_receiveing_connected_records(socket, record, records)}
+
   def handle_info({:batch_record_delete, deleted_records_ids}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_records_ids)}
   def handle_info({:record_delete, deleted_record_id}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_record_id)}
 

@@ -11,7 +11,8 @@ defmodule Pjeski.DeerRecords do
   import Pjeski.DeerRecords.DeerRecord, only: [
     deer_files_stats: 1,
     append_id_to_connected_deer_records: 2,
-    remove_id_from_connected_deer_records: 2
+    remove_id_from_connected_deer_records: 2,
+    remove_ids_from_connected_deer_records: 2
   ]
 
   def at_least_one_record_with_table_id?(%Subscription{id: subscription_id}, table_id) do
@@ -141,6 +142,14 @@ defmodule Pjeski.DeerRecords do
       Repo.update!(record1_changeset) |> notify_about_record_update
       Repo.update!(record2_changeset) |> notify_about_record_update
     end)
+  end
+
+  def remove_orphans_from_connected_records!(%DeerRecord{connected_deer_records_ids: connected_ids}, connected_records) when length(connected_ids) == length(connected_records), do: nil
+  def remove_orphans_from_connected_records!(%DeerRecord{connected_deer_records_ids: connected_ids} = record, connected_records) do
+    orphans = connected_ids -- Enum.map(connected_records, fn r -> r.id end)
+    changeset = remove_ids_from_connected_deer_records(record, orphans)
+
+    Repo.update!(changeset) |> notify_about_record_update
   end
 
   def ensure_deer_file_exists_in_record!(deer_record, deer_file_id) do

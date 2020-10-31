@@ -86,7 +86,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     record = find_record_in_list_or_database(subscription, records, record_id)
     opened_records = toggle_opened_record_in_list(opened_records, [record, []])
 
-    send(self(), {:assign_connected_records_to_opened_record, record.id, record.connected_deer_records_ids})
+    send(self(), {:assign_connected_records_to_opened_record, record, record.connected_deer_records_ids})
 
     assign(socket, opened_records: opened_records)
   end
@@ -100,15 +100,18 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     socket
   end
 
-  def assign_connected_records_to_opened_record(%{assigns: %{current_subscription: subscription, opened_records: opened_records}} = socket, record_id, ids) do
-    new_opened_records = update_opened_record_with_connected_records(opened_records, record_id, get_records!(subscription.id, ids))
+  def assign_connected_records_to_opened_record(%{assigns: %{current_subscription: subscription, opened_records: opened_records}} = socket, %{id: record_id} = record, ids) do
+    connected_records_from_database = get_records!(subscription.id, ids)
+    new_opened_records = update_opened_record_with_connected_records(opened_records, record_id, connected_records_from_database)
+
+    send(self(), {:remove_orphans_after_receiveing_connected_records, record, connected_records_from_database})
 
     assign(socket, opened_records: new_opened_records)
   end
 
   defp maybe_send_assign_connected_records(%DeerRecord{connected_deer_records_ids: list}, %DeerRecord{connected_deer_records_ids: list}), do: nil
   defp maybe_send_assign_connected_records(_old_record, %DeerRecord{connected_deer_records_ids: connected_records_ids} = new_record) do
-    send(self(), {:assign_connected_records_to_opened_record, new_record.id, connected_records_ids})
+    send(self(), {:assign_connected_records_to_opened_record, new_record, connected_records_ids})
   end
 
   defp update_opened_record_with_connected_records(list, id, connected_records) do

@@ -7,9 +7,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
   ]
 
   import Phoenix.LiveView, only: [assign: 2]
-  import Pjeski.DeerRecords, only: [
-    connect_records!: 3
-  ]
+  import Pjeski.DeerRecords, only: [connect_records!: 3, remove_orphans_from_connected_records!: 2]
 
   def assign_connected_records_after_update(%{assigns: %{connecting_id: nil}} = socket, _), do: socket
   def assign_connected_records_after_update(
@@ -66,5 +64,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
       connecting_id: record.id,
       connecting_records: connecting_record_records,
       connecting_selected_table_id: table_id)
+  end
+
+  def remove_orphans_after_receiveing_connected_records(socket, record, records) do
+    remove_orphans_from_connected_records!(record, records)
+
+    socket
   end
 end
