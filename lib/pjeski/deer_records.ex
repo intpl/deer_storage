@@ -11,7 +11,8 @@ defmodule Pjeski.DeerRecords do
   import Pjeski.DeerRecords.DeerRecord, only: [
     deer_files_stats: 1,
     append_id_to_connected_deer_records: 2,
-    remove_id_from_connected_deer_records: 2
+    remove_id_from_connected_deer_records: 2,
+    remove_ids_from_connected_deer_records: 2
   ]
 
   def at_least_one_record_with_table_id?(%Subscription{id: subscription_id}, table_id) do
@@ -28,6 +29,11 @@ defmodule Pjeski.DeerRecords do
   def get_record!(subscription_id, id) do
     DeerRecord
     |> Repo.get_by!(id: id, subscription_id: subscription_id)
+  end
+
+  def get_records!(_subscription_id, []), do: []
+  def get_records!(subscription_id, ids) do
+    DeerRecord |> where([r], r.id in ^ids) |> where([r], r.subscription_id == ^subscription_id) |> Repo.all()
   end
 
   def check_limits_and_create_record(%Subscription{deer_records_per_table_limit: limit} = subscription, attrs, cached_count) when cached_count < limit do
@@ -79,7 +85,7 @@ defmodule Pjeski.DeerRecords do
 
 
     notify_about_deer_files_deletion(subscription_id, files_count, kilobytes)
-    notify_about_batch_record_delete(subscription_id, table_id, list_of_ids)
+    notify_about_batch_record_delete(subscription_id, list_of_ids)
     decrement_deer_cache(table_id, deleted_count)
 
     if length(records) != deleted_count, do: raise("not all records has been removed (cache is now invalid)")
@@ -138,6 +144,14 @@ defmodule Pjeski.DeerRecords do
     end)
   end
 
+  def remove_orphans_from_connected_records!(%DeerRecord{connected_deer_records_ids: connected_ids}, connected_records) when length(connected_ids) == length(connected_records), do: nil
+  def remove_orphans_from_connected_records!(%DeerRecord{connected_deer_records_ids: connected_ids} = record, connected_records) do
+    orphans = connected_ids -- Enum.map(connected_records, fn r -> r.id end)
+    changeset = remove_ids_from_connected_deer_records(record, orphans)
+
+    Repo.update!(changeset) |> notify_about_record_update
+  end
+
   def ensure_deer_file_exists_in_record!(deer_record, deer_file_id) do
     Enum.find(deer_record.deer_files, fn df -> df.id == deer_file_id end) || raise("invalid file id")
   end
@@ -160,19 +174,13 @@ defmodule Pjeski.DeerRecords do
 
   defp maybe_notify_about_record_delete({:error, _} = response), do: response
   defp maybe_notify_about_record_delete({:ok, record}) do
-    PubSub.broadcast(Pjeski.PubSub,
-      "record:#{record.subscription_id}:#{record.deer_table_id}",
-      {:record_delete, record.id}
-    )
+    PubSub.broadcast(Pjeski.PubSub, "records:#{record.subscription_id}", {:record_delete, record.id})
 
     {:ok, record}
   end
 
-  defp notify_about_batch_record_delete(subscription_id, table_id, ids) do
-    PubSub.broadcast(Pjeski.PubSub,
-      "record:#{subscription_id}:#{table_id}",
-      {:batch_record_delete, ids}
-    )
+  defp notify_about_batch_record_delete(subscription_id, ids) do
+    PubSub.broadcast(Pjeski.PubSub, "records:#{subscription_id}", {:batch_record_delete, ids})
   end
 
   defp maybe_notify_about_record_update({:error, _} = response), do: response
@@ -183,11 +191,7 @@ defmodule Pjeski.DeerRecords do
   end
 
   defp notify_about_record_update(record) do
-    PubSub.broadcast(
-      Pjeski.PubSub,
-      "record:#{record.subscription_id}:#{record.deer_table_id}",
-      {:record_update, record}
-    )
+    PubSub.broadcast(Pjeski.PubSub, "records:#{record.subscription_id}", {:record_update, record})
   end
 
   defp maybe_delete_deer_files_directory({:error, _} = response), do: response

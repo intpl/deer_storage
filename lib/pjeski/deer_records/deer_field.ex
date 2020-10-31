@@ -12,6 +12,7 @@ defmodule Pjeski.DeerRecords.DeerField do
     deer_field
     |> cast(attrs, [:deer_column_id, :content])
     |> validate_tables_and_columns_integrity(table_id, subscription)
+    |> validate_length(:content, max: 200)
   end
 
   defp validate_tables_and_columns_integrity(changeset, table_id, subscription) do

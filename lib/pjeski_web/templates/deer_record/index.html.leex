@@ -15,6 +15,17 @@
 <% end %>
 
 <%= cond do
+  @connecting_id ->
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent,
+      id: "connecting_component",
+      subscription: @current_subscription,
+      excluded_records_ids: [@connecting_id], # FIXME
+      connecting_record_query: @connecting_query,
+      connecting_record_records: @connecting_records,
+      connecting_record_selected_table_id: @connecting_selected_table_id
+    )
   @current_shared_record_uuid ->
     live_component(
       @socket,
@@ -31,7 +42,9 @@
       changeset: @editing_record,
       subscription: @current_subscription,
       table_id: @table_id,
-      table_name: @table_name
+      table_name: @table_name,
+      editing_record_has_been_removed: @editing_record_has_been_removed,
+      old_editing_record: @old_editing_record
     )
   @new_record ->
     live_component(
@@ -90,13 +103,13 @@ end %>
         </p>
       </div>
       <div class="is-hidden-mobile">
-        <%= if (current_records_count = length(@current_records)) > 0 do %>
-          <%= gettext("They are %{count} records selected.", count: current_records_count) %>
+        <%= if (opened_records_count = length(@opened_records)) > 0 do %>
+          <%= gettext("They are %{count} records selected.", count: opened_records_count) %>
           |
           <a href="#" phx-click="clear_selected"><%= gettext("Unselect") %></a>
           |
-          <a href="#" phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: current_records_count) %>">
-            <%= gettext("Delete all (%{count})", count: current_records_count) %>
+          <a href="#" phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: opened_records_count) %>">
+            <%= gettext("Delete all (%{count})", count: opened_records_count) %>
           </a>
         <% else %>
           <br>
@@ -106,7 +119,7 @@ end %>
   </div>
 
   <div class="columns is-mobile">
-    <div class="column <%= if length(@current_records) > 0, do: "is-hidden-mobile is-half-tablet" %>">
+    <div class="column <%= if length(@opened_records) > 0, do: "is-hidden-mobile is-half-tablet" %>">
         <%= if @count == 0 do %>
           <div class="section">
             <h1 class="title has-text-grey-light has-text-centered">
@@ -121,24 +134,28 @@ end %>
           </div>
         <% end %>
 
-        <%= for record <- @records do %>
-          <a class="box <%= classes_for_record_box(@current_user.id, record, @current_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
-            <article class="media">
-              <div class="media-content">
-                <div class="content">
-                  <%= for %{id: column_id, name: column_name} <- deer_columns_from_subscription(@current_subscription, @table_id) do %>
+        <%= if assigns[:table_id] do %>
+          <% deer_columns = deer_columns_from_subscription(@current_subscription, @table_id) %>
+
+          <%= for record <- @records do %>
+            <a class="box <%= classes_for_record_box(@current_user.id, record, @opened_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <%= for %{id: column_id, name: column_name} <- deer_columns do %>
                       <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong>
-                  <% end %>
+                    <% end %>
+                  </div>
                 </div>
-              </div>
-            </article>
-          </a>
+              </article>
+            </a>
+          <% end %>
         <% end %>
 
         <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
     </div>
 
-    <%= for record <- @current_records do %>
+    <%= for [record, connected_records] <- @opened_records do %>
       <div class="column">
         <div class="sticky overwrite-padding-top-60">
           <article class="section">
@@ -148,7 +165,8 @@ end %>
                 id: record.id,
                 record: record,
                 subscription: @current_subscription,
-                table_id: @table_id
+                table_id: @table_id,
+                connected_records: connected_records
               )
             %>
 

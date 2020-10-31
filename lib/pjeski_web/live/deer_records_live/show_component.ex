@@ -6,6 +6,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
 
   import PjeskiWeb.DeerRecordView, only: [
     deer_columns_from_subscription: 2,
+    deer_table_from_subscription: 2,
     deer_field_content_from_column_id: 2,
     display_filesize_from_kilobytes: 1
   ]
@@ -60,6 +61,32 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             </li>
           <% end) %>
         </ul>
+
+        <ul>
+          <%= Enum.map(@connected_records, fn connected_record -> %>
+            <% %{name: table_name, deer_columns: connected_record_deer_columns} = deer_table_from_subscription(subscription, connected_record.deer_table_id) %>
+            <article class="message">
+              <div class="message-header">
+                <p><%= table_name %></p>
+                <a class="button is-danger is-outlined is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
+                  <%= gettext("Disconnect") %>
+                </a>
+              </div>
+              <div class="message-body">
+                <%= Enum.map(connected_record_deer_columns, fn %{id: column_id, name: column_name} -> %>
+                  <li>
+                    <strong><%= column_name %>:</strong>
+                    <%= deer_field_content_from_column_id(connected_record, column_id) %>
+                  </li>
+                <% end) %>
+              </div>
+            </article>
+          <% end) %>
+        </ul>
+
+        <a class="button is-success" href="#" phx-click="show_connect_record_modal" phx-value-record_id="<%= record.id %>">
+          <span><%= gettext("Connect a record") %></span>
+        </a>
       </div>
     </div>
     """
