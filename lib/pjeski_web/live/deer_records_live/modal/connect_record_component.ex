@@ -80,6 +80,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
                 <% end %>
               </div>
             </div>
+            <%= if length(@records) == 30 do %>
+              <p><%= gettext("There may be more records than these. Please use search box.") %></p>
+            <% end %>
           </section>
 
           <footer class="modal-card-foot">

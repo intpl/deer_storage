@@ -7,10 +7,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   import Pjeski.DbHelpers.DeerRecordsSearch, only: [per_page: 0]
 
   # TODO:
-  # - paginacja currently costam
   # - porownywanie i wysyłanie czyszczenia połączeń po otrzymaniu wyniku z bazy danych [1,2,3,deleted,4,5]
-  # - show/edit component - walidacja
-  # - change -> change_record wszedzie
 
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
     user = get_live_user(socket, session)
