@@ -8,6 +8,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
   def update(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name, cached_count: cached_count}, socket) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
     deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
+    no_errors? = !Enum.any?(changeset.changes.deer_fields, fn df_changeset -> df_changeset.valid? == false end)
 
     prepare_field = fn {dc, index} -> %{
           id: dc.id,
@@ -22,7 +23,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
       deer_columns: deer_columns,
       prepared_fields: deer_columns |> Enum.with_index |> Enum.map(prepare_field),
       can_create_records: cached_count < subscription.deer_records_per_table_limit,
-      table_name: table_name
+      table_name: table_name,
+      no_errors?: no_errors?
     )}
   end
 
@@ -58,8 +60,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
             </section>
 
             <footer class="modal-card-foot">
-              <%= if @changeset.valid? && assigns.can_create_records do %>
+              <%= if @no_errors? && assigns.can_create_records do %>
                 <%= submit gettext("Create record"), class: "button is-success" %>
+              <% else %>
+                <p><%= gettext("You cannot create this record") %></p>&nbsp;
               <% end %>
 
               <a class="button" data-bulma-modal="close" href="#" phx-click="close_new"><%= gettext("Cancel") %></a>

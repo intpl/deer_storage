@@ -13,13 +13,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
 
   def assign_closed_editing_record(socket), do: assign(socket, editing_record: nil, editing_record_has_been_removed: false, old_editing_record: nil)
 
-  def assign_editing_record_after_update(%{assigns: %{editing_record: %{data: %{id: record_id}} = old_editing_record_changeset}} = socket, %{id: record_id} = record_in_database) do
-    new_editing_record_changeset = overwrite_deer_fields(record_in_database, fetch_field!(old_editing_record_changeset, :deer_fields))
-
+  def assign_editing_record_after_update(%{assigns: %{editing_record: %{data: %{id: record_id}} = old_editing_record_changeset, current_subscription: subscription, table_id: table_id}} = socket, %{id: record_id} = record_in_database) do
+    ch = overwrite_deer_fields(record_in_database, fetch_field!(old_editing_record_changeset, :deer_fields))
+    new_editing_record_changeset = change_record(subscription, ch, %{deer_table_id: table_id})
     socket = assign(socket, editing_record: new_editing_record_changeset)
 
     case Enum.any?(different_deer_fields(new_editing_record_changeset, record_in_database)) do
-      true -> assign(socket, old_editing_record: change(record_in_database))
+      true -> assign(socket, old_editing_record: change_record(subscription, record_in_database, %{deer_table_id: table_id}))
       false -> socket
     end
   end
@@ -52,8 +52,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   def assign_saved_editing_record(%{assigns: %{editing_record: record, current_subscription: subscription, table_id: table_id}} = socket, attrs) do
     atomized_attrs = atomize_and_merge_table_id_to_attrs(attrs, table_id)
 
-    {:ok, _} = update_record(subscription, record.data, atomized_attrs)
-    assign(socket, editing_record: nil, old_editing_record: nil)
+    case update_record(subscription, record.data, atomized_attrs) do
+      {:ok, _} -> assign(socket, editing_record: nil, old_editing_record: nil)
+      {:error, _} -> socket
+    end
   end
 
   def assign_editing_record(%{assigns: %{current_subscription: subscription, table_id: table_id, editing_record: editing_record}} = socket, attrs) do
@@ -77,11 +79,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   end
 
   defp overwrite_deer_fields(record, deer_fields) do
-    record
-    |> change
+    change(record)
     |> put_embed(:deer_fields, [])
     |> apply_changes
-    |> change
+    |> change()
     |> put_embed(:deer_fields, deer_fields)
   end
 end

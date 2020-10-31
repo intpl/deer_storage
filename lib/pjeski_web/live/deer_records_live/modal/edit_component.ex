@@ -115,13 +115,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
                     <a href="#" phx-click="close_edit" class="button" data-bulma-modal="close"><%= gettext("Cancel") %></a>
                   </footer>
 
-                <% @changeset.valid? -> %>
-                  <footer class="modal-card-foot">
-                    <%= submit gettext("Save changes"), class: "button is-success" %>
-                    <a href="#" class="button" data-bulma-modal="close" href="#" phx-click="close_edit"><%= gettext("Cancel") %></a>
-                  </footer>
                 <% true -> %>
                   <footer class="modal-card-foot">
+                    <%= submit gettext("Save changes"), class: "button is-success" %>
                     <a href="#" class="button" data-bulma-modal="close" href="#" phx-click="close_edit"><%= gettext("Cancel") %></a>
                   </footer>
               <% end %>
