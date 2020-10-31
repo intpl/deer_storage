@@ -86,7 +86,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_info({:batch_record_delete, deleted_records_ids}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_records_ids)}
   def handle_info({:record_delete, deleted_record_id}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_record_id)}
 
-  def handle_info({:record_update, record}, socket) do
+  def handle_info({:record_update, %{deer_table_id: table_id} = record}, %{assigns: %{table_id: table_id}} = socket) do
     socket = socket
     |> assign_records_after_update(record)
     |> assign_connected_records_after_update(record)
@@ -94,6 +94,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_editing_record_after_update(record)
 
     {:noreply, socket}
+  end
+
+  def handle_info({:record_update, record}, socket) do
+    {:noreply, assign_opened_records_after_record_update(socket, record)}
   end
 
   defp remove_record_from_assigns(socket, id_or_ids) do
@@ -137,7 +141,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   end
 
   defp subscribe_to_deer_channels(subscription_id, table_id) do
-    PubSub.subscribe(Pjeski.PubSub, "record:#{subscription_id}:#{table_id}")
+    PubSub.subscribe(Pjeski.PubSub, "records:#{subscription_id}")
     PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
     PubSub.subscribe(Pjeski.PubSub, "records_counts:#{table_id}")
   end

@@ -6,7 +6,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
   import PjeskiWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
   import Pjeski.DeerRecords, only: [change_record: 3]
 
-
   def assign_table_or_redirect_to_dashboard!(%{assigns: %{current_subscription: subscription}} = socket, table_id) do
     case deer_table_from_subscription(subscription, table_id) do
       %{name: table_name} -> assign(socket, table_name: table_name, table_id: table_id)

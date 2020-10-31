@@ -174,19 +174,13 @@ defmodule Pjeski.DeerRecords do
 
   defp maybe_notify_about_record_delete({:error, _} = response), do: response
   defp maybe_notify_about_record_delete({:ok, record}) do
-    PubSub.broadcast(Pjeski.PubSub,
-      "record:#{record.subscription_id}:#{record.deer_table_id}",
-      {:record_delete, record.id}
-    )
+    PubSub.broadcast(Pjeski.PubSub, "records:#{record.subscription_id}", {:record_delete, record.id})
 
     {:ok, record}
   end
 
   defp notify_about_batch_record_delete(subscription_id, table_id, ids) do
-    PubSub.broadcast(Pjeski.PubSub,
-      "record:#{subscription_id}:#{table_id}",
-      {:batch_record_delete, ids}
-    )
+    PubSub.broadcast(Pjeski.PubSub, "records:#{subscription_id}", {:batch_record_delete, ids})
   end
 
   defp maybe_notify_about_record_update({:error, _} = response), do: response
@@ -197,11 +191,7 @@ defmodule Pjeski.DeerRecords do
   end
 
   defp notify_about_record_update(record) do
-    PubSub.broadcast(
-      Pjeski.PubSub,
-      "record:#{record.subscription_id}:#{record.deer_table_id}",
-      {:record_update, record}
-    )
+    PubSub.broadcast(Pjeski.PubSub, "records:#{record.subscription_id}", {:record_update, record})
   end
 
   defp maybe_delete_deer_files_directory({:error, _} = response), do: response
