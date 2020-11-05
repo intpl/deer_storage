@@ -1,11 +1,11 @@
 #+TITLE: TODO
 
-* TODO [10%] [2/19]
+* TODO [30%] [6/20]
 ** DONE Unconfirmed invited user resend invitation email
 ** DONE IMPORTANT admin panel -> update user does not work at all
-** TODO limit columns per table
+** DONE limit columns per table
 ** TODO static code analysis: https://github.com/jeremyjh/dialyxir
-** TODO Display modal error on limits exceeded
+** DONE Display modal error on limits exceeded
 ** TODO user_from_auth_token(token) -> research better method
 ** [?] Validation for deer record: at least one field has to be filled in
 ** [?] Model validations everywhere (records and tables)
@@ -18,5 +18,6 @@
 ** WAIT use jaro_distance to colorize fields
 ** TODO "Notes" markdown everywhere
 ** TODO Add "failed login attempts" to user: https://elixirforum.com/t/how-to-increment-database-table-column/15457/2
-** TODO Upload files, sharing (both just file and entire record) + TESTS
-** TODO Restrict file uploads per subscriptions and total size
+** TODO search engine autofocus
+** DONE Upload files, sharing (both just file and entire record) + TESTS
+** DONE Restrict file uploads per subscriptions and total size
