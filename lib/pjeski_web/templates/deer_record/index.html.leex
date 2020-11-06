@@ -74,11 +74,14 @@ end %>
 
     <div class="column is-8">
       <div class="field has-addons">
-          <%= if @query != "" && @query != nil do %>
-            <a class="button is-inline" type="submit" href="#" phx-click="clear" onclick="window.scrollTo(0,0)">
+          <a class="button is-inline"
+             type="submit"
+             href="#"
+             phx-click="clear"
+             onclick="window.scrollTo(0,0)"
+             <%= if empty?(@query), do: "disabled" %>>
               <%= gettext("Clear") %>
-            </a>
-          <% end %>
+          </a>
 
         <p class="is-fullwidth">
           <form phx-submit="submit" phx-change="filter" class="field has-addons overwrite-fullwidth">

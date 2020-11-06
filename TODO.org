@@ -1,6 +1,6 @@
 #+TITLE: TODO
 
-* TODO [30%] [6/20]
+* TODO [35%] [7/20]
 ** DONE Unconfirmed invited user resend invitation email
 ** DONE IMPORTANT admin panel -> update user does not work at all
 ** DONE limit columns per table
@@ -18,6 +18,6 @@
 ** WAIT use jaro_distance to colorize fields
 ** TODO "Notes" markdown everywhere
 ** TODO Add "failed login attempts" to user: https://elixirforum.com/t/how-to-increment-database-table-column/15457/2
-** TODO search engine autofocus
+** DONE search engine autofocus
 ** DONE Upload files, sharing (both just file and entire record) + TESTS
 ** DONE Restrict file uploads per subscriptions and total size

@@ -6,6 +6,10 @@ defmodule PjeskiWeb.DeerRecordView do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Subscriptions.Subscription
 
+  def empty?(nil), do: true
+  def empty?(""), do: true
+  def empty?(_), do: false
+
   def different_deer_fields(changeset, record) do
     deer_fields = fetch_field!(changeset, :deer_fields)
 
