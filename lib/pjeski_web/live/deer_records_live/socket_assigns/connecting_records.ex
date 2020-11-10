@@ -3,7 +3,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [
     reduce_list_with_function: 2,
     try_to_replace_record: 2,
-    find_record_in_list_or_database: 3
+    find_record_in_list_or_database: 4
   ]
 
   import Phoenix.LiveView, only: [assign: 2]
@@ -55,8 +55,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
     assign(socket, connecting_id: nil, connecting_query: nil, connecting_records: [])
   end
 
-  def assign_modal_for_connecting_records(%{assigns: %{records: records, current_subscription: subscription}} = socket, record_id) do
-    record = find_record_in_list_or_database(subscription, records, record_id)
+  def assign_modal_for_connecting_records(%{assigns: %{records: records, current_subscription: subscription, table_id: table_id}} = socket, record_id) do
+    record = find_record_in_list_or_database(subscription, records, record_id, table_id)
     table_id = List.first(subscription.deer_tables).id
     connecting_record_records = search_records(subscription.id, table_id, "", 1)
 

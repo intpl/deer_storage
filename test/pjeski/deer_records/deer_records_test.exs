@@ -65,7 +65,7 @@ defmodule Pjeski.DeerRecordsTest do
 
     test "valid id and subscription_id", %{subscription: subscription, records_for_subscription: records} do
       first_record = List.first(records)
-      result = DeerRecords.get_record!(subscription, first_record.id)
+      result = DeerRecords.get_record!(subscription.id, first_record.id)
 
       assert first_record == result
     end
@@ -184,13 +184,13 @@ defmodule Pjeski.DeerRecordsTest do
 
       DeerRecords.connect_records!(r1, r2, subscription.id)
 
-      assert DeerRecords.get_record!(subscription, r1.id).connected_deer_records_ids == [r2.id]
-      assert DeerRecords.get_record!(subscription, r2.id).connected_deer_records_ids == [r1.id]
+      assert DeerRecords.get_record!(subscription.id, r1.id).connected_deer_records_ids == [r2.id]
+      assert DeerRecords.get_record!(subscription.id, r2.id).connected_deer_records_ids == [r1.id]
 
       DeerRecords.disconnect_records!(r1, r2, subscription.id)
 
-      assert DeerRecords.get_record!(subscription, r1.id).connected_deer_records_ids == []
-      assert DeerRecords.get_record!(subscription, r2.id).connected_deer_records_ids == []
+      assert DeerRecords.get_record!(subscription.id, r1.id).connected_deer_records_ids == []
+      assert DeerRecords.get_record!(subscription.id, r2.id).connected_deer_records_ids == []
     end
 
     test "cannot connect record to itself", %{subscription: subscription, records_for_subscription: [record, _]} do

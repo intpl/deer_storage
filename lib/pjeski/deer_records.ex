@@ -25,10 +25,9 @@ defmodule Pjeski.DeerRecords do
   end
 
   def get_record!(id), do: Repo.get!(DeerRecord, id)
-  def get_record!(%Subscription{id: subscription_id}, id), do: get_record!(subscription_id, id) # TODO remove this, refactor calls
-  def get_record!(subscription_id, id) do
-    DeerRecord
-    |> Repo.get_by!(id: id, subscription_id: subscription_id)
+  def get_record!(subscription_id, id), do: Repo.get_by!(DeerRecord, subscription_id: subscription_id, id: id)
+  def get_record!(subscription_id, table_id, id) do
+     Repo.get_by!(DeerRecord, subscription_id: subscription_id, id: id, deer_table_id: table_id)
   end
 
   def get_records!(_subscription_id, []), do: []

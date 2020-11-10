@@ -1,6 +1,7 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index do
   use Phoenix.LiveView
   alias Phoenix.PubSub
+  alias PjeskiWeb.Router.Helpers, as: Routes
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, Records, OpenedRecords, ConnectingRecords}
@@ -30,6 +31,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
          |> assign_subscription_if_available_subscription_link_exists!(user.id, subscription_id)
          |> assign_table_or_redirect_to_dashboard!(table_id)
          |> assign_first_search_query_if_subscription_is_not_expired(params["query"])
+         |> assign_opened_record_from_params(params["id"])
         }
       false -> {:noreply, socket |> assign(query: "", records: [], count: 0)}
     end
@@ -75,6 +77,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: {:noreply, change_page(socket, page + 1)}
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: {:noreply, change_page(socket, page - 1)}
+
+  def handle_event("redirect_to_connected_record", %{"record_id" => record_id, "table_id" => table_id}, socket) do
+    {:noreply, push_redirect(socket, to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerRecordsLive.Index, table_id, id: record_id))}
+  end
 
   def handle_call(:whats_my_table_id, _pid, %{assigns: %{table_id: table_id}} = socket), do: {:reply, table_id, socket}
   def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}

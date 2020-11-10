@@ -1,10 +1,11 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
+  alias PjeskiWeb.Router.Helpers, as: Routes
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.SharedRecords
 
-  import Phoenix.LiveView, only: [assign: 2]
+  import Phoenix.LiveView, only: [assign: 2, push_redirect: 2]
 
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [reduce_list_with_function: 2, find_record_in_list_or_database: 3]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [reduce_list_with_function: 2, find_record_in_list_or_database: 4]
   import Pjeski.DeerRecords, only: [
     batch_delete_records: 3,
     delete_file_from_record!: 3,
@@ -12,6 +13,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     disconnect_records!: 3,
     get_records!: 2
   ]
+
+  def assign_opened_record_from_params(socket, nil), do: socket
+  def assign_opened_record_from_params(socket, record_id) when is_binary(record_id) do
+    assign_opened_record_and_fetch_connected_records(socket, record_id)
+  rescue
+    Ecto.NoResultsError -> push_redirect(socket, to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerRecordsLive.Index, socket.assigns.table_id))
+  end
 
   def dispatch_delete_record(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
@@ -82,8 +90,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     end)
   end
 
-  def assign_opened_record_and_fetch_connected_records(%{assigns: %{records: records, opened_records: opened_records, current_subscription: subscription}} = socket, record_id) when length(opened_records) < 50 do
-    record = find_record_in_list_or_database(subscription, records, record_id)
+  def assign_opened_record_and_fetch_connected_records(%{assigns: %{records: records, opened_records: opened_records, current_subscription: subscription, table_id: table_id}} = socket, record_id) when length(opened_records) < 50 do
+    record = find_record_in_list_or_database(subscription, records, record_id, table_id)
     opened_records = toggle_opened_record_in_list(opened_records, [record, []])
 
     send(self(), {:assign_connected_records_to_opened_record, record, record.connected_deer_records_ids})

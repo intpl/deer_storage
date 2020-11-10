@@ -68,17 +68,36 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             <article class="message">
               <div class="message-header">
                 <p><%= table_name %></p>
-                <a class="button is-danger is-outlined is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
-                  <%= gettext("Disconnect") %>
-                </a>
+
+                <div>
+                  <a href="#"
+                          phx-click="redirect_to_connected_record"
+                          phx-value-record_id="<%= connected_record.id %>"
+                          phx-value-table_id="<%= connected_record.deer_table_id %>"
+                          class="button is-success is-outlined is-light">
+                    <%= gettext("Open") %>
+                  </a>
+
+                  <a class="button is-danger is-outlined is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
+                    <%= gettext("Disconnect") %>
+                  </a>
+                </div>
               </div>
               <div class="message-body">
                 <%= Enum.map(connected_record_deer_columns, fn %{id: column_id, name: column_name} -> %>
-                  <li>
-                    <strong><%= column_name %>:</strong>
-                    <%= deer_field_content_from_column_id(connected_record, column_id) %>
-                  </li>
+                  <strong><%= column_name %>:</strong>
+                  <%= deer_field_content_from_column_id(connected_record, column_id) %><br />
                 <% end) %>
+
+                <%= if Enum.any?(connected_record.deer_files) do %>
+                  <br />
+
+                  <%= Enum.map(connected_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
+                    <p>
+                      <%= link name, to: Routes.deer_files_path(@socket, :download_record, connected_record.id, file_id) %>
+                    </p>
+                  <% end) %>
+                <% end %>
               </div>
             </article>
           <% end) %>
