@@ -1,0 +1,17 @@
+<h1 class="title">
+  <%= if @editing_subscription_name do %>
+    <div class="field has-addons">
+      <p class="control">
+        <form phx-submit="save_subscription_name">
+          <input type="text" name="name" value="<%= @current_subscription_name %>" class="button"/>
+          <input type="submit" value="<%= gettext("Save") %>" class="button"/>
+        </form>
+
+        <a href="#" phx-click="toggle_edit_subscription_name" class="button is-danger"><%= gettext("Cancel") %></a>
+      </p>
+    </div>
+  <% else %>
+    <%= @current_subscription_name %></b>
+    <a href="#" phx-click="toggle_edit_subscription_name" class="has-text-weight-light is-size-5"><%= gettext("Change name") %></a>
+  <% end %>
+</h1>

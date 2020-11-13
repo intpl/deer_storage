@@ -129,7 +129,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       current_subscription: nil,
       current_subscription_id: current_subscription_id,
       current_subscription_name: nil,
-      current_subscription_tables: [],
+      current_subscription_tables: nil,
       current_subscription_deer_records_per_table_limit: 0,
       current_shared_record_uuid: nil,
       connecting_id: nil,

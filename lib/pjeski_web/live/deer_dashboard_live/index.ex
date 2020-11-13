@@ -194,13 +194,14 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
             )} # TODO: permissions
         end
 
-      false -> {:noreply, socket |> assign(current_subscription_name: "", current_subscription_tables: [])}
+      false -> {:noreply, socket |> assign(current_subscription_name: "", current_subscription_tables: nil)}
     end
   end
 
   def handle_params(_, _, socket), do: {:noreply, socket}
 
-  def render(assigns), do: PjeskiWeb.DeerDashboardView.render("index.html", assigns)
+  def render(%{current_subscription_tables: []} = assigns), do: PjeskiWeb.DeerDashboardView.render("examples_index.html", assigns)
+  def render(assigns), do: PjeskiWeb.DeerDashboardView.render("editable_deer_tables.html", assigns)
 
   defp attrs_to_deer_table(attrs) do
     attrs_without_deer_columns = keys_to_atoms(Map.delete(attrs, "deer_columns"))

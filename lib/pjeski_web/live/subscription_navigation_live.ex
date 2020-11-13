@@ -30,6 +30,8 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
       "locale" => locale
     }, socket) do
 
+    subscription_tables = subscription_tables || []
+
     # TODO: refactor this
     records_table_id = if connected?(socket) do
       PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
