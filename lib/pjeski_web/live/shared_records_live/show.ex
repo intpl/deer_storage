@@ -26,6 +26,8 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
         {:noreply, assign(socket, deer_record: deer_record, subscription: subscription, shared_record: shared_record)}
       false -> {:noreply, socket}
     end
+
+    rescue Ecto.NoResultsError -> {:noreply, push_redirect(socket, to: "/")}
   end
 
   def handle_info({:batch_record_delete, deleted_record_ids}, %{assigns: %{deer_record: %{id: deer_record_id}}} = socket) do
