@@ -121,7 +121,7 @@ defmodule Pjeski.DeerRecords do
   end
 
   def disconnect_records!(%DeerRecord{subscription_id: subscription_id} = record1, %DeerRecord{subscription_id: subscription_id} = record2, subscription_id) do
-    # TODO: validations
+    # TODO: validations ??? o co chodzi nie wiem
     record1_changeset = remove_id_from_connected_deer_records(record1, record2.id)
     record2_changeset = remove_id_from_connected_deer_records(record2, record1.id)
 
@@ -132,8 +132,12 @@ defmodule Pjeski.DeerRecords do
   end
 
   def connect_records!(%DeerRecord{id: id}, %DeerRecord{id: id}, _subscription_id), do: raise("attempt to connect the same record")
-  def connect_records!(%DeerRecord{subscription_id: subscription_id} = record1, %DeerRecord{subscription_id: subscription_id} = record2, subscription_id) do
-    # TODO: validations
+  def connect_records!(
+    %DeerRecord{subscription_id: subscription_id, connected_deer_records_ids: ids1} = record1,
+    %DeerRecord{subscription_id: subscription_id, connected_deer_records_ids: ids2} = record2,
+    subscription_id) when length(ids1) < 100 and length(ids2) < 100 do
+
+    # TODO: validations ??? o co chodzi nie wiem
     record1_changeset = append_id_to_connected_deer_records(record1, record2.id)
     record2_changeset = append_id_to_connected_deer_records(record2, record1.id)
 
