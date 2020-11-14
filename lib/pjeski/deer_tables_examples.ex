@@ -13,7 +13,7 @@ defmodule Pjeski.DeerTablesExamples do
   def show("classroom") do
     {
       gettext("Classroom (for teachers)"),
-      gettext("A good example for starting working with a students database. It has students lists, lessons, homeworks to upload and grades"),
+      gettext("A good example to start working with a students database. It has students lists, lessons, homeworks to upload and grades"),
       [
         {gettext("Students"), [gettext("Student's name"), gettext("Date of birth")]},
         {gettext("Lesson"), [gettext("Subject")]},

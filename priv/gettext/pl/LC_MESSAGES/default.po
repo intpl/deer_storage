@@ -1295,11 +1295,6 @@ msgid "Year of birth"
 msgstr "Rok urodzenia"
 
 #, elixir-format
-#: lib/pjeski/deer_tables_examples.ex:16
-msgid "A good example for starting working with a students database. It has students lists, lessons, homeworks to upload and grades"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski/deer_tables_examples.ex:48
 msgid "Agreements with kids"
 msgstr "Umowy z dziećmi"
@@ -1466,12 +1461,17 @@ msgstr "Możesz użyć tego szablonu, żeby pracować ze zwierzętami jako pacje
 msgid "Your subscription limits do not allow to use this template. Please contact the Administrator to exceed limits."
 msgstr "Limity Twojej subskrypcji nie pozwalają na użycie tego szablonu. Skontaktuj się z administratorem, żeby powiększyć limity."
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski/deer_tables_examples.ex:18 lib/pjeski/deer_tables_examples.ex:33
 msgid "Student's name"
 msgstr "Imię i nazwisko ucznia/studenta"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski/deer_tables_examples.ex:31
 msgid "Teacher's name"
 msgstr "Imię i nazwisko nauczyciela"
+
+#, elixir-format, fuzzy
+#: lib/pjeski/deer_tables_examples.ex:16
+msgid "A good example to start working with a students database. It has students lists, lessons, homeworks to upload and grades"
+msgstr "Dobry przykład bazy danych uczniów/studentów. Zawiera listę studentów/uczniów, lekcje, prace domowe do udostępniania i spis ocen"
