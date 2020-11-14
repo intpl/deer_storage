@@ -92,7 +92,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                 <%= if Enum.any?(connected_record.deer_files) do %>
                   <br />
 
-                  <%= Enum.map(connected_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
+                  <%= Enum.map(connected_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: _kilobytes} -> %>
                     <p>
                       <%= link name, to: Routes.deer_files_path(@socket, :download_record, connected_record.id, file_id) %>
                     </p>

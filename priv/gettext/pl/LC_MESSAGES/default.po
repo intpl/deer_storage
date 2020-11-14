@@ -83,8 +83,8 @@ msgid "E-mail address"
 msgstr "Adres e-mail"
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:77
-#: lib/pjeski_web/live/subscription_navigation_live.ex:115 lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
+#: lib/pjeski_web/live/subscription_navigation_live.ex:79
+#: lib/pjeski_web/live/subscription_navigation_live.ex:117 lib/pjeski_web/templates/layout/navigation_admin.html.eex:26
 msgid "Sign out"
 msgstr "Wyloguj"
 
@@ -128,8 +128,8 @@ msgid "Free demo"
 msgstr "Przetestuj za darmo"
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:76
-#: lib/pjeski_web/live/subscription_navigation_live.ex:114 lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
+#: lib/pjeski_web/live/subscription_navigation_live.ex:78
+#: lib/pjeski_web/live/subscription_navigation_live.ex:116 lib/pjeski_web/templates/layout/navigation_admin.html.eex:25
 msgid "Settings"
 msgstr "Ustawienia"
 
@@ -192,7 +192,7 @@ msgstr "Rola"
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:57
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:67 lib/pjeski_web/templates/admin/user/form.html.eex:44
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:26
+#: lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:7
 msgid "Save"
 msgstr "Zapisz"
 
@@ -246,9 +246,10 @@ msgid "Expires on"
 msgstr "Wygasa"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:25
-#: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/views/admin/subscription_view.ex:44
-#: lib/pjeski_web/views/admin/subscription_view.ex:45
+#: lib/pjeski/deer_tables_examples.ex:21 lib/pjeski/deer_tables_examples.ex:32
+#: lib/pjeski/deer_tables_examples.ex:35 lib/pjeski/deer_tables_examples.ex:58 lib/pjeski/deer_tables_examples.ex:59
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:25 lib/pjeski_web/templates/admin/user/show.html.eex:125
+#: lib/pjeski_web/views/admin/subscription_view.ex:44 lib/pjeski_web/views/admin/subscription_view.ex:45
 msgid "Name"
 msgstr "Nazwa"
 
@@ -672,7 +673,7 @@ msgid "Current subscription"
 msgstr "Obecna subskrypcja"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:79
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:82
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:161 lib/pjeski_web/templates/admin/user/show.html.eex:145
 msgid "Disconnect"
 msgstr "Odłącz"
@@ -705,7 +706,7 @@ msgid "Make current"
 msgstr "Ustaw jako obecna"
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:62
+#: lib/pjeski_web/live/subscription_navigation_live.ex:64
 #: lib/pjeski_web/templates/registration/edit.html.eex:37
 msgid "No subscription assigned"
 msgstr "Brak przypisanej subskrypcji"
@@ -844,7 +845,7 @@ msgstr "Na pewno USUNĄĆ ten rekord?"
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:98 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:115
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:121 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:69
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:29
+#: lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:10
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -880,7 +881,7 @@ msgid "There are no more records"
 msgstr "Nie ma więcej rekordów"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:37
+#: lib/pjeski_web/templates/deer_dashboard/editable_deer_tables.html.leex:22
 msgid "Welcome!"
 msgstr "Witamy!"
 
@@ -895,22 +896,17 @@ msgid "Add column"
 msgstr "Dodaj kolumnę"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:84
+#: lib/pjeski_web/templates/deer_dashboard/editable_deer_tables.html.leex:70
 msgid "Add table"
 msgstr "Utwórz tabelę"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:67
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:69
 msgid "Example column 1"
 msgstr "Przykładowa kolumna 1"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:67
-msgid "New table"
-msgstr "Nowa tabela"
-
-#, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:33
+#: lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:15
 msgid "Change name"
 msgstr "Zmień nazwę"
 
@@ -932,6 +928,7 @@ msgstr "Powrót do Twojej subskrypcji"
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:89
 #: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:42 lib/pjeski_web/live/deer_records_live/show_component.ex:23
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:33
 msgid "Close"
 msgstr "Zamknij"
 
@@ -968,7 +965,7 @@ msgid "Storage limit"
 msgstr "Limit miejsca na dysku"
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:108
+#: lib/pjeski_web/live/subscription_navigation_live.ex:110
 msgid "%{used_space} MB used out of %{available_space} MB"
 msgstr "Wykorzystano %{used_space} MB z dostępnych %{available_space} MB"
 
@@ -1083,7 +1080,8 @@ msgid "Total tables limit: %{deer_tables_limit}"
 msgstr "Limit tabel: %{deer_tables_limit}"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/index.html.leex:82
+#: lib/pjeski_web/templates/deer_dashboard/editable_deer_tables.html.leex:68
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:81
 msgid "You can't add new tables due to subscription limits"
 msgstr "Nie możesz dodać więcej tabel z powodu limitów Twojej subskrypcji"
 
@@ -1160,12 +1158,12 @@ msgid "All uploaded files for this record are removed and record connections are
 msgstr "Wszystkie wgrane pliki dla tego rekordu zostały usunięte i połączenia między tym rekordem już nie istnieją"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:78
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:81
 msgid "Are you sure you want to unlink these records from each other?"
 msgstr "Czy na pewno odłączyć od siebie te rekordy?"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:104
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:107
 msgid "Connect a record"
 msgstr "Połącz"
 
@@ -1206,7 +1204,7 @@ msgid "You can still save this form data, but it will appear as a new record."
 msgstr "Możesz w dalszym ciągu zapisać ten rekord jako zupełnie nowy."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:73
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:78
 msgid "Open"
 msgstr "Otwórz"
 
@@ -1219,3 +1217,261 @@ msgstr "Może być więcej rekordów niż te wyświetlone"
 #: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:66
 msgid "You cannot create this record"
 msgstr "Nie możesz utworzyć tego rekordu"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:58
+msgid "Animals"
+msgstr "Zwierzęta"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:15
+msgid "Classroom (for teachers)"
+msgstr "Klasa (dla nauczycieli)"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:59
+msgid "Clients"
+msgstr "Klienci"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:47 lib/pjeski/deer_tables_examples.ex:61
+msgid "Date"
+msgstr "Data"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:18 lib/pjeski/deer_tables_examples.ex:33
+msgid "Date of birth"
+msgstr "Data urodzenia"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:69
+msgid "Example table"
+msgstr "Przykładowa tabela"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:60
+msgid "Invoice number"
+msgstr "Numer faktury"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:60
+msgid "Invoices"
+msgstr "Faktury"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:19
+msgid "Lesson"
+msgstr "Lekcja"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:59
+msgid "Phone number"
+msgstr "Numer telefonu"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:18 lib/pjeski/deer_tables_examples.ex:33
+msgid "Students"
+msgstr "Uczniowie/Studenci"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:19 lib/pjeski/deer_tables_examples.ex:20
+#: lib/pjeski/deer_tables_examples.ex:34
+msgid "Subject"
+msgstr "Temat"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:55
+msgid "Veterinary clinic"
+msgstr "Klinika weterynaryjna"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:61
+msgid "Visits"
+msgstr "Wizyty"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:58
+msgid "Year of birth"
+msgstr "Rok urodzenia"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:16
+msgid "A good example for starting working with a students database. It has students lists, lessons, homeworks to upload and grades"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:48
+msgid "Agreements with kids"
+msgstr "Umowy z dziećmi"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:31
+msgid "Area of expertise"
+msgstr "Specjalizacja"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:36
+msgid "Class"
+msgstr "Klasa"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:32
+msgid "Classes"
+msgstr "Klasy"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:46
+msgid "Collection name"
+msgstr "Nazwa kolekcji"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:48
+msgid "Conditions"
+msgstr "Warunki"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:47
+msgid "Country/place"
+msgstr "Kraj/miejsce"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:36 lib/pjeski/deer_tables_examples.ex:48
+msgid "Deadline"
+msgstr "Termin końcowy"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:20 lib/pjeski/deer_tables_examples.ex:21
+#: lib/pjeski/deer_tables_examples.ex:35 lib/pjeski/deer_tables_examples.ex:36
+msgid "Description"
+msgstr "Subskrypcja"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:23
+msgid "Error"
+msgstr "Błąd"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:46
+msgid "Event/Trip"
+msgstr "Wydarzenie/Wycieczka"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:20
+msgid "Exams"
+msgstr "Egzaminy"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:43
+msgid "Family"
+msgstr "Rodzina"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:20 lib/pjeski/deer_tables_examples.ex:21
+#: lib/pjeski/deer_tables_examples.ex:35
+msgid "Grade"
+msgstr "Ocena"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:21 lib/pjeski/deer_tables_examples.ex:35
+msgid "Grades"
+msgstr "Oceny"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:36
+msgid "Homeworks"
+msgstr "Prace domowe"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:34
+msgid "Lessons"
+msgstr "Lekcja"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:29
+msgid "More comprehensive example on how school data could be arranged. It consists of teachers, students, classes, lessons, grades, homeworks and exams"
+msgstr "Bardziej zaawansowany przykład w jaki sposób dane szkoły mogą być zaprojektowane. Do dyspozycji mamy nauczycieli, studentów, klasy, lekcje, oceny, prace domowe i egzaminy"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:48
+msgid "Name of agreement"
+msgstr "Nazwa umowy"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:46
+msgid "Pictures"
+msgstr "Zdjęcia"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:46
+msgid "Place"
+msgstr "Miejsce"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:48
+msgid "Promise"
+msgstr "Obietnica"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:28
+msgid "School (for educational institutions)"
+msgstr "Szkoła (dla instytucji edukacyjnych)"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:79
+msgid "Start with empty database instead"
+msgstr "Rozpocznij z pustą bazą danych"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:31
+msgid "Teachers"
+msgstr "Nauczyciele"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:47
+msgid "Tickets"
+msgstr "Bilety"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:47
+msgid "Type of ticket"
+msgstr "Typ biletu"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:69
+msgid "Use this template"
+msgstr "Użyj tego szablonu"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:44
+msgid "Welcome to DeerStorage! You can create your database using example templates and edit it or start building from scratch."
+msgstr "Witamy w DeerStorage! Utwórz swoją bazę danych z szablonu lub zacznij od podstaw."
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:32
+msgid "Year"
+msgstr "Rok"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:44
+msgid "You can store your pictures, tickets, agreements with kids and everything you can think of related to your family"
+msgstr "Możesz przechowywać swoje zdjęcia, bilety, umowy z dziećmi i wszystko co chcesz związanego z Twoją rodziną"
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:56
+msgid "You can use it as a starter to work with animal patients. Out of the box you get animals, clients, invoices and visits."
+msgstr "Możesz użyć tego szablonu, żeby pracować ze zwierzętami jako pacjentami. Ta struktura zawiera zwierzęta, klientów, faktury i wizyty."
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:151
+msgid "Your subscription limits do not allow to use this template. Please contact the Administrator to exceed limits."
+msgstr "Limity Twojej subskrypcji nie pozwalają na użycie tego szablonu. Skontaktuj się z administratorem, żeby powiększyć limity."
+
+#, elixir-format, fuzzy
+#: lib/pjeski/deer_tables_examples.ex:18 lib/pjeski/deer_tables_examples.ex:33
+msgid "Student's name"
+msgstr "Imię i nazwisko ucznia/studenta"
+
+#, elixir-format, fuzzy
+#: lib/pjeski/deer_tables_examples.ex:31
+msgid "Teacher's name"
+msgstr "Imię i nazwisko nauczyciela"

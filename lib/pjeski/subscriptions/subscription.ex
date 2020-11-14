@@ -1,6 +1,7 @@
 defmodule Pjeski.Subscriptions.Subscription do
   use Ecto.Schema
   import Ecto.Changeset
+  import Pjeski.Subscriptions.Helpers
 
   alias Pjeski.Subscriptions.DeerTable
   alias Pjeski.Users.User
@@ -26,7 +27,7 @@ defmodule Pjeski.Subscriptions.Subscription do
     timestamps()
   end
 
-  # NOTE deer tables limit check happens in Subscriptions.create_deer_table!
+  # NOTE deer tables limit check happens in append_table/3
   @doc false
   def deer_changeset(subscription, attrs) do
     subscription
@@ -56,6 +57,16 @@ defmodule Pjeski.Subscriptions.Subscription do
                    :deer_records_per_table_limit,
                    :deer_columns_per_table_limit])
     |> validate_required([:name])
+  end
+
+  def append_table(subscription, table_name, table_columns) do
+    new_table_attrs = [%{name: table_name, deer_columns: Enum.map(table_columns, fn col_name -> %{name: col_name} end)}]
+    deer_tables = deer_tables_to_attrs(fetch_field!(subscription, :deer_tables)) ++ new_table_attrs
+
+    change(subscription)
+    |> cast(%{deer_tables: deer_tables}, [])
+    |> cast_embed(:deer_tables)
+    |> validate_length(:deer_tables, max: subscription.data.deer_tables_limit)
   end
 
   defp maybe_add_expires_on_date(%{data: %{expires_on: nil}} = changeset) do

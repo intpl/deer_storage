@@ -13,6 +13,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   import Pjeski.Subscriptions, only: [
     update_deer_table!: 3,
     create_deer_table!: 3,
+    create_deer_tables!: 2,
     update_subscription: 2,
     delete_deer_table!: 2
   ]
@@ -49,6 +50,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         subscription_deer_tables_limit: 0,
         subscription_deer_records_per_table_limit: 0,
         subscription_deer_columns_per_table_limit: 0,
+        all_listed_examples: nil,
         locale: user.locale
       )}
   end
@@ -64,7 +66,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end
 
   def handle_event("add_table", %{}, %{assigns: %{current_subscription: subscription}} = socket) do
-    case create_deer_table!(subscription, gettext("New table"), [gettext("Example column 1")]) do
+    case create_deer_table!(subscription, gettext("Example table"), [gettext("Example column 1")]) do
       {:error, subscription_changeset} ->
         invalid_changeset = subscription_changeset.changes.deer_tables |> Enum.find(fn dt -> dt.valid? == false end)
 
@@ -140,6 +142,27 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     {:noreply, socket |> assign(editing_table_id: table_id, editing_table_changeset: changeset, editing_subscription_name: false)}
   end
 
+  def handle_event("use_example", %{"key" => key}, %{assigns: %{current_subscription: subscription}} = socket) do
+    {_title, _description, tables} = Pjeski.DeerTablesExamples.show(key)
+
+    case create_deer_tables!(subscription, tables) do
+      {:error, _subscription_changeset} ->
+        {:noreply,
+          assign(socket, displayed_error: gettext("Your subscription limits do not allow to use this template. Please contact the Administrator to exceed limits."))}
+      {:ok, updated_subscription} ->
+        for %{id: id} <- updated_subscription.deer_tables do
+          PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")
+        end
+
+        {:noreply, socket |> assign(
+          current_subscription: updated_subscription,
+          current_subscription_tables: updated_subscription.deer_tables
+        )}
+    end
+  end
+
+  def handle_event("reset_displayed_error", _, socket), do: {:noreply, assign(socket, displayed_error: nil)}
+
   def handle_info({:subscription_updated, %{deer_tables: new_tables} = subscription}, %{assigns: %{current_subscription: %{deer_tables: old_tables}}} = socket) do
     list_new_table_ids(old_tables, new_tables)
     |> Enum.each(fn id -> PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}") end)
@@ -156,7 +179,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         subscription_deer_columns_per_table_limit: subscription.deer_columns_per_table_limit,
         current_subscription: subscription,
         editing_table_id: nil
-      )}
+      ) |> assign_examples_if_no_subscription_tables}
     end
   end
 
@@ -191,7 +214,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
               subscription_deer_records_per_table_limit: subscription.deer_records_per_table_limit,
               subscription_deer_columns_per_table_limit: subscription.deer_columns_per_table_limit,
               user_subscription_link: user_subscription_link
-            )} # TODO: permissions
+            ) |> assign_examples_if_no_subscription_tables} # TODO: permissions
         end
 
       false -> {:noreply, socket |> assign(current_subscription_name: "", current_subscription_tables: nil)}
@@ -218,4 +241,10 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end
 
   defp first_tuple_element({el, _}), do: el
+
+  defp assign_examples_if_no_subscription_tables(%{assigns: %{current_subscription_tables: []}} = socket) do
+    assign(socket, all_listed_examples: Pjeski.DeerTablesExamples.list_examples())
+  end
+
+  defp assign_examples_if_no_subscription_tables(socket), do: socket
 end

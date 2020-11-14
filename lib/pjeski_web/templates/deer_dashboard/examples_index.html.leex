@@ -14,12 +14,34 @@
   ) %>
 <% end %>
 
+<%= if assigns[:displayed_error] do %>
+  <div class="modal is-active">
+    <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title is-danger has-text-danger">
+            <%= gettext("Error") %>
+          </p>
+        <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="reset_displayed_error"></a>
+      </header>
+      <section class="modal-card-body">
+        <div class="container">
+          <%= assigns.displayed_error %>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <a class="button" aria-label="close" data-bulma-modal="close" href="#" phx-click="reset_displayed_error"><%= gettext("Close") %></a>
+      </footer>
+    </div>
+  </div>
+<% end %>
+
 <section class="hero is-light">
   <div class="hero-body">
     <div class="container">
       <%= render(PjeskiWeb.DeerDashboardView, "_editable_title.html", editing_subscription_name: @editing_subscription_name, current_subscription_name: @current_subscription_name) %>
       <h2 class="subtitle">
-        <%= gettext("Welcome to DeerStorage! You can create your database and edit it later using example templates or start building it from scratch.") %>
+        <%= gettext("Welcome to DeerStorage! You can create your database using example templates and edit it or start building from scratch.") %>
       </h2>
     </div>
   </div>
@@ -28,11 +50,34 @@
 <br />
 
 <div class="container">
-  <%= cond do %>
-    <% @subscription_deer_tables_limit <= length(@current_subscription_tables) -> %>
-      <i><%= gettext("You can't add new tables due to subscription limits") %></i>
-    <% @editing_table_id == nil -> %>
-      <a href="#" phx-click="add_table"><%= gettext("Start with empty database") %></a>
-    <% true -> %>
+  <%= if @subscription_deer_tables_limit > 0 && assigns.all_listed_examples do %>
+    <%= for listed_examples <- Enum.chunk_every(assigns.all_listed_examples, 3) do %>
+      <div class="columns">
+        <%= for {key, {name, description, _tables}} <- listed_examples do %>
+          <div class="column is-one-third">
+            <div class="box">
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong> <%= name %> </strong>
+                      <br>
+                      <%= description %>
+                    </p>
+                  </div>
+                  <nav class="level is-mobile">
+                    <a href="#" phx-click="use_example" phx-value-key="<%= key %>" class="button is-link is-light"><%= gettext("Use this template") %></a>
+                  </nav>
+                </div>
+              </article>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <a href="#" phx-click="add_table"><%= gettext("Start with empty database instead") %></a>
+  <% else %>
+    <i><%= gettext("You can't add new tables due to subscription limits") %></i>
   <% end %>
 </div>

@@ -81,14 +81,18 @@ defmodule Pjeski.Subscriptions do
     |> maybe_notify_about_updated_subscription
   end
 
-  def create_deer_table!(subscription, name, columns) do
-    new_table_attrs = [%{name: name, deer_columns: Enum.map(columns, fn col_name -> %{name: col_name} end)}]
-    deer_tables = deer_tables_to_attrs(subscription.deer_tables) ++ new_table_attrs
+  def create_deer_tables!(old_subscription, tables) do
+    subscription = Enum.reduce(tables, change_subscription_deer(old_subscription), fn({name, columns}, subscription_acc) ->
+      Subscription.append_table(subscription_acc, name, columns)
+    end)
 
-    change_subscription_deer(subscription)
-    |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
-    |> Ecto.Changeset.cast_embed(:deer_tables)
-    |> Ecto.Changeset.validate_length(:deer_tables, max: subscription.deer_tables_limit)
+    subscription
+    |> Repo.update()
+    |> maybe_notify_about_updated_subscription
+  end
+
+  def create_deer_table!(subscription, name, columns) do
+    Subscription.append_table(change_subscription_deer(subscription), name, columns)
     |> Repo.update()
     |> maybe_notify_about_updated_subscription
   end
