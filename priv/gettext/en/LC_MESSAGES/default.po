@@ -937,11 +937,6 @@ msgid "Unselect"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:115
-msgid "Delete all (%{count})"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/deer_record/index.html.leex:114
 msgid "Are you sure to REMOVE all %{count} selected records?"
 msgstr ""
@@ -1470,7 +1465,12 @@ msgstr ""
 msgid "Teacher's name"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski/deer_tables_examples.ex:16
 msgid "A good example to start working with a students database. It has students lists, lessons, homeworks to upload and grades"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/deer_record/index.html.leex:115
+msgid "Delete selected (%{count})"
 msgstr ""
