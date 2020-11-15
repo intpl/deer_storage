@@ -2,6 +2,8 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   use Phoenix.LiveView
 
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3]
+  import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3]
 
   alias Phoenix.PubSub
   alias Pjeski.Subscriptions
@@ -17,20 +19,48 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
       true ->
         subscription_id = String.to_integer(subscription_id)
         subscription = Subscriptions.get_subscription!(subscription_id)
-        shared_record = SharedRecords.get_record!(subscription_id, shared_record_uuid) |> Pjeski.Repo.preload(:deer_record)
 
-        PubSub.subscribe(Pjeski.PubSub, "records:#{subscription_id}")
-        PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+        redirect_if_expired(socket, subscription, fn ->
+          shared_record = SharedRecords.get_record!(subscription_id, shared_record_uuid) |> Pjeski.Repo.preload(:deer_record)
 
-        {:noreply, assign(socket,
-            deer_record: shared_record.deer_record,
-            subscription: subscription,
-            shared_record: shared_record,
-            is_editable: shared_record.is_editable)}
+          PubSub.subscribe(Pjeski.PubSub, "records:#{subscription_id}")
+          PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+
+          {:noreply, assign(socket,
+              deer_record: shared_record.deer_record,
+              subscription: subscription,
+              shared_record: shared_record,
+              is_editable: shared_record.is_editable,
+              editing_record: nil)}
+        end)
       false -> {:noreply, socket}
     end
 
     rescue Ecto.NoResultsError -> {:noreply, push_redirect(socket, to: "/")}
+  end
+
+  def handle_event("close_edit", _, %{assigns: %{is_editable: true}} = socket), do: {:noreply, assign(socket, editing_record: nil, old_editing_record: nil)}
+
+  def handle_event("edit", _, %{assigns: %{deer_record: %{deer_table_id: table_id} = record, subscription: subscription, is_editable: true}} = socket) do
+    {:noreply, assign(socket, editing_record: change_record(
+          subscription,
+          append_missing_fields_to_record(record, table_id, subscription),
+          %{deer_table_id: table_id}
+        )
+    )}
+  end
+
+  def handle_event("validate_edit", %{"deer_record" => attrs}, %{assigns: %{deer_record: %{deer_table_id: table_id} = record, subscription: subscription, is_editable: true}} = socket) do
+    {:noreply, assign(socket, editing_record: change_record(subscription, record, atomize_and_merge_table_id_to_attrs(attrs, table_id)))}
+  end
+
+  def handle_event("save_edit", %{"deer_record" => attrs}, %{assigns: %{deer_record: %{deer_table_id: table_id} = record, subscription: subscription, is_editable: true}} = socket) do
+    atomized_attrs = atomize_and_merge_table_id_to_attrs(attrs, table_id)
+
+    case update_record(subscription, record, atomized_attrs) do
+      {:ok, _} -> {:noreply, assign(socket, editing_record: nil, old_editing_record: nil)}
+      {:error, _} -> {:noreply, socket}
+    end
   end
 
   def handle_info({:batch_record_delete, deleted_record_ids}, %{assigns: %{deer_record: %{id: deer_record_id}}} = socket) do
@@ -49,13 +79,18 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   def handle_info({:record_update, _}, socket), do: {:noreply, socket}
 
   def handle_info({:subscription_updated, subscription}, %{assigns: %{deer_record: %{deer_table_id: deer_table_id}}} = socket) do
+    redirect_if_expired(socket, subscription, fn ->
+      case DeerRecordView.deer_table_from_subscription(subscription, deer_table_id) do
+        nil -> {:noreply, push_redirect(socket, to: "/")}
+        _ -> {:noreply, assign(socket, subscription: subscription)}
+      end
+    end)
+   end
+
+  defp redirect_if_expired(socket, subscription, function_to_run) do
     case is_expired?(subscription) do
       true -> {:noreply, push_redirect(socket, to: "/")}
-      false ->
-        case DeerRecordView.deer_table_from_subscription(subscription, deer_table_id) do
-          nil -> {:noreply, push_redirect(socket, to: "/")}
-          _ -> {:noreply, assign(socket, subscription: subscription)}
-       end
-     end
-   end
+      false -> function_to_run.()
+    end
+  end
 end

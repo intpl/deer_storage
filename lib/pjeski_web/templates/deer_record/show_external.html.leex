@@ -1,11 +1,27 @@
 <%= render(PjeskiWeb.LayoutView, "navigation_guest.html") %>
 
 <%= if @deer_record do %>
+  <%= if @editing_record, do: live_component(
+    @socket,
+    PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
+    id: "edit",
+    changeset: @editing_record,
+    subscription: @subscription,
+    table_id: @deer_record.deer_table_id,
+    table_name: nil,
+    editing_record_has_been_removed: false,
+    old_editing_record: nil
+  ) %>
+
   <section class="hero is-primary">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          <%= gettext("\"%{subscription_name}\" invited you to see this record", subscription_name: @subscription.name) %>
+          <%= if @is_editable do %>
+            <%= gettext("\"%{subscription_name}\" invited you to edit this record", subscription_name: @subscription.name) %>
+          <% else %>
+            <%= gettext("\"%{subscription_name}\" invited you to see this record", subscription_name: @subscription.name) %>
+          <% end %>
         </h1>
         <h2 class="subtitle">
           <%= gettext("This link will expire in %{days} days", days: shared_record_days_to_expire(@shared_record)) %>
@@ -15,6 +31,14 @@
   </section>
   <div class="hero-body">
     <div class="container">
+      <%= if @is_editable do %>
+        <a class="button" href="#" phx-click="edit" phx-value-record_id="<%= @deer_record.id %>">
+          <%= gettext("Edit") %>
+        </a>
+        <br>
+        <br>
+      <% end %>
+
       <ul>
         <%= Enum.map(deer_columns_from_subscription(@subscription, @deer_record.deer_table_id), fn %{id: column_id, name: column_name} -> %>
         <li>

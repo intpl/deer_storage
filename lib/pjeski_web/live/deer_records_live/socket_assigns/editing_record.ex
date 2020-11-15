@@ -1,12 +1,10 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   import Ecto.Changeset, only: [fetch_field!: 2, change: 2]
 
-  alias Pjeski.DeerRecords.DeerField
-
   import PjeskiWeb.DeerRecordView, only: [different_deer_fields: 2]
   import Phoenix.LiveView, only: [assign: 2]
 
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3]
   import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3]
 
   import Ecto.Changeset, only: [fetch_field!: 2, change: 1, put_embed: 3, apply_changes: 1]
@@ -67,16 +65,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   end
 
   defp assign_error_editing_record_removed(socket), do: assign(socket, editing_record_has_been_removed: true)
-
-  defp append_missing_fields_to_record(record, table_id, subscription) do
-    table = Enum.find(subscription.deer_tables, fn dt -> dt.id == table_id end)
-
-    table_columns_ids = Enum.map(table.deer_columns, fn dc -> dc.id  end)
-    fields_ids = Enum.map(record.deer_fields, fn df -> df.deer_column_id end)
-    missing_fields = (table_columns_ids -- fields_ids) |> Enum.map(fn id -> %DeerField{deer_column_id: id, content: nil} end)
-
-    Map.merge(record, %{deer_fields: record.deer_fields ++ missing_fields})
-  end
 
   defp overwrite_deer_fields(record, deer_fields) do
     change(record)

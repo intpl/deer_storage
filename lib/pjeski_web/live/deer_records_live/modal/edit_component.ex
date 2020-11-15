@@ -34,7 +34,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">
-              <%= gettext("Edit record from table") %>: <%= @table_name %>
+              <%= if @table_name do %>
+                <%= gettext("Edit record from table") %>: <%= @table_name %>
+              <% else %>
+                <%= gettext("Edit record") %>
+              <% end %>
             </p>
             <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="close_edit"></a>
           </header>
