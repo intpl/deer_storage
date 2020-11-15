@@ -18,12 +18,15 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
         subscription_id = String.to_integer(subscription_id)
         subscription = Subscriptions.get_subscription!(subscription_id)
         shared_record = SharedRecords.get_record!(subscription_id, shared_record_uuid) |> Pjeski.Repo.preload(:deer_record)
-        deer_record = shared_record.deer_record
 
         PubSub.subscribe(Pjeski.PubSub, "records:#{subscription_id}")
         PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
 
-        {:noreply, assign(socket, deer_record: deer_record, subscription: subscription, shared_record: shared_record)}
+        {:noreply, assign(socket,
+            deer_record: shared_record.deer_record,
+            subscription: subscription,
+            shared_record: shared_record,
+            is_editable: shared_record.is_editable)}
       false -> {:noreply, socket}
     end
 

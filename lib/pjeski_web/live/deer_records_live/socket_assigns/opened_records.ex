@@ -34,6 +34,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     socket
   end
 
+  def assign_created_shared_record_for_editing_uuid(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id) do
+    [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
+    %{id: uuid} = SharedRecords.create_record_for_editing!(subscription.id, user.id, record.id)
+    assign(socket, current_shared_record_uuid: uuid)
+  end
+
   def assign_created_shared_record_uuid(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
     %{id: uuid} = SharedRecords.create_record!(subscription.id, user.id, record.id)

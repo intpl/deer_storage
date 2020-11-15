@@ -27,9 +27,23 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             <%= gettext("Edit") %>
           </a>
 
-          <a class="button is-success" href="#" phx-click="share" phx-value-record_id="<%= record.id %>">
-            <%= gettext("Share") %>
-          </a>
+          <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+              <a class="button">
+                <%= gettext("Sharing") %> ↷
+              </a>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <a href="#" class="dropdown-item" href="#" phx-click="share" phx-value-record_id="<%= record.id %>">
+                  <%= gettext("Share for 90 days") %>
+                </a>
+                <a href="#" class="dropdown-item" href="#" phx-click="share-for-editing" phx-value-record_id="<%= record.id %>">
+                  <%= gettext("Share to edit for 90 days") %>
+                </a>
+              </div>
+            </div>
+          </div>
 
           <a class="button is-danger is-outlined" href="#" phx-click="delete" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this record?") %>">
             <%= gettext("Delete") %>
