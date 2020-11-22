@@ -1,8 +1,9 @@
 defmodule PjeskiWeb.SharedRecordsLive.Show do
   use Phoenix.LiveView
+  import Ecto.Changeset, only: [fetch_field!: 2]
 
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3, overwrite_deer_fields: 2]
   import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3]
 
   alias Phoenix.PubSub
@@ -28,6 +29,7 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
 
           {:noreply, assign(socket,
               deer_record: shared_record.deer_record,
+              old_editing_record: nil,
               subscription: subscription,
               shared_record: shared_record,
               is_editable: shared_record.is_editable,
@@ -74,7 +76,11 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   def handle_info({:record_delete, _}, socket), do: {:noreply, socket}
 
   def handle_info({:record_update, %{id: record_id} = updated_deer_record}, %{assigns: %{deer_record: %{id: record_id}}} = socket) do
-    {:noreply, socket |> assign(deer_record: updated_deer_record)}
+    {:noreply,
+     socket
+     |> assign(deer_record: updated_deer_record)
+     |> assign_editing_deer_record_as_old_record(updated_deer_record)
+    }
   end
   def handle_info({:record_update, _}, socket), do: {:noreply, socket}
 
@@ -86,6 +92,19 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
       end
     end)
    end
+
+  defp assign_editing_deer_record_as_old_record(%{assigns: %{editing_record: %{data: %{id: record_id, deer_table_id: table_id}} = old_editing_record_changeset, subscription: subscription}} = socket, %{id: record_id} = record_in_database) do
+    ch = overwrite_deer_fields(record_in_database, fetch_field!(old_editing_record_changeset, :deer_fields))
+    new_editing_record_changeset = change_record(subscription, ch, %{deer_table_id: table_id})
+    socket = assign(socket, editing_record: new_editing_record_changeset)
+
+    case Enum.any?(DeerRecordView.different_deer_fields(new_editing_record_changeset, record_in_database)) do
+      true -> assign(socket, old_editing_record: change_record(subscription, record_in_database, %{deer_table_id: table_id}))
+      false -> socket
+    end
+  end
+
+  defp assign_editing_deer_record_as_old_record(socket, _record), do: socket
 
   defp redirect_if_expired(socket, subscription, function_to_run) do
     case is_expired?(subscription) do

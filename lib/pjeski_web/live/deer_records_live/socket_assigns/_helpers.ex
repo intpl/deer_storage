@@ -1,9 +1,19 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
+  import Ecto.Changeset, only: [change: 1, put_embed: 3, apply_changes: 1]
+
   import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1]
   import Pjeski.DeerRecords, only: [get_record!: 3]
   alias Pjeski.DeerRecords.DeerField
 
   def atomize_and_merge_table_id_to_attrs(attrs, table_id), do: Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
+
+  def overwrite_deer_fields(record, deer_fields) do
+    change(record)
+    |> put_embed(:deer_fields, [])
+    |> apply_changes
+    |> change()
+    |> put_embed(:deer_fields, deer_fields)
+  end
 
   def append_missing_fields_to_record(record, table_id, subscription) do
     table = Enum.find(subscription.deer_tables, fn dt -> dt.id == table_id end)

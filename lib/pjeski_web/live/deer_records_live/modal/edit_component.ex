@@ -19,6 +19,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
 
     {:ok, assign(socket,
       changeset: changeset,
+      can_create_records: assigns.can_create_records,
       deer_columns: deer_columns,
       prepared_fields: deer_columns |> Enum.with_index |> Enum.map(prepare_field),
       table_name: assigns.table_name,
@@ -68,7 +69,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
                     </p>
 
                     <p class="has-text-danger">
-                      <%= gettext("You can overwrite the following changes or copy your changes to an entirely new record.") %><br />
+                      <%= if @can_create_records do %>
+                        <%= gettext("You can overwrite the following changes or copy your changes to an entirely new record.") %><br />
+                      <% else %>
+                        <%= gettext("You can overwrite the following changes.") %><br />
+                      <% end %>
                     </p>
 
                     <br />
@@ -97,7 +102,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
                   <footer class="modal-card-foot">
                     <%= submit gettext("Overwrite displayed changes"), class: "button is-danger" %>
                     <br />
-                    <a href="#" phx-click="move_editing_record_data_to_new_record" class="button button is-success"><%= gettext("Open form to create new record with this data") %></a>
+
+                    <%= if @can_create_records do %>
+                      <a href="#" phx-click="move_editing_record_data_to_new_record" class="button button is-success"><%= gettext("Open form to create new record with this data") %></a>
+                    <% end %>
+
                     <br />
                     <a href="#" phx-click="close_edit" class="button" data-bulma-modal="close"><%= gettext("Cancel") %></a>
                   </footer>

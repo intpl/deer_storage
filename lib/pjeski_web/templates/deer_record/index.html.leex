@@ -40,6 +40,7 @@
       PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
       id: "edit",
       changeset: @editing_record,
+      can_create_records: @cached_count < @current_subscription_deer_records_per_table_limit,
       subscription: @current_subscription,
       table_id: @table_id,
       table_name: @table_name,

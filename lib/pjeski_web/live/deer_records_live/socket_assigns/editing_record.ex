@@ -1,13 +1,13 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
-  import Ecto.Changeset, only: [fetch_field!: 2, change: 2]
+  import Ecto.Changeset, only: [fetch_field!: 2]
 
   import PjeskiWeb.DeerRecordView, only: [different_deer_fields: 2]
   import Phoenix.LiveView, only: [assign: 2]
 
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3, overwrite_deer_fields: 2]
   import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3]
 
-  import Ecto.Changeset, only: [fetch_field!: 2, change: 1, put_embed: 3, apply_changes: 1]
+  import Ecto.Changeset, only: [fetch_field!: 2]
 
   def assign_closed_editing_record(socket), do: assign(socket, editing_record: nil, editing_record_has_been_removed: false, old_editing_record: nil)
 
@@ -65,12 +65,4 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   end
 
   defp assign_error_editing_record_removed(socket), do: assign(socket, editing_record_has_been_removed: true)
-
-  defp overwrite_deer_fields(record, deer_fields) do
-    change(record)
-    |> put_embed(:deer_fields, [])
-    |> apply_changes
-    |> change()
-    |> put_embed(:deer_fields, deer_fields)
-  end
 end

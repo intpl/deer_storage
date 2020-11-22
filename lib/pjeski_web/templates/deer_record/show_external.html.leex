@@ -6,11 +6,12 @@
     PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
     id: "edit",
     changeset: @editing_record,
+    old_editing_record: @old_editing_record,
+    can_create_records: false,
     subscription: @subscription,
     table_id: @deer_record.deer_table_id,
     table_name: nil,
-    editing_record_has_been_removed: false,
-    old_editing_record: nil
+    editing_record_has_been_removed: false
   ) %>
 
   <section class="hero is-primary">
