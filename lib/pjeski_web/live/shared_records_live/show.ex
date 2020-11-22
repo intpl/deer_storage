@@ -23,12 +23,14 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
 
         redirect_if_expired(socket, subscription, fn ->
           shared_record = SharedRecords.get_record!(subscription_id, shared_record_uuid) |> Pjeski.Repo.preload(:deer_record)
+          deer_record = shared_record.deer_record
 
           PubSub.subscribe(Pjeski.PubSub, "records:#{subscription_id}")
           PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
+          PubSub.subscribe(Pjeski.PubSub, "shared_records_invalidates:#{deer_record.id}")
 
           {:noreply, assign(socket,
-              deer_record: shared_record.deer_record,
+              deer_record: deer_record,
               old_editing_record: nil,
               subscription: subscription,
               shared_record: shared_record,
@@ -74,6 +76,8 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
 
   def handle_info({:record_delete, record_id}, %{assigns: %{deer_record: %{id: record_id}}} = socket), do: {:noreply, push_redirect(socket, to: "/")}
   def handle_info({:record_delete, _}, socket), do: {:noreply, socket}
+
+  def handle_info(:all_shared_records_invalidated, socket), do: {:noreply, push_redirect(socket, to: "/")}
 
   def handle_info({:record_update, %{id: record_id} = updated_deer_record}, %{assigns: %{deer_record: %{id: record_id}}} = socket) do
     {:noreply,

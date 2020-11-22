@@ -41,6 +41,9 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                 <a href="#" class="dropdown-item" href="#" phx-click="share-for-editing" phx-value-record_id="<%= record.id %>">
                   <%= gettext("Share to edit for 90 days") %>
                 </a>
+                <a href="#" class="dropdown-item" href="#" phx-click="invalidate-shared-links" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure you want to delete all shared links for this record?") %>">
+                  <%= gettext("Delete/invalidate all shared links") %>
+                </a>
               </div>
             </div>
           </div>

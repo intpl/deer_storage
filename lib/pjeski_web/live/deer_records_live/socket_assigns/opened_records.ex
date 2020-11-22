@@ -46,6 +46,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     assign(socket, current_shared_record_uuid: uuid)
   end
 
+  def assign_invalidated_shared_records_for_record(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record_id) do
+    [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
+
+    SharedRecords.delete_all_by_deer_record_id!(subscription.id, record.id)
+
+    socket
+  end
+
   def assign_opened_records_after_record_update(%{assigns: %{opened_records: []}} = socket, _), do: socket
   def assign_opened_records_after_record_update(%{assigns: %{opened_records: opened_records}} = socket, %{id: updated_record_id} = updated_record) do
     new_opened_records = reduce_opened_records_with_function(opened_records, fn record ->

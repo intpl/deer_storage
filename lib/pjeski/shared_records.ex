@@ -1,5 +1,7 @@
 defmodule Pjeski.SharedRecords do
   import Ecto.Query, warn: false
+
+  alias Phoenix.PubSub
   alias Pjeski.Repo
   alias Pjeski.SharedRecords.SharedRecord
 
@@ -17,6 +19,15 @@ defmodule Pjeski.SharedRecords do
 
   def create_record_for_editing!(subscription_id, user_id, deer_record_id) do
     do_create!(subscription_id, user_id, deer_record_id, true)
+  end
+
+  def delete_all_by_deer_record_id!(subscription_id, deer_record_id) do
+    SharedRecord
+    |> where([sr], sr.subscription_id == ^subscription_id)
+    |> where([sr], sr.deer_record_id == ^deer_record_id)
+    |> Repo.delete_all()
+
+    PubSub.broadcast Pjeski.PubSub, "shared_records_invalidates:#{deer_record_id}", :all_shared_records_invalidated
   end
 
   def delete_outdated!, do: Repo.delete_all(outdated_query())

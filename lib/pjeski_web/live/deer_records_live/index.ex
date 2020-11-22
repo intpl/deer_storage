@@ -60,6 +60,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("share", %{"record_id" => record_id}, socket), do: {:noreply, assign_created_shared_record_uuid(socket, record_id)}
   def handle_event("share-for-editing", %{"record_id" => record_id}, socket), do: {:noreply, assign_created_shared_record_for_editing_uuid(socket, record_id)}
+  def handle_event("invalidate-shared-links", %{"record_id" => record_id}, socket), do: {:noreply, assign_invalidated_shared_records_for_record(socket, record_id)}
+
 
   def handle_event("connecting_record_filter", %{"query" => query, "table_id" => new_table_id}, socket), do: {:noreply, assign_filtered_connected_records(socket, query, new_table_id)}
   def handle_event("connect_records", %{"record_id" => record_id}, socket), do: {:noreply, handle_connecting_records(socket, String.to_integer(record_id))}
