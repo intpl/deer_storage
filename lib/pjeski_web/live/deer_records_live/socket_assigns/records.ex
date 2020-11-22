@@ -23,7 +23,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Records do
     assign(socket, records: new_records, count: length(new_records))
   end
 
-  def assign_first_search_query_if_subscription_is_not_expired(%{assigns: %{current_subscription: subscription, table_id: table_id}} = socket, query) do
+  def maybe_assign_first_search_query(%{assigns: %{current_subscription: subscription, table_id: table_id}} = socket, query) do
     case is_expired?(subscription) do
       true -> push_redirect(socket, to: "/registration/edit")
       false ->
@@ -32,6 +32,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Records do
         |> assign(:cached_count, DeerCache.RecordsCountsCache.fetch_count(table_id))
     end
   end
+
+  def maybe_assign_first_search_query(socket, _query), do: socket
 
   def run_search_query_and_assign_results(%{assigns: %{current_subscription: %{id: subscription_id}, table_id: table_id}} = socket, query, page) do
     records = search_records(subscription_id, table_id, query, page)

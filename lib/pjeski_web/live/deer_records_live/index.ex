@@ -30,7 +30,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
          socket
          |> assign_subscription_if_available_subscription_link_exists!(user.id, subscription_id)
          |> assign_table_or_redirect_to_dashboard!(table_id)
-         |> assign_first_search_query_if_subscription_is_not_expired(params["query"])
+         |> maybe_assign_first_search_query(params["query"])
          |> assign_opened_record_from_params(params["id"])
         }
       false -> {:noreply, socket |> assign(query: "", records: [], count: 0)}
