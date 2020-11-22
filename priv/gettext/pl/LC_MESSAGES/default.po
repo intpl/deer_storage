@@ -1505,7 +1505,7 @@ msgstr "Możesz nadpisać poniższe zmiany."
 #, elixir-format, fuzzy
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:44
 msgid "Are you sure you want to delete all shared links for this record?"
-msgstr "Czy na pewno odłączyć od siebie te rekordy?"
+msgstr "Czy na pewno usunąć wszystkie linki do tego rekordu?"
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:45
