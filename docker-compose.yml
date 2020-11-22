@@ -41,7 +41,6 @@ services:
     depends_on:
       - db
     volumes:
-      - mnesia:/app/priv/mnesia
       - uploaded_files:/app/uploaded_files
   db:
     image: postgres:11-alpine
@@ -55,4 +54,3 @@ services:
 volumes:
   pgdata:
   uploaded_files:
-  mnesia:
