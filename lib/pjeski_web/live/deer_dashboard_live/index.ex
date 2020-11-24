@@ -163,6 +163,15 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def handle_event("reset_displayed_error", _, socket), do: {:noreply, assign(socket, displayed_error: nil)}
 
+  def handle_event("validate_upload", _, socket), do: {:noreply, socket}
+  def handle_event("submit_upload", _, %{assigns: %{current_subscription: subscription}} = socket) do
+    result = consume_uploaded_entries(socket, :csv_file, fn %{path: path}, _entry ->
+      Pjeski.CsvImporter.run!(subscription, path)
+    end)
+
+    {:noreply, socket}
+  end
+
   def handle_info({:subscription_updated, %{deer_tables: new_tables} = subscription}, %{assigns: %{current_subscription: %{deer_tables: old_tables}}} = socket) do
     list_new_table_ids(old_tables, new_tables)
     |> Enum.each(fn id -> PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}") end)
@@ -200,6 +209,8 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
           PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")
         end
 
+        available_tables_count = subscription.deer_tables_limit - length(subscription.deer_tables)
+
         case is_expired?(subscription) do
           true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
           false -> {
@@ -213,8 +224,9 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
               subscription_deer_tables_limit: subscription.deer_tables_limit,
               subscription_deer_records_per_table_limit: subscription.deer_records_per_table_limit,
               subscription_deer_columns_per_table_limit: subscription.deer_columns_per_table_limit,
-              user_subscription_link: user_subscription_link
-            ) |> assign_examples_if_no_subscription_tables} # TODO: permissions
+              user_subscription_link: user_subscription_link)
+              |> assign_examples_if_no_subscription_tables
+              |> allow_upload(:csv_file, accept: ~w(.csv), max_entries: available_tables_count)}
         end
 
       false -> {:noreply, socket |> assign(current_subscription_name: "", current_subscription_tables: nil)}

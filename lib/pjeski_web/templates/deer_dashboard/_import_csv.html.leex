@@ -1,0 +1,17 @@
+<hr>
+<h2><%= gettext("Import from .csv file") %></h2>
+<%= for entry <- @uploads.csv_file.entries do %>
+  <%#  %= entry.file_kurwa_name %> - <%= entry.progress %>%
+<% end %>
+
+
+<form phx-submit="submit_upload" phx-change="validate_upload" class="file">
+  <label class="file-label">
+    <span class="file-cta">
+      <span class="file-icon">
+        <i class="fas fa-upload"></i>
+      </span>
+      <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "file-label" %>
+      <button type="submit"><%= gettext("Import") %></button>
+  </label>
+</form>

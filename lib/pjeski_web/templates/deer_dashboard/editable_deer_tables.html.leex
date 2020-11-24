@@ -68,6 +68,8 @@
         <i><%= gettext("You can't add new tables due to subscription limits") %></i>
       <% @editing_table_id == nil -> %>
         <a href="#" phx-click="add_table"><%= gettext("Add table") %></a>
+
+        <%= render(PjeskiWeb.DeerDashboardView, "_import_csv.html", uploads: @uploads) %>
       <% true -> %>
     <% end %>
   </div>

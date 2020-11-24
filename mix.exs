@@ -50,14 +50,15 @@ defmodule Pjeski.MixProject do
       {:bamboo, "~> 1.4"},
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.0.1"},
-      {:phoenix_live_view, "~> 0.14.1"},
+      {:phoenix_live_view, "~> 0.15"},
       {:floki, ">= 0.0.0", only: :test},
       {:faker, "~> 0.13", only: [:test, :dev]},
       {:phoenix_live_dashboard, "~> 0.2"},
       {:telemetry_poller, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"},
       {:poison, "~> 4.0"},
-      {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:csv, "~> 2.4"}
     ]
   end
 
