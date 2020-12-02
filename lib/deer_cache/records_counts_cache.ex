@@ -20,10 +20,10 @@ defmodule DeerCache.RecordsCountsCache do
     {:reply, get(deer_table_id, state), state}
   end
 
-  def handle_cast({:increment, deer_table_id}, state) do
+  def handle_cast({:increment, deer_table_id, by_count}, state) do
     new_count = case get(deer_table_id, state) do
-                  [] ->  1
-                  [{^deer_table_id, n}] -> n + 1
+                  [] -> by_count
+                  [{^deer_table_id, n}] -> n + by_count
                 end
 
     set(deer_table_id, new_count, state)

@@ -172,7 +172,7 @@ defmodule Pjeski.DeerRecords do
 
   defp maybe_increment_deer_cache({:error, _} = response), do: response
   defp maybe_increment_deer_cache({:ok, %{deer_table_id: table_id} = record}) do
-    GenServer.cast(RecordsCountsCache, {:increment, table_id})
+    GenServer.cast(RecordsCountsCache, {:increment, table_id, 1})
     {:ok, record}
   end
 

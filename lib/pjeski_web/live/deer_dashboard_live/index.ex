@@ -164,9 +164,10 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   def handle_event("reset_displayed_error", _, socket), do: {:noreply, assign(socket, displayed_error: nil)}
 
   def handle_event("validate_upload", _, socket), do: {:noreply, socket}
-  def handle_event("submit_upload", _, %{assigns: %{current_subscription: subscription}} = socket) do
-    result = consume_uploaded_entries(socket, :csv_file, fn %{path: path}, _entry ->
-      Pjeski.CsvImporter.run!(subscription, path)
+  def handle_event("submit_upload", _, %{assigns: %{current_subscription: subscription, current_user: user}} = socket) do
+    # FIXME DOES NOT WORK
+    consume_uploaded_entries(socket, :csv_file, fn %{path: path}, entry ->
+      Pjeski.CsvImporter.run!(subscription, user, path, entry.client_name)
     end)
 
     {:noreply, socket}

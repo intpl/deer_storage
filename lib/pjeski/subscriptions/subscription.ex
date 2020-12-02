@@ -67,7 +67,20 @@ defmodule Pjeski.Subscriptions.Subscription do
     |> cast(%{deer_tables: deer_tables}, [])
     |> cast_embed(:deer_tables)
     |> validate_length(:deer_tables, max: subscription.data.deer_tables_limit)
+    |> validate_deer_columns_limit(subscription.data)
   end
+
+  defp validate_deer_columns_limit(changeset, %{deer_columns_per_table_limit: limit}) do
+    validate_change(changeset, :deer_tables, fn :deer_tables, changesets_list ->
+      case Enum.all?(changesets_list, fn ch -> columns_length_valid?(fetch_field!(ch, :deer_columns), limit) end) do
+        true -> []
+        false -> [{:deer_tables, "deer columns limit exceeded"}]
+      end
+    end)
+  end
+
+  defp columns_length_valid?(list, limit) when length(list) > limit, do: false
+  defp columns_length_valid?(_, _), do: true
 
   defp maybe_add_expires_on_date(%{data: %{expires_on: nil}} = changeset) do
     put_change(changeset, :expires_on, Date.add(Date.utc_today, 90))
