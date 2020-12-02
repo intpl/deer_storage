@@ -78,8 +78,15 @@ defmodule Pjeski.CsvImporter do
 
   defp insert_records_and_notify_subscribers({:error, _} = result), do: result
   defp insert_records_and_notify_subscribers({:ok, %{records_maps: records_maps, subscription: subscription, table_id: table_id} = assigns}) do
-    {inserted_records_count, _} = Repo.insert_all("deer_records", records_maps)
-    GenServer.cast(DeerCache.RecordsCountsCache, {:increment, table_id, inserted_records_count})
+    maps_chunks = Enum.chunk_every(records_maps, 1000)
+
+    total_inserted_count = Enum.reduce(maps_chunks, 0, fn chunk, acc ->
+      {inserted_count, _} = Repo.insert_all("deer_records", chunk)
+
+      acc + inserted_count
+    end)
+
+    GenServer.cast(DeerCache.RecordsCountsCache, {:increment, table_id, total_inserted_count})
     PubSub.broadcast Pjeski.PubSub, "subscription:#{subscription.id}", {:subscription_updated, subscription}
 
     {:ok, assigns}
