@@ -8,7 +8,7 @@ defmodule Pjeski.CsvImporter do
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Repo
 
-  def run!(subscription, user, path, filename) do
+  def run!(subscription, user, path, filename, remove_file? \\ false) do
     stream = path |> File.stream! |> CSV.decode
     [ok: headers] = Enum.take(stream, 1)
 
@@ -20,6 +20,8 @@ defmodule Pjeski.CsvImporter do
       |> consume_records
       |> insert_records_and_notify_subscribers
       |> rename_subscription_table_to_filename
+
+      if remove_file?, do: File.rm!(path)
 
       case result do
         {:ok, _} -> :ok

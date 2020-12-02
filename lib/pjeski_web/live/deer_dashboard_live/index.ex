@@ -1,6 +1,8 @@
 defmodule PjeskiWeb.DeerDashboardLive.Index do
   use Phoenix.LiveView
 
+  @tmp_dir System.tmp_dir!()
+
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
   import PjeskiWeb.LiveHelpers, only: [
     cached_counts: 1,
@@ -165,9 +167,11 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def handle_event("validate_upload", _, socket), do: {:noreply, socket}
   def handle_event("submit_upload", _, %{assigns: %{current_subscription: subscription, current_user: user}} = socket) do
-    # FIXME DOES NOT WORK
-    consume_uploaded_entries(socket, :csv_file, fn %{path: path}, entry ->
-      Pjeski.CsvImporter.run!(subscription, user, path, entry.client_name)
+    consume_uploaded_entries(socket, :csv_file, fn %{path: path}, %{client_name: client_name, uuid: uuid} ->
+      tmp_path = Path.join(@tmp_dir, uuid)
+      File.cp!(path, tmp_path)
+
+      spawn(Pjeski.CsvImporter, :run!, [subscription, user, tmp_path, client_name, true])
     end)
 
     {:noreply, socket}
@@ -227,7 +231,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
               subscription_deer_columns_per_table_limit: subscription.deer_columns_per_table_limit,
               user_subscription_link: user_subscription_link)
               |> assign_examples_if_no_subscription_tables
-              |> allow_upload(:csv_file, accept: ~w(.csv), max_entries: available_tables_count)}
+              |> allow_upload(:csv_file, accept: ~w(.csv), auto_upload: true, max_entries: available_tables_count)}
         end
 
       false -> {:noreply, socket |> assign(current_subscription_name: "", current_subscription_tables: nil)}
