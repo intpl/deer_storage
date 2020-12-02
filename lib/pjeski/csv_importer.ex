@@ -27,7 +27,7 @@ defmodule Pjeski.CsvImporter do
         {:ok, _} -> :ok
         {:error, msg} -> Repo.rollback(msg)
       end
-    end)
+    end, timeout: 100_000)
 
     # broadcast count for new table's records // TODO: CHECK IF TRANSACTION IS VISIBLE
   end
