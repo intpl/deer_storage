@@ -82,6 +82,7 @@ defmodule Pjeski.DeerRecords do
 
     {deleted_count, _} = Repo.delete_all(query)
 
+    spawn fn -> try_to_delete_deer_records_directories(subscription_id, records) end
 
     notify_about_deer_files_deletion(subscription_id, files_count, kilobytes)
     notify_about_batch_record_delete(subscription_id, list_of_ids)
@@ -210,6 +211,10 @@ defmodule Pjeski.DeerRecords do
     notify_about_deer_files_deletion(record.subscription_id, count, kilobytes)
 
     {:ok, record}
+  end
+
+  defp try_to_delete_deer_records_directories(subscription_id, records) do
+    Enum.each(records, fn %{id: id} -> File.rm_rf(File.cwd! <> "/uploaded_files/#{subscription_id}/#{id}") end)
   end
 
   defp notify_about_deer_files_deletion(subscription_id, count, kilobytes) do
