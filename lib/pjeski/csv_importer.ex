@@ -5,19 +5,18 @@ defmodule Pjeski.CsvImporter do
   alias Phoenix.PubSub
   alias Pjeski.Subscriptions
   alias Pjeski.Subscriptions.Subscription
-  alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.Repo
 
-  def run!(subscription, user, path, filename, remove_file? \\ false) do
+  def run!(subscription, user, path, filename, random_name, remove_file? \\ false) do
     stream = path |> File.stream! |> CSV.decode
     [ok: headers] = Enum.take(stream, 1)
+    assigns = %{subscription: subscription, user: user, headers: headers, records_stream: Stream.drop(stream, 1), filename: filename, random_name: random_name}
 
     Repo.transaction(fn ->
-      result = %{subscription: subscription, user: user, headers: headers, records_stream: Stream.drop(stream, 1), filename: filename}
-      |> generate_random_name_for_transaction
+      result = assigns
       |> lock_and_update_subscription
       |> prepare_table_data
-      |> consume_records
+      |> prepare_records
       |> insert_records_and_notify_subscribers
       |> rename_subscription_table_to_filename
 
@@ -31,8 +30,6 @@ defmodule Pjeski.CsvImporter do
 
     # broadcast count for new table's records // TODO: CHECK IF TRANSACTION IS VISIBLE
   end
-
-  defp generate_random_name_for_transaction(assigns), do: Map.merge(assigns, %{random_name: :crypto.strong_rand_bytes(20) |> Base.url_encode64 |> binary_part(0, 20)})
 
   defp lock_and_update_subscription(%{subscription: %{id: subscription_id}, headers: headers, random_name: random_name} = assigns) do
     subscription_changeset = Repo.one!(from s in Subscription, where: s.id == ^subscription_id, lock: "FOR UPDATE")
@@ -53,15 +50,15 @@ defmodule Pjeski.CsvImporter do
     {:ok, Map.merge(assigns, %{table_id: table.id, columns_ids: ordered_ids})}
   end
 
-  defp consume_records({:error, _} = result), do: result
-  defp consume_records({:ok, %{records_stream: stream, subscription: %{deer_records_per_table_limit: limit} = subscription, user: user, table_id: table_id, columns_ids: columns_ids} = assigns}) do
+  defp prepare_records({:error, _} = result), do: result
+  defp prepare_records({:ok, %{records_stream: stream, subscription: %{deer_records_per_table_limit: limit} = subscription, user: user, table_id: table_id, columns_ids: columns_ids} = assigns}) do
     timestamp = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
 
     {result, _count} = Enum.reduce(stream, {[], 0}, fn item, {list, count} ->
       if count < limit do
         case item do
           {:ok, fields_list} ->
-            case validate_and_return_raw_map(fields_list, columns_ids, table_id, subscription, user.id, timestamp) do
+            case prepare_record_map(fields_list, columns_ids, table_id, subscription.id, user.id, timestamp) do
               {:ok, attrs} -> {list ++ [attrs], count + 1}
               {:error, errors} -> throw "Validation failed: #{errors}"
             end
@@ -102,16 +99,22 @@ defmodule Pjeski.CsvImporter do
     {:ok, Map.merge(assigns, %{subscription: new_subscription})}
   end
 
-  def validate_and_return_raw_map(fields_list, columns_ids, table_id, subscription, user_id, timestamp) do
-    deer_fields = Enum.zip(fields_list, columns_ids) |> Enum.map(fn {content, column_id} -> %{content: content, deer_column_id: column_id} end)
-    attrs = %{deer_table_id: table_id, deer_fields: deer_fields, subscription_id: subscription.id, inserted_at: timestamp, updated_at: timestamp, created_by_user_id: user_id, updated_by_user_id: user_id}
+  def prepare_record_map(fields_list, columns_ids, table_id, subscription_id, user_id, timestamp) do
+    deer_fields = Enum.zip(fields_list, columns_ids) |> Enum.map(fn {content, column_id} ->
+      if String.length(content) > 200, do: throw "Found field with more than 200 characters"
 
-    changeset = DeerRecord.changeset(%DeerRecord{}, attrs, subscription)
+      %{content: content, deer_column_id: column_id}
+    end)
 
-    case changeset.valid? do
-      true -> {:ok, attrs}
-      false -> {:error, changeset.errors}
-    end
+    {:ok, %{deer_table_id: table_id,
+            deer_fields: deer_fields,
+            subscription_id: subscription_id,
+            inserted_at: timestamp,
+            updated_at: timestamp,
+            created_by_user_id: user_id,
+            updated_by_user_id: user_id}}
+  catch
+    err -> {:error, err}
   end
 
   defp change_subscription(subscription), do: deer_changeset(subscription, %{})

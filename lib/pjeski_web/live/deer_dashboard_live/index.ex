@@ -167,33 +167,31 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def handle_event("validate_upload", _, socket), do: {:noreply, socket}
   def handle_event("submit_upload", _, %{assigns: %{current_subscription: subscription, current_user: user}} = socket) do
-    consume_uploaded_entries(socket, :csv_file, fn %{path: path}, %{client_name: client_name, uuid: uuid} ->
+    consume_uploaded_entries(socket, :csv_file, fn %{path: path}, %{client_name: original_filename, uuid: uuid} ->
       tmp_path = Path.join(@tmp_dir, uuid)
       File.cp!(path, tmp_path)
 
-      spawn(Pjeski.CsvImporter, :run!, [subscription, user, tmp_path, client_name, true])
+      spawn(Pjeski.CsvImporter, :run!, [subscription, user, tmp_path, original_filename, uuid, true])
     end)
 
     {:noreply, socket}
   end
 
   def handle_info({:subscription_updated, %{deer_tables: new_tables} = subscription}, %{assigns: %{current_subscription: %{deer_tables: old_tables}}} = socket) do
-    list_new_table_ids(old_tables, new_tables)
-    |> Enum.each(fn id -> PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}") end)
-
     case is_expired?(subscription) do
       true -> {:noreply, push_redirect(socket, to: "/registration/edit")}
-      false -> {:noreply, socket |> assign(
-        editing_subscription_name: false,
-        current_subscription_tables: subscription.deer_tables,
-        current_subscription_name: subscription.name,
-        storage_limit_kilobytes: subscription.storage_limit_kilobytes,
-        subscription_deer_tables_limit: subscription.deer_tables_limit,
-        subscription_deer_records_per_table_limit: subscription.deer_records_per_table_limit,
-        subscription_deer_columns_per_table_limit: subscription.deer_columns_per_table_limit,
-        current_subscription: subscription,
-        editing_table_id: nil
-      ) |> assign_examples_if_no_subscription_tables}
+      false -> {:noreply, socket
+      |> handle_cache_for_new_tables(old_tables, new_tables)
+      |> assign(editing_subscription_name: false,
+                current_subscription_tables: subscription.deer_tables,
+                current_subscription_name: subscription.name,
+                storage_limit_kilobytes: subscription.storage_limit_kilobytes,
+                subscription_deer_tables_limit: subscription.deer_tables_limit,
+                subscription_deer_records_per_table_limit: subscription.deer_records_per_table_limit,
+                subscription_deer_columns_per_table_limit: subscription.deer_columns_per_table_limit,
+                current_subscription: subscription,
+                editing_table_id: nil
+                ) |> assign_examples_if_no_subscription_tables}
     end
   end
 
@@ -242,6 +240,20 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def render(%{current_subscription_tables: []} = assigns), do: PjeskiWeb.DeerDashboardView.render("examples_index.html", assigns)
   def render(assigns), do: PjeskiWeb.DeerDashboardView.render("editable_deer_tables.html", assigns)
+
+  defp handle_cache_for_new_tables(%{assigns: %{cached_counts: cached_counts}} = socket, old_tables, new_tables) do
+    new_tables = list_new_table_ids(old_tables, new_tables)
+
+    Enum.each(new_tables, fn id ->
+      PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")
+    end)
+
+    new_cached_counts = Enum.reduce(new_tables, cached_counts, fn table_id, inner_cached_counts ->
+      Map.merge(inner_cached_counts, %{table_id => DeerCache.RecordsCountsCache.fetch_count(table_id)})
+    end)
+
+    assign(socket, cached_counts: new_cached_counts)
+  end
 
   defp attrs_to_deer_table(attrs) do
     attrs_without_deer_columns = keys_to_atoms(Map.delete(attrs, "deer_columns"))

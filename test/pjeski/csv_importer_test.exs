@@ -20,7 +20,7 @@ defmodule Pjeski.CsvImporterTest do
     end
 
     test "imports polish_people.csv correctly", %{subscription: subscription, user: user, all_records_for: all_records_for} do
-      assert {:ok, :ok} = CsvImporter.run!(subscription, user, @polish_people_csv, "test.csv")
+      assert {:ok, :ok} = CsvImporter.run!(subscription, user, @polish_people_csv, "test.csv", "XYZ")
 
       records = all_records_for.(subscription.id)
 
@@ -42,7 +42,7 @@ defmodule Pjeski.CsvImporterTest do
 
     test "returns error when deer_tables_limit is being exceeded", %{subscription: subscription, user: user, all_records_for: all_records_for} do
       {:ok, subscription} = subscription |> Subscriptions.admin_update_subscription(%{deer_tables_limit: 0})
-      result = CsvImporter.run!(subscription, user, @polish_people_csv, "test.csv")
+      result = CsvImporter.run!(subscription, user, @polish_people_csv, "test.csv", "XYZ")
 
       assert all_records_for.(subscription.id) == []
       assert {:error, [{:deer_tables, _}]} = result
@@ -52,7 +52,7 @@ defmodule Pjeski.CsvImporterTest do
       {:ok, subscription} = subscription |> Subscriptions.admin_update_subscription(%{deer_columns_per_table_limit: 1})
 
       {:ok, subscription} = Subscriptions.create_deer_table!(subscription, "example table", ["first column"]) # regression test
-      result = CsvImporter.run!(subscription, user, @polish_people_csv, "test.csv")
+      result = CsvImporter.run!(subscription, user, @polish_people_csv, "test.csv", "XYZ")
 
       assert all_records_for.(subscription.id) == []
       assert {:error, [{:deer_tables, _}]} = result
@@ -61,7 +61,7 @@ defmodule Pjeski.CsvImporterTest do
     test "returns error when deer_records_per_table_limit is being exceeded", %{subscription: subscription, user: user, all_records_for: all_records_for} do
       {:ok, subscription} = subscription |> Subscriptions.admin_update_subscription(%{deer_records_per_table_limit: 0})
 
-      result = CsvImporter.run!(subscription, user, @polish_people_csv, "test.csv")
+      result = CsvImporter.run!(subscription, user, @polish_people_csv, "test.csv", "XYZ")
 
       assert all_records_for.(subscription.id) == []
       assert {:error, "Too many records: Limit is 0"} = result
