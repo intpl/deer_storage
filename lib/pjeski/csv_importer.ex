@@ -1,4 +1,6 @@
 defmodule Pjeski.CsvImporter do
+  require Logger
+
   import Ecto.Query, warn: false
   import Pjeski.Subscriptions.Subscription, only: [append_table: 3, deer_changeset: 2]
 
@@ -8,12 +10,19 @@ defmodule Pjeski.CsvImporter do
   alias Pjeski.Repo
 
   def run!(subscription, user, path, filename, random_name, remove_file? \\ false) do
+    log_info "CSV import (subscription #{subscription.id}): starting importer for file named '#{filename}'"
+
     stream = path |> File.stream! |> CSV.decode
-    [ok: headers] = Enum.take(stream, 1)
-    assigns = %{subscription: subscription, user: user, headers: headers, records_stream: Stream.drop(stream, 1), filename: filename, random_name: random_name}
+    assigns = %{subscription: subscription, user: user, records_stream: Stream.drop(stream, 1), filename: filename, random_name: random_name}
+
+    initial_map = case Enum.take(stream, 1) do
+                [ok: headers] -> {:ok, Map.merge(assigns, %{headers: headers})}
+                [error: message] -> {:error, message}
+              end
+
 
     Repo.transaction(fn ->
-      result = assigns
+      result = initial_map
       |> lock_and_update_subscription
       |> prepare_table_data
       |> prepare_records
@@ -23,15 +32,20 @@ defmodule Pjeski.CsvImporter do
       if remove_file?, do: File.rm!(path)
 
       case result do
-        {:ok, _} -> :ok
-        {:error, msg} -> Repo.rollback(msg)
+        {:ok, _} ->
+          log_info "CSV import (subscription #{subscription.id}): successfully imported '#{filename}'"
+
+          :ok
+        {:error, msg} ->
+          log_error(msg)
+          Repo.rollback(msg)
       end
     end, timeout: 100_000)
 
-    # broadcast count for new table's records // TODO: CHECK IF TRANSACTION IS VISIBLE
   end
 
-  defp lock_and_update_subscription(%{subscription: %{id: subscription_id}, headers: headers, random_name: random_name} = assigns) do
+  defp lock_and_update_subscription({:error, _} = result), do: result
+  defp lock_and_update_subscription({:ok, %{subscription: %{id: subscription_id}, headers: headers, random_name: random_name} = assigns}) do
     subscription_changeset = Repo.one!(from s in Subscription, where: s.id == ^subscription_id, lock: "FOR UPDATE")
     |> change_subscription
     |> append_table(random_name, headers)
@@ -85,6 +99,8 @@ defmodule Pjeski.CsvImporter do
       acc + inserted_count
     end)
 
+    log_info "CSV import (subscription #{subscription.id}): inserted #{total_inserted_count} records"
+
     GenServer.cast(DeerCache.RecordsCountsCache, {:increment, table_id, total_inserted_count})
     PubSub.broadcast Pjeski.PubSub, "subscription:#{subscription.id}", {:subscription_updated, subscription}
 
@@ -94,7 +110,13 @@ defmodule Pjeski.CsvImporter do
   defp rename_subscription_table_to_filename({:error, _} = result), do: result
   defp rename_subscription_table_to_filename({:ok, %{subscription: %{deer_tables: deer_tables} = subscription, filename: filename, random_name: random_name} = assigns}) do
     target_table_id = Enum.find(deer_tables, fn dt -> dt.name == random_name end).id
-    {:ok, new_subscription} = Subscriptions.update_deer_table!(subscription, target_table_id, %{name: filename})
+
+    name = case String.length(filename) do
+                 len when len > 50 -> String.slice(filename, 0..46) <> "..." # 50 characters
+                 _len -> filename # LV will not allow files without .csv extension, so skip handling files with name having less than 3 characters
+               end
+
+    {:ok, new_subscription} = Subscriptions.update_deer_table!(subscription, target_table_id, %{name: name})
 
     {:ok, Map.merge(assigns, %{subscription: new_subscription})}
   end
@@ -118,4 +140,9 @@ defmodule Pjeski.CsvImporter do
   end
 
   defp change_subscription(subscription), do: deer_changeset(subscription, %{})
+
+  defp log_error(msg) when is_binary(msg), do: if unquote(Mix.env != :test), do: Logger.error "CSV import: " <> msg
+  defp log_error(_), do: Logger.error "CSV import: Subscription limits validation failed"
+
+  defp log_info(msg), do: if unquote(Mix.env != :test), do: Logger.info(msg)
 end
