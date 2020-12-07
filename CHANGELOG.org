@@ -1,4 +1,0 @@
-#+TITLE: DeerStorage Changelog
-
-* 0.1 [TBA]
-** DONE hide "x records selected" on mobile
