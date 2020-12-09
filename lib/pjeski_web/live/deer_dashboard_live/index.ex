@@ -177,6 +177,8 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     {:noreply, socket}
   end
 
+  def handle_event("cancel_upload_entry", %{"ref" => ref}, socket), do: {:noreply, cancel_upload(socket, :csv_file, ref)}
+
   def handle_info({:subscription_updated, %{deer_tables: new_tables} = subscription}, %{assigns: %{current_subscription: %{deer_tables: old_tables}}} = socket) do
     case is_expired?(subscription) do
       true -> {:noreply, push_redirect(socket, to: "/registration/edit")}

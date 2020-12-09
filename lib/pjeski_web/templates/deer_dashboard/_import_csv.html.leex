@@ -1,17 +1,40 @@
 <hr>
-<h2><%= gettext("Import from .csv file") %></h2>
-<%= for entry <- @uploads.csv_file.entries do %>
-  <%#  %= entry.file_kurwa_name %> - <%= entry.progress %>%
-<% end %>
+<b><%= gettext("Import from .csv file") %></b>
+  <%= for entry <- @uploads.csv_file.entries do %>
+    <div class="columns">
+      <div class="column is-one-third">
+        <%= entry.client_name %>
+        <a href="#" phx-click="cancel_upload_entry" phx-value-ref="<%= entry.ref %>">
+          <%= gettext("Cancel") %>
+        </a>
 
+        <progress class="progress is-info" value="<%= entry.progress %>" max="100"><%= entry.progress %>%</progress>
+
+        <%= if entry.done? == true do %>
+          <%= gettext("Ready to import.") %>
+        <% end %>
+      </div>
+      <br>
+    </div>
+  <% end %>
 
 <form phx-submit="submit_upload" phx-change="validate_upload" class="file">
-  <label class="file-label">
-    <span class="file-cta">
-      <span class="file-icon">
-        <i class="fas fa-upload"></i>
+    <%= if Enum.any?(@uploads.csv_file.entries) do %>
+      <button type="submit" class="button is-primary"><%= gettext("Import file(s) to DeerStorage!") %></button>
+      <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "is-hidden" %>
+    <% else %>
+    <label class="file is-boxed">
+      <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "file-input" %>
+      <span class="file-cta">
+        <span class="file-icon"> ⛟ </span>
+        <span class="file-label">
+            <%= gettext("Select .csv file(s) for import") %>
+        </span>
       </span>
-      <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "file-label" %>
-      <button type="submit"><%= gettext("Import") %></button>
-  </label>
+    </label>
+  <% end %>
 </form>
+
+<br>
+<br>
+<br>
