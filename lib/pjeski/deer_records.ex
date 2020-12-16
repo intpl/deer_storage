@@ -217,7 +217,7 @@ defmodule Pjeski.DeerRecords do
     Enum.each(records, fn %{id: id} -> File.rm_rf(File.cwd! <> "/uploaded_files/#{subscription_id}/#{id}") end)
   end
 
-  defp notify_about_deer_files_deletion(subscription_id, 0, 0), do: nil
+  defp notify_about_deer_files_deletion(_subscription_id, 0, 0), do: nil
   defp notify_about_deer_files_deletion(subscription_id, count, kilobytes) do
     GenServer.cast(SubscriptionStorageCache, {:removed_files, subscription_id, count, kilobytes})
   end
