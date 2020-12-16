@@ -17,7 +17,7 @@ defmodule DeerCache.SubscriptionStorageCache do
 
   def handle_cast({:uploaded_file, subscription_id, file_size_in_kilobytes}, state) do
     new_data = case get(subscription_id, state) do
-                  [] ->  {1, file_size_in_kilobytes}
+                  [] -> {1, file_size_in_kilobytes}
                   [{^subscription_id, {files, kilobytes}}] -> {files + 1, kilobytes + file_size_in_kilobytes}
                 end
 
