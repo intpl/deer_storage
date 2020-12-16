@@ -846,7 +846,7 @@ msgstr "Na pewno USUNĄĆ ten rekord?"
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:111 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:128
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:134 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:69
-#: lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:10
+#: lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:10 lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:8
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -902,7 +902,7 @@ msgid "Add table"
 msgstr "Utwórz tabelę"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:69
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:71
 msgid "Example column 1"
 msgstr "Przykładowa kolumna 1"
 
@@ -1077,7 +1077,7 @@ msgstr "Limit tabel: %{deer_tables_limit}"
 
 #, elixir-format
 #: lib/pjeski_web/templates/deer_dashboard/editable_deer_tables.html.leex:68
-#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:81
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:83
 msgid "You can't add new tables due to subscription limits"
 msgstr "Nie możesz dodać więcej tabel z powodu limitów Twojej subskrypcji"
 
@@ -1235,7 +1235,7 @@ msgid "Date of birth"
 msgstr "Data urodzenia"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:69
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:71
 msgid "Example table"
 msgstr "Przykładowa tabela"
 
@@ -1448,7 +1448,7 @@ msgid "You can use it as a starter to work with animal patients. Out of the box 
 msgstr "Możesz użyć tego szablonu, żeby pracować ze zwierzętami jako pacjentami. Ta struktura zawiera zwierzęta, klientów, faktury i wizyty."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:151
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:153
 msgid "Your subscription limits do not allow to use this template. Please contact the Administrator to exceed limits."
 msgstr "Limity Twojej subskrypcji nie pozwalają na użycie tego szablonu. Skontaktuj się z administratorem, żeby powiększyć limity."
 
@@ -1502,7 +1502,7 @@ msgstr "Udostępnianie"
 msgid "You can overwrite the following changes."
 msgstr "Możesz nadpisać poniższe zmiany."
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:44
 msgid "Are you sure you want to delete all shared links for this record?"
 msgstr "Czy na pewno usunąć wszystkie linki do tego rekordu?"
@@ -1511,3 +1511,23 @@ msgstr "Czy na pewno usunąć wszystkie linki do tego rekordu?"
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:45
 msgid "Delete/invalidate all shared links"
 msgstr "Usuń/wygaś wszystkie udostępnione linki"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:23
+msgid "Import file(s) to DeerStorage!"
+msgstr "Importuj plik(i) do DeerStorage!"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:2
+msgid "Import from .csv file"
+msgstr "Zaimportuj z pliku .csv"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:14
+msgid "Ready to import."
+msgstr "Gotowy do importu."
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:31
+msgid "Select .csv file(s) for import"
+msgstr "Wybierz pliki .csv do zaimportowania"
