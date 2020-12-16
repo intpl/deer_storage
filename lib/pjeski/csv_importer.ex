@@ -29,8 +29,6 @@ defmodule Pjeski.CsvImporter do
       |> insert_records_and_notify_subscribers
       |> rename_subscription_table_to_filename
 
-      if remove_file?, do: File.rm!(path)
-
       case result do
         {:ok, _} ->
           log_info "CSV import (subscription #{subscription.id}): successfully imported '#{filename}'"
@@ -41,7 +39,8 @@ defmodule Pjeski.CsvImporter do
           Repo.rollback(msg)
       end
     end, timeout: 100_000)
-
+  after
+    if remove_file?, do: File.rm!(path)
   end
 
   defp lock_and_update_subscription({:error, _} = result), do: result
