@@ -78,7 +78,7 @@
 
     <a href="#" phx-click="add_table"><%= gettext("Start with empty database instead") %></a>
 
-    <%= render(PjeskiWeb.DeerDashboardView, "_import_csv.html", uploads: @uploads) %>
+    <%= render(PjeskiWeb.DeerDashboardView, "_import_csv.html", uploads: @uploads, csv_importer_messages: @csv_importer_messages) %>
   <% else %>
     <i><%= gettext("You can't add new tables due to subscription limits") %></i>
   <% end %>

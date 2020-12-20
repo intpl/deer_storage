@@ -53,7 +53,8 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
         subscription_deer_records_per_table_limit: 0,
         subscription_deer_columns_per_table_limit: 0,
         all_listed_examples: nil,
-        locale: user.locale
+        locale: user.locale,
+        csv_importer_messages: []
       )}
   end
 
@@ -167,17 +168,20 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
   def handle_event("validate_upload", _, socket), do: {:noreply, socket}
   def handle_event("submit_upload", _, %{assigns: %{current_subscription: subscription, current_user: user}} = socket) do
+    pid = self()
+
     consume_uploaded_entries(socket, :csv_file, fn %{path: path}, %{client_name: original_filename, uuid: uuid} ->
       tmp_path = Path.join(@tmp_dir, uuid)
       File.cp!(path, tmp_path)
 
-      spawn(Pjeski.CsvImporter, :run!, [subscription, user, tmp_path, original_filename, uuid, true])
+      spawn(Pjeski.CsvImporter, :run!, [pid, subscription, user, tmp_path, original_filename, uuid, true])
     end)
 
     {:noreply, socket}
   end
 
   def handle_event("cancel_upload_entry", %{"ref" => ref}, socket), do: {:noreply, cancel_upload(socket, :csv_file, ref)}
+  def handle_event("clear_csv_importer_messages", _, socket), do: {:noreply, assign(socket, :csv_importer_messages, [])}
 
   def handle_info({:subscription_updated, %{deer_tables: new_tables} = subscription}, %{assigns: %{current_subscription: %{deer_tables: old_tables}}} = socket) do
     case is_expired?(subscription) do
@@ -202,6 +206,14 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end
 
   def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
+
+  def handle_cast({:csv_importer_error, msg}, %{assigns: %{csv_importer_messages: messages}} = socket) do
+    {:noreply, assign(socket, csv_importer_messages: messages ++ [{:error, msg}])}
+  end
+
+  def handle_cast({:csv_importer_info, msg}, %{assigns: %{csv_importer_messages: messages}} = socket) do
+    {:noreply, assign(socket, csv_importer_messages: messages ++ [{:info, msg}])}
+  end
 
   def handle_params(_params, _, %{assigns: %{current_user: user, current_subscription_id: subscription_id}} = socket) do
     case connected?(socket) do

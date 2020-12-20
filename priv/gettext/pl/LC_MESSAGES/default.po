@@ -846,7 +846,7 @@ msgstr "Na pewno USUNĄĆ ten rekord?"
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:111 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:128
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:134 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:69
-#: lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:10 lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:8
+#: lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:10 lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:10
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -902,7 +902,7 @@ msgid "Add table"
 msgstr "Utwórz tabelę"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:71
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:72
 msgid "Example column 1"
 msgstr "Przykładowa kolumna 1"
 
@@ -1235,7 +1235,7 @@ msgid "Date of birth"
 msgstr "Data urodzenia"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:71
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:72
 msgid "Example table"
 msgstr "Przykładowa tabela"
 
@@ -1448,7 +1448,7 @@ msgid "You can use it as a starter to work with animal patients. Out of the box 
 msgstr "Możesz użyć tego szablonu, żeby pracować ze zwierzętami jako pacjentami. Ta struktura zawiera zwierzęta, klientów, faktury i wizyty."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:153
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:154
 msgid "Your subscription limits do not allow to use this template. Please contact the Administrator to exceed limits."
 msgstr "Limity Twojej subskrypcji nie pozwalają na użycie tego szablonu. Skontaktuj się z administratorem, żeby powiększyć limity."
 
@@ -1513,21 +1513,46 @@ msgid "Delete/invalidate all shared links"
 msgstr "Usuń/wygaś wszystkie udostępnione linki"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:23
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:25
 msgid "Import file(s) to DeerStorage!"
 msgstr "Importuj plik(i) do DeerStorage!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:2
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:4
 msgid "Import from .csv file"
 msgstr "Zaimportuj z pliku .csv"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:14
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:16
 msgid "Ready to import."
 msgstr "Gotowy do importu."
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:31
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:33
 msgid "Select .csv file(s) for import"
 msgstr "Wybierz pliki .csv do zaimportowania"
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:51
+msgid "Clear messages"
+msgstr "Wyczyść komunikaty"
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:16
+msgid "Starting importer for file named '%{filename}'..."
+msgstr "Rozpoczęto importowanie pliku '%{filename}'"
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:37
+msgid "Successfully imported '%{filename}'"
+msgstr "Poprawnie zaimportowano plik '%{filename}'"
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:104
+msgid "Inserted %{count} records from file '%{filename}'"
+msgstr "Wprowadzono %{count} rekordy/-ów z pliku '%{filename}'"
+
+#, elixir-format, fuzzy
+#: lib/pjeski/csv_importer.ex:153
+msgid "Your subscription limits don't allow to import file named '%{filename}'."
+msgstr "Twoje limity subskrypcji nie pozwalają na zaimportowanie pliku '%{filename}'."

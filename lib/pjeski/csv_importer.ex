@@ -2,6 +2,7 @@ defmodule Pjeski.CsvImporter do
   require Logger
 
   import Ecto.Query, warn: false
+  import PjeskiWeb.Gettext
   import Pjeski.Subscriptions.Subscription, only: [append_table: 3, deer_changeset: 2]
 
   alias Phoenix.PubSub
@@ -9,11 +10,13 @@ defmodule Pjeski.CsvImporter do
   alias Pjeski.Subscriptions.Subscription
   alias Pjeski.Repo
 
-  def run!(subscription, user, path, filename, random_name, remove_file? \\ false) do
-    log_info "CSV import (subscription #{subscription.id}): starting importer for file named '#{filename}'"
+  def run!(pid, subscription, user, path, filename, random_name, remove_file? \\ false) do
+    Gettext.put_locale(user.locale)
+
+    log_info pid, gettext("Starting importer for file named '%{filename}'...", filename: filename)
 
     stream = path |> File.stream! |> CSV.decode
-    assigns = %{subscription: subscription, user: user, records_stream: Stream.drop(stream, 1), filename: filename, random_name: random_name}
+    assigns = %{caller_pid: pid, subscription: subscription, user: user, records_stream: Stream.drop(stream, 1), filename: filename, random_name: random_name}
 
     initial_map = case Enum.take(stream, 1) do
                 [ok: headers] -> {:ok, Map.merge(assigns, %{headers: headers})}
@@ -31,11 +34,11 @@ defmodule Pjeski.CsvImporter do
 
       case result do
         {:ok, _} ->
-          log_info "CSV import (subscription #{subscription.id}): successfully imported '#{filename}'"
+          log_info pid, gettext("Successfully imported '%{filename}'", filename: filename)
 
           :ok
         {:error, msg} ->
-          log_error(msg)
+          log_error(pid, filename, msg)
           Repo.rollback(msg)
       end
     end, timeout: 100_000)
@@ -89,7 +92,7 @@ defmodule Pjeski.CsvImporter do
 
 
   defp insert_records_and_notify_subscribers({:error, _} = result), do: result
-  defp insert_records_and_notify_subscribers({:ok, %{records_maps: records_maps, subscription: subscription, table_id: table_id} = assigns}) do
+  defp insert_records_and_notify_subscribers({:ok, %{caller_pid: pid, records_maps: records_maps, subscription: subscription, table_id: table_id, filename: filename} = assigns}) do
     maps_chunks = Enum.chunk_every(records_maps, 1000)
 
     total_inserted_count = Enum.reduce(maps_chunks, 0, fn chunk, acc ->
@@ -98,7 +101,7 @@ defmodule Pjeski.CsvImporter do
       acc + inserted_count
     end)
 
-    log_info "CSV import (subscription #{subscription.id}): inserted #{total_inserted_count} records"
+    log_info pid, gettext("Inserted %{count} records from file '%{filename}'", count: total_inserted_count, filename: filename)
 
     GenServer.cast(DeerCache.RecordsCountsCache, {:increment, table_id, total_inserted_count})
     PubSub.broadcast Pjeski.PubSub, "subscription:#{subscription.id}", {:subscription_updated, subscription}
@@ -140,8 +143,18 @@ defmodule Pjeski.CsvImporter do
 
   defp change_subscription(subscription), do: deer_changeset(subscription, %{})
 
-  defp log_error(msg) when is_binary(msg), do: if unquote(Mix.env != :test), do: Logger.error "CSV import: " <> msg
-  defp log_error(_), do: Logger.error "CSV import: Subscription limits validation failed"
+  defp log_error(pid, filename, msg) when is_binary(msg) do
+    if unquote(Mix.env != :test), do: Logger.error "CSV import #{filename}: " <> msg
+    GenServer.cast(pid, {:csv_importer_error, "%{filename}: %{msg}"})
+  end
 
-  defp log_info(msg), do: if unquote(Mix.env != :test), do: Logger.info(msg)
+  defp log_error(pid, filename, _) do
+    if unquote(Mix.env != :test), do: Logger.error "CSV import #{filename}: Subscription limits validation failed"
+    GenServer.cast(pid, {:csv_importer_error, gettext("Your subscription limits don't allow to import file named '%{filename}'.", filename: filename)})
+  end
+
+  defp log_info(pid, msg) do
+    if unquote(Mix.env != :test), do: Logger.info(msg)
+    GenServer.cast(pid, {:csv_importer_info, msg})
+  end
 end

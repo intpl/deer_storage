@@ -69,7 +69,7 @@
       <% @editing_table_id == nil -> %>
         <a href="#" phx-click="add_table"><%= gettext("Add table") %></a>
 
-        <%= render(PjeskiWeb.DeerDashboardView, "_import_csv.html", uploads: @uploads) %>
+        <%= render(PjeskiWeb.DeerDashboardView, "_import_csv.html", uploads: @uploads, csv_importer_messages: @csv_importer_messages) %>
       <% true -> %>
     <% end %>
   </div>

@@ -1,40 +1,59 @@
 <hr>
-<b><%= gettext("Import from .csv file") %></b>
-  <%= for entry <- @uploads.csv_file.entries do %>
-    <div class="columns">
-      <div class="column is-one-third">
-        <%= entry.client_name %>
-        <a href="#" phx-click="cancel_upload_entry" phx-value-ref="<%= entry.ref %>">
-          <%= gettext("Cancel") %>
-        </a>
+<div class="columns">
+  <div class="column">
+    <b><%= gettext("Import from .csv file") %></b>
+      <%= for entry <- @uploads.csv_file.entries do %>
+        <div class="columns">
+          <div class="column is-one-third">
+            <%= entry.client_name %>
+            <a href="#" phx-click="cancel_upload_entry" phx-value-ref="<%= entry.ref %>">
+              <%= gettext("Cancel") %>
+            </a>
 
-        <progress class="progress is-info" value="<%= entry.progress %>" max="100"><%= entry.progress %>%</progress>
+            <progress class="progress is-info" value="<%= entry.progress %>" max="100"><%= entry.progress %>%</progress>
 
-        <%= if entry.done? == true do %>
-          <%= gettext("Ready to import.") %>
+            <%= if entry.done? == true do %>
+              <%= gettext("Ready to import.") %>
+            <% end %>
+          </div>
+          <br>
+        </div>
+      <% end %>
+
+    <form phx-submit="submit_upload" phx-change="validate_upload" class="file">
+        <%= if Enum.any?(@uploads.csv_file.entries) do %>
+          <button type="submit" class="button is-primary"><%= gettext("Import file(s) to DeerStorage!") %></button>
+          <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "is-hidden" %>
+        <% else %>
+        <label class="file is-boxed">
+          <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "file-input" %>
+          <span class="file-cta">
+            <span class="file-icon"> ⛟ </span>
+            <span class="file-label">
+                <%= gettext("Select .csv file(s) for import") %>
+            </span>
+          </span>
+        </label>
+      <% end %>
+    </form>
+  </div>
+
+  <%= if Enum.any?(@csv_importer_messages) do %>
+    <div class="column">
+      <%= for msg <- @csv_importer_messages do %>
+        <%= case msg do %>
+          <% {:error, msg} -> %><span class="has-text-danger"><%= msg %></span>
+          <% {:info, msg} -> %><span class="has-text-success"><%= msg %></span>
         <% end %>
-      </div>
+        <br>
+      <% end %>
+
+      <a href="#" phx-click="clear_csv_importer_messages"><%= gettext("Clear messages") %></a>
+
       <br>
     </div>
   <% end %>
-
-<form phx-submit="submit_upload" phx-change="validate_upload" class="file">
-    <%= if Enum.any?(@uploads.csv_file.entries) do %>
-      <button type="submit" class="button is-primary"><%= gettext("Import file(s) to DeerStorage!") %></button>
-      <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "is-hidden" %>
-    <% else %>
-    <label class="file is-boxed">
-      <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "file-input" %>
-      <span class="file-cta">
-        <span class="file-icon"> ⛟ </span>
-        <span class="file-label">
-            <%= gettext("Select .csv file(s) for import") %>
-        </span>
-      </span>
-    </label>
-  <% end %>
-</form>
-
+</div>
 <br>
 <br>
 <br>
