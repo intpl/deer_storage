@@ -1,13 +1,9 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   import Ecto.Changeset, only: [fetch_field!: 2]
-
-  import PjeskiWeb.DeerRecordView, only: [different_deer_fields: 2]
   import Phoenix.LiveView, only: [assign: 2]
 
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3, overwrite_deer_fields: 2]
   import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3]
-
-  import Ecto.Changeset, only: [fetch_field!: 2]
 
   def assign_closed_editing_record(socket), do: assign(socket, editing_record: nil, editing_record_has_been_removed: false, old_editing_record: nil)
 
@@ -16,9 +12,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
     new_editing_record_changeset = change_record(subscription, ch, %{deer_table_id: table_id})
     socket = assign(socket, editing_record: new_editing_record_changeset)
 
-    case Enum.any?(different_deer_fields(new_editing_record_changeset, record_in_database)) do
-      true -> assign(socket, old_editing_record: change_record(subscription, record_in_database, %{deer_table_id: table_id}))
-      false -> socket
+    case connected_records_or_deer_files_changed?(old_editing_record_changeset, record_in_database) do
+      true -> socket
+      false -> assign(socket, old_editing_record: change_record(subscription, record_in_database, %{deer_table_id: table_id}))
     end
   end
 
@@ -65,4 +61,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   end
 
   defp assign_error_editing_record_removed(socket), do: assign(socket, editing_record_has_been_removed: true)
+
+  defp connected_records_or_deer_files_changed?(changeset, %{deer_files: deer_files, connected_deer_records_ids: connected_deer_records_ids}) do
+    fetch_field!(changeset, :connected_deer_records_ids) != connected_deer_records_ids || fetch_field!(changeset, :deer_files) != deer_files
+  end
 end
