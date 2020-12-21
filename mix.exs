@@ -58,7 +58,8 @@ defmodule Pjeski.MixProject do
       {:telemetry_metrics, "~> 0.4"},
       {:poison, "~> 4.0"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:csv, "~> 2.4"}
+      {:csv, "~> 2.4"},
+      {:ecto_psql_extras, "~> 0.2"}
     ]
   end
 

@@ -57,7 +57,7 @@ defmodule PjeskiWeb.Router do
     scope "/admin", Admin, as: :admin do
       pipe_through [:admin]
 
-      live_dashboard "/phoenix", metrics: PjeskiWeb.Telemetry
+      live_dashboard "/phoenix", metrics: PjeskiWeb.Telemetry, ecto_repos: [Pjeski.Repo]
       live "/dashboard", DashboardLive.Index
 
       post "/users/search", UserController, :search
