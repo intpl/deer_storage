@@ -23,7 +23,6 @@ defmodule Pjeski.CsvImporter do
                 [error: message] -> {:error, message}
               end
 
-
     Repo.transaction(fn ->
       result = initial_map
       |> lock_and_update_subscription
@@ -76,12 +75,12 @@ defmodule Pjeski.CsvImporter do
           {:ok, fields_list} ->
             case prepare_record_map(fields_list, columns_ids, table_id, subscription.id, user.id, timestamp) do
               {:ok, attrs} -> {list ++ [attrs], count + 1}
-              {:error, errors} -> throw "Validation failed: #{errors}"
+              {:error, errors} -> throw gettext("Validation failed: %{errors}", errors: errors)
             end
-          {:error, message} -> throw "CSV parser error: #{message}"
+          {:error, message} -> throw gettext("CSV parser error: %{message}", message: message)
         end
       else
-        throw "Too many records: Limit is #{limit}"
+        throw gettext("Too many records: Limit is %{limit}", limit: limit)
       end
     end)
 
@@ -148,9 +147,14 @@ defmodule Pjeski.CsvImporter do
     GenServer.cast(pid, {:csv_importer_error, "%{filename}: %{msg}"})
   end
 
-  defp log_error(pid, filename, _) do
+  defp log_error(pid, filename, [validation_error | _]) when is_tuple(validation_error) do
     if unquote(Mix.env != :test), do: Logger.error "CSV import #{filename}: Subscription limits validation failed"
     GenServer.cast(pid, {:csv_importer_error, gettext("Your subscription limits don't allow to import file named '%{filename}'.", filename: filename)})
+  end
+
+  defp log_error(pid, filename, _) do
+    if unquote(Mix.env != :test), do: Logger.error "CSV import #{filename}: Unknown error"
+    GenServer.cast(pid, {:csv_importer_error, gettext("Unknown error occurred when importing '%{filename}'.", filename: filename)})
   end
 
   defp log_info(pid, msg) do

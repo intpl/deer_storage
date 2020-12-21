@@ -1541,16 +1541,36 @@ msgid "Starting importer for file named '%{filename}'..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:37
+#: lib/pjeski/csv_importer.ex:36
 msgid "Successfully imported '%{filename}'"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:104
+#: lib/pjeski/csv_importer.ex:103
 msgid "Inserted %{count} records from file '%{filename}'"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:153
+#: lib/pjeski/csv_importer.ex:152
 msgid "Your subscription limits don't allow to import file named '%{filename}'."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:80
+msgid "CSV parser error: %{message}"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:83
+msgid "Too many records: Limit is %{limit}"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:157
+msgid "Unknown error occurred when importing '%{filename}'."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:78
+msgid "Validation failed: %{errors}"
 msgstr ""
