@@ -25,7 +25,7 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
 
   def render(assigns) do
     ~L"""
-    <section class="hero is-light is-fullheight-with-navbar">
+    <section class="hero is-light is-fullheight-with-navbar is-bold">
       <div class="hero-body">
         <div class="container">
           <p class="title">
