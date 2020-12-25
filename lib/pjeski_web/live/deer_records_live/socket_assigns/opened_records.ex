@@ -104,7 +104,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     end)
   end
 
-  def assign_opened_record_and_fetch_connected_records(%{assigns: %{records: records, opened_records: opened_records, current_subscription: subscription, table_id: table_id}} = socket, record_id) when length(opened_records) < 50 do
+  def assign_opened_record_and_fetch_connected_records(%{assigns: %{records: records, opened_records: opened_records, current_subscription: subscription, table_id: table_id}} = socket, record_id) when length(opened_records) < 100 do
     record = find_record_in_list_or_database(subscription, records, record_id, table_id)
     opened_records = toggle_opened_record_in_list(opened_records, [record, []])
 
@@ -112,6 +112,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
 
     assign(socket, opened_records: opened_records)
   end
+
+  def assign_opened_record_and_fetch_connected_records(socket, _), do: socket
 
   def handle_disconnecting_records(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record1_id, record2_id) do
     [record1, connected_records] = find_record_in_opened_records(opened_records, record1_id)

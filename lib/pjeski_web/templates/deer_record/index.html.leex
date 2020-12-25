@@ -61,6 +61,8 @@
   true -> ""
 end %>
 
+<% opened_records_count = length(@opened_records) %>
+
 <section class="section">
   <div class="columns has-background-white sticky">
     <div class="column is-2">
@@ -107,8 +109,8 @@ end %>
         </p>
       </div>
       <div class="is-hidden-mobile">
-        <%= if (opened_records_count = length(@opened_records)) > 0 do %>
-          <%= gettext("They are %{count} records selected.", count: opened_records_count) %>
+        <%= if opened_records_count > 0 do %>
+          <%= gettext("%{count} records selected.", count: opened_records_count) %>
           |
           <a href="#" phx-click="clear_selected"><%= gettext("Unselect") %></a>
           |
@@ -159,25 +161,35 @@ end %>
         <%= render(PjeskiWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
     </div>
 
-    <%= for [record, connected_records] <- @opened_records do %>
+    <%= if opened_records_count > 10 do %>
       <div class="column">
-        <div class="sticky overwrite-padding-top-60">
-          <article class="section">
-            <%= live_component(
-                @socket,
-                PjeskiWeb.DeerRecordsLive.ShowComponent,
-                id: record.id,
-                record: record,
-                subscription: @current_subscription,
-                table_id: @table_id,
-                connected_records: connected_records
-              )
-            %>
-
-            <%= live_component(@socket, PjeskiWeb.DeerRecordsLive.DropzoneComponent, id: record.id) %>
-          </article>
+        <div class="has-text-centered">
+          <div class="sticky overwrite-padding-top-60">
+            <%= gettext("%{count} records selected.", count: opened_records_count) %>
+          </div>
         </div>
       </div>
+    <% else %>
+      <%= for [record, connected_records] <- @opened_records do %>
+        <div class="column">
+          <div class="sticky overwrite-padding-top-60">
+            <article class="section">
+              <%= live_component(
+                  @socket,
+                  PjeskiWeb.DeerRecordsLive.ShowComponent,
+                  id: record.id,
+                  record: record,
+                  subscription: @current_subscription,
+                  table_id: @table_id,
+                  connected_records: connected_records
+                )
+              %>
+
+              <%= live_component(@socket, PjeskiWeb.DeerRecordsLive.DropzoneComponent, id: record.id) %>
+            </article>
+          </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </section>

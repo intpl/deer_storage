@@ -402,14 +402,14 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:39
-#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/deer_record/index.html.leex:102
+#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/deer_record/index.html.leex:104
 msgid "Search"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:57
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:33 lib/pjeski_web/templates/admin/user/index.html.eex:34
-#: lib/pjeski_web/templates/deer_record/index.html.leex:94
+#: lib/pjeski_web/templates/deer_record/index.html.leex:96
 msgid "Search..."
 msgstr ""
 
@@ -427,7 +427,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:22
-#: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/deer_record/index.html.leex:84
+#: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/deer_record/index.html.leex:86
 msgid "Clear"
 msgstr ""
 
@@ -850,7 +850,7 @@ msgid "Cancel"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:130
+#: lib/pjeski_web/templates/deer_record/index.html.leex:132
 msgid "Could not find anything..."
 msgstr ""
 
@@ -866,7 +866,7 @@ msgid "Delete"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:70
+#: lib/pjeski_web/templates/deer_record/index.html.leex:72
 msgid "New record"
 msgstr ""
 
@@ -876,7 +876,7 @@ msgid "Save changes"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:135
+#: lib/pjeski_web/templates/deer_record/index.html.leex:137
 msgid "There are no more records"
 msgstr ""
 
@@ -933,18 +933,13 @@ msgid "Close"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:113
+#: lib/pjeski_web/templates/deer_record/index.html.leex:115
 msgid "Unselect"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:115
+#: lib/pjeski_web/templates/deer_record/index.html.leex:117
 msgid "Are you sure to REMOVE all %{count} selected records?"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:111
-msgid "They are %{count} records selected."
 msgstr ""
 
 #, elixir-format
@@ -1467,7 +1462,7 @@ msgid "A good example to start working with a students database. It has students
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:116
+#: lib/pjeski_web/templates/deer_record/index.html.leex:118
 msgid "Delete selected (%{count})"
 msgstr ""
 
@@ -1574,4 +1569,10 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski/csv_importer.ex:78
 msgid "Validation failed: %{errors}"
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/deer_record/index.html.leex:113
+#: lib/pjeski_web/templates/deer_record/index.html.leex:168
+msgid "%{count} records selected."
 msgstr ""
