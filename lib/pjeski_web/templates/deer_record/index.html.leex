@@ -15,13 +15,13 @@
 <% end %>
 
 <%= cond do
-  @connecting_id ->
+  @connecting_record ->
     live_component(
       @socket,
       PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent,
       id: "connecting_component",
       subscription: @current_subscription,
-      excluded_records_ids: [@connecting_id], # FIXME
+      excluded_records_ids: [@connecting_record.id | @connecting_record.connected_deer_records_ids],
       connecting_record_query: @connecting_query,
       connecting_record_records: @connecting_records,
       connecting_record_selected_table_id: @connecting_selected_table_id

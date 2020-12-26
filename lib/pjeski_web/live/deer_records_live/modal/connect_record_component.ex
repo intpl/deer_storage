@@ -12,6 +12,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
         connecting_record_selected_table_id: table_id}, socket) do
 
     {:ok, assign(socket,
+      excluded_records_ids: excluded_record_ids,
       deer_columns: deer_columns_from_subscription(subscription, table_id),
       deer_tables: deer_tables,
       table_id: table_id,
@@ -66,17 +67,19 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
             <div class="columns is-mobile">
               <div class="column">
                 <%= for record <- @records do %>
-                  <a class="box" href="#" phx-click="connect_records" phx-value-record_id="<%= record.id %>">
-                    <article class="media">
-                      <div class="media-content">
-                        <div class="content">
-                          <%= for %{id: column_id, name: column_name} <- @deer_columns do %>
-                            <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong>
-                          <% end %>
+                  <%= if !Enum.member?(@excluded_records_ids, record.id) do %>
+                    <a class="box" href="#" phx-click="connect_records" phx-value-record_id="<%= record.id %>">
+                      <article class="media">
+                        <div class="media-content">
+                          <div class="content">
+                            <%= for %{id: column_id, name: column_name} <- @deer_columns do %>
+                              <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong>
+                            <% end %>
+                          </div>
                         </div>
-                      </div>
-                    </article>
-                  </a>
+                      </article>
+                    </a>
+                  <% end %>
                 <% end %>
               </div>
             </div>

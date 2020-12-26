@@ -40,7 +40,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
   def handle_event("close_shared_record", _, socket), do: {:noreply, socket |> assign(current_shared_record_uuid: nil)}
-  def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(connecting_id: nil, connecting_query: nil)}
+  def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(connecting_record: nil, connecting_query: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, assign_closed_editing_record(socket)}
   def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :opened_records, [])}
 
@@ -132,7 +132,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       current_subscription_tables: nil,
       current_subscription_deer_records_per_table_limit: 0,
       current_shared_record_uuid: nil,
-      connecting_id: nil,
+      connecting_record: nil,
       connecting_query: nil,
       connecting_records: [],
       connecting_selected_table_id: nil,

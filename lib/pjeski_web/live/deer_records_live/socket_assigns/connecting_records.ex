@@ -9,7 +9,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
   import Phoenix.LiveView, only: [assign: 2]
   import Pjeski.DeerRecords, only: [connect_records!: 3, remove_orphans_from_connected_records!: 2]
 
-  def assign_connected_records_after_update(%{assigns: %{connecting_id: nil}} = socket, _), do: socket
+  def assign_connected_records_after_update(%{assigns: %{connecting_record: nil}} = socket, _), do: socket
   def assign_connected_records_after_update(
     %{assigns: %{
          current_subscription: %{id: subscription_id},
@@ -46,13 +46,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
     )
   end
 
-  def handle_connecting_records(%{assigns: %{opened_records: opened_records, connecting_id: connecting_id, connecting_records: connecting_records, current_subscription: subscription}} = socket, selected_record_id) do
-    [record1, _connected_records] = Enum.find(opened_records, fn [record, _connected_records] -> record.id == connecting_id end)
+  def handle_connecting_records(%{assigns: %{opened_records: opened_records, connecting_record: connecting_record, connecting_records: connecting_records, current_subscription: subscription}} = socket, selected_record_id) do
+    [record1, _connected_records] = Enum.find(opened_records, fn [record, _connected_records] -> record.id == connecting_record.id end)
     record2 = Enum.find(connecting_records, fn record -> record.id == selected_record_id end)
 
     connect_records!(record1, record2, subscription.id)
 
-    assign(socket, connecting_id: nil, connecting_query: nil, connecting_records: [])
+    assign(socket, connecting_record: nil, connecting_query: nil, connecting_records: [])
   end
 
   def assign_modal_for_connecting_records(%{assigns: %{records: records, current_subscription: subscription, table_id: table_id}} = socket, record_id) do
@@ -61,7 +61,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
     connecting_record_records = search_records(subscription.id, table_id, "", 1)
 
     socket |> assign(
-      connecting_id: record.id,
+      connecting_record: record,
       connecting_records: connecting_record_records,
       connecting_selected_table_id: table_id)
   end
