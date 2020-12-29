@@ -54,8 +54,8 @@ defmodule Pjeski.Services.UploadDeerFile do
   end
 
   defp copy_file!({:error, _} = result), do: result
-  defp copy_file!(%{tmp_path: tmp_path, id: id, subscription_id: subscription_id, record: %{id: record_id}} = assigns) do
-    dir_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{record_id}"
+  defp copy_file!(%{tmp_path: tmp_path, id: id, subscription_id: subscription_id, record: %{id: record_id, deer_table_id: table_id}} = assigns) do
+    dir_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{table_id}/#{record_id}"
 
     File.mkdir_p!(dir_path)
     File.copy!(tmp_path, dir_path <> "/#{id}")

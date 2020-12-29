@@ -9,7 +9,7 @@ defmodule PjeskiWeb.SharedRecordFilesController do
     deer_record = shared_record.deer_record
     deer_file = ensure_deer_file_exists_in_record!(deer_record, file_id)
 
-    file_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{deer_record.id}/#{deer_file.id}"
+    file_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{deer_record.deer_table_id}/#{deer_record.id}/#{deer_file.id}"
 
     send_download(conn, {:file, file_path}, filename: deer_file.original_filename)
   end
