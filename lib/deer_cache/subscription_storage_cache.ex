@@ -45,7 +45,7 @@ defmodule DeerCache.SubscriptionStorageCache do
     grouped_data = Pjeski.Services.CalculateDeerStorage.run!()
     state = %{ets_table_name: ets_table_name}
 
-    for [subscription_id, %{files: files, kilobytes: kilobytes}] <- grouped_data, do: set(subscription_id, {files, kilobytes}, state)
+    for {subscription_id, {files, kilobytes}} <- grouped_data, do: set(subscription_id, {files, kilobytes}, state)
 
     {:ok, state}
   end

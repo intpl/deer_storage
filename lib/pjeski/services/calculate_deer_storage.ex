@@ -1,57 +1,19 @@
 defmodule Pjeski.Services.CalculateDeerStorage do
-  @uploaded_files_dir File.cwd! <> "/uploaded_files"
+  alias Pjeski.DeerRecords.DeerRecord
+  alias Pjeski.Repo
+  import Ecto.Query, warn: false
+
+  import Pjeski.DeerRecords.DeerRecord, only: [deer_files_stats: 1]
 
   def run! do
-    stats = Enum.reduce(subscriptions_ids(), %{}, fn subscription_id, results ->
-      id = String.to_integer(subscription_id)
+    minimal_records = Repo.all(
+      from r in DeerRecord, select: [:subscription_id, :deer_files], where: fragment("cardinality(?) > 0", field(r, :deer_files)))
 
-      Map.merge(results, %{id => calculate_subscription_directory(subscription_id)})
-    end)
+    Enum.reduce(minimal_records, %{}, fn dr, acc_map ->
+      {total_files, total_kilobytes} = acc_map[dr.subscription_id] || {0, 0}
+      {dr_files, dr_kilobytes} = deer_files_stats(dr)
 
-    compact_stats_to_subscription_level(stats)
-  end
-
-  defp subscriptions_ids do
-    case File.ls(@uploaded_files_dir) do
-      {:ok, subscriptions_ids} -> subscriptions_ids
-      {:error, :enoent} -> []
-    end
-  end
-
-  defp calculate_subscription_directory(subscription_id) do
-    calculate_records_directories(
-      subscription_id,
-      File.ls!(@uploaded_files_dir <> "/#{subscription_id}")
-    )
-  end
-
-  defp calculate_records_directories(subscription_id, records_ids) do
-    Enum.reduce(records_ids, %{}, fn record_id, results ->
-      id = String.to_integer(record_id)
-      files = File.ls!(@uploaded_files_dir <> "/#{subscription_id}/#{record_id}")
-      total_kilobytes = Enum.map(files, fn filename -> kilobytes(subscription_id, record_id, filename) end) |> Enum.sum
-      total_files = length(files)
-
-      Map.merge(results, %{id => %{total_files: total_files, total_kilobytes: total_kilobytes}})
-    end)
-  end
-
-  defp kilobytes(subscription_id, record_id, filename) do
-    bytes = File.stat!(@uploaded_files_dir <> "/#{subscription_id}/#{record_id}/#{filename}").size
-
-    ceil(bytes / 1024)
-  end
-
-  defp compact_stats_to_subscription_level(all_stats) do
-    Enum.map(all_stats, fn {subscription_id, stats} ->
-      total_stats = Enum.reduce(stats, %{files: 0, kilobytes: 0}, fn {_id, record_stats}, %{files: total_subscription_files, kilobytes: total_subscription_kilobytes} ->
-        %{
-          files: total_subscription_files + record_stats.total_files,
-          kilobytes: total_subscription_kilobytes + record_stats.total_kilobytes
-        }
-      end)
-
-      [subscription_id, total_stats]
+      Map.merge(acc_map, %{dr.subscription_id => {total_files + dr_files, total_kilobytes + dr_kilobytes}})
     end)
   end
 end
