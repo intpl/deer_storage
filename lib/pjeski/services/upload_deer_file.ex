@@ -8,6 +8,7 @@ defmodule Pjeski.Services.UploadDeerFile do
 
   import Pjeski.DeerRecords, only: [prepend_record_with_deer_file!: 2]
   import Pjeski.Users, only: [ensure_user_subscription_link!: 2]
+  import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
 
   def run!(tmp_path, original_filename, record_id, user_id) do
     {:ok, inside_transaction_result} = Repo.transaction(fn ->
@@ -15,6 +16,7 @@ defmodule Pjeski.Services.UploadDeerFile do
       assigns = %__MODULE__{tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id}
 
       assigns
+      |> raise_if_subscription_is_expired
       |> ensure_user_subscription_link_from_assigns!
       |> ensure_limits_for_subscription
       |> generate_random_id
@@ -24,6 +26,12 @@ defmodule Pjeski.Services.UploadDeerFile do
     end)
 
     inside_transaction_result
+  end
+
+  defp raise_if_subscription_is_expired(%{subscription: subscription} = assigns) do
+    if is_expired?(subscription), do: raise "Subscription is expired"
+
+    assigns
   end
 
   defp ensure_user_subscription_link_from_assigns!(%{uploaded_by_user_id: user_id, subscription_id: subscription_id} = assigns) do
