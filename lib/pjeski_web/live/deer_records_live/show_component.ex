@@ -41,7 +41,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                 <a href="#" class="dropdown-item" href="#" phx-click="share-for-editing" phx-value-record_id="<%= record.id %>">
                   <%= gettext("Share to edit for 90 days") %>
                 </a>
-                <a href="#" class="dropdown-item" href="#" phx-click="invalidate-shared-links" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure you want to delete all shared links for this record?") %>">
+                <a href="#" class="dropdown-item" href="#" phx-click="invalidate-shared-links" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure you want to delete all shared links for this record and files in it?") %>">
                   <%= gettext("Delete/invalidate all shared links") %>
                 </a>
               </div>
@@ -69,6 +69,10 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
               <p>
                 <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
                 (<%= display_filesize_from_kilobytes(kilobytes) %>)
+
+                <a class="button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
+                  <span><%= gettext("Share") %></span>
+                </a>
 
                 <a class="button" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
                   <span class="delete"></span>&nbsp;

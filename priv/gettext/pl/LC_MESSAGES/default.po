@@ -408,7 +408,7 @@ msgid "Search"
 msgstr "Szukaj"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:57
+#: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:58
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:33 lib/pjeski_web/templates/admin/user/index.html.eex:34
 #: lib/pjeski_web/templates/deer_record/index.html.leex:96
 msgid "Search..."
@@ -674,7 +674,7 @@ msgid "Current subscription"
 msgstr "Obecna subskrypcja"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:99
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:103
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:161 lib/pjeski_web/templates/admin/user/show.html.eex:145
 msgid "Disconnect"
 msgstr "Odłącz"
@@ -862,7 +862,7 @@ msgstr "Utwórz rekord"
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:18
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:52 lib/pjeski_web/live/deer_records_live/show_component.ex:75
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:52 lib/pjeski_web/live/deer_records_live/show_component.ex:79
 msgid "Delete"
 msgstr "Usuń"
 
@@ -927,8 +927,8 @@ msgid "Go back to your subscription"
 msgstr "Powrót do Twojej subskrypcji"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:89
-#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:42 lib/pjeski_web/live/deer_records_live/show_component.ex:23
+#: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:92
+#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:35 lib/pjeski_web/live/deer_records_live/show_component.ex:23
 #: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:33
 msgid "Close"
 msgstr "Zamknij"
@@ -971,7 +971,7 @@ msgid "User has been removed from your subscription"
 msgstr "Użytkownik został usunięty z Twojej subskrypcji"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:73
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:77
 msgid "Are you sure to DELETE this file?"
 msgstr "Na pewno USUNĄĆ ten plik?"
 
@@ -1023,7 +1023,7 @@ msgid "Total space limit: %{megabytes} MB"
 msgstr "Limit miejsca: %{megabytes} MB"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/deer_files_controller.ex:28
+#: lib/pjeski_web/controllers/deer_files_controller.ex:30
 msgid "This subscription limits has been met"
 msgstr "Przekroczono limit plików lub dostępnego miejsca"
 
@@ -1119,14 +1119,9 @@ msgid "You can't add more columns"
 msgstr "Nie możesz dodać więcej kolumn"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:40
+#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:33
 msgid "Copy to clipboard and close"
 msgstr "Skopiuj do schowka i zamknij"
-
-#, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:22
-msgid "Share record"
-msgstr "Udostępnij rekord"
 
 #, elixir-format
 #: lib/pjeski_web/templates/deer_record/show_external.html.leex:24
@@ -1144,17 +1139,17 @@ msgid "All uploaded files for this record are removed and record connections are
 msgstr "Wszystkie wgrane pliki dla tego rekordu zostały usunięte i połączenia między tym rekordem już nie istnieją"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:98
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:102
 msgid "Are you sure you want to unlink these records from each other?"
 msgstr "Czy na pewno odłączyć od siebie te rekordy?"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:124
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:128
 msgid "Connect a record"
 msgstr "Połącz"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:30
+#: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:31
 msgid "Connect record"
 msgstr "Połącz"
 
@@ -1190,12 +1185,12 @@ msgid "You can still save this form data, but it will appear as a new record."
 msgstr "Możesz w dalszym ciągu zapisać ten rekord jako zupełnie nowy."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:95
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:99
 msgid "Open"
 msgstr "Otwórz"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:84
+#: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:87
 msgid "There may be more records than these. Please use search box."
 msgstr "Może być więcej rekordów niż te wyświetlone"
 
@@ -1498,11 +1493,6 @@ msgid "You can overwrite the following changes."
 msgstr "Możesz nadpisać poniższe zmiany."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:44
-msgid "Are you sure you want to delete all shared links for this record?"
-msgstr "Czy na pewno usunąć wszystkie linki do tego rekordu?"
-
-#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:45
 msgid "Delete/invalidate all shared links"
 msgstr "Usuń/wygaś wszystkie udostępnione linki"
@@ -1572,8 +1562,18 @@ msgstr "Wystąpił nieznany błąd podczas próby importowania pliku '${filename
 msgid "Validation failed: %{errors}"
 msgstr "Błąd walidacji: %{errors}"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/deer_record/index.html.leex:113
 #: lib/pjeski_web/templates/deer_record/index.html.leex:168
 msgid "%{count} records selected."
 msgstr "Zaznaczono %{count} rekordy/-ów."
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:44
+msgid "Are you sure you want to delete all shared links for this record and files in it?"
+msgstr "Czy na pewno usunąć wszystkie linki do tego rekordu i/lub plików w nim?"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:20 lib/pjeski_web/live/deer_records_live/show_component.ex:74
+msgid "Share"
+msgstr "Udostępnij"

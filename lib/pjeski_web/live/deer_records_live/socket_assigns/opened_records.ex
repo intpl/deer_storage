@@ -2,11 +2,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   alias PjeskiWeb.Router.Helpers, as: Routes
   alias Pjeski.DeerRecords.DeerRecord
   alias Pjeski.SharedRecords
+  alias Pjeski.SharedFiles
 
   import Phoenix.LiveView, only: [assign: 2, push_redirect: 2]
 
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [reduce_list_with_function: 2, find_record_in_list_or_database: 4]
   import Pjeski.DeerRecords, only: [
+    ensure_deer_file_exists_in_record!: 2,
     batch_delete_records: 3,
     delete_file_from_record!: 3,
     delete_record: 2,
@@ -37,19 +39,28 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   def assign_created_shared_record_for_editing_uuid(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
     %{id: uuid} = SharedRecords.create_record_for_editing!(subscription.id, user.id, record.id)
-    assign(socket, current_shared_record_uuid: uuid)
+    assign(socket, current_shared_link: shared_link_for_record(subscription.id, uuid))
   end
 
   def assign_created_shared_record_uuid(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
     %{id: uuid} = SharedRecords.create_record!(subscription.id, user.id, record.id)
-    assign(socket, current_shared_record_uuid: uuid)
+    assign(socket, current_shared_link: shared_link_for_record(subscription.id, uuid))
+  end
+
+  def assign_created_shared_file_uuid(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id, file_id) do
+    [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
+    ensure_deer_file_exists_in_record!(record, file_id)
+
+    %{id: uuid} = SharedFiles.create_file!(subscription.id, user.id, record.id, file_id)
+    assign(socket, current_shared_link: shared_link_for_file(subscription.id, uuid, file_id))
   end
 
   def assign_invalidated_shared_records_for_record(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
 
     SharedRecords.delete_all_by_deer_record_id!(subscription.id, record.id)
+    SharedFiles.delete_all_by_deer_record_id!(subscription.id, record.id)
 
     socket
   end
@@ -149,5 +160,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
 
   defp find_record_in_opened_records(opened_records, record_id) do
     Enum.find(opened_records, fn [record, _connected_records] -> record.id == record_id end)
+  end
+
+  defp shared_link_for_record(subscription_id, record_uuid) do
+    Routes.live_url(PjeskiWeb.Endpoint, PjeskiWeb.SharedRecordsLive.Show, subscription_id, record_uuid)
+  end
+
+  defp shared_link_for_file(subscription_id, shared_file_uuid, file_id) do
+    Routes.shared_record_files_url(PjeskiWeb.Endpoint, :download_file_from_shared_file, subscription_id, shared_file_uuid, file_id)
   end
 end

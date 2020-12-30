@@ -1,9 +1,9 @@
-defmodule Pjeski.DeleteOutdatedSharedRecordsEvery24h do
+defmodule Pjeski.DeleteOutdatedSharedRecordsAndFilesEvery24h do
   require Logger
   use GenServer
 
   def start_link do
-    Logger.info("Starting DeleteOutdatedSharedRecordsEvery24h worker...")
+    Logger.info("Starting DeleteOutdatedSharedRecordsAndFilesEvery24h worker...")
     GenServer.start_link(__MODULE__, %{})
   end
 
@@ -13,8 +13,10 @@ defmodule Pjeski.DeleteOutdatedSharedRecordsEvery24h do
   end
 
   def handle_info(:work, state) do
-    {count, _} = Pjeski.SharedRecords.delete_outdated!
-    Logger.info("Deleted #{count} outdated shared records")
+    {records_count, _} = Pjeski.SharedRecords.delete_outdated!
+    {files_count, _} = Pjeski.SharedFiles.delete_outdated!
+
+    Logger.info("Deleted #{records_count} outdated shared records and #{files_count} outdated shared files")
 
     schedule_next_work()
 

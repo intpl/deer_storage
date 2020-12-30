@@ -26,13 +26,13 @@
       connecting_record_records: @connecting_records,
       connecting_record_selected_table_id: @connecting_selected_table_id
     )
-  @current_shared_record_uuid ->
+  @current_shared_link ->
     live_component(
       @socket,
       PjeskiWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent,
       id: "shared_record_component",
       subscription_id: @current_subscription_id,
-      current_shared_record_uuid: @current_shared_record_uuid
+      current_shared_link: @current_shared_link
     )
   @editing_record ->
     live_component(

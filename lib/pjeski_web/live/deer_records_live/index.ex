@@ -39,7 +39,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   end
 
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
-  def handle_event("close_shared_record", _, socket), do: {:noreply, socket |> assign(current_shared_record_uuid: nil)}
+  def handle_event("close_shared_link", _, socket), do: {:noreply, socket |> assign(current_shared_link: nil)}
   def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(connecting_record: nil, connecting_query: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, assign_closed_editing_record(socket)}
   def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :opened_records, [])}
@@ -59,7 +59,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("share-for-editing", %{"record_id" => record_id}, socket), do: {:noreply, assign_created_shared_record_for_editing_uuid(socket, record_id)}
   def handle_event("invalidate-shared-links", %{"record_id" => record_id}, socket), do: {:noreply, assign_invalidated_shared_records_for_record(socket, record_id)}
 
-
   def handle_event("connecting_record_filter", %{"query" => query, "table_id" => new_table_id}, socket), do: {:noreply, assign_filtered_connected_records(socket, query, new_table_id)}
   def handle_event("connect_records", %{"record_id" => record_id}, socket), do: {:noreply, handle_connecting_records(socket, String.to_integer(record_id))}
   def handle_event("disconnect_records", %{"opened_record_id" => opened_record_id, "connected_record_id" => connected_record_id}, socket) do
@@ -69,6 +68,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("delete_selected", _, socket), do: {:noreply, dispatch_delete_selected_records(socket)}
   def handle_event("delete", %{"record_id" => record_id}, socket), do: {:noreply, dispatch_delete_record(socket, record_id)}
   def handle_event("delete_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, dispatch_delete_file(socket, record_id, file_id)}
+
+  def handle_event("share_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, assign_created_shared_file_uuid(socket, record_id, file_id)}
 
   def handle_event("clear", _, socket), do: {:noreply, run_search_query_and_assign_results(socket, "", 1)}
   def handle_event("filter", %{"query" => query}, socket) when byte_size(query) <= 50, do: {:noreply, run_search_query_and_assign_results(socket, query, 1)}
@@ -131,7 +132,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       current_subscription_name: nil,
       current_subscription_tables: nil,
       current_subscription_deer_records_per_table_limit: 0,
-      current_shared_record_uuid: nil,
+      current_shared_link: nil,
       connecting_record: nil,
       connecting_query: nil,
       connecting_records: [],

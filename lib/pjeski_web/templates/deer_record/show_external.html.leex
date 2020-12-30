@@ -55,7 +55,7 @@
         <%= Enum.map(@deer_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
           <li>
               <p>
-                <%= link "#{name}", to: Routes.shared_record_files_path(PjeskiWeb.Endpoint, :download_file, @subscription.id, @shared_record.id, file_id) %>
+                <%= link "#{name}", to: Routes.shared_record_files_path(PjeskiWeb.Endpoint, :download_file_from_shared_record, @subscription.id, @shared_record.id, file_id) %>
                 (<%= display_filesize_from_kilobytes(kilobytes) %>)
               </p>
           </li>
