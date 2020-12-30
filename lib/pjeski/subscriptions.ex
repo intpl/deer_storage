@@ -46,7 +46,6 @@ defmodule Pjeski.Subscriptions do
   end
 
   def list_expired_subscriptions do
-    # todo: honor subscription time zone
     date = Date.utc_today
     query = from s in Subscription, where: fragment("?::date", s.expires_on) <= ^date
 
@@ -137,9 +136,10 @@ defmodule Pjeski.Subscriptions do
   end
 
   def delete_subscription(%Subscription{} = subscription) do
+    subscription = Repo.delete!(subscription)
     File.rm_rf!(File.cwd! <> "/uploaded_files/#{subscription.id}")
 
-    Repo.delete(subscription)
+    {:ok, subscription}
   end
 
   def change_subscription_deer(%Subscription{} = subscription) do

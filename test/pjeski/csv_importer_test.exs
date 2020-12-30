@@ -12,7 +12,7 @@ defmodule Pjeski.CsvImporterTest do
     setup do
       user = create_valid_user_with_subscription() |> Repo.preload(:last_used_subscription)
 
-      start_supervised(DeerCache.RecordsCountsCache) # TODO
+      start_supervised(DeerCache.RecordsCountsCache)
 
       all_records_for = fn (subscription_id) -> DeerRecord |> where([dr], dr.subscription_id == ^subscription_id) |> Pjeski.Repo.all end
 

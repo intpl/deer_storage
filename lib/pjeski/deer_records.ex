@@ -82,7 +82,7 @@ defmodule Pjeski.DeerRecords do
 
     {deleted_count, _} = Repo.delete_all(query)
 
-    spawn fn -> try_to_delete_deer_records_directories(subscription_id, records) end
+    spawn fn -> try_to_delete_deer_records_directories(subscription_id, table_id, records) end
 
     notify_about_deer_files_deletion(subscription_id, files_count, kilobytes)
     notify_about_batch_record_delete(subscription_id, list_of_ids)
@@ -114,7 +114,7 @@ defmodule Pjeski.DeerRecords do
       deer_file = Enum.find(record.deer_files, fn deer_file -> deer_file.id == file_id end) || raise("invalid file id")
 
       updated_record = Repo.update!(DeerRecord.reject_file_from_changeset(record, file_id))
-      File.rm!(File.cwd! <> "/uploaded_files/#{subscription_id}/#{record_id}/#{file_id}")
+      File.rm!(File.cwd! <> "/uploaded_files/#{subscription_id}/#{record.deer_table_id}/#{record_id}/#{file_id}")
 
       notify_about_record_update(updated_record)
       notify_about_deer_files_deletion(subscription_id, 1, deer_file.kilobytes)
@@ -200,7 +200,7 @@ defmodule Pjeski.DeerRecords do
 
   defp maybe_delete_deer_files_directory({:error, _} = response), do: response
   defp maybe_delete_deer_files_directory({:ok, record}) do
-    File.rm_rf!(File.cwd! <> "/uploaded_files/#{record.subscription_id}/#{record.id}")
+    File.rm_rf!(File.cwd! <> "/uploaded_files/#{record.subscription_id}/#{record.deer_table_id}/#{record.id}")
 
     {:ok, record}
   end
@@ -213,8 +213,8 @@ defmodule Pjeski.DeerRecords do
     {:ok, record}
   end
 
-  defp try_to_delete_deer_records_directories(subscription_id, records) do
-    Enum.each(records, fn %{id: id} -> File.rm_rf(File.cwd! <> "/uploaded_files/#{subscription_id}/#{id}") end)
+  defp try_to_delete_deer_records_directories(subscription_id, table_id, records) do
+    Enum.each(records, fn %{id: id} -> File.rm_rf(File.cwd! <> "/uploaded_files/#{subscription_id}/#{table_id}/#{id}") end)
   end
 
   defp notify_about_deer_files_deletion(_subscription_id, 0, 0), do: nil
