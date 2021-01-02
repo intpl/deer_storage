@@ -18,7 +18,7 @@ defmodule PjeskiWeb.SharedRecordFilesController do
     send_download(conn, {:file, file_path}, filename: deer_file.original_filename)
 
 
-    rescue _ -> {:noreply, conn |> put_flash(:info, "Could not find file.") |> redirect(to: "/")}
+    rescue _ -> {:noreply, conn |> put_flash(:error, "Could not find file.") |> redirect(to: "/")}
   end
 
   def download_file_from_shared_record(conn, %{"subscription_id" => subscription_id, "shared_record_id" => shared_record_id, "file_id" => file_id}) do
@@ -32,6 +32,6 @@ defmodule PjeskiWeb.SharedRecordFilesController do
 
     send_download(conn, {:file, file_path}, filename: deer_file.original_filename)
 
-    rescue _ -> {:noreply, conn |> put_flash(:info, "Could not find record.") |> redirect(to: "/")}
+    rescue _ -> {:noreply, conn |> put_flash(:error, "Could not find record.") |> redirect(to: "/")}
   end
 end
