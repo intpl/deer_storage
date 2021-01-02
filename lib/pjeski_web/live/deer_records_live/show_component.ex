@@ -62,6 +62,14 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         </ul>
 
         <hr>
+        <a class="button is-success" href="#" phx-click="show_connect_record_modal" phx-value-record_id="<%= record.id %>">
+          <span><%= gettext("Connect a record") %></span>
+        </a>
+
+        <a class="button is-info" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
+          <span><%= gettext("Upload file(s)") %></span>
+        </a>
+        <hr>
 
         <ul>
           <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
@@ -99,6 +107,10 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                     <%= gettext("Open") %>
                   </a>
 
+                  <a class="button is-info" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= connected_record.id %>" phx-value-table_id="<%= connected_record.deer_table_id %>">
+                    <span><%= gettext("Upload file(s)") %></span>
+                  </a>
+
                   <a class="button is-danger is-outlined is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
                     <%= gettext("Disconnect") %>
                   </a>
@@ -123,10 +135,6 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             </article>
           <% end) %>
         </ul>
-
-        <a class="button is-success" href="#" phx-click="show_connect_record_modal" phx-value-record_id="<%= record.id %>">
-          <span><%= gettext("Connect a record") %></span>
-        </a>
       </div>
     </div>
     """

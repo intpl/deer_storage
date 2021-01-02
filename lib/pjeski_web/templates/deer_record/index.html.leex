@@ -15,6 +15,13 @@
 <% end %>
 
 <%= cond do
+  @uploading_file_for_record_id ->
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent,
+      id: "uploading_file_component",
+      record_id: @uploading_file_for_record_id
+    )
   @connecting_record ->
     live_component(
       @socket,
@@ -184,8 +191,6 @@ end %>
                   connected_records: connected_records
                 )
               %>
-
-              <%= live_component(@socket, PjeskiWeb.DeerRecordsLive.DropzoneComponent, id: record.id) %>
             </article>
           </div>
         </div>

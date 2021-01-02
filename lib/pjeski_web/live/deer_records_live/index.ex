@@ -4,7 +4,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   alias PjeskiWeb.Router.Helpers, as: Routes
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, Records, OpenedRecords, ConnectingRecords}
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, Records, OpenedRecords, ConnectingRecords, UploadingFiles}
   import Pjeski.DbHelpers.DeerRecordsSearch, only: [per_page: 0]
 
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
@@ -42,6 +42,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("close_shared_link", _, socket), do: {:noreply, socket |> assign(current_shared_link: nil)}
   def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(connecting_record: nil, connecting_query: nil)}
   def handle_event("close_edit", _, socket), do: {:noreply, assign_closed_editing_record(socket)}
+  def handle_event("close_upload_file_modal", _, socket), do: {:noreply, assign_closed_file_upload_modal(socket)}
   def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :opened_records, [])}
 
   def handle_event("validate_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_editing_record(socket, attrs)}
@@ -54,6 +55,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("show", %{"record_id" => record_id}, socket), do: {:noreply, assign_opened_record_and_fetch_connected_records(socket, record_id)}
   def handle_event("new", _, socket), do: {:noreply, assign_opened_new_record_modal(socket)}
   def handle_event("edit", %{"record_id" => record_id}, socket), do: {:noreply, assign_opened_edit_record_modal(socket, record_id)}
+  def handle_event("show_upload_file_modal", %{"record_id" => record_id, "table_id" => table_id}, socket), do: {:noreply, assign_opened_file_upload_modal(socket, table_id, record_id)}
 
   def handle_event("share", %{"record_id" => record_id}, socket), do: {:noreply, assign_created_shared_record_uuid(socket, record_id)}
   def handle_event("share-for-editing", %{"record_id" => record_id}, socket), do: {:noreply, assign_created_shared_record_for_editing_uuid(socket, record_id)}
@@ -137,6 +139,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       connecting_records: [],
       connecting_selected_table_id: nil,
       storage_limit_kilobytes: 0,
+      uploading_file_for_record_id: nil,
       locale: user.locale
     )
   end

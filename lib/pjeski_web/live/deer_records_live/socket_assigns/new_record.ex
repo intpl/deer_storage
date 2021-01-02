@@ -1,11 +1,9 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.NewRecord do
   alias Pjeski.DeerRecords.DeerRecord
-  import Phoenix.LiveView, only: [assign: 2, assign: 3, push_redirect: 2]
+  import Phoenix.LiveView, only: [assign: 2]
 
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2]
   import Pjeski.DeerRecords, only: [change_record: 3, check_limits_and_create_record: 3]
-
-  import Phoenix.LiveView, only: [assign: 2]
 
   def assign_opened_new_record_modal(%{assigns: %{current_subscription: %{deer_tables: deer_tables} = subscription, table_id: table_id}} = socket) do
     deer_columns = Enum.find(deer_tables, fn table -> table.id == table_id end).deer_columns
