@@ -16,23 +16,9 @@ defmodule PjeskiWeb.Router do
     plug PjeskiWeb.GetCurrentSubscriptionPlug
   end
 
-  pipeline :uploads do
-    plug :accepts, ["json"]
-    plug :fetch_session
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-    plug PjeskiWeb.LocalePlug
-  end
-
   pipeline :protected, do: plug Pow.Plug.RequireAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :not_authenticated, do: plug Pow.Plug.RequireNotAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :admin, do: plug PjeskiWeb.EnsureRolePlug, :admin
-
-  scope "/files", PjeskiWeb do
-    pipe_through [:uploads, :protected]
-
-    post "/record/:record_id", DeerFilesController, :upload_for_record
-  end
 
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]

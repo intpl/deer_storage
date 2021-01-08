@@ -72,6 +72,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("delete", %{"record_id" => record_id}, socket), do: {:noreply, dispatch_delete_record(socket, record_id)}
   def handle_event("delete_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, dispatch_delete_file(socket, record_id, file_id)}
 
+  def handle_event("validate_upload", _, socket), do: {:noreply, socket}
+  def handle_event("cancel_upload_entry", %{"ref" => ref}, socket), do: {:noreply, cancel_upload(socket, :deer_file, ref)}
+  def handle_event("submit_upload", _, socket), do: {:noreply, assign_submitted_upload(socket, self())}
+
   def handle_event("clear", _, socket), do: {:noreply, run_search_query_and_assign_results(socket, "", 1)}
   def handle_event("filter", %{"query" => query}, socket) when byte_size(query) <= 50, do: {:noreply, run_search_query_and_assign_results(socket, query, 1)}
 
@@ -100,6 +104,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_connected_records_after_update(record)
     |> assign_opened_records_after_record_update(record)
     |> assign_editing_record_after_update(record)
+    |> assign_uploading_file_for_record_after_update(record)
 
     {:noreply, socket}
   end
@@ -114,6 +119,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_opened_records_after_delete(id_or_ids)
     |> assign_connecting_records_and_count_after_delete(id_or_ids)
     |> assign_editing_record_after_delete(id_or_ids)
+    |> assign_uploading_file_for_record_after_delete(id_or_ids)
   end
 
   defp assign_initial_data(socket, user, current_subscription_id) do
@@ -139,7 +145,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       connecting_records: [],
       connecting_selected_table_id: nil,
       storage_limit_kilobytes: 0,
-      uploading_file_for_record_id: nil,
+      uploading_file_for_record: nil,
       locale: user.locale
     )
   end

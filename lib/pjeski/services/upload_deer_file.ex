@@ -10,22 +10,23 @@ defmodule Pjeski.Services.UploadDeerFile do
   import Pjeski.Users, only: [ensure_user_subscription_link!: 2]
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
 
-  def run!(tmp_path, original_filename, record_id, user_id) do
+  def run!(tmp_path, original_filename, record_id, user_id, id) do
     {:ok, inside_transaction_result} = Repo.transaction(fn ->
       record = Repo.one!(from(dr in DeerRecord, where: dr.id == ^record_id, lock: "FOR UPDATE")) |> Repo.preload(:subscription)
-      assigns = %__MODULE__{tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id}
+      assigns = %__MODULE__{tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id, id: id}
 
       assigns
       |> raise_if_subscription_is_expired
       |> ensure_user_subscription_link_from_assigns!
       |> ensure_limits_for_subscription
-      |> generate_random_id
       |> copy_file!
       |> notify_subscription_storage_cache
       |> update_record
     end)
 
     inside_transaction_result
+  after
+    File.rm!(tmp_path)
   end
 
   defp raise_if_subscription_is_expired(%{subscription: subscription} = assigns) do
@@ -54,19 +55,12 @@ defmodule Pjeski.Services.UploadDeerFile do
     end
   end
 
-  defp generate_random_id({:error, _} = result), do: result
-  defp generate_random_id(assigns) do
-    id = :crypto.strong_rand_bytes(20) |> Base.url_encode64 |> binary_part(0, 20)
-
-    Map.merge(assigns, %{id: id})
-  end
-
   defp copy_file!({:error, _} = result), do: result
   defp copy_file!(%{tmp_path: tmp_path, id: id, subscription_id: subscription_id, record: %{id: record_id, deer_table_id: table_id}} = assigns) do
     dir_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{table_id}/#{record_id}"
 
     File.mkdir_p!(dir_path)
-    File.copy!(tmp_path, dir_path <> "/#{id}")
+    File.cp!(tmp_path, dir_path <> "/#{id}")
 
     assigns
   end
