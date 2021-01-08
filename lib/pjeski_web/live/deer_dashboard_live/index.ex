@@ -172,7 +172,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
 
     consume_uploaded_entries(socket, :csv_file, fn %{path: path}, %{client_name: original_filename, uuid: uuid} ->
       tmp_path = Path.join(@tmp_dir, uuid)
-      File.cp!(path, tmp_path)
+      File.rename!(path, tmp_path)
 
       spawn(Pjeski.CsvImporter, :run!, [pid, subscription, user, tmp_path, original_filename, uuid, true])
     end)
