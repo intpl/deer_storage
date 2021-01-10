@@ -32,6 +32,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
       _ -> socket
     end
     |> assign(:uploading_file_for_record, nil)
+    |> assign(:upload_results, [])
   end
 
   def assign_opened_file_upload_modal(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, table_id, record_id) do
@@ -46,10 +47,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
       tmp_path = Path.join(@tmp_dir, uuid)
       File.rename!(path, tmp_path)
 
-      spawn(Pjeski.Services.UploadDeerFile, :run!, [tmp_path, original_filename, record_id, user_id, uuid])
+      spawn(Pjeski.Services.UploadDeerFile, :run!, [pid, tmp_path, original_filename, record_id, user_id, uuid])
     end)
 
-    socket
+    socket |> assign(:upload_results, [])
   end
 
   defp maybe_reload_and_overwrite_deer_file_upload(%{assigns: %{uploads: %{deer_file: _deer_file}}} = socket), do: reload_subscription_storage_and_allow_upload(socket)

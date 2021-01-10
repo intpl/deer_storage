@@ -51,6 +51,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
               </label>
               <%= if Enum.any?(@uploads.deer_file.entries) do %><button type="submit" class="button is-primary"><%= gettext("Upload file(s)") %></button><% end %>
             </form>
+
+            <%= for result <- @upload_results do %>
+              <%= case result do %>
+                <% {:ok, filename} -> %><span class="has-text-success"><%= gettext("File '%{filename}' uploaded successfuly", filename: filename) %></span>
+                <% {:error, filename} -> %><span class="has-text-danger"><%= gettext("File '%{filename}' could not be uploaded (space limit exceeded?)", filename: filename) %></span>
+              <% end %>
+              <br>
+            <% end %>
+
           </section>
 
           <footer class="modal-card-foot">

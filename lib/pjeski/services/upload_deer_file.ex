@@ -1,5 +1,5 @@
 defmodule Pjeski.Services.UploadDeerFile do
-  defstruct [:tmp_path, :record, :original_filename, :subscription, :subscription_id, :uploaded_by_user_id, :id, :kilobytes]
+  defstruct [:caller_pid, :tmp_path, :record, :original_filename, :subscription, :subscription_id, :uploaded_by_user_id, :id, :kilobytes]
 
   import Ecto.Query, warn: false
   alias Pjeski.Repo
@@ -10,21 +10,22 @@ defmodule Pjeski.Services.UploadDeerFile do
   import Pjeski.Users, only: [ensure_user_subscription_link!: 2]
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
 
-  def run!(tmp_path, original_filename, record_id, user_id, id) do
+  def run!(pid, tmp_path, original_filename, record_id, user_id, id) do
     {:ok, inside_transaction_result} = Repo.transaction(fn ->
       record = Repo.one!(from(dr in DeerRecord, where: dr.id == ^record_id, lock: "FOR UPDATE")) |> Repo.preload(:subscription)
-      assigns = %__MODULE__{tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id, id: id}
+      assigns = %__MODULE__{caller_pid: pid, tmp_path: tmp_path, record: record, original_filename: original_filename, subscription: record.subscription, subscription_id: record.subscription.id, uploaded_by_user_id: user_id, id: id}
 
       assigns
       |> raise_if_subscription_is_expired
       |> ensure_user_subscription_link_from_assigns!
+      |> validate_maximum_filename_length
       |> ensure_limits_for_subscription
       |> copy_file!
-      |> notify_subscription_storage_cache
+      |> notify_subscription_storage_cache # this may be wrong if update_record raises error
       |> update_record
     end)
 
-    inside_transaction_result
+    GenServer.cast(pid, {:upload_deer_file_result, {original_filename, inside_transaction_result}})
   after
     File.rm!(tmp_path)
   end
@@ -39,6 +40,10 @@ defmodule Pjeski.Services.UploadDeerFile do
     ensure_user_subscription_link!(user_id, subscription_id)
 
     assigns
+  end
+
+  defp validate_maximum_filename_length(%{original_filename: filename} = assigns) do
+    if String.length(filename) < 256, do: assigns, else: raise "filename length is more than maximum 255 characters"
   end
 
   defp ensure_limits_for_subscription(%{tmp_path: tmp_path, subscription: %{id: subscription_id, storage_limit_kilobytes: storage_limit_kilobytes, deer_files_limit: deer_files_limit}} = assigns) do

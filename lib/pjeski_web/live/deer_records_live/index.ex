@@ -2,6 +2,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   use Phoenix.LiveView
   alias Phoenix.PubSub
   alias PjeskiWeb.Router.Helpers, as: Routes
+  alias PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, Records, OpenedRecords, ConnectingRecords, UploadingFiles}
@@ -109,9 +110,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket}
   end
 
-  def handle_info({:record_update, record}, socket) do
-    {:noreply, assign_opened_records_after_record_update(socket, record)}
-  end
+  def handle_info({:record_update, record}, socket), do: {:noreply, assign_opened_records_after_record_update(socket, record)}
+
+  def handle_cast({:upload_deer_file_result, {filename, {:ok, _}}}, socket), do: {:noreply, assign_upload_result(socket, {:ok, filename})}
+  def handle_cast({:upload_deer_file_result, {filename, {:error, _}}}, socket), do: {:noreply, assign_upload_result(socket, {:error, filename})}
 
   defp remove_record_from_assigns(socket, id_or_ids) do
     socket
@@ -146,6 +148,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       connecting_selected_table_id: nil,
       storage_limit_kilobytes: 0,
       uploading_file_for_record: nil,
+      upload_results: [],
       locale: user.locale
     )
   end
@@ -160,4 +163,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     PubSub.subscribe(Pjeski.PubSub, "subscription:#{subscription_id}")
     PubSub.subscribe(Pjeski.PubSub, "records_counts:#{table_id}")
   end
+
+  defp assign_upload_result(%{assigns: %{upload_results: results}} = socket, message), do: assign(socket, :upload_results, [message | results])
+  defp assign_upload_result(socket, message), do: assign(socket, :upload_results, [message])
 end
