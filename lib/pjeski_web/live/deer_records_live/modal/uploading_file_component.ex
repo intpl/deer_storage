@@ -3,7 +3,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
   import PjeskiWeb.Gettext
   import PjeskiWeb.DeerRecordView, only: [display_filesize_from_kilobytes: 1]
 
-  def render(%{record: _record, uploads: uploads} = assigns) do
+  def render(%{uploads: _uploads} = assigns) do
     ~L"""
       <div class="modal is-active">
         <div class="modal-background"></div>
@@ -17,9 +17,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
 
           <section class="modal-card-body">
             <%= for entry <- @uploads.deer_file.entries do %>
-              <a href="#" phx-click="cancel_upload_entry" phx-value-ref="<%= entry.ref %>"> <%= gettext("Cancel") %> </a> |
+              <a href="#" phx-click="cancel_upload_entry" phx-value-ref="<%= entry.ref %>"> <%= gettext("Cancel") %> </a>
 
-              <%= entry.client_name %>
+              | <%= display_filesize_from_kilobytes(ceil(entry.client_size / 1024)) %>
+              | <%= entry.client_name %>
 
               <%= case entry do %>
                 <% %{progress: 100} -> %>

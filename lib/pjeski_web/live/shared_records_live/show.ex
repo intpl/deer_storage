@@ -50,11 +50,8 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
 
   def handle_event("close_edit", _, %{assigns: %{is_editable: true}} = socket), do: {:noreply, assign(socket, editing_record: nil, old_editing_record: nil)}
   def handle_event("close_upload_file_modal", _, %{assigns: %{is_editable: true}} = socket), do: {:noreply, assign(socket, uploading: false, upload_results: [])}
+  def handle_event("show_upload_file_modal", _, %{assigns: %{is_editable: true}} = socket), do: {:noreply, socket |> assign(:uploading, true) |> reload_subscription_storage_and_allow_upload}
 
-  def handle_event("show_upload_file_modal", _, %{assigns: %{is_editable: true, deer_record: %{id: record_id, deer_table_id: table_id}}} = socket) do
-    {:noreply, socket |> assign(:uploading, true) |> reload_subscription_storage_and_allow_upload
-    }
-  end
   def handle_event("submit_upload", _, %{assigns: %{is_editable: true, deer_record: %{id: record_id}, shared_record: %{created_by_user_id: user_id}}} = socket) do
     pid = self()
 

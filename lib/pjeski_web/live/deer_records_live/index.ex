@@ -2,7 +2,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   use Phoenix.LiveView
   alias Phoenix.PubSub
   alias PjeskiWeb.Router.Helpers, as: Routes
-  alias PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, Records, OpenedRecords, ConnectingRecords, UploadingFiles}
