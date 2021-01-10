@@ -74,9 +74,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
     """
   end
 
-  defp any_entry_in_progress?(%{deer_file: %{entries: []}}), do: false
-  defp any_entry_in_progress?(%{deer_file: %{entries: entries}}), do: Enum.any?()
-
   defp translate_error(:too_large), do: gettext("File size exceeds your subscription limits")
   defp translate_error(:total_size_exceeds_limits), do: gettext("Upload has been canceled due to the total size of files exceeded subscription limits")
 
