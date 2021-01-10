@@ -1,27 +1,34 @@
 <%= render(PjeskiWeb.LayoutView, "navigation_guest.html") %>
 
 <%= if @deer_record do %>
-  <%= if @editing_record, do: live_component(
-    @socket,
-    PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
-    id: "edit",
-    changeset: @editing_record,
-    old_editing_record: @old_editing_record,
-    can_create_records: false,
-    subscription: @subscription,
-    table_id: @deer_record.deer_table_id,
-    table_name: nil,
-    editing_record_has_been_removed: false
-  ) %>
+  <%= cond do
+    @editing_record -> live_component(@socket,
+      PjeskiWeb.DeerRecordsLive.Modal.EditComponent,
+      id: "edit",
+      changeset: @editing_record,
+      old_editing_record: @old_editing_record,
+      can_create_records: false,
+      subscription: @current_subscription,
+      table_id: @deer_record.deer_table_id,
+      table_name: nil,
+      editing_record_has_been_removed: false)
+    @uploading -> live_component(@socket,
+      PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent,
+      id: "uploading_file_component",
+      record: @deer_record,
+      upload_results: @upload_results,
+      uploads: @uploads)
+    true -> ""
+  end %>
 
   <section class="hero is-primary is-bold">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
           <%= if @is_editable do %>
-            <%= gettext("\"%{subscription_name}\" invited you to edit this record", subscription_name: @subscription.name) %>
+            <%= gettext("\"%{subscription_name}\" invited you to edit this record", subscription_name: @current_subscription.name) %>
           <% else %>
-            <%= gettext("\"%{subscription_name}\" invited you to see this record", subscription_name: @subscription.name) %>
+            <%= gettext("\"%{subscription_name}\" invited you to see this record", subscription_name: @current_subscription.name) %>
           <% end %>
         </h1>
         <h2 class="subtitle">
@@ -36,12 +43,15 @@
         <a class="button" href="#" phx-click="edit" phx-value-record_id="<%= @deer_record.id %>">
           <%= gettext("Edit") %>
         </a>
+        <a class="button is-info" href="#" phx-click="show_upload_file_modal">
+          <span><%= gettext("Upload file(s)") %></span>
+        </a>
         <br>
         <br>
       <% end %>
 
       <ul>
-        <%= Enum.map(deer_columns_from_subscription(@subscription, @deer_record.deer_table_id), fn %{id: column_id, name: column_name} -> %>
+        <%= Enum.map(deer_columns_from_subscription(@current_subscription, @deer_record.deer_table_id), fn %{id: column_id, name: column_name} -> %>
         <li>
           <strong><%= column_name %>:</strong>
           <%= deer_field_content_from_column_id(@deer_record, column_id) %>
@@ -55,7 +65,7 @@
         <%= Enum.map(@deer_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
           <li>
               <p>
-                <%= link "#{name}", to: Routes.shared_record_files_path(PjeskiWeb.Endpoint, :download_file_from_shared_record, @subscription.id, @shared_record.id, file_id) %>
+                <%= link "#{name}", to: Routes.shared_record_files_path(PjeskiWeb.Endpoint, :download_file_from_shared_record, @current_subscription.id, @shared_record.id, file_id) %>
                 (<%= display_filesize_from_kilobytes(kilobytes) %>)
               </p>
           </li>

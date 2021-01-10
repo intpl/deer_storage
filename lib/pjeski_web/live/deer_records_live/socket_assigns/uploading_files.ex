@@ -53,10 +53,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
     socket |> assign(:upload_results, [])
   end
 
-  defp maybe_reload_and_overwrite_deer_file_upload(%{assigns: %{uploads: %{deer_file: _deer_file}}} = socket), do: reload_subscription_storage_and_allow_upload(socket)
-  defp maybe_reload_and_overwrite_deer_file_upload(socket), do: socket
+  def maybe_reload_and_overwrite_deer_file_upload(%{assigns: %{uploads: %{deer_file: _deer_file}}} = socket), do: reload_subscription_storage_and_allow_upload(socket)
+  def maybe_reload_and_overwrite_deer_file_upload(socket), do: socket
 
-  defp reload_subscription_storage_and_allow_upload(%{assigns: %{current_subscription: %{id: subscription_id, deer_files_limit: total_files_limit, storage_limit_kilobytes: storage_limit_kilobytes}}} = socket) do
+  def reload_subscription_storage_and_allow_upload(%{assigns: %{current_subscription: %{id: subscription_id, deer_files_limit: total_files_limit, storage_limit_kilobytes: storage_limit_kilobytes}}} = socket) do
     {files_count, used_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription_id)
 
     space_left = (ceil(storage_limit_kilobytes) - used_storage_kilobytes) * 1024
@@ -72,6 +72,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
       _ -> allow_deer_file_upload_or_overwrite_existing(socket, files_left, space_left)
     end
   end
+
+  def assign_upload_result(%{assigns: %{upload_results: results}} = socket, message), do: assign(socket, :upload_results, [message | results])
+  def assign_upload_result(socket, message), do: assign(socket, :upload_results, [message])
 
   defp any_entry_started_upload?(entries), do: Enum.any?(entries, fn entry -> entry.progress > 0 end)
 
