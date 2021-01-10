@@ -71,8 +71,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("delete_selected", _, socket), do: {:noreply, dispatch_delete_selected_records(socket)}
   def handle_event("delete", %{"record_id" => record_id}, socket), do: {:noreply, dispatch_delete_record(socket, record_id)}
   def handle_event("delete_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, dispatch_delete_file(socket, record_id, file_id)}
+  def handle_event("validate_upload", _, socket), do: {:noreply, socket |> assign(:upload_results, []) |> cancel_all_uploads_if_limit_is_exceeded}
 
-  def handle_event("validate_upload", _, socket), do: {:noreply, socket}
   def handle_event("cancel_upload_entry", %{"ref" => ref}, socket), do: {:noreply, cancel_upload(socket, :deer_file, ref)}
   def handle_event("submit_upload", _, socket), do: {:noreply, assign_submitted_upload(socket, self())}
 

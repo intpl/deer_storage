@@ -24,6 +24,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
 
               <%= case entry do %>
                 <% %{progress: 100} -> %>
+                  <span class="has-text-info"> <%= gettext("Waiting for other uploads to complete...") %> </span>
                   <progress class="progress is-success" value="100" max="100">100%</progress>
                 <% %{progress: 0} -> %>
                   <%= case errors_for_entry(@uploads.deer_file.errors, entry) do %>
@@ -57,6 +58,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
               <%= case result do %>
                 <% {:ok, filename} -> %><span class="has-text-success"><%= gettext("File '%{filename}' uploaded successfuly", filename: filename) %></span>
                 <% {:error, filename} -> %><span class="has-text-danger"><%= gettext("File '%{filename}' could not be uploaded (space limit exceeded?)", filename: filename) %></span>
+                <% :total_size_exceeds_limits -> %><span class="has-text-danger"><%= translate_error(:total_size_exceeds_limits) %></span>
               <% end %>
               <br>
             <% end %>
@@ -72,6 +74,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
   end
 
   defp translate_error(:too_large), do: gettext("File size exceeds your subscription limits")
+  defp translate_error(:total_size_exceeds_limits), do: gettext("Upload has been canceled due to the total size of files exceeded subscription limits")
 
   defp errors_for_entry([], _), do: nil
   defp errors_for_entry(errors, %{ref: ref}), do: Enum.find(errors, fn {error_ref, _error} -> error_ref == ref end)

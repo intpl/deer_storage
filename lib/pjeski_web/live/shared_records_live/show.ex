@@ -6,7 +6,12 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
 
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3, overwrite_deer_fields: 2]
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles, only: [reload_subscription_storage_and_allow_upload: 1, maybe_reload_and_overwrite_deer_file_upload: 1, assign_upload_result: 2]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles, only: [
+    assign_upload_result: 2,
+    cancel_all_uploads_if_limit_is_exceeded: 1,
+    maybe_reload_and_overwrite_deer_file_upload: 1,
+    reload_subscription_storage_and_allow_upload: 1
+  ]
   import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3, delete_file_from_record!: 3]
 
   alias Phoenix.PubSub
@@ -62,7 +67,7 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
       spawn(Pjeski.Services.UploadDeerFile, :run!, [pid, tmp_path, original_filename, record_id, user_id, uuid])
     end)
 
-    {:noreply, socket |> assign(:upload_results, [])}
+    {:noreply, socket}
   end
 
   def handle_event("delete_file", %{"file-id" => file_id}, %{assigns: %{current_subscription: %{id: subscription_id}, deer_record: %{id: record_id}}} = socket) do
@@ -72,7 +77,7 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   end
 
   def handle_event("cancel_upload_entry", %{"ref" => ref}, socket), do: {:noreply, cancel_upload(socket, :deer_file, ref)}
-  def handle_event("validate_upload", _, socket), do: {:noreply, socket}
+  def handle_event("validate_upload", _, socket), do: {:noreply, socket |> assign(:upload_results, []) |> cancel_all_uploads_if_limit_is_exceeded}
 
   def handle_event("edit", _, %{assigns: %{deer_record: %{deer_table_id: table_id} = record, current_subscription: subscription, is_editable: true}} = socket) do
     {:noreply, assign(socket, editing_record: change_record(

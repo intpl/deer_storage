@@ -25,10 +25,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
 
   def assign_closed_file_upload_modal(socket) do
     case uploaded_entries(socket, :deer_file) do
-      {[], [_ | _] = entries} ->
-        Enum.reduce(entries, socket, fn %{ref: entry_ref}, socket_acc ->
-          cancel_upload(socket_acc, :deer_file, entry_ref)
-        end)
+      {[], [_ | _] = _entries} -> cancel_all_entries_in_socket(socket)
       _ -> socket
     end
     |> assign(:uploading_file_for_record, nil)
@@ -66,7 +63,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
       %{uploads: %{deer_file: %{entries: []}}} -> allow_deer_file_upload_or_overwrite_existing(socket, files_left, space_left)
       %{uploads: %{deer_file: %{entries: entries}}} ->
         case any_entry_started_upload?(entries) do
-          true -> raise_if_limit_is_exceeded(socket, files_left, space_left)
+          true -> if limit_is_exceeded?(socket, files_left, space_left), do: raise("limit exceeded"), else: socket
           false -> socket
         end
       _ -> allow_deer_file_upload_or_overwrite_existing(socket, files_left, space_left)
@@ -76,15 +73,27 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   def assign_upload_result(%{assigns: %{upload_results: results}} = socket, message), do: assign(socket, :upload_results, [message | results])
   def assign_upload_result(socket, message), do: assign(socket, :upload_results, [message])
 
-  defp any_entry_started_upload?(entries), do: Enum.any?(entries, fn entry -> entry.progress > 0 end)
+  def cancel_all_uploads_if_limit_is_exceeded(%{assigns: %{uploads: %{deer_file: %{entries: entries, max_entries: files, max_file_size: size}}}} = socket) do
+    if limit_is_exceeded?(socket, files, size) do
+      cancel_all_entries_in_socket(socket) |> assign_upload_result(:total_size_exceeds_limits)
+    else
+      assign(socket, :upload_errors, [])
+    end
+  end
 
-  defp raise_if_limit_is_exceeded(%{assigns: %{uploads: %{deer_file: deer_file_uploads}}} = socket, files_left, space_left) do
+  def limit_is_exceeded?(%{assigns: %{uploads: %{deer_file: deer_file_uploads}}} = _socket, files_left, space_left) do
     {files_count, size} = Enum.reduce(deer_file_uploads.entries, {0, 0}, fn entry, {files_count, size} ->
       {files_count + 1, size + entry.client_size}
     end)
 
-    if (files_left - files_count > 0) && (space_left - size > 0), do: socket, else: raise "limit exceeded"
+    (space_left - size < 0) || (files_left - files_count < 0)
   end
+
+  defp cancel_all_entries_in_socket(%{assigns: %{uploads: %{deer_file: %{entries: entries}}}} = socket) do
+    Enum.reduce(entries, socket, fn %{ref: entry_ref}, socket_acc -> cancel_upload(socket_acc, :deer_file, entry_ref) end)
+  end
+
+  defp any_entry_started_upload?(entries), do: Enum.any?(entries, fn entry -> entry.progress > 0 end)
 
   defp allow_deer_file_upload_or_overwrite_existing(%{assigns: %{uploads: %{deer_file: deer_file} = uploads}} = socket, files, size) do
     deer_file = Map.merge(deer_file, %{max_entries: files, max_file_size: size})
