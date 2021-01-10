@@ -5,6 +5,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
   import Pjeski.DeerRecords, only: [get_record!: 3]
   alias Pjeski.DeerRecords.DeerField
 
+  def any_entry_started_upload?([]), do: false
+  def any_entry_started_upload?(entries), do: Enum.any?(entries, fn entry -> entry.progress > 0 end)
+
   def atomize_and_merge_table_id_to_attrs(attrs, table_id), do: Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 
   def overwrite_deer_fields(record, deer_fields) do

@@ -2,6 +2,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
   import PjeskiWeb.DeerRecordView, only: [display_filesize_from_kilobytes: 1]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [any_entry_started_upload?: 1]
 
   def render(%{uploads: _uploads} = assigns) do
     ~L"""
@@ -42,7 +43,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
             <br>
             <% end %>
 
-            <form phx-submit="submit_upload" phx-change="validate_upload" class="file is-centered">
+            <form phx-submit="submit_upload" phx-change="validate_upload" class="file is-centered <%= if any_entry_started_upload?(@uploads.deer_file.entries), do: "is-hidden" %>">
               <label class="file">
               <%= Phoenix.LiveView.Helpers.live_file_input @uploads.deer_file, class: "file-input" %>
                 <span class="file-cta">
@@ -72,6 +73,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
       </div>
     """
   end
+
+  defp any_entry_in_progress?(%{deer_file: %{entries: []}}), do: false
+  defp any_entry_in_progress?(%{deer_file: %{entries: entries}}), do: Enum.any?()
 
   defp translate_error(:too_large), do: gettext("File size exceeds your subscription limits")
   defp translate_error(:total_size_exceeds_limits), do: gettext("Upload has been canceled due to the total size of files exceeded subscription limits")

@@ -3,6 +3,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
 
   import Phoenix.LiveView, only: [assign: 3, allow_upload: 3, consume_uploaded_entries: 3, uploaded_entries: 2, cancel_upload: 3]
   import PjeskiWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [any_entry_started_upload?: 1]
 
   def assign_uploading_file_for_record_after_update(%{assigns: %{uploading_file_for_record: %{id: record_id}}} = socket, %{id: record_id} = updated_record) do
     socket |> assign(:uploading_file_for_record, updated_record) |> reload_subscription_storage_and_allow_upload
@@ -92,8 +93,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   defp cancel_all_entries_in_socket(%{assigns: %{uploads: %{deer_file: %{entries: entries}}}} = socket) do
     Enum.reduce(entries, socket, fn %{ref: entry_ref}, socket_acc -> cancel_upload(socket_acc, :deer_file, entry_ref) end)
   end
-
-  defp any_entry_started_upload?(entries), do: Enum.any?(entries, fn entry -> entry.progress > 0 end)
 
   defp allow_deer_file_upload_or_overwrite_existing(%{assigns: %{uploads: %{deer_file: deer_file} = uploads}} = socket, files, size) do
     deer_file = Map.merge(deer_file, %{max_entries: files, max_file_size: size})
