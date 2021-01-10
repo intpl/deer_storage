@@ -70,7 +70,7 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
     {:noreply, socket}
   end
 
-  def handle_event("delete_file", %{"file-id" => file_id}, %{assigns: %{current_subscription: %{id: subscription_id}, deer_record: %{id: record_id}}} = socket) do
+  def handle_event("delete_file", %{"file-id" => file_id}, %{assigns: %{is_editable: true, current_subscription: %{id: subscription_id}, deer_record: %{id: record_id}}} = socket) do
     delete_file_from_record!(subscription_id, record_id, file_id)
 
     {:noreply, socket}

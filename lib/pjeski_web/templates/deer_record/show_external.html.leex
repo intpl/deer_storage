@@ -66,9 +66,12 @@
               <p>
                 <%= link "#{name}", to: Routes.shared_record_files_path(PjeskiWeb.Endpoint, :download_file_from_shared_record, @current_subscription.id, @shared_record.id, file_id) %>
                 (<%= display_filesize_from_kilobytes(kilobytes) %>)
-                <a href="#" phx-click="delete_file" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
-                  <span><%= gettext("Delete") %></span>
-                </a>
+
+                <%= if @is_editable do %>
+                  <a href="#" phx-click="delete_file" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
+                    <span><%= gettext("Delete") %></span>
+                  </a>
+                <% end %>
               </p>
           </li>
         <% end) %>
