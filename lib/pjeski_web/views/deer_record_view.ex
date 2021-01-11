@@ -10,6 +10,22 @@ defmodule PjeskiWeb.DeerRecordView do
   def empty?(""), do: true
   def empty?(_), do: false
 
+  def render_prepared_fields(prepared_fields), do: render(PjeskiWeb.DeerRecordView, "_editable_prepared_fields.html", prepared_fields: prepared_fields)
+
+  def prepare_fields_for_form(deer_columns, changeset) do
+    deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
+
+    deer_columns
+    |> Enum.with_index
+    |> Enum.map(fn {dc, index} ->
+      %{id: dc.id,
+        index: index,
+        name: dc.name,
+        value: Enum.find_value(deer_fields, fn df -> df.deer_column_id == dc.id && df.content end)
+       }
+    end)
+  end
+
   def different_deer_fields(changeset, record) do
     deer_fields = fetch_field!(changeset, :deer_fields)
 

@@ -1,27 +1,22 @@
-# FIXME REFACTOR THIS BECAUSE IT'S THE SAME AS NEW COMPONENT
 defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
-  import PjeskiWeb.DeerRecordView, only: [deer_columns_from_subscription: 2, deer_field_content_from_column_id: 2]
+  import PjeskiWeb.DeerRecordView, only: [
+    deer_columns_from_subscription: 2,
+    deer_field_content_from_column_id: 2,
+    render_prepared_fields: 1,
+    prepare_fields_for_form: 2
+  ]
 
   def update(%{changeset: changeset} = assigns, socket) do
     deer_columns = deer_columns_from_subscription(assigns.subscription, assigns.table_id)
-    deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
-
-    prepare_field = fn {dc, index} -> %{
-          id: dc.id,
-          index: index,
-          name: dc.name,
-          value: Enum.find_value(deer_fields, fn df -> df.deer_column_id == dc.id && df.content end)
-      }
-    end
 
     {:ok, assign(socket,
       changeset: changeset,
       can_create_records: assigns.can_create_records,
       deer_columns: deer_columns,
-      prepared_fields: deer_columns |> Enum.with_index |> Enum.map(prepare_field),
+      prepared_fields: prepare_fields_for_form(deer_columns, changeset),
       table_name: assigns.table_name,
       editing_record_has_been_removed: assigns.editing_record_has_been_removed,
       old_editing_record: assigns.old_editing_record
@@ -46,18 +41,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
           <%= form_for @changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn _ -> %>
             <section class="modal-card-body">
               <div class"container">
-                <%= for %{id: column_id, name: column_name, index: index, value: value} <- @prepared_fields do %>
-                  <div class="field is-horizontal">
-                    <label class="label field-label"><%= column_name %></label>
-
-                    <div class="field-body">
-                      <div class="field">
-                        <input id="deer_record_deer_fields_<%= index %>_deer_column_id" name="deer_record[deer_fields][<%= index %>][deer_column_id]" type="hidden" value="<%= column_id %>">
-                        <input class="input" id="deer_record_deer_fields_<%= index %>_content" name="deer_record[deer_fields][<%= index %>][content]" type="text" value="<%= value %>">
-                      </div>
-                    </div>
-                  </div>
-                <% end %>
+                <%= render_prepared_fields(@prepared_fields) %>
               </div>
             </section>
 

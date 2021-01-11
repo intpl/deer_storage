@@ -1,30 +1,18 @@
-# FIXME REFACTOR THIS BECAUSE IT'S THE SAME AS EDIT COMPONENT
 defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
   use Phoenix.LiveComponent
   import PjeskiWeb.Gettext
   import Phoenix.HTML.Form
-  import PjeskiWeb.DeerRecordView, only: [deer_columns_from_subscription: 2]
+  import PjeskiWeb.DeerRecordView, only: [deer_columns_from_subscription: 2, render_prepared_fields: 1, prepare_fields_for_form: 2]
 
   def update(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name, cached_count: cached_count}, socket) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
-    deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
-    no_errors? = !Enum.any?(changeset.changes.deer_fields, fn df_changeset -> df_changeset.valid? == false end)
-
-    prepare_field = fn {dc, index} -> %{
-          id: dc.id,
-          index: index,
-          name: dc.name,
-          value: Enum.find_value(deer_fields, fn df -> df.deer_column_id == dc.id && df.content end)
-      }
-    end
 
     {:ok, assign(socket,
       changeset: changeset,
       deer_columns: deer_columns,
-      prepared_fields: deer_columns |> Enum.with_index |> Enum.map(prepare_field),
-      can_create_records: cached_count < subscription.deer_records_per_table_limit,
-      table_name: table_name,
-      no_errors?: no_errors?
+      prepared_fields: prepare_fields_for_form(deer_columns, changeset),
+      can_create_records?: cached_count < subscription.deer_records_per_table_limit,
+      table_name: table_name
     )}
   end
 
@@ -42,25 +30,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
           <%= form_for @changeset, "#", [phx_change: :validate_new, phx_submit: :save_new], fn _ -> %>
             <section class="modal-card-body">
               <div class"container">
-                <%= for %{id: column_id, name: column_name, index: index, value: value} <- @prepared_fields do %>
-                  <div class="field is-horizontal">
-                    <label class="label field-label"><%= column_name %></label>
-
-                    <div class="field-body">
-                      <div class="field">
-
-      <%# TO JEST GOWNO %>
-                        <input id="deer_record_deer_fields_<%= index %>_deer_column_id" name="deer_record[deer_fields][<%= index %>][deer_column_id]" type="hidden" value="<%= column_id %>">
-                        <input class="input" id="deer_record_deer_fields_<%= index %>_content" name="deer_record[deer_fields][<%= index %>][content]" type="text" value="<%= value %>">
-                      </div>
-                    </div>
-                  </div>
-                <% end %>
+                <%= render_prepared_fields(@prepared_fields) %>
               </div>
             </section>
 
             <footer class="modal-card-foot">
-              <%= if @no_errors? && assigns.can_create_records do %>
+              <%= if @can_create_records? do %>
                 <%= submit gettext("Create record"), class: "button is-success" %>
               <% else %>
                 <p><%= gettext("You cannot create this record") %></p>&nbsp;
