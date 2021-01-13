@@ -55,11 +55,26 @@
       editing_record_has_been_removed: @editing_record_has_been_removed,
       old_editing_record: @old_editing_record
     )
+  @new_record_connecting_with_record_id ->
+    table_id = Ecto.Changeset.fetch_field!(@new_record, :deer_table_id)
+
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.NewComponent,
+      id: "new",
+      connecting_record?: true,
+      changeset: @new_record,
+      subscription: @current_subscription,
+      table_id: table_id,
+      table_name: deer_table_name_from_id(@current_subscription.deer_tables, table_id),
+      cached_count: 0 # FIXME
+    )
   @new_record ->
     live_component(
       @socket,
       PjeskiWeb.DeerRecordsLive.Modal.NewComponent,
       id: "new",
+      connecting_record?: false,
       changeset: @new_record,
       subscription: @current_subscription,
       table_id: @table_id,

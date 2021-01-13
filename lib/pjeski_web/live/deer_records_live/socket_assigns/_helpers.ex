@@ -28,6 +28,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
     Map.merge(record, %{deer_fields: record.deer_fields ++ missing_fields})
   end
 
+  def find_record_in_opened_records(opened_records, record_id) do
+    Enum.find(opened_records, fn [record, _connected_records] -> record.id == record_id end)
+  end
+
   def find_record_in_list_or_database(subscription, records, id, table_id) do
     id = id |> String.to_integer
 

@@ -4,7 +4,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   alias PjeskiWeb.Router.Helpers, as: Routes
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, Records, OpenedRecords, ConnectingRecords, UploadingFiles}
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, NewConnectedRecord, Records, OpenedRecords, ConnectingRecords, UploadingFiles}
   import Pjeski.DbHelpers.DeerRecordsSearch, only: [per_page: 0]
 
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
@@ -38,6 +38,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket |> assign(opened_records: toggle_opened_record_in_list(opened_records, [%{id: String.to_integer(id_string)}, []]))}
   end
 
+  def handle_event("close_new_connected_record", _, socket), do: {:noreply, assign_closed_new_connected_record_modal(socket)}
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
   def handle_event("close_shared_link", _, socket), do: {:noreply, socket |> assign(current_shared_link: nil)}
   def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(connecting_record: nil, connecting_query: nil)}
@@ -47,10 +48,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("validate_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_editing_record(socket, attrs)}
   def handle_event("validate_new", %{"deer_record" => attrs}, socket), do: {:noreply, assign_new_record(socket, attrs)}
+  def handle_event("validate_new_connected_record", %{"deer_record" => attrs}, socket), do: {:noreply, assign_new_connected_record(socket, attrs)}
   def handle_event("save_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_saved_editing_record(socket, attrs)}
   def handle_event("save_new", %{"deer_record" => attrs}, socket), do: {:noreply, assign_created_record(socket, attrs)}
+  def handle_event("save_new_connected_record", %{"deer_record" => attrs}, socket), do: {:noreply, assign_created_connected_record(socket, attrs)}
   def handle_event("move_editing_record_data_to_new_record", _, socket), do: {:noreply, socket |> copy_editing_record_to_new_record}
 
+  def handle_event("new_connected_record", %{"connecting-with-record_id" => id}, socket), do: {:noreply, assign_opened_new_connected_record_modal(socket, String.to_integer(id))}
   def handle_event("show_connect_record_modal", %{"record_id" => record_id}, socket), do: {:noreply, assign_modal_for_connecting_records(socket, record_id)}
   def handle_event("show", %{"record_id" => record_id}, socket), do: {:noreply, assign_opened_record_and_fetch_connected_records(socket, record_id)}
   def handle_event("new", _, socket), do: {:noreply, assign_opened_new_record_modal(socket)}
@@ -83,6 +87,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: {:noreply, change_page(socket, page + 1)}
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: {:noreply, change_page(socket, page - 1)}
+
+  def handle_event("change_new_connected_record_table_id", %{"table_id" => table_id}, socket) do
+    {:noreply, assign_overwritten_table_id_in_new_record(socket, table_id)}
+  end
 
   def handle_event("redirect_to_connected_record", %{"record_id" => record_id, "table_id" => table_id}, socket) do
     {:noreply, push_redirect(socket, to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerRecordsLive.Index, table_id, id: record_id))}
@@ -130,6 +138,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       editing_record_has_been_removed: false,
       old_editing_record: nil,
       new_record: nil,
+      new_connected_record: nil,
+      new_record_connecting_with_record_id: nil,
       table_name: nil,
       page: 1,
       per_page: per_page(),

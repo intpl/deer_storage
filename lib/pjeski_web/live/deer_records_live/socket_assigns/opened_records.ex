@@ -6,7 +6,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
 
   import Phoenix.LiveView, only: [assign: 2, push_redirect: 2]
 
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [reduce_list_with_function: 2, find_record_in_list_or_database: 4]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [
+    reduce_list_with_function: 2,
+    find_record_in_list_or_database: 4,
+    find_record_in_opened_records: 2
+  ]
+
   import Pjeski.DeerRecords, only: [
     ensure_deer_file_exists_in_record!: 2,
     batch_delete_records: 3,
@@ -156,10 +161,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
         [record, _old_connected_records] = Enum.at(list, idx)
         List.replace_at(list, idx, [record, connected_records])
     end
-  end
-
-  defp find_record_in_opened_records(opened_records, record_id) do
-    Enum.find(opened_records, fn [record, _connected_records] -> record.id == record_id end)
   end
 
   defp shared_link_for_record(subscription_id, record_uuid) do

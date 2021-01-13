@@ -54,6 +54,10 @@ defmodule PjeskiWeb.DeerRecordView do
     Enum.find(deer_columns, fn column -> column.id == column_id end).name
   end
 
+  def deer_table_name_from_id(deer_tables, table_id) do
+    Enum.find(deer_tables, fn table -> table.id == table_id end).name
+  end
+
   def deer_field_content_from_column_id(%DeerRecord{deer_fields: deer_fields}, column_id), do: deer_field_content_from_column_id(deer_fields, column_id)
   def deer_field_content_from_column_id(deer_fields, column_id) when is_list(deer_fields) do
     case Enum.find(deer_fields, fn field -> field.deer_column_id == column_id end) do

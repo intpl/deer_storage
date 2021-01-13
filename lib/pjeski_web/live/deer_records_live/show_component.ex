@@ -62,11 +62,15 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         </ul>
 
         <hr>
-        <a class="button is-success" href="#" phx-click="show_connect_record_modal" phx-value-record_id="<%= record.id %>">
-          <span><%= gettext("Connect a record") %></span>
+        <a class="button is-link is-light" href="#" phx-click="new_connected_record" phx-value-connecting-with-record_id="<%= record.id %>">
+          <span><%= gettext("Create connected record") %></span>
         </a>
 
-        <a class="button is-info" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
+        <a class="button is-link is-light" href="#" phx-click="show_connect_record_modal" phx-value-record_id="<%= record.id %>">
+          <span><%= gettext("Connect") %></span>
+        </a>
+
+        <a class="button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
           <span><%= gettext("Upload file(s)") %></span>
         </a>
         <hr>
@@ -103,7 +107,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                           phx-click="redirect_to_connected_record"
                           phx-value-record_id="<%= connected_record.id %>"
                           phx-value-table_id="<%= connected_record.deer_table_id %>"
-                          class="button is-success is-outlined is-light">
+                          class="button is-success is-light">
                     <%= gettext("Open") %>
                   </a>
 
@@ -111,7 +115,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                     <span><%= gettext("Upload file(s)") %></span>
                   </a>
 
-                  <a class="button is-danger is-outlined is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
+                  <a class="button is-danger is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
                     <%= gettext("Disconnect") %>
                   </a>
                 </div>
