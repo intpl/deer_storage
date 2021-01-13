@@ -74,7 +74,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   def assign_upload_result(%{assigns: %{upload_results: results}} = socket, message), do: assign(socket, :upload_results, [message | results])
   def assign_upload_result(socket, message), do: assign(socket, :upload_results, [message])
 
-  def cancel_all_uploads_if_limit_is_exceeded(%{assigns: %{uploads: %{deer_file: %{entries: entries, max_entries: files, max_file_size: size}}}} = socket) do
+  def cancel_all_uploads_if_limit_is_exceeded(%{assigns: %{uploads: %{deer_file: %{max_entries: files, max_file_size: size}}}} = socket) do
     if limit_is_exceeded?(socket, files, size) do
       cancel_all_entries_in_socket(socket) |> assign_upload_result(:total_size_exceeds_limits)
     else
