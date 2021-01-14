@@ -129,6 +129,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_connecting_records_and_count_after_delete(id_or_ids)
     |> assign_editing_record_after_delete(id_or_ids)
     |> assign_uploading_file_for_record_after_delete(id_or_ids)
+    |> maybe_close_new_connected_record_modal(id_or_ids)
   end
 
   defp assign_initial_data(socket, user, current_subscription_id) do

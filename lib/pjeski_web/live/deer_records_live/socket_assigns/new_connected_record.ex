@@ -5,6 +5,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.NewConnectedRecord do
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, find_record_in_opened_records: 2]
   import Pjeski.DeerRecords, only: [change_record: 3, check_limits_and_create_record: 3, connect_records!: 3]
 
+  def maybe_close_new_connected_record_modal(%{assigns: %{new_record_connecting_with_record_id: id}} = socket, id) when is_number(id), do: assign_closed_new_connected_record_modal(socket)
+  def maybe_close_new_connected_record_modal(%{assigns: %{new_record_connecting_with_record_id: id}} = socket, ids) when is_list(ids) do
+    if Enum.member?(ids, id), do: assign_closed_new_connected_record_modal(socket), else: socket
+  end
+  def maybe_close_new_connected_record_modal(socket, _), do: socket
+
   def assign_closed_new_connected_record_modal(socket), do: assign(socket, new_record_connecting_with_record_id: nil, new_record: nil)
 
   def assign_opened_new_connected_record_modal(%{assigns: %{opened_records: opened_records, current_subscription: %{deer_tables: [%{id: first_table_id} | _ ]}}} = socket, connecting_with_record_id) do
