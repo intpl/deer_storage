@@ -41,7 +41,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("close_new_connected_record", _, socket), do: {:noreply, assign_closed_new_connected_record_modal(socket)}
   def handle_event("close_new", _, socket), do: {:noreply, socket |> assign(new_record: nil)}
   def handle_event("close_shared_link", _, socket), do: {:noreply, socket |> assign(current_shared_link: nil)}
-  def handle_event("close_connecting_record", _, socket), do: {:noreply, socket |> assign(connecting_record: nil, connecting_query: nil)}
+  def handle_event("close_connecting_record", _, socket), do: {:noreply, assign_closed_connecting_records(socket)}
   def handle_event("close_edit", _, socket), do: {:noreply, assign_closed_editing_record(socket)}
   def handle_event("close_upload_file_modal", _, socket), do: {:noreply, assign_closed_file_upload_modal(socket)}
   def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :opened_records, [])}
@@ -126,7 +126,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     socket
     |> assign_records_and_count_after_delete(id_or_ids)
     |> assign_opened_records_after_delete(id_or_ids)
-    |> assign_connecting_records_and_count_after_delete(id_or_ids)
+    |> assign_connecting_records_after_delete(id_or_ids)
     |> assign_editing_record_after_delete(id_or_ids)
     |> assign_uploading_file_for_record_after_delete(id_or_ids)
     |> maybe_close_new_connected_record_modal(id_or_ids)

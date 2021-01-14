@@ -6,7 +6,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
     find_record_in_list_or_database: 4
   ]
 
-  import Phoenix.LiveView, only: [assign: 2]
+  import Phoenix.LiveView, only: [assign: 2, assign: 3]
   import Pjeski.DeerRecords, only: [connect_records!: 3, remove_orphans_from_connected_records!: 2]
 
   def assign_connected_records_after_update(%{assigns: %{connecting_record: nil}} = socket, _), do: socket
@@ -25,16 +25,28 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
     assign(socket, connecting_records: new_records) # add count
   end
 
-  def assign_connecting_records_and_count_after_delete(%{assigns: %{connecting_records: []}} = socket, _), do: socket
-  def assign_connecting_records_and_count_after_delete(%{assigns: %{connecting_records: records}} = socket, id) when is_number(id) do
+  def assign_connecting_records_after_delete(%{assigns: %{connecting_records: []}} = socket, _), do: socket
+  def assign_connecting_records_after_delete(%{assigns: %{connecting_records: records, connecting_record: %{id: id}}} = socket, id) do
+    assign_closed_connecting_records(socket)
+  end
+  def assign_connecting_records_after_delete(%{assigns: %{connecting_records: records}} = socket, id) when is_number(id) do
     new_records = reduce_list_with_function(records, fn record -> unless(id == record.id, do: record) end)
     assign(socket, connecting_records: new_records)
   end
 
-  def assign_connecting_records_and_count_after_delete(%{assigns: %{connecting_records: records}} = socket, ids) when is_list(ids) do
-    new_records = reduce_list_with_function(records, fn record -> unless(Enum.member?(ids, record.id), do: record) end)
-    assign(socket, connecting_records: new_records)
+  def assign_connecting_records_after_delete(%{assigns: %{connecting_records: records, connecting_record: %{id: connecting_record_id}}} = socket, ids) when is_list(ids) do
+    case Enum.member?(ids, connecting_record_id) do
+      true -> assign_closed_connecting_records(socket)
+      false ->
+        assign(
+          socket,
+          :connecting_records,
+          reduce_list_with_function(records, fn record -> unless(Enum.member?(ids, record.id), do: record) end)
+        )
+    end
   end
+
+  def assign_closed_connecting_records(socket), do: assign(socket, connecting_record: nil, connecting_records: [], connecting_query: nil)
 
   def assign_filtered_connected_records(%{assigns: %{current_subscription: subscription, connecting_selected_table_id: old_table_id}} = socket, query, new_table_id) when byte_size(query) <= 50 do
     if new_table_id != old_table_id, do: Enum.find(subscription.deer_tables, fn %{id: id} -> id == new_table_id end) || raise("invalid table id")
