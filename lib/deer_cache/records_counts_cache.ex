@@ -4,9 +4,6 @@ defmodule DeerCache.RecordsCountsCache do
 
   import Pjeski.DeerRecords, only: [count_records_grouped_by_deer_table_id: 0]
 
-  # TODO
-  # handle callback from subscription_changed and verify all changed tables
-
   def start_link(opts \\ []), do: GenServer.start_link(__MODULE__, [{:ets_table_name, :deer_records_by_table_id_cache}], opts)
 
   def fetch_count(table_id) do
@@ -19,6 +16,8 @@ defmodule DeerCache.RecordsCountsCache do
   def handle_call({:get, deer_table_id}, _from, state) do
     {:reply, get(deer_table_id, state), state}
   end
+
+  def handle_call({:deleted_table, deer_table_id}, _from, state), do: {:reply, delete(deer_table_id, state), state}
 
   def handle_cast({:increment, deer_table_id, by_count}, state) do
     new_count = case get(deer_table_id, state) do
@@ -61,5 +60,9 @@ defmodule DeerCache.RecordsCountsCache do
 
   defp get(table_id, %{ets_table_name: ets_table_name}) do
     :ets.lookup(ets_table_name, table_id)
+  end
+
+  defp delete(table_id, %{ets_table_name: ets_table_name}) do
+    :ets.delete(ets_table_name, table_id)
   end
 end

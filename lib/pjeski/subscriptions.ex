@@ -2,6 +2,7 @@ defmodule Pjeski.Subscriptions do
   import Ecto.Query, warn: false
   alias Phoenix.PubSub
   alias Pjeski.Repo
+  alias DeerCache.RecordsCountsCache
 
   import Pjeski.Subscriptions.Helpers
   import Pjeski.DbHelpers.ComposeSearchQuery
@@ -120,6 +121,7 @@ defmodule Pjeski.Subscriptions do
       |> Ecto.Changeset.cast_embed(:deer_tables)
       |> Repo.update()
       |> maybe_notify_about_updated_subscription
+      |> maybe_delete_table_from_cache(table_id)
     end
   end
 
@@ -138,6 +140,8 @@ defmodule Pjeski.Subscriptions do
   def delete_subscription(%Subscription{} = subscription) do
     subscription = Repo.delete!(subscription)
     File.rm_rf!(File.cwd! <> "/uploaded_files/#{subscription.id}")
+
+    Enum.each(subscription.deer_tables, fn %{id: table_id} -> delete_table_from_cache(table_id) end)
 
     {:ok, subscription}
   end
@@ -160,6 +164,15 @@ defmodule Pjeski.Subscriptions do
 
     {:ok, subscription}
   end
+
+  defp maybe_delete_table_from_cache({:ok, _} = response, table_id) do
+    delete_table_from_cache(table_id)
+    response
+  end
+  defp maybe_delete_table_from_cache(error, _table_id), do: error
+
+
+  defp delete_table_from_cache(table_id), do: GenServer.call(RecordsCountsCache, {:deleted_table, table_id})
 
   defp sort_subscriptions_by(q, ""), do: q
   defp sort_subscriptions_by(q, "name_desc"), do: q |> order_by(desc: :name)
