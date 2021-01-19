@@ -16,8 +16,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.NewConnectedRecord do
   def assign_opened_new_connected_record_modal(%{assigns: %{opened_records: opened_records, current_subscription: %{deer_tables: [%{id: first_table_id} | _ ]}}} = socket, connecting_with_record_id) do
     [%{id: ^connecting_with_record_id}, _connected_records] = find_record_in_opened_records(opened_records, connecting_with_record_id)
 
-    assign_overwritten_table_id_in_new_record(socket, first_table_id)
-    |> assign(:new_record_connecting_with_record_id, connecting_with_record_id)
+    assign(socket, :new_record_connecting_with_record_id, connecting_with_record_id)
+    |> assign_overwritten_table_id_in_new_record(first_table_id)
   end
 
   def assign_created_connected_record(%{assigns: %{new_record: new_record, opened_records: opened_records, new_record_connecting_with_record_id: connecting_with_record_id, current_subscription: subscription, cached_count: cached_count}} = socket, attrs) do
@@ -36,7 +36,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.NewConnectedRecord do
     socket
   end
 
-  def assign_overwritten_table_id_in_new_record(%{assigns: %{current_subscription: %{deer_tables: deer_tables} = subscription}} = socket, table_id) do
+  def assign_overwritten_table_id_in_new_record(%{assigns: %{current_subscription: %{deer_tables: deer_tables} = subscription, new_record_connecting_with_record_id: record_id}} = socket, table_id) when is_number(record_id) do
     deer_columns = Enum.find(deer_tables, fn table -> table.id == table_id end).deer_columns
     deer_fields_attrs = Enum.map(deer_columns, fn %{id: column_id} -> %{deer_column_id: column_id, content: ""} end)
 

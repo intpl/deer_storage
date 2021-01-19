@@ -1,6 +1,7 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
   alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
   alias Pjeski.Repo
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.NewConnectedRecord, only: [assign_opened_new_connected_record_modal: 2]
   import Phoenix.LiveView, only: [assign: 2, assign: 3, push_redirect: 2]
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
   import PjeskiWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
@@ -33,6 +34,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
             |> assign_subscription(subscription)
             |> maybe_assign_record_changeset(:new_record, subscription, new_record)
             |> maybe_assign_record_changeset(:editing_record, subscription, editing_record)
+            |> maybe_reset_new_record_if_connecting
        end
      end
   end
@@ -48,7 +50,19 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
   end
 
   defp maybe_assign_record_changeset(socket, _assign_key, _subscription, nil), do: socket
+  defp maybe_assign_record_changeset(%{assigns: %{new_record_connecting_with_record_id: record_id}} = socket, :new_record, subscription, %{changes: %{deer_table_id: table_id}} = record) when is_number(record_id) do
+    assign(socket, :new_record, change_record(subscription, record, %{deer_table_id: table_id}))
+  end
   defp maybe_assign_record_changeset(socket, assign_key, subscription, %{data: %{deer_table_id: table_id}} = record) do
     assign(socket, assign_key, change_record(subscription, record, %{deer_table_id: table_id}))
   end
+
+  defp maybe_reset_new_record_if_connecting(%{assigns: %{current_subscription_tables: tables, new_record_connecting_with_record_id: record_id, new_record: new_record}} = socket) do
+    table_id = Ecto.Changeset.fetch_field!(new_record, :deer_table_id)
+    case Enum.find(tables, fn table -> table.id == table_id end) do
+      nil -> assign_opened_new_connected_record_modal(socket, record_id)
+      _ -> socket
+    end
+  end
+  defp maybe_reset_new_record_if_connecting(socket), do: socket
 end

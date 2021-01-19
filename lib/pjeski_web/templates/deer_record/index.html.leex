@@ -57,6 +57,7 @@
     )
   @new_record_connecting_with_record_id ->
     table_id = Ecto.Changeset.fetch_field!(@new_record, :deer_table_id)
+    table_name = deer_table_name_from_id(@current_subscription_tables, table_id)
 
     live_component(
       @socket,
@@ -66,7 +67,8 @@
       changeset: @new_record,
       subscription: @current_subscription,
       table_id: table_id,
-      table_name: deer_table_name_from_id(@current_subscription.deer_tables, table_id),
+      table_name: table_name,
+      deer_tables: @current_subscription_tables,
       cached_count: 0 # FIXME
     )
   @new_record ->
@@ -79,6 +81,7 @@
       subscription: @current_subscription,
       table_id: @table_id,
       table_name: @table_name,
+      deer_tables: [],
       cached_count: @cached_count
     )
   true -> ""

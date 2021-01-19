@@ -4,15 +4,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
   import Phoenix.HTML.Form
   import PjeskiWeb.DeerRecordView, only: [deer_columns_from_subscription: 2, render_prepared_fields: 1, prepare_fields_for_form: 2]
 
-  def update(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name, cached_count: cached_count, connecting_record?: can_change_table_id?}, socket) do
+  def update(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name, deer_tables: deer_tables, cached_count: cached_count, connecting_record?: connecting_record?}, socket) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
     {:ok, assign(socket,
       changeset: changeset,
-      callbacks: get_callback_names(can_change_table_id?),
+      callbacks: get_callback_names(connecting_record?),
       deer_columns: deer_columns,
-      can_change_table_id?: can_change_table_id?,
-      deer_tables: if(can_change_table_id?, do: Enum.map(subscription.deer_tables, fn dt -> {dt.id, dt.name} end), else: []),
+      can_change_table_id?: connecting_record?,
+      deer_tables: deer_tables,
       prepared_fields: prepare_fields_for_form(deer_columns, changeset),
       can_create_records?: cached_count < subscription.deer_records_per_table_limit,
       table_name: table_name,
@@ -31,22 +31,23 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
             </p>
             <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="<%= @callbacks[:close] %>"></a>
           </header>
-          <section class="modal-card-body">
-            <%= if @can_change_table_id? do %>
+
+          <%= if @can_change_table_id? do %>
+            <section class="modal-card-body">
               <div class="control">
                 <div class="select">
                   <form phx-change="change_new_connected_record_table_id">
                     <select name="table_id">
-                      <%= for {id, name} <- @deer_tables do %>
+                      <%= for %{id: id, name: name} <- @deer_tables do %>
                         <option value="<%= id %>" <%= if id == @table_id, do: "selected" %>><%= name %></option>
                       <% end %>
                     </select>
                   </form>
                 </div>
               </div>
-            <% end %>
+            </section>
+          <% end %>
 
-          </section>
           <%= form_for @changeset, "#", [phx_change: @callbacks[:change], phx_submit: @callbacks[:submit]], fn _ -> %>
             <section class="modal-card-body">
               <div class"container">
