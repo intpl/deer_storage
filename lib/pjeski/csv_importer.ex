@@ -144,7 +144,7 @@ defmodule Pjeski.CsvImporter do
 
   defp log_error(pid, filename, msg) when is_binary(msg) do
     if unquote(Mix.env != :test), do: Logger.error "CSV import #{filename}: " <> msg
-    GenServer.cast(pid, {:csv_importer_error, "%{filename}: %{msg}"})
+    GenServer.cast(pid, {:csv_importer_error, "#{filename}: #{msg}"})
   end
 
   defp log_error(pid, filename, [validation_error | _]) when is_tuple(validation_error) do
