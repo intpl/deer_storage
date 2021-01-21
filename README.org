@@ -4,6 +4,11 @@ APP_HOST=localhost APP_PORT=80 SECRET_KEY_BASE=(mix phx.gen.secret) docker-compo
 docker exec -it pjeski_phoenix_1 /bin/bash
 psql -d pjeski -c "UPDATE users SET email_confirmation_token = '', role = 'admin' WHERE id = 1;"
 
+* Launch observer GUI
+#+BEGIN_SRC elixir
+:observer.start
+#+END_SRC
+
 * CHEATSHEET Elixir Ecto:
 ** Associations
 *** Ecto.build_assoc - build association for parent
