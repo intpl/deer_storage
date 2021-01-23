@@ -26,9 +26,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
   end
 
   def assign_connecting_records_after_delete(%{assigns: %{connecting_records: []}} = socket, _), do: socket
-  def assign_connecting_records_after_delete(%{assigns: %{connecting_records: records, connecting_record: %{id: id}}} = socket, id) do
-    assign_closed_connecting_records(socket)
-  end
+  def assign_connecting_records_after_delete(%{assigns: %{connecting_record: %{id: id}}} = socket, id), do: assign_closed_connecting_records(socket)
   def assign_connecting_records_after_delete(%{assigns: %{connecting_records: records}} = socket, id) when is_number(id) do
     new_records = reduce_list_with_function(records, fn record -> unless(id == record.id, do: record) end)
     assign(socket, connecting_records: new_records)
