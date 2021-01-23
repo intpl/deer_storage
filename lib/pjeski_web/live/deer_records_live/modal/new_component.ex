@@ -7,12 +7,16 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
   def update(%{changeset: changeset, subscription: subscription, table_id: table_id, table_name: table_name, deer_tables: deer_tables, cached_count: cached_count, connecting_record?: connecting_record?}, socket) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
+    # due to not reloading on subscription tables change
+    deer_tables_xxh32 = deer_tables |> Enum.map(fn dt -> dt.name end) |> Enum.join |> XXHash.xxh32
+
     {:ok, assign(socket,
       changeset: changeset,
       callbacks: get_callback_names(connecting_record?),
       deer_columns: deer_columns,
       can_change_table_id?: connecting_record?,
       deer_tables: deer_tables,
+      deer_tables_xxh32: deer_tables_xxh32,
       prepared_fields: prepare_fields_for_form(deer_columns, changeset),
       can_create_records?: cached_count < subscription.deer_records_per_table_limit,
       table_name: table_name,
@@ -36,7 +40,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
             <section class="modal-card-body">
               <div class="control">
                 <div class="select">
-                  <form phx-change="change_new_connected_record_table_id">
+                  <form phx-change="change_new_connected_record_table_id" id="hash<%= @deer_tables_xxh32 %>">
                     <select name="table_id">
                       <%= for %{id: id, name: name} <- @deer_tables do %>
                         <option value="<%= id %>" <%= if id == @table_id, do: "selected" %>><%= name %></option>

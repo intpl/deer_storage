@@ -59,7 +59,8 @@ defmodule Pjeski.MixProject do
       {:poison, "~> 4.0"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:csv, "~> 2.4"},
-      {:ecto_psql_extras, "~> 0.2"}
+      {:ecto_psql_extras, "~> 0.2"},
+      {:xxhash, "~> 0.2.1"}
     ]
   end
 
