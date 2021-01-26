@@ -2,28 +2,27 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
   import Pjeski.DbHelpers.DeerRecordsSearch, only: [search_records: 4]
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [
     reduce_list_with_function: 2,
-    try_to_replace_record: 2,
+    try_to_update_record: 2,
     find_record_in_list_or_database: 4
   ]
 
   import Phoenix.LiveView, only: [assign: 2, assign: 3]
   import Pjeski.DeerRecords, only: [connect_records!: 3, remove_orphans_from_connected_records!: 2]
 
-  def assign_connected_records_after_update(%{assigns: %{connecting_record: nil}} = socket, _), do: socket
-  def assign_connected_records_after_update(
+  def assign_connecting_records_after_update(%{assigns: %{connecting_record: nil}} = socket, _), do: socket
+  def assign_connecting_records_after_update(
     %{assigns: %{
          current_subscription: %{id: subscription_id},
          connecting_selected_table_id: table_id,
          connecting_query: query,
          connecting_records: records
-      }} = socket, updated_record) do
+      }} = socket, %{deer_table_id: table_id} = updated_record) do
 
-    # TODO pagination
+    new_records = try_to_update_record(records, updated_record) || search_records(subscription_id, table_id, query, 1)
 
-    new_records = try_to_replace_record(records, updated_record) || search_records(subscription_id, table_id, query, 1) # change page
-
-    assign(socket, connecting_records: new_records) # add count
+    assign(socket, connecting_records: new_records)
   end
+  def assign_connecting_records_after_update(socket, _record), do: socket
 
   def assign_connecting_records_after_delete(%{assigns: %{connecting_records: []}} = socket, _), do: socket
   def assign_connecting_records_after_delete(%{assigns: %{connecting_record: %{id: id}}} = socket, id), do: assign_closed_connecting_records(socket)

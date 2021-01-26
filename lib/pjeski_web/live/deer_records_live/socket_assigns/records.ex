@@ -2,12 +2,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Records do
   import Phoenix.LiveView, only: [assign: 2, assign: 3, push_redirect: 2]
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
   import Pjeski.DbHelpers.DeerRecordsSearch, only: [search_records: 4]
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [reduce_list_with_function: 2, try_to_replace_record: 2]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [reduce_list_with_function: 2, try_to_update_record: 2]
 
   def change_page(%{assigns: %{query: query}} = socket, new_page), do: run_search_query_and_assign_results(socket, query, new_page)
 
   def assign_records_after_update(%{assigns: %{current_subscription: %{id: subscription_id}, table_id: table_id, query: query, page: page, records: records}} = socket, updated_record) do
-    new_records = try_to_replace_record(records, updated_record) || search_records(subscription_id, table_id, query, page)
+    new_records = try_to_update_record(records, updated_record) || search_records(subscription_id, table_id, query, page)
 
     assign(socket, records: new_records, count: length(new_records))
   end

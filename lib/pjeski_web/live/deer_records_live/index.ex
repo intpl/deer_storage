@@ -109,7 +109,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_info({:record_update, %{deer_table_id: table_id} = record}, %{assigns: %{table_id: table_id}} = socket) do
     socket = socket
     |> assign_records_after_update(record)
-    |> assign_connected_records_after_update(record)
+    |> assign_connecting_records_after_update(record)
     |> assign_opened_records_after_record_update(record)
     |> assign_editing_record_after_update(record)
     |> assign_uploading_file_for_record_after_update(record)
@@ -117,7 +117,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     {:noreply, socket}
   end
 
-  def handle_info({:record_update, record}, socket), do: {:noreply, assign_opened_records_after_record_update(socket, record)}
+  def handle_info({:record_update, record}, socket) do
+    socket = socket
+    |> assign_opened_records_after_record_update(record)
+    |> assign_connecting_records_after_update(record)
+
+    {:noreply, socket}
+  end
 
   def handle_cast({:upload_deer_file_result, {filename, {:ok, _}}}, socket), do: {:noreply, assign_upload_result(socket, {:ok, filename})}
   def handle_cast({:upload_deer_file_result, {filename, {:error, _}}}, socket), do: {:noreply, assign_upload_result(socket, {:error, filename})}

@@ -58,6 +58,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
     assign(socket, assign_key, change_record(subscription, record, %{deer_table_id: table_id}))
   end
 
+  defp maybe_reset_new_record_if_connecting(%{assigns: %{new_record: nil}} = socket), do: socket
   defp maybe_reset_new_record_if_connecting(%{assigns: %{current_subscription_tables: tables, new_record_connecting_with_record_id: record_id, new_record: new_record}} = socket) do
     table_id = Ecto.Changeset.fetch_field!(new_record, :deer_table_id)
     case Enum.find(tables, fn table -> table.id == table_id end) do

@@ -51,10 +51,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
     end)
   end
 
-  def try_to_replace_record(records, updated_record) do
+  def try_to_update_record(records, updated_record) do
     case Enum.find_index(records, fn %{id: id} -> updated_record.id == id end) do
       nil -> nil
-      idx -> List.replace_at(records, idx, updated_record)
+      idx -> [updated_record | List.delete_at(records, idx)]
     end
   end
 end
