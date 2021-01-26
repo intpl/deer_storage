@@ -1298,11 +1298,6 @@ msgid "Import file(s) to DeerStorage!"
 msgstr "Importuj plik(i) do DeerStorage!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:4
-msgid "Import from .csv file"
-msgstr "Zaimportuj z pliku .csv"
-
-#, elixir-format
 #: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:16
 msgid "Ready to import."
 msgstr "Gotowy do importu."
@@ -1602,3 +1597,8 @@ msgstr "Limity Twojej bazy danych nie pozwalają na import pliku o nazwie '%{fil
 #: lib/pjeski_web/templates/admin/user/show.html.eex:39
 msgid "Connect a database"
 msgstr "Połącz z bazą danych"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:4
+msgid "Import table from .csv file"
+msgstr "Zaimportuj tabelę z pliku .csv"
