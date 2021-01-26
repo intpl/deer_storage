@@ -1,6 +1,8 @@
 defmodule PjeskiWeb.LayoutView do
   use PjeskiWeb, :view
 
+  def available_languages_and_locales(), do: [{"Polski", "pl"}, {"English", "en"}]
+
   def maybe_active_dashboard_link(socket, header_text) do
     class = case socket.root_view do
                 PjeskiWeb.DeerDashboardLive.Index -> "navbar-item has-text-weight-bold is-active"

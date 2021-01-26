@@ -19,7 +19,11 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   alias Pjeski.SharedRecords
   alias PjeskiWeb.DeerRecordView
 
-  def mount(_params,  _session, socket), do: {:ok, assign(socket, deer_record: nil)}
+  def mount(_params, %{"locale" => locale}, socket) do
+    Gettext.put_locale(PjeskiWeb.Gettext, locale)
+    {:ok, assign(socket, deer_record: nil)}
+  end
+  def mount(_params, _session, socket), do: {:ok, assign(socket, deer_record: nil)}
 
   def render(assigns), do: DeerRecordView.render("show_external.html", assigns)
 

@@ -19,6 +19,7 @@ defmodule PjeskiWeb.Router do
   pipeline :protected, do: plug Pow.Plug.RequireAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :not_authenticated, do: plug Pow.Plug.RequireNotAuthenticated, error_handler: PjeskiWeb.AuthErrorHandler
   pipeline :admin, do: plug PjeskiWeb.EnsureRolePlug, :admin
+  pipeline :navigation_tracked, do: plug NavigationHistory.Tracker, history_size: 1
 
   scope "/", PjeskiWeb do
     pipe_through [:browser, :protected]
@@ -65,7 +66,7 @@ defmodule PjeskiWeb.Router do
   end
 
   scope "/", PjeskiWeb do
-    pipe_through [:browser, :not_authenticated]
+    pipe_through [:browser, :not_authenticated, :navigation_tracked]
 
     resources "/session", SessionController, singleton: true, only: [:new, :create]
     resources "/registration", RegistrationController, singleton: true, only: [:new, :create]
@@ -74,14 +75,15 @@ defmodule PjeskiWeb.Router do
   end
 
   scope "/", PjeskiWeb do
-    pipe_through :browser
+    pipe_through [:browser, :navigation_tracked]
 
     live "/share/:subscription_id/:shared_record_uuid", SharedRecordsLive.Show, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
     get "/:subscription_id/shared_record/:shared_record_id/:file_id", SharedRecordFilesController, :download_file_from_shared_record
     get "/:subscription_id/shared_file/:shared_file_id/:file_id", SharedRecordFilesController, :download_file_from_shared_file
+    post "/change_language", ChangeLanguageController, :change_language
 
     resources "/confirm-email", ConfirmationController, only: [:show]
 
     get "/", PageController, :index
   end
-end
+    end

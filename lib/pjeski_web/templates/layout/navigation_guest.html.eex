@@ -1,10 +1,30 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="/">
-      <strong>
-        🦌 <%= gettext("DeerStorage") %>
-      </strong>
-    </a>
+  <div class="navbar-brand is-vcentered">
+    <span class="navbar-item">
+      <a href="/">
+        <strong>
+          🦌 <%= gettext("DeerStorage") %>
+        </strong>
+      </a>
+      &nbsp;
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <% current_locale = Gettext.get_locale(PjeskiWeb.Gettext) %>
+
+            <%= form_for PjeskiWeb.Endpoint, Routes.change_language_path(PjeskiWeb.Endpoint, :change_language), fn _f -> %>
+              <select onChange="this.form.submit()" name="locale">
+                <%= Enum.map(available_languages_and_locales(), fn {language, ^current_locale} -> %>
+                  <option value="<%= current_locale %>" selected><%= language %></option>
+                <% {language, locale} -> %>
+                  <option value="<%= locale %>"><%= language %></option>
+                <% end) %>
+              </select>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </span>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
       <span aria-hidden="true"></span>

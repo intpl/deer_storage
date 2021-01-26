@@ -60,7 +60,8 @@ defmodule Pjeski.MixProject do
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:csv, "~> 2.4"},
       {:ecto_psql_extras, "~> 0.2"},
-      {:xxhash, "~> 0.2.1"}
+      {:xxhash, "~> 0.2.1"},
+      {:navigation_history, "~> 0.3"}
     ]
   end
 
