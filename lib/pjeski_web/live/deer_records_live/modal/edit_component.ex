@@ -38,10 +38,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
             </p>
             <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="close_edit"></a>
           </header>
-          <%= form_for @changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn _ -> %>
+          <%= form_for @changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn f -> %>
             <section class="modal-card-body">
               <div class"container">
                 <%= render_prepared_fields(@prepared_fields) %>
+              </div>
+              <hr>
+              <div class="control">
+                <%= textarea(f, :notes, class: "textarea", placeholder: gettext("Notes...")) %>
               </div>
             </section>
 
@@ -63,23 +67,31 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
                     <br />
 
                     <ul>
-                      <% changeset_deer_fields = Ecto.Changeset.fetch_field!(@changeset, :deer_fields) %>
                       <% old_deer_fields = Ecto.Changeset.fetch_field!(@old_editing_record, :deer_fields) %>
-                      <%= Enum.map(@deer_columns, fn %{id: column_id, name: column_name} -> %>
-                        <li>
-                          <strong><%= column_name %>:</strong>
-                          <% old_content = deer_field_content_from_column_id(old_deer_fields, column_id) %>
-                          <% changeset_content = deer_field_content_from_column_id(changeset_deer_fields, column_id) %>
+                      <% old_notes = Ecto.Changeset.fetch_field!(@old_editing_record, :notes) %>
+                      <% new_notes = Ecto.Changeset.fetch_field!(@changeset, :notes) %>
+                      <% different_deer_fields = PjeskiWeb.DeerRecordView.different_deer_fields(Ecto.Changeset.fetch_field!(@changeset, :deer_fields), old_deer_fields) %>
 
-                          <%= if old_content == changeset_content do %>
-                            <%= old_content %>
-                          <% else %>
-                            <span class="has-text-weight-semibold has-text-danger">
-                              <%= old_content %>
-                            </span>
-                          <% end %>
-                        </li>
-                      <% end) %>
+                      <%= if Enum.any?(different_deer_fields) do %>
+                        <%= Enum.map(@deer_columns, fn %{id: column_id, name: column_name} -> %>
+                          <li>
+                            <strong><%= column_name %>:</strong>
+                            <%= if Enum.member?(different_deer_fields, column_id) do %>
+                              <span class="has-text-weight-semibold has-text-danger">
+                                <%= deer_field_content_from_column_id(old_deer_fields, column_id) %>
+                              </span>
+                            <% else %>
+                              <%= deer_field_content_from_column_id(old_deer_fields, column_id) %>
+                            <% end %>
+                          </li>
+                        <%  end) %>
+                      <% end %>
+
+                      <%= if old_notes != new_notes do %>
+                        <span class="has-text-danger">
+                          <%= old_notes %>
+                        </span>
+                      <% end %>
                     </ul>
                   </div>
 

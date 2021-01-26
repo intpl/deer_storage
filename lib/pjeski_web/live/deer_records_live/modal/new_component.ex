@@ -52,10 +52,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.NewComponent do
             </section>
           <% end %>
 
-          <%= form_for @changeset, "#", [phx_change: @callbacks[:change], phx_submit: @callbacks[:submit]], fn _ -> %>
+          <%= form_for @changeset, "#", [phx_change: @callbacks[:change], phx_submit: @callbacks[:submit]], fn f -> %>
             <section class="modal-card-body">
               <div class"container">
                 <%= render_prepared_fields(@prepared_fields) %>
+                <hr>
+                <div class="control">
+                  <%= textarea(f, :notes, class: "textarea", placeholder: gettext("Notes...")) %>
+                </div>
               </div>
             </section>
 

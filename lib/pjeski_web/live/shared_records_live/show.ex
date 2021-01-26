@@ -2,10 +2,15 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   @tmp_dir System.tmp_dir!()
 
   use Phoenix.LiveView
-  import Ecto.Changeset, only: [fetch_field!: 2]
+  import Ecto.Changeset, only: [fetch_field!: 2, put_change: 3, apply_changes: 1]
 
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3, overwrite_deer_fields: 2]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [
+    atomize_and_merge_table_id_to_attrs: 2,
+    append_missing_fields_to_record: 3,
+    overwrite_deer_fields: 2,
+    connected_records_or_deer_files_changed?: 2
+  ]
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles, only: [
     assign_upload_result: 2,
     cancel_all_uploads_if_limit_is_exceeded: 1,
@@ -141,12 +146,15 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
 
   defp assign_editing_deer_record_as_old_record(%{assigns: %{editing_record: %{data: %{id: record_id, deer_table_id: table_id}} = old_editing_record_changeset, current_subscription: subscription}} = socket, %{id: record_id} = record_in_database) do
     ch = overwrite_deer_fields(record_in_database, fetch_field!(old_editing_record_changeset, :deer_fields))
+    |> put_change(:notes, fetch_field!(old_editing_record_changeset, :notes))
+    |> apply_changes
+
     new_editing_record_changeset = change_record(subscription, ch, %{deer_table_id: table_id})
     socket = assign(socket, editing_record: new_editing_record_changeset)
 
-    case Enum.any?(DeerRecordView.different_deer_fields(new_editing_record_changeset, record_in_database)) do
-      true -> assign(socket, old_editing_record: change_record(subscription, record_in_database, %{deer_table_id: table_id}))
-      false -> socket
+    case connected_records_or_deer_files_changed?(old_editing_record_changeset, record_in_database) do
+      true -> socket
+      false -> assign(socket, old_editing_record: change_record(subscription, record_in_database, %{deer_table_id: table_id}))
     end
   end
 

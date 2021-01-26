@@ -26,13 +26,13 @@ defmodule PjeskiWeb.DeerRecordView do
     end)
   end
 
-  def different_deer_fields(changeset, record) do
-    deer_fields = fetch_field!(changeset, :deer_fields)
+  def different_deer_fields(%Ecto.Changeset{} = changeset, record), do: different_deer_fields(fetch_field!(changeset, :deer_fields), record.deer_fields)
 
-    Enum.reduce(deer_fields, [], fn %{deer_column_id: column_id, content: content}, acc ->
-      record_deer_field = Enum.find(record.deer_fields, fn df -> df.deer_column_id == column_id end)
+  def different_deer_fields(deer_fields1, deer_fields2) do
+    Enum.reduce(deer_fields1, [], fn %{deer_column_id: column_id, content: content}, acc ->
+      deer_field2 = Enum.find(deer_fields2, fn df -> df.deer_column_id == column_id end)
 
-      case record_deer_field.content != content do
+      case deer_field2.content != content do
         true -> acc ++ [column_id]
         false -> acc
       end

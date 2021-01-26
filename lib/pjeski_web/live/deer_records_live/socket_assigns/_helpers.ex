@@ -1,5 +1,5 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
-  import Ecto.Changeset, only: [change: 1, put_embed: 3, apply_changes: 1]
+  import Ecto.Changeset, only: [change: 1, put_embed: 3, apply_changes: 1, fetch_field!: 2]
 
   import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1]
   import Pjeski.DeerRecords, only: [get_record!: 3]
@@ -7,6 +7,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
 
   def any_entry_started_upload?([]), do: false
   def any_entry_started_upload?(entries), do: Enum.any?(entries, fn entry -> entry.progress > 0 end)
+
+  def connected_records_or_deer_files_changed?(changeset, %{deer_files: deer_files, connected_deer_records_ids: connected_deer_records_ids}) do
+    fetch_field!(changeset, :connected_deer_records_ids) != connected_deer_records_ids || fetch_field!(changeset, :deer_files) != deer_files
+  end
 
   def atomize_and_merge_table_id_to_attrs(attrs, table_id), do: Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
 

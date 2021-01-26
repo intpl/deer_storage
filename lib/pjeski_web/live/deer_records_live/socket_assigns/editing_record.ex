@@ -1,14 +1,22 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
-  import Ecto.Changeset, only: [fetch_field!: 2]
+  import Ecto.Changeset, only: [fetch_field!: 2, put_change: 3, apply_changes: 1]
   import Phoenix.LiveView, only: [assign: 2]
 
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [atomize_and_merge_table_id_to_attrs: 2, append_missing_fields_to_record: 3, overwrite_deer_fields: 2]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [
+    atomize_and_merge_table_id_to_attrs: 2,
+    append_missing_fields_to_record: 3,
+    overwrite_deer_fields: 2,
+    connected_records_or_deer_files_changed?: 2
+  ]
   import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3]
 
   def assign_closed_editing_record(socket), do: assign(socket, editing_record: nil, editing_record_has_been_removed: false, old_editing_record: nil)
 
   def assign_editing_record_after_update(%{assigns: %{editing_record: %{data: %{id: record_id}} = old_editing_record_changeset, current_subscription: subscription, table_id: table_id}} = socket, %{id: record_id} = record_in_database) do
     ch = overwrite_deer_fields(record_in_database, fetch_field!(old_editing_record_changeset, :deer_fields))
+    |> put_change(:notes, fetch_field!(old_editing_record_changeset, :notes))
+    |> apply_changes
+
     new_editing_record_changeset = change_record(subscription, ch, %{deer_table_id: table_id})
     socket = assign(socket, editing_record: new_editing_record_changeset)
 
@@ -61,8 +69,4 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   end
 
   defp assign_error_editing_record_removed(socket), do: assign(socket, editing_record_has_been_removed: true)
-
-  defp connected_records_or_deer_files_changed?(changeset, %{deer_files: deer_files, connected_deer_records_ids: connected_deer_records_ids}) do
-    fetch_field!(changeset, :connected_deer_records_ids) != connected_deer_records_ids || fetch_field!(changeset, :deer_files) != deer_files
-  end
 end

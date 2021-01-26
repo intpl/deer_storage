@@ -61,6 +61,10 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
           <% end) %>
         </ul>
 
+        <div class="prewrapped">
+          <%= @record.notes %>
+        </div>
+
         <hr>
         <a class="button is-link is-light" href="#" phx-click="new_connected_record" phx-value-connecting-with-record_id="<%= record.id %>">
           <span><%= gettext("Create connected record") %></span>
@@ -142,5 +146,5 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
       </div>
     </div>
     """
-  end
+   end
 end

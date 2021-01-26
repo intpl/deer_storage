@@ -13,6 +13,7 @@ defmodule Pjeski.DeerRecords.DeerRecord do
     belongs_to :created_by_user, User
     belongs_to :updated_by_user, User
     field :deer_table_id, :string
+    field :notes, :string
 
     field :connected_deer_records_ids, {:array, :integer}, default: []
     embeds_many :deer_fields, DeerField, on_replace: :delete
@@ -27,9 +28,10 @@ defmodule Pjeski.DeerRecords.DeerRecord do
 
     deer_record
     |> cast(%{subscription_id: subscription_id}, [:subscription_id])
-    |> cast(attrs, [:deer_table_id])
+    |> cast(attrs, [:deer_table_id, :notes])
     |> validate_required([:deer_table_id])
     |> validate_inclusion(:deer_table_id, deer_tables_ids)
+    |> validate_length(:notes, max: 2000)
     |> cast_embed(:deer_fields, with: {DeerField, :changeset, [[deer_table_id: attrs.deer_table_id, subscription: subscription]]})
   end
 
