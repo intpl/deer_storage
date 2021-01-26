@@ -1119,7 +1119,7 @@ msgstr "Termin końcowy"
 #: lib/pjeski/deer_tables_examples.ex:20 lib/pjeski/deer_tables_examples.ex:21
 #: lib/pjeski/deer_tables_examples.ex:35 lib/pjeski/deer_tables_examples.ex:36
 msgid "Description"
-msgstr "Subskrypcja"
+msgstr "Opis"
 
 #, elixir-format
 #: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:23
