@@ -3,13 +3,15 @@ defmodule PjeskiWeb.LayoutView do
 
   def available_languages_and_locales(), do: [{"Polski", "pl"}, {"English", "en"}]
 
-  def maybe_active_dashboard_link(socket, header_text) do
+  def maybe_active_dashboard_link(socket, header_str) do
+    header_str = if header_str, do: "🏠 " <> header_str
     class = case socket.root_view do
                 PjeskiWeb.DeerDashboardLive.Index -> "navbar-item has-text-weight-bold is-active"
               _ -> "navbar-item has-text-weight-bold"
               end
 
-    live_redirect(header_text, to: Routes.live_path(socket, PjeskiWeb.DeerDashboardLive.Index), class: class)
+
+    live_redirect(header_str, to: Routes.live_path(socket, PjeskiWeb.DeerDashboardLive.Index), class: class)
   end
 
   def maybe_active_records_link(socket, %{id: id} = dt, id) do
