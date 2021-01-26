@@ -14,6 +14,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
     end
   end
 
+  def assign_subscription_if_available_subscription_link_exists!(socket, _user_id, nil), do: socket
   def assign_subscription_if_available_subscription_link_exists!(socket, user_id, subscription_id) do
     user_subscription_link = UserAvailableSubscriptionLink
     |> Repo.get_by!([user_id: user_id, subscription_id: subscription_id])

@@ -70,6 +70,7 @@ defmodule PjeskiWeb.DeerRecordView do
     Enum.find(deer_tables, fn table -> table.id == table_id end).deer_columns
   end
 
+  def deer_table_from_subscription(nil, _table_id), do: nil
   def deer_table_from_subscription(%Subscription{deer_tables: []}, _table_id), do: nil
   def deer_table_from_subscription(%Subscription{deer_tables: deer_tables}, table_id) do
     Enum.find(deer_tables, fn table -> table.id == table_id end)
