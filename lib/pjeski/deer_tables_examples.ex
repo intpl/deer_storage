@@ -15,7 +15,7 @@ defmodule Pjeski.DeerTablesExamples do
       gettext("Classroom (for teachers)"),
       gettext("A good example to start working with a students database. It has students lists, lessons, homeworks to upload and grades"),
       [
-        {gettext("Students"), [gettext("Student's name"), gettext("Date of birth")]},
+        {gettext("Students"), [pgettext("people", "Name"), gettext("Date of birth")]},
         {gettext("Lesson"), [gettext("Subject")]},
         {gettext("Exams"), [gettext("Subject"), gettext("Grade"), gettext("Description")]},
         {gettext("Grades"), [gettext("Name"), gettext("Grade"), gettext("Description")]}
@@ -28,9 +28,9 @@ defmodule Pjeski.DeerTablesExamples do
       gettext("School (for educational institutions)"),
       gettext("More comprehensive example on how school data could be arranged. It consists of teachers, students, classes, lessons, grades, homeworks and exams"),
       [
-        {gettext("Teachers"), [gettext("Teacher's name"), gettext("Area of expertise")]},
+        {gettext("Teachers"), [pgettext("people", "Name"), gettext("Area of expertise")]},
         {gettext("Classes"), [gettext("Name"), gettext("Year")]},
-        {gettext("Students"), [gettext("Student's name"), gettext("Date of birth")]},
+        {gettext("Students"), [pgettext("people", "Name"), gettext("Date of birth")]},
         {gettext("Lessons"), [gettext("Subject")]},
         {gettext("Grades"), [gettext("Name"), gettext("Grade"), gettext("Description")]},
         {gettext("Homeworks"), [gettext("Class"), gettext("Deadline"), gettext("Description")]}
@@ -55,8 +55,8 @@ defmodule Pjeski.DeerTablesExamples do
       gettext("Veterinary clinic"),
       gettext("You can use it as a starter to work with animal patients. Out of the box you get animals, clients, invoices and visits."),
       [
-        {gettext("Animals"), [gettext("Name"), gettext("Year of birth")]},
-        {gettext("Clients"), [gettext("Name"), gettext("Phone number")]},
+        {gettext("Animals"), [pgettext("people", "Name"), gettext("Year of birth")]},
+        {gettext("Clients"), [pgettext("people", "Name"), gettext("Phone number")]},
         {gettext("Invoices"), [gettext("Invoice number")]},
         {gettext("Visits"), [gettext("Date")]}
       ]

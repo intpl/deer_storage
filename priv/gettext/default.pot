@@ -247,9 +247,9 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski/deer_tables_examples.ex:21 lib/pjeski/deer_tables_examples.ex:32
-#: lib/pjeski/deer_tables_examples.ex:35 lib/pjeski/deer_tables_examples.ex:58 lib/pjeski/deer_tables_examples.ex:59
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:25 lib/pjeski_web/templates/admin/user/show.html.eex:125
-#: lib/pjeski_web/views/admin/subscription_view.ex:44 lib/pjeski_web/views/admin/subscription_view.ex:45
+#: lib/pjeski/deer_tables_examples.ex:35 lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:25
+#: lib/pjeski_web/templates/admin/user/show.html.eex:125 lib/pjeski_web/views/admin/subscription_view.ex:44
+#: lib/pjeski_web/views/admin/subscription_view.ex:45
 msgid "Name"
 msgstr ""
 
@@ -1236,16 +1236,6 @@ msgid "You can use it as a starter to work with animal patients. Out of the box 
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/deer_tables_examples.ex:18 lib/pjeski/deer_tables_examples.ex:33
-msgid "Student's name"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski/deer_tables_examples.ex:31
-msgid "Teacher's name"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski/deer_tables_examples.ex:16
 msgid "A good example to start working with a students database. It has students lists, lessons, homeworks to upload and grades"
 msgstr ""
@@ -1293,11 +1283,6 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:25
 msgid "Import file(s) to DeerStorage!"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:4
-msgid "Import from .csv file"
 msgstr ""
 
 #, elixir-format
@@ -1599,4 +1584,16 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:39
 msgid "Connect a database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:4
+msgid "Import table from .csv file"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/deer_tables_examples.ex:18 lib/pjeski/deer_tables_examples.ex:31
+#: lib/pjeski/deer_tables_examples.ex:33 lib/pjeski/deer_tables_examples.ex:58 lib/pjeski/deer_tables_examples.ex:59
+msgctxt "people"
+msgid "Name"
 msgstr ""
