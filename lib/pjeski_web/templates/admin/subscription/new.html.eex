@@ -2,10 +2,10 @@
 <nav class="breadcrumb section" aria-label="breadcrumbs">
   <ul>
     <li>
-      <%= link gettext("All subscriptions"), to: Routes.admin_subscription_path(@conn, :index) %>
+      <%= link gettext("All databases"), to: Routes.admin_subscription_path(@conn, :index) %>
     </li>
     <li class="is-active">
-      <%= link gettext("New Subscription"), to: Routes.admin_subscription_path(@conn, :new) %>
+      <%= link gettext("New database"), to: Routes.admin_subscription_path(@conn, :new) %>
     </li>
   </ul>
 </nav>
@@ -14,7 +14,7 @@
 <section class="section">
   <div class="container">
     <h4 class="is-size-4 has-text-primary">
-        <%= gettext("New Subscription") %>
+        <%= gettext("New database") %>
     </h4>
     <br>
 

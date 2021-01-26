@@ -25,7 +25,7 @@
 
       <%= inputs_for f, :last_used_subscription, fn sf -> %>
         <div class="field">
-          <%= label sf, :name, gettext("Subscription Name"), class: 'label' %>
+          <%= label sf, :name, gettext("Database name"), class: 'label' %>
           <%= text_input sf, :name, class: 'input' %>
           <%= error_tag sf, :name %>
         </div>

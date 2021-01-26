@@ -127,7 +127,7 @@ defmodule PjeskiWeb.InvitationController do
 
   def maybe_send_email_and_respond_success(conn, _user) do
     conn
-    |> put_flash(:info, gettext("Added user to your subscription"))
+    |> put_flash(:info, gettext("Added user to your database"))
     |> redirect(to: Routes.user_path(conn, :index))
   end
 

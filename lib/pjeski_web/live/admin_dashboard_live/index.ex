@@ -29,7 +29,7 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
       <div class="hero-body">
         <div class="container">
           <p class="title">
-            <%= gettext("Subscriptions") %>: <%= @subscriptions_count %><br>
+            <%= gettext("Databases") %>: <%= @subscriptions_count %><br>
           </p>
           <p class="subtitle">
             <%= gettext("Users") %>: <%= @users_count %>

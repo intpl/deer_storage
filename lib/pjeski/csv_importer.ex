@@ -149,7 +149,7 @@ defmodule Pjeski.CsvImporter do
 
   defp log_error(pid, filename, [validation_error | _]) when is_tuple(validation_error) do
     if unquote(Mix.env != :test), do: Logger.error "CSV import #{filename}: Subscription limits validation failed"
-    GenServer.cast(pid, {:csv_importer_error, gettext("Your subscription limits don't allow to import file named '%{filename}'.", filename: filename)})
+    GenServer.cast(pid, {:csv_importer_error, gettext("Your database limits don't allow to import file named '%{filename}'.", filename: filename)})
   end
 
   defp log_error(pid, filename, _) do

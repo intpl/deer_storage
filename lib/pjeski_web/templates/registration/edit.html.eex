@@ -34,14 +34,14 @@
               </button>
               <br>
             <% else %>
-              <%= gettext("No subscription assigned") %>
+              <%= gettext("No database assigned") %>
             <% end %>
           <% end %>
 
           <br><br>
 
           <%= if length(@available_subscriptions) != 0 do %>
-            <h4 class="title is-4"><%= gettext("Available subscriptions") %></h4>
+            <h4 class="title is-4"><%= gettext("Available databases") %></h4>
             <table class="table">
             <%= for available_subscription <- @available_subscriptions do %>
                 <tr>

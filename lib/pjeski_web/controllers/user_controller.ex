@@ -50,7 +50,7 @@ defmodule PjeskiWeb.UserController do
     conn
       |> maybe_reset_current_session_subscription_id!(user_id)
       |> maybe_logout_user!(user, subscription_id)
-      |> put_flash(:info, gettext("User has been removed from your subscription"))
+      |> put_flash(:info, gettext("User has been removed from your database"))
       |> redirect_to_registration_or_user_index(user_id)
   end
 

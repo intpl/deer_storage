@@ -32,7 +32,7 @@ msgid "Register"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:21
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:41
 #: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/reset_password/edit.html.eex:41
 #: lib/pjeski_web/templates/session/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
@@ -123,7 +123,7 @@ msgid "E-mail"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:20
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:40
 msgid "Free demo"
 msgstr ""
 
@@ -255,30 +255,6 @@ msgid "Name"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:9
-#: lib/pjeski_web/templates/admin/subscription/new.html.eex:8 lib/pjeski_web/templates/admin/subscription/new.html.eex:17
-msgid "New Subscription"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:100
-msgid "No users are attached to this subscription. "
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/user/index.html.eex:74
-#: lib/pjeski_web/templates/admin/user/index.html.eex:97 lib/pjeski_web/views/admin/user_view.ex:66
-#: lib/pjeski_web/views/admin/user_view.ex:67
-msgid "Subscription ends"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/_form.html.eex:9
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:71
-msgid "Subscription name"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:79
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:112 lib/pjeski_web/templates/admin/subscription/show.html.eex:72
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:142 lib/pjeski_web/templates/admin/user/index.html.eex:77
@@ -304,32 +280,6 @@ msgstr ""
 #: lib/pjeski_web/templates/user/index.html.eex:28 lib/pjeski_web/views/admin/user_view.ex:48
 #: lib/pjeski_web/views/admin/user_view.ex:49
 msgid "Name and surname"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/user/index.html.eex:73
-#: lib/pjeski_web/templates/admin/user/index.html.eex:94 lib/pjeski_web/views/admin/user_view.ex:64
-#: lib/pjeski_web/views/admin/user_view.ex:65
-msgid "Subscription"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/live/admin_dashboard_live/index.ex:32
-#: lib/pjeski_web/templates/admin/subscription/_header.html.eex:5 lib/pjeski_web/templates/layout/navigation_admin.html.eex:18
-msgid "Subscriptions"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:21
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:102
-msgid "Delete this subscription"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:6
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:6 lib/pjeski_web/templates/admin/subscription/new.html.eex:5
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:6
-msgid "All subscriptions"
 msgstr ""
 
 #, elixir-format
@@ -402,14 +352,14 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:39
-#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/deer_record/index.html.leex:127
+#: lib/pjeski_web/templates/admin/user/index.html.eex:39 lib/pjeski_web/templates/deer_record/index.html.leex:130
 msgid "Search"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:58
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:33 lib/pjeski_web/templates/admin/user/index.html.eex:34
-#: lib/pjeski_web/templates/deer_record/index.html.leex:119
+#: lib/pjeski_web/templates/deer_record/index.html.leex:122
 msgid "Search..."
 msgstr ""
 
@@ -427,7 +377,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:22
-#: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/deer_record/index.html.leex:109
+#: lib/pjeski_web/templates/admin/user/index.html.eex:22 lib/pjeski_web/templates/deer_record/index.html.leex:112
 msgid "Clear"
 msgstr ""
 
@@ -447,14 +397,9 @@ msgid "Sign in to DeerStorage"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:5
-#: lib/pjeski_web/views/layout_view.ex:23 lib/pjeski_web/views/layout_view.ex:35
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:6
+#: lib/pjeski_web/views/layout_view.ex:27 lib/pjeski_web/views/layout_view.ex:39
 msgid "DeerStorage"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/registration/new.html.eex:28
-msgid "Subscription Name"
 msgstr ""
 
 #, elixir-format
@@ -642,11 +587,6 @@ msgid "Manage users"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/invitation/new.html.eex:8
-msgid "Sends a link to a desired email allowing them to join your subscription"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/controllers/invitation_controller.ex:58
 msgid "User has been created"
 msgstr ""
@@ -657,35 +597,14 @@ msgid "You have been invited to join DeerStorage team!"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:136
-#: lib/pjeski_web/templates/registration/edit.html.eex:44
-msgid "Available subscriptions"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:93
 msgid "Confirmed email at"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:117
-msgid "Current subscription"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:119
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:161 lib/pjeski_web/templates/admin/user/show.html.eex:145
 msgid "Disconnect"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/admin/user_subscription_link_controller.ex:39
-msgid "User has been connected to this Subscription"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/admin/user_subscription_link_controller.ex:50
-msgid "User has been disconnected from this Subscription"
 msgstr ""
 
 #, elixir-format
@@ -706,12 +625,6 @@ msgid "Make current"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/subscription_navigation_live.ex:64
-#: lib/pjeski_web/templates/registration/edit.html.eex:37
-msgid "No subscription assigned"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/edit.html.eex:30
 msgid "No users attached."
 msgstr ""
@@ -727,68 +640,13 @@ msgid "Switch"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:36
-msgid "There are users attached to this subscription. You can still delete it and keep the users without a subscription."
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/admin/user_subscription_link_controller.ex:23
-msgid "User current subscription has been changed"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/admin/user_subscription_link_controller.ex:12
-msgid "User current subscription has been reset"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/invitation_controller.ex:130
-msgid "Added user to your subscription"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/_subscription_helpers.ex:7
-msgid "Your subscription expired"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/user/show.html.eex:157
 msgid "Current"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/user/form.html.eex:39
-msgid "Last used subscription"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/registration/current_subscription.html.eex:23
-msgid "This subscription expired"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:131
-msgid "This user has no last used subscription attached"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:69
-msgid "Current subscription changed"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/registration/edit.html.eex:33
 msgid "You are an administrator"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:114
-msgid "Changing user's last used subscription requires new session"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/views/layout_view.ex:32
-msgid "SUBSCRIPTION EXPIRED"
 msgstr ""
 
 #, elixir-format
@@ -802,18 +660,8 @@ msgid "Switch to admin panel"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/_header.html.eex:8
-msgid "All DeerStorage subscriptions"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/user/_header.html.eex:8
 msgid "All DeerStorage users"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/user/show.html.eex:39
-msgid "Connect subscription"
 msgstr ""
 
 #, elixir-format
@@ -844,19 +692,19 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:95 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:112
-#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:118 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:64
+#: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:118 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:69
 #: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:21 lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:10
 #: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:10
 msgid "Cancel"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:155
+#: lib/pjeski_web/templates/deer_record/index.html.leex:158
 msgid "Could not find anything..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:59
+#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:64
 msgid "Create record"
 msgstr ""
 
@@ -868,7 +716,7 @@ msgid "Delete"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:95
+#: lib/pjeski_web/templates/deer_record/index.html.leex:98
 msgid "New record"
 msgstr ""
 
@@ -878,7 +726,7 @@ msgid "Save changes"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:160
+#: lib/pjeski_web/templates/deer_record/index.html.leex:163
 msgid "There are no more records"
 msgstr ""
 
@@ -918,13 +766,8 @@ msgid "Edit record from table"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:30
+#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:34
 msgid "Insert record to table"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:20
-msgid "Go back to your subscription"
 msgstr ""
 
 #, elixir-format
@@ -935,12 +778,12 @@ msgid "Close"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:138
+#: lib/pjeski_web/templates/deer_record/index.html.leex:141
 msgid "Unselect"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:140
+#: lib/pjeski_web/templates/deer_record/index.html.leex:143
 msgid "Are you sure to REMOVE all %{count} selected records?"
 msgstr ""
 
@@ -959,11 +802,6 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/user/index.html.eex:48
 msgid "Unlink"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/controllers/user_controller.ex:53
-msgid "User has been removed from your subscription"
 msgstr ""
 
 #, elixir-format
@@ -1000,11 +838,6 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/user/index.html.eex:31
 msgid "Other"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:51
-msgid "Are you sure to unlink %{name} from your subscription?"
 msgstr ""
 
 #, elixir-format
@@ -1063,12 +896,6 @@ msgid "Total tables limit: %{deer_tables_limit}"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_dashboard/editable_deer_tables.html.leex:68
-#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:83
-msgid "You can't add new tables due to subscription limits"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:38
 msgid "Uploaded files"
 msgstr ""
@@ -1076,21 +903,6 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:33
 msgid "Used space"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:60
-msgid "Disconnect from this subscription"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:63
-msgid "Are you sure to DISCONNECT from subscription %{name}?"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/user/index.html.eex:64
-msgid "Requires invitation to join again"
 msgstr ""
 
 #, elixir-format
@@ -1182,7 +994,7 @@ msgid "There may be more records than these. Please use search box."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:61
+#: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:66
 msgid "You cannot create this record"
 msgstr ""
 
@@ -1425,11 +1237,6 @@ msgid "You can use it as a starter to work with animal patients. Out of the box 
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_dashboard_live/index.ex:154
-msgid "Your subscription limits do not allow to use this template. Please contact the Administrator to exceed limits."
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski/deer_tables_examples.ex:18 lib/pjeski/deer_tables_examples.ex:33
 msgid "Student's name"
 msgstr ""
@@ -1445,7 +1252,7 @@ msgid "A good example to start working with a students database. It has students
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:141
+#: lib/pjeski_web/templates/deer_record/index.html.leex:144
 msgid "Delete selected (%{count})"
 msgstr ""
 
@@ -1525,11 +1332,6 @@ msgid "Inserted %{count} records from file '%{filename}'"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:152
-msgid "Your subscription limits don't allow to import file named '%{filename}'."
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski/csv_importer.ex:80
 msgid "CSV parser error: %{message}"
 msgstr ""
@@ -1550,8 +1352,8 @@ msgid "Validation failed: %{errors}"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/index.html.leex:136
-#: lib/pjeski_web/templates/deer_record/index.html.leex:191
+#: lib/pjeski_web/templates/deer_record/index.html.leex:139
+#: lib/pjeski_web/templates/deer_record/index.html.leex:194
 msgid "%{count} records selected."
 msgstr ""
 
@@ -1583,11 +1385,6 @@ msgid "File '%{filename}' uploaded successfuly"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:77
-msgid "File size exceeds your subscription limits"
-msgstr ""
-
-#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:51
 msgid "Select file(s) to upload"
 msgstr ""
@@ -1598,11 +1395,209 @@ msgid "Waiting for other uploads to complete..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:78
-msgid "Upload has been canceled due to the total size of files exceeded subscription limits"
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:66
+msgid "Create connected record"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:66
-msgid "Create connected record"
+#: lib/pjeski_web/controllers/invitation_controller.ex:130
+msgid "Added user to your database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/subscription/_header.html.eex:8
+msgid "All DeerStorage databases"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:6
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:6 lib/pjeski_web/templates/admin/subscription/new.html.eex:5
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:6
+msgid "All databases"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:63
+msgid "Are you sure to DISCONNECT from database %{name}?"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:51
+msgid "Are you sure to unlink %{name} from your database?"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/show.html.eex:136
+#: lib/pjeski_web/templates/registration/edit.html.eex:44
+msgid "Available databases"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/show.html.eex:114
+msgid "Changing user's last used database requires new session"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/show.html.eex:117
+msgid "Current database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/registration_controller.ex:69
+msgid "Current database changed"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/views/layout_view.ex:36
+msgid "DATABASE EXPIRED"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/index.html.eex:73
+#: lib/pjeski_web/templates/admin/user/index.html.eex:94 lib/pjeski_web/views/admin/user_view.ex:64
+#: lib/pjeski_web/views/admin/user_view.ex:65
+msgid "Database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/index.html.eex:74
+#: lib/pjeski_web/templates/admin/user/index.html.eex:97 lib/pjeski_web/views/admin/user_view.ex:66
+#: lib/pjeski_web/views/admin/user_view.ex:67
+msgid "Database expires on"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/subscription/_form.html.eex:9
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:71 lib/pjeski_web/templates/registration/new.html.eex:28
+msgid "Database name"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/admin_dashboard_live/index.ex:32
+#: lib/pjeski_web/templates/admin/subscription/_header.html.eex:5 lib/pjeski_web/templates/layout/navigation_admin.html.eex:18
+msgid "Databases"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:21
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:102
+msgid "Delete this database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:60
+msgid "Disconnect from this database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:77
+msgid "File size exceeds your database limits"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:20
+msgid "Go back to your database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/form.html.eex:39
+msgid "Last used database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/subscription/index.html.eex:9
+#: lib/pjeski_web/templates/admin/subscription/new.html.eex:8 lib/pjeski_web/templates/admin/subscription/new.html.eex:17
+msgid "New database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/subscription_navigation_live.ex:64
+#: lib/pjeski_web/templates/registration/edit.html.eex:37
+msgid "No database assigned"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:100
+msgid "No users are attached to this database."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/user/index.html.eex:64
+msgid "Requires invitation to join it again"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/invitation/new.html.eex:8
+msgid "Sends a link to a desired email allowing them to connect and collaborate with your database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/subscription/edit.html.eex:36
+msgid "There are users attached to this database. You can still delete it and keep the users without a database."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/registration/current_subscription.html.eex:23
+msgid "This database expired"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/show.html.eex:131
+msgid "This user has no last used database attached"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:78
+msgid "Upload has been canceled due to the total size of files exceeded database limits"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/admin/user_subscription_link_controller.ex:23
+msgid "User current database has been changed"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/admin/user_subscription_link_controller.ex:12
+msgid "User current database has been reset"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/admin/user_subscription_link_controller.ex:39
+msgid "User has been connected to this database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/admin/user_subscription_link_controller.ex:50
+msgid "User has been disconnected from this database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/user_controller.ex:53
+msgid "User has been removed from your database"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/deer_dashboard/editable_deer_tables.html.leex:68
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:83
+msgid "You can't add new tables due to your database limits"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/controllers/_subscription_helpers.ex:7
+msgid "Your database expired"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_dashboard_live/index.ex:154
+msgid "Your database limits do not allow to use this template. Please contact the Administrator to exceed limits."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:152
+msgid "Your database limits don't allow to import file named '%{filename}'."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/user/show.html.eex:39
+msgid "Connect a database"
 msgstr ""

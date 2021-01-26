@@ -3,10 +3,10 @@
 <nav class="breadcrumb section" aria-label="breadcrumbs">
   <ul>
     <li class="is-active">
-      <%= link gettext("All subscriptions"), to: Routes.admin_subscription_path(@conn, :index) %>
+      <%= link gettext("All databases"), to: Routes.admin_subscription_path(@conn, :index) %>
     </li>
     <li>
-      <%= link gettext("New Subscription"), to: Routes.admin_subscription_path(@conn, :new) %>
+      <%= link gettext("New database"), to: Routes.admin_subscription_path(@conn, :new) %>
     </li>
   </ul>
 </nav>
@@ -68,7 +68,7 @@
 <table class="table is-fullwidth is-narrow responsive_index">
   <thead>
     <tr>
-      <th><%= determine_if_sorted(gettext("Subscription name"), "name", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Database name"), "name", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Expires on"), "expires_on", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Storage limit"), "storage_limit_kilobytes", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Files limit"), "files_limit", @sort_by, @query) %></th>

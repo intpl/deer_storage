@@ -61,10 +61,10 @@ defmodule PjeskiWeb.Admin.UserView do
       ["inserted_at_asc", gettext("Inserted at") <> ascending],
       ["updated_at_desc", gettext("Updated at") <> descending],
       ["updated_at_asc", gettext("Updated at") <> ascending],
-      ["last_used_subscription_name_desc", gettext("Subscription") <> descending],
-      ["last_used_subscription_name_asc", gettext("Subscription") <> ascending],
-      ["last_used_subscription_expires_on_desc", gettext("Subscription ends") <> descending],
-      ["last_used_subscription_expires_on_asc", gettext("Subscription ends") <> ascending]
+      ["last_used_subscription_name_desc", gettext("Database") <> descending],
+      ["last_used_subscription_name_asc", gettext("Database") <> ascending],
+      ["last_used_subscription_expires_on_desc", gettext("Database expires on") <> descending],
+      ["last_used_subscription_expires_on_asc", gettext("Database expires on") <> ascending]
     ]
   end
 end

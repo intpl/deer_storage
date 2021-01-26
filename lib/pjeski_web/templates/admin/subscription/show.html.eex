@@ -3,7 +3,7 @@
 <nav class="breadcrumb section" aria-label="breadcrumbs">
   <ul>
     <li>
-      <%= link gettext("All subscriptions"), to: Routes.admin_subscription_path(@conn, :index) %>
+      <%= link gettext("All databases"), to: Routes.admin_subscription_path(@conn, :index) %>
     </li>
     <li class="is-active">
       <%= link @subscription.name, to: Routes.admin_subscription_path(@conn, :show, @subscription) %>
@@ -97,9 +97,9 @@
     </h4>
 
     <%= if (length @users) == 0 do %>
-      <%= gettext("No users are attached to this subscription. ") %>
+      <%= gettext("No users are attached to this database.") %>
       <br>
-      <%= link gettext("Delete this subscription"),
+      <%= link gettext("Delete this database"),
           to: Routes.admin_subscription_path(@conn, :delete, @subscription),
           method: :delete,
           data: [confirm: gettext("Are you sure?")] %>

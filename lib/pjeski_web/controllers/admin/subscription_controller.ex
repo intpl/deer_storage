@@ -47,7 +47,7 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
     case Subscriptions.admin_create_subscription(subscription_params) do
       {:ok, subscription} ->
         conn
-        |> put_flash(:info, "Subscription created successfully.")
+        |> put_flash(:info, "Database created successfully.")
         |> redirect(to: Routes.admin_subscription_path(conn, :show, subscription))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -87,7 +87,7 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
     case Subscriptions.admin_update_subscription(subscription, subscription_params) do
       {:ok, subscription} ->
         conn
-        |> put_flash(:info, "Subscription updated successfully.")
+        |> put_flash(:info, "Database updated successfully.")
         |> redirect(to: Routes.admin_subscription_path(conn, :show, subscription))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -100,7 +100,7 @@ defmodule PjeskiWeb.Admin.SubscriptionController do
     {:ok, _subscription} = Subscriptions.delete_subscription(subscription)
 
     conn
-    |> put_flash(:info, "Subscription deleted successfully.")
+    |> put_flash(:info, "Database deleted successfully.")
     |> redirect(to: Routes.admin_subscription_path(conn, :index))
   end
 end

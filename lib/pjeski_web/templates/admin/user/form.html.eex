@@ -36,7 +36,7 @@
   </div>
 
   <div class="field">
-    <%= label f, :last_used_subscription_id, gettext("Last used subscription"), class: 'label' %>
+    <%= label f, :last_used_subscription_id, gettext("Last used database"), class: 'label' %>
     <%= select f, :last_used_subscription_id, [], class: 'input use-select2' %>
     <%= error_tag f, :last_used_subscription_id %>
   </div>

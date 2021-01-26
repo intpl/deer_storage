@@ -6,7 +6,7 @@
   <% end %>
 
   <div class="field">
-    <%= label f, :name, gettext("Subscription name"), class: 'label' %>
+    <%= label f, :name, gettext("Database name"), class: 'label' %>
     <%= text_input f, :name, class: 'input' %>
     <%= error_tag f, :name %>
   </div>

@@ -36,7 +36,7 @@
         <h4 class="subtitle is-4"><%= @user.email %></h4>
       </div>
       <div class="column">
-        <h5 class="title is-5"><%= gettext("Connect subscription") %></h5>
+        <h5 class="title is-5"><%= gettext("Connect a database") %></h5>
           <%= form_for @conn, Routes.admin_user_user_subscription_link_path(@conn, :create, @user.id, redirect_back_to: "user"), fn f -> %>
             <div class="columns">
                 <div class="column is-half">
@@ -111,10 +111,10 @@
           </table>
         </div>
         <div class="column">
-            <%= gettext("Changing user's last used subscription requires new session") %>
+            <%= gettext("Changing user's last used database requires new session") %>
             <br />
             <br />
-          <h4 class="title is-4"><%= gettext("Current subscription") %></h4>
+          <h4 class="title is-4"><%= gettext("Current database") %></h4>
           <%= if @user.last_used_subscription do %>
             <%= link gettext("Reset"),
             to: Routes.admin_user_user_subscription_link_path(@conn, :reset, @user.id),
@@ -128,12 +128,12 @@
               <tr><td><%= gettext("Expires on") %>:</td><td><%= @user.last_used_subscription.expires_on %></td></tr>
             </table>
           <% else %>
-            <%= gettext("This user has no last used subscription attached") %>
+            <%= gettext("This user has no last used database attached") %>
             <br>
             <br>
           <% end %>
 
-          <h4 class="title is-4"><%= gettext("Available subscriptions") %></h4>
+          <h4 class="title is-4"><%= gettext("Available databases") %></h4>
 
           <table class="table">
               <%= for subscription <- @available_subscriptions do %>

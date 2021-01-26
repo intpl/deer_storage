@@ -48,7 +48,7 @@
                   <%= button gettext("Unlink"),
                   to: Routes.user_user_path(@conn, :unlink, user.id, @current_subscription.id),
                   method: :put,
-                  data: [confirm: gettext("Are you sure to unlink %{name} from your subscription?", name: user.name)],
+                  data: [confirm: gettext("Are you sure to unlink %{name} from your database?", name: user.name)],
                   class: "button is-danger" %>
               <% end %>
             </td>
@@ -57,10 +57,10 @@
       </tbody>
     </table>
 
-    <%= link gettext("Disconnect from this subscription"),
+    <%= link gettext("Disconnect from this database"),
     to: Routes.user_user_path(@conn, :unlink, @current_user.id, @current_subscription.id),
     method: :put,
-    data: [confirm: gettext("Are you sure to DISCONNECT from subscription %{name}?", name: @current_subscription.name)] %>
-    (<%= gettext("Requires invitation to join again") %>)
+    data: [confirm: gettext("Are you sure to DISCONNECT from database %{name}?", name: @current_subscription.name)] %>
+    (<%= gettext("Requires invitation to join it again") %>)
   </div>
 </section>

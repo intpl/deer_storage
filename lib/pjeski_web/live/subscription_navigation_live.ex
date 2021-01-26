@@ -61,7 +61,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
     ~L"""
       <div class="navbar-brand">
         <div class="navbar-item">
-          <%= gettext("No subscription assigned") %>
+          <%= gettext("No database assigned") %>
         </div>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">

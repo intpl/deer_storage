@@ -2,10 +2,10 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= gettext("Subscriptions") %>
+        <%= gettext("Databases") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("All DeerStorage subscriptions") %>
+        <%= gettext("All DeerStorage databases") %>
       </h2>
     </div>
   </div>

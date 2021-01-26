@@ -151,7 +151,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     case create_deer_tables!(subscription, tables) do
       {:error, _subscription_changeset} ->
         {:noreply,
-          assign(socket, displayed_error: gettext("Your subscription limits do not allow to use this template. Please contact the Administrator to exceed limits."))}
+          assign(socket, displayed_error: gettext("Your database limits do not allow to use this template. Please contact the Administrator to exceed limits."))}
       {:ok, updated_subscription} ->
         for %{id: id} <- updated_subscription.deer_tables do
           PubSub.subscribe(Pjeski.PubSub, "records_counts:#{id}")

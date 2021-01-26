@@ -5,7 +5,7 @@
         <%= gettext("Invite user") %>
       </h1>
       <h2 class="subtitle">
-        <%= gettext("Sends a link to a desired email allowing them to join your subscription") %>
+        <%= gettext("Sends a link to a desired email allowing them to connect and collaborate with your database") %>
       </h2>
     </div>
   </div>

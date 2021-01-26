@@ -70,8 +70,8 @@
     <tr>
       <th><%= determine_if_sorted(gettext("Name and surname"), "name", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("E-mail"), "email", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Subscription"), "last_used_subscription_name", @sort_by, @query) %></th>
-      <th><%= determine_if_sorted(gettext("Subscription ends"), "last_used_subscription_expires_on", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Database"), "last_used_subscription_name", @sort_by, @query) %></th>
+      <th><%= determine_if_sorted(gettext("Database expires on"), "last_used_subscription_expires_on", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Time zone"), "time_zone", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Inserted at"), "inserted_at", @sort_by, @query) %></th>
       <th><%= determine_if_sorted(gettext("Updated at"), "updated_at", @sort_by, @query) %></th>
@@ -91,10 +91,10 @@
           <td data-label="<%= gettext("E-mail") %>: ">
             <%= link user.email, to: Routes.admin_user_path(@conn, :show, user) %>
           </td>
-          <td data-label="<%= gettext("Subscription") %>: ">
+          <td data-label="<%= gettext("Database") %>: ">
             <%= subscription_name_link_for(@conn, user) %>
           </td>
-          <td data-label="<%= gettext("Subscription ends") %>: ">
+          <td data-label="<%= gettext("Database expires on") %>: ">
             <%= subscription_expires_datetime_for(user) %>
           </td>
           <td data-label="<%= gettext("Time zone") %>: ">

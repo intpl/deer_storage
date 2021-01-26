@@ -9,7 +9,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
     Users.update_last_used_subscription_id!(user, nil)
 
     conn
-    |> put_flash(:info, gettext("User current subscription has been reset"))
+    |> put_flash(:info, gettext("User current database has been reset"))
     |> redirect(to: Routes.admin_user_path(conn, :show, user))
   end
 
@@ -20,7 +20,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
     Users.update_last_used_subscription_id!(user, subscription_id)
 
     conn
-    |> put_flash(:info, gettext("User current subscription has been changed"))
+    |> put_flash(:info, gettext("User current database has been changed"))
     |> redirect(to: Routes.admin_user_path(conn, :show, user))
   end
 
@@ -36,7 +36,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
     Users.insert_subscription_link_and_maybe_change_last_used_subscription_id(user, subscription_id)
 
     conn
-    |> put_flash(:info, gettext("User has been connected to this Subscription"))
+    |> put_flash(:info, gettext("User has been connected to this database"))
     |> redirect(to: path_to_redirect(conn, params))
   end
 
@@ -47,7 +47,7 @@ defmodule PjeskiWeb.Admin.UserSubscriptionLinkController do
     Users.remove_subscription_link_and_maybe_change_last_used_subscription_id(user, subscription_id)
 
     conn
-    |> put_flash(:info, gettext("User has been disconnected from this Subscription"))
+    |> put_flash(:info, gettext("User has been disconnected from this database"))
     |> redirect(to: path_to_redirect(conn, params))
   end
 

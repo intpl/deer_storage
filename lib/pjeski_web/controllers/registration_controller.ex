@@ -66,7 +66,7 @@ defmodule PjeskiWeb.RegistrationController do
 
     conn
     |> UserSessionUtils.put_into_session(:current_subscription_id, requested_subscription_id)
-    |> put_flash(:info, gettext("Current subscription changed"))
+    |> put_flash(:info, gettext("Current database changed"))
   end
 
   defp render_edit_for_current_user(%{assigns: %{current_subscription: current_subscription}} = conn, changeset) do

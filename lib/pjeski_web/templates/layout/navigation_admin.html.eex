@@ -15,7 +15,7 @@
   <div id="navigation" class="navbar-menu">
     <div class="navbar-start">
       <%= link(gettext("Users"), to: Routes.admin_user_path(@conn, :index), class: "navbar-item") %>
-      <%= link(gettext("Subscriptions"), to: Routes.admin_subscription_path(@conn, :index), class: "navbar-item") %>
+      <%= link(gettext("Databases"), to: Routes.admin_subscription_path(@conn, :index), class: "navbar-item") %>
       </div>
 
     <div class="navbar-end">

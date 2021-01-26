@@ -74,8 +74,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.UploadingFileComponent do
     """
   end
 
-  defp translate_error(:too_large), do: gettext("File size exceeds your subscription limits")
-  defp translate_error(:total_size_exceeds_limits), do: gettext("Upload has been canceled due to the total size of files exceeded subscription limits")
+  defp translate_error(:too_large), do: gettext("File size exceeds your database limits")
+  defp translate_error(:total_size_exceeds_limits), do: gettext("Upload has been canceled due to the total size of files exceeded database limits")
 
   defp errors_for_entry([], _), do: nil
   defp errors_for_entry(errors, %{ref: ref}), do: Enum.find(errors, fn {error_ref, _error} -> error_ref == ref end)

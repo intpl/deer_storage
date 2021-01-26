@@ -17,7 +17,7 @@
       <article class="column">
         <div>
           <%= if @current_user do %>
-            <%= link gettext("Go back to your subscription"), to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index) %>
+            <%= link gettext("Go back to your database"), to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index) %>
           <% else %>
             <p><%= gettext("Not logged in") %></p>
             <span><%= link gettext("Register"), to: Routes.registration_path(@conn, :new) %></span>
