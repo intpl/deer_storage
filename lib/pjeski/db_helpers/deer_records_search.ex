@@ -18,7 +18,7 @@ defmodule Pjeski.DbHelpers.DeerRecordsSearch do
       "" -> initial_query
       _ ->
         initial_query
-        |> where(^recursive_dynamic_query(query_string |> String.replace("*", "%") |> String.split))
+        |> where(^recursive_dynamic_query(query_string |> String.replace("%", "\\%") |> String.replace("*", "%") |> String.split))
     end
 
     Repo.all(query)
