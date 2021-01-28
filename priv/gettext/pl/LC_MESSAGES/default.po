@@ -302,7 +302,7 @@ msgid "%{name} is now '%{role}'"
 msgstr "%{name} ma teraz rolę '%{role}'"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:44
+#: lib/pjeski_web/controllers/session_controller.ex:47
 msgid "Invalid e-mail or password"
 msgstr "Zły e-mail lub hasło"
 
@@ -485,7 +485,7 @@ msgid "E-mail has been confirmed"
 msgstr "Potwierdzono adres e-mail"
 
 #, elixir-format
-#: lib/pjeski_web/controllers/session_controller.ex:37
+#: lib/pjeski_web/controllers/session_controller.ex:40
 msgid "E-mail not confirmed. Confirmation e-mail has been sent again"
 msgstr "Adres e-mail nie został potwierdzony. Wysłano linka ponownie"
 
@@ -1585,42 +1585,42 @@ msgid "Drop files on this window or select them by hand"
 msgstr "Upuść pliki na to okno lub wybierz je ręcznie"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:38
+#: lib/pjeski_web/templates/page/index.html.eex:33
 msgid "See all changes right away"
 msgstr "Zobacz swoje zmiany od razu"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:30
+#: lib/pjeski_web/templates/page/index.html.eex:25
 msgid "Share whatever you want. Allow users to edit your data"
 msgstr "Udostępniaj cokolwiek chcesz. Pozwalaj użytkownikom na edycję Twoich danych"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:33
+#: lib/pjeski_web/templates/page/index.html.eex:28
 msgid "You can share your data and allow people to edit them using a secret link. Afterwards, you can invalidate all your shared links and revoke access to the data. They can even upload files for you!"
 msgstr "Możesz udostępniać swoje dane i pozwolić ludziom edytować je za pomocą tajnego linka. Potem, możesz wygasić udostępnione linki i cofnąć dostęp do tych danych. Ludzie mogą nawet wgrywać pliki dla Ciebie!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:22
+#: lib/pjeski_web/templates/page/index.html.eex:17
 msgid "DeerStorage. Store your data in a structured way. Inside a deer-ectory!"
 msgstr "DeerStorage. Nie bądź jeleniem. Przechowuj swoje dane w ustrukturyzowany sposób!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:41
+#: lib/pjeski_web/templates/page/index.html.eex:36
 msgid "When user makes changes to anything, you can see it right away. If there is a risk of loosing your changes, you will see an alert allowing you to handle this."
 msgstr "Kiedy użytkownik coś zmienia, od razu to zobaczysz. Jeśli istnieje ryzyko utraty zmian, wyświetli Ci się komunikat i będziesz mógł/mogła zareagować."
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:25
+#: lib/pjeski_web/templates/page/index.html.eex:20
 msgid "With DeerStorage you can create your database as tables and store your files inside each row."
 msgstr "Z DeerStorage możesz stworzyć swoją bazę danych jako tabele i przechowywać pliki w każdym wierszu."
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:46
+#: lib/pjeski_web/templates/page/index.html.eex:41
 msgid "Don't wait. Register now and unleash the power of the deer!"
 msgstr "Nie czekaj. Zarejestruj się i odkryj potęgę jelenia!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:11
+#: lib/pjeski_web/templates/page/index.html.eex:10
 msgid "Go back to your database..."
 msgstr "Powrót do Twojej bazy danych..."
 
@@ -1630,11 +1630,81 @@ msgid "You are logged in! Great choice!"
 msgstr "Jesteś zalogowany/-a! Świetny wybór!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:47
+#: lib/pjeski_web/templates/page/index.html.eex:42
 msgid "Register now"
 msgstr "Zarejestruj się"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:79
 msgid "Connect a user"
 msgstr "Połącz użytkownika"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:45
+msgid "... or slide down to learn more"
+msgstr "... lub zjedź niżej, żeby dowiedzieć się więcej"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:79
+msgid "Go ahead and create your account"
+msgstr "Stwórz swoje konto"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:124
+msgid "I've tested record search with over 100,000 records within one table and it remains blazingly fast even with such immense amounts of data. Having that said, you can create many records and don't worry about quick access to your data."
+msgstr "Przetestowałem przeszukiwanie rekordów przy ponad 100.000 wpisów dla jednej tabeli i w dalszym ciągu jest piekielnie szybkie (100.000 wpisów! To nie przelewki). Możesz być pewny/-a, że system pozostanie szybki i sprawny niezależnie od tego, jak duża będzie Twoja baza danych."
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:99
+msgid "Note that after creating your table, you still will be able to rename columns, "
+msgstr "Ważne zaznaczenia jest, że po stworzeniu Twojej tabeli, dalej będziesz mógł/mogła zmieniać nazwy kolumn, "
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:97
+msgid "See how to make the best decision"
+msgstr "Zobacz jak podjąć najlepszą decyzję"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:66
+msgid "Step 1: Create your database"
+msgstr "Krok 1: Stwórz swoją bazę danych"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:112
+msgid "Step 3: Start creating your records and see for yourself how efficient it is!"
+msgstr "Krok 3: Zacznij tworzyć swoje rekordy i sam/-a zobacz, jak sprawnie się w tym odnajdziesz!"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:133
+msgid "Step 4 (optional): Share whatever you want, to whoever you want, and revoke access with just one click."
+msgstr "Krok 4 (opcjonalny): Udostępniaj cokolwike chcesz, komu chcesz. Odbieraj dostęp do zasobów natychmiast. Jednym kliknięciem!"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:140
+msgid "You can share records for viewing and downloading files or for editing and uploading files. You can invalidate all shared links for a record with one click."
+msgstr "Możesz udostępniać rekordy do podglądu i pobierania plików, lub dla edycji i wgrywania plików. W każdej chwili możesz wygasić wszystkie udostępnione linki jednym kliknięciem."
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:78
+msgid "Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. But first: "
+msgstr "Twoja pierwsza baza danych jest stworzona automatycznie, jak tylko zarejestrujesz się i potwierdzisz swój adres e-mail. Dodatkowe bazy wymagają interwencji administratora. Nie wahaj się i wyślij prośbę o kontakt za pomocą formularza wsparcia technicznego, jeśli chcesz powiększyć limity swojej bazy danych. Ale najpierw: "
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:58
+msgid "So, how exactly does it work?"
+msgstr "Więc, jak dokładnie to wszystko działa?"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:125
+msgid "DeerStorage is a great solution for example for sales teams with their hundreds of clients worked on simultaneously."
+msgstr "DeerStorage to świetne rozwiązanie dla np. zespołów sprzedażowych, posługujących się setkami klientów/ofert w tym samym czasie."
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:88
+msgid "Step 2: Rethink and decide how you want to manage your data"
+msgstr "Krok 2: Przemyśl i podejmij decyzję, jak chcesz zarządzać swoimi danymi"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/page/index.html.eex:95
+msgid "Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through."
+msgstr "Decyzja, jak stworzyć swoje tabele może nie wydawać się banalna na pierwszy rzut oka, ale wierz mi, że warto ją podjąć."

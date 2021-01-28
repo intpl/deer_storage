@@ -3,17 +3,12 @@
     <div class="container">
       <%= if @current_user do %>
         <article class="row section">
-          <%= link to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index), class: "title" do %>
+          <span class="title">
             <%= gettext("You are logged in! Great choice!") %> :)
-            <br>
-            <br>
-            <button class="button is-link">
-              <%= gettext("Go back to your database...") %>
-            </button>
-          <% end %>
-          <br><br>
-          <br><br>
-          <br><br>
+          </span>
+          <br> <br>
+          <%= link gettext("Go back to your database..."), to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index), class: "button is-link" %>
+          <br> <br> <br> <br> <br> <br>
         </article>
       <% end %>
 
@@ -46,9 +41,114 @@
           <%= gettext("Don't wait. Register now and unleash the power of the deer!") %>&nbsp;
           <%= link gettext("Register now"), to: Routes.registration_path(@conn, :new), class: "button is-success" %>
         </h1>
+        <h2 class="subtitle">
+          <%= gettext("... or slide down to learn more") %>
+        </h2>
       </article>
-      <span>
-      </span>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-fullheight">
+  <div class="hero-body">
+    <div class="container">
+      <article class="row section">
+        <div class="row section">
+          <h1 class="title">
+            <%= gettext("So, how exactly does it work?") %>
+          </h1>
+        </div>
+
+        <br><br>
+
+        <div class="row section">
+          <h2 class="title has-text-weight-semibold">
+            <%= gettext("Step 1: Create your database") %>
+          </h2>
+
+          <div class="box">
+            <article class="media">
+              <div class="media-left">
+                <figure class="image is-128x128">
+                  <img src="https://www.newhope.com/sites/newhope360.com/files/styles/article_featured_retina/public/uploads/2012/09/lemons.jpg?itok=1nQYq8D2" alt="Image">
+                </figure>
+              </div>
+              <div class="media-content">
+                <div class="content">
+                    <%= gettext("Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. But first: ") %>
+                  <%= link gettext("Go ahead and create your account"), to: Routes.registration_path(@conn, :new) %>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="row section">
+          <h2 class="title has-text-weight-semibold">
+            <%= gettext("Step 2: Rethink and decide how you want to manage your data") %>
+          </h2>
+
+          <div class="box">
+            <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <%= gettext("Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through.") %>
+                  <a href="#how-to-structure-your-data">
+                    <%= gettext("See how to make the best decision") %>
+                  </a>.
+                  <%= gettext("Note that after creating your table, you still will be able to rename columns, ") %>
+                </div>
+              </div>
+              <div class="media-right">
+                <figure class="image is-128x128">
+                  <img src="https://centrumodzyskiwaniadanych.pl/wp-content/uploads/2018/02/apple-odzyskiwanie-danych.jpg" alt="Image">
+                </figure>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="row section">
+          <h2 class="title has-text-weight-semibold">
+            <%= gettext("Step 3: Start creating your records and see for yourself how efficient it is!") %>
+          </h2>
+
+          <div class="box">
+            <article class="media">
+              <div class="media-left">
+                <figure class="image is-128x128">
+                  <img src="https://cdn.pixabay.com/photo/2017/06/27/22/21/banana-2449019_1280.jpg" alt="Image">
+                </figure>
+              </div>
+              <div class="media-content">
+                <div class="content">
+                  <%= gettext("I've tested record search with over 100,000 records within one table and it remains blazingly fast even with such immense amounts of data. Having that said, you can create many records and don't worry about quick access to your data.") %>
+                  <%= gettext("DeerStorage is a great solution for example for sales teams with their hundreds of clients worked on simultaneously.") %>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="row section">
+          <h2 class="title has-text-weight-semibold">
+            <%= gettext("Step 4 (optional): Share whatever you want, to whoever you want, and revoke access with just one click.") %>
+          </h2>
+
+          <div class="box">
+            <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <%= gettext("You can share records for viewing and downloading files or for editing and uploading files. You can invalidate all shared links for a record with one click.") %>
+                </div>
+              </div>
+              <div class="media-right">
+                <figure class="image is-128x128">
+                  <img src="https://www.dateland.com/product_images/uploaded_images/cta-medjool-dates.jpg" alt="Image">
+                </figure>
+              </div>
+            </article>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
