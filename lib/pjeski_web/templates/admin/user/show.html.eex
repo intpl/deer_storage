@@ -46,7 +46,7 @@
                   <%= submit gettext("Connect"), class: 'button is-primary is-pulled-left' %>
                 </div>
             </div>
-          <% end %></form>
+          <% end %>
         </div>
     </div>
 

@@ -38,7 +38,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.EditComponent do
             </p>
             <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="close_edit"></a>
           </header>
-          <%= form_for @changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit], fn f -> %>
+          <%= form_for @changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit, autocomplete: "off"], fn f -> %>
             <section class="modal-card-body">
               <div class"container">
                 <%= render_prepared_fields(@prepared_fields) %>

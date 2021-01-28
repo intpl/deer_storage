@@ -26,8 +26,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:41
-#: lib/pjeski_web/templates/reset_password/edit.html.eex:41 lib/pjeski_web/templates/session/new.html.eex:5
-#: lib/pjeski_web/templates/session/new.html.eex:41
+#: lib/pjeski_web/templates/session/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
 msgstr ""
 
@@ -645,11 +644,6 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/admin/user/_header.html.eex:8
 msgid "All DeerStorage users"
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:79
-msgid "Connect user"
 msgstr ""
 
 #, elixir-format
@@ -1636,4 +1630,9 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:47
 msgid "Register now"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:79
+msgid "Connect a user"
 msgstr ""

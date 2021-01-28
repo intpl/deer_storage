@@ -37,7 +37,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
             <div class="column is-8">
               <div class="field has-addons">
                 <p class="is-fullwidth">
-                  <form phx-change="connecting_record_filter" class="field has-addons overwrite-fullwidth">
+                  <form phx-change="connecting_record_filter" class="field has-addons overwrite-fullwidth" autocomplete="off">
                     <p class="control">
                       <span class="select">
                         <select name="table_id">

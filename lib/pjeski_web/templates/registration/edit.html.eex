@@ -11,7 +11,7 @@
   </div>
 </section>
 
-<%= form_for @changeset, Routes.registration_path(@conn, :update), [as: :user], fn f -> %>
+<%= form_for @changeset, Routes.registration_path(@conn, :update), [as: :user, autocomplete: "off"], fn f -> %>
   <section class="section">
     <div class="container">
       <%= if @changeset.data.unconfirmed_email do %>

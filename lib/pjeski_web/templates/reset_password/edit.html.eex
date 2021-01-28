@@ -36,9 +36,5 @@
         <%= submit gettext("Submit"), class: 'button' %>
       </div>
     <% end %>
-
-    <span>
-      <%= link gettext("Sign in"), to: Routes.session_path(@conn, :new) %>
-    </span>
   </div>
 </section>

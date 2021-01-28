@@ -13,7 +13,7 @@
 
 <section class="section">
   <div class="container">
-    <%= form_for @changeset, Routes.registration_path(@conn, :create), [as: :user], fn f -> %>
+    <%= form_for @changeset, Routes.registration_path(@conn, :create), [as: :user, autocomplete: "off"], fn f -> %>
 
     <%= if @changeset.action do %>
       <div class="help is-danger">

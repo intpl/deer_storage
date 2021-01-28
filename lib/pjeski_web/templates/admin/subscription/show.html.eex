@@ -76,7 +76,7 @@
       </div>
 
       <div class="column">
-        <h5 class="title is-5"><%= gettext("Connect user") %></h5>
+        <h5 class="title is-5"><%= gettext("Connect a user") %></h5>
         <%= form_for @conn, Routes.admin_subscription_user_subscription_link_path(@conn, :create, @subscription.id, redirect_back_to: "subscription"), fn f -> %>
           <div class="columns">
             <div class="column is-half">

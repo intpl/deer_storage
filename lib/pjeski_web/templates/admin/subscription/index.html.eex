@@ -24,7 +24,7 @@
         <% end %>
       <% end %>
 
-      <form class="field has-addons overwrite-fullwidth">
+      <form class="field has-addons overwrite-fullwidth" autocomplete="off">
         <p class="control is-expanded">
           <input
             class="input"

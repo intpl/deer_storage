@@ -19,7 +19,7 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableEditComponent do
     ~L"""
     <div>
       <a href="#" phx-click="cancel_table_edit"><%= gettext("Cancel") %></a>
-      <%= form_for @changeset, "#", [phx_change: :validate_table_edit, phx_submit: :save_table_edit], fn f -> %>
+      <%= form_for @changeset, "#", [phx_change: :validate_table_edit, phx_submit: :save_table_edit, autocomplete: "off"], fn f -> %>
         <%= hidden_input f, :id, value: @table_id %>
 
         <%= label f, gettext("Name"), class: 'label field-label' %>

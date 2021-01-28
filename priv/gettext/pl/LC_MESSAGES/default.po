@@ -27,8 +27,7 @@ msgstr "Zarejestruj się"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:41
-#: lib/pjeski_web/templates/reset_password/edit.html.eex:41 lib/pjeski_web/templates/session/new.html.eex:5
-#: lib/pjeski_web/templates/session/new.html.eex:41
+#: lib/pjeski_web/templates/session/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
 msgstr "Zaloguj się"
 
@@ -648,11 +647,6 @@ msgstr "Przełącz na panel administracyjny"
 #: lib/pjeski_web/templates/admin/user/_header.html.eex:8
 msgid "All DeerStorage users"
 msgstr "Wszyscy użytkownicy DeerStorage"
-
-#, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:79
-msgid "Connect user"
-msgstr "Połącz użytkownika"
 
 #, elixir-format
 #: lib/pjeski_web/templates/registration/current_subscription.html.eex:33
@@ -1635,7 +1629,12 @@ msgstr "Powrót do Twojej bazy danych..."
 msgid "You are logged in! Great choice!"
 msgstr "Jesteś zalogowany/-a! Świetny wybór!"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:47
 msgid "Register now"
 msgstr "Zarejestruj się"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/templates/admin/subscription/show.html.eex:79
+msgid "Connect a user"
+msgstr "Połącz użytkownika"
