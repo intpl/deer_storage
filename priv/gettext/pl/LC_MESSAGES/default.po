@@ -20,8 +20,9 @@ msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/new.html.eex:5
-#: lib/pjeski_web/templates/registration/new.html.eex:76 lib/pjeski_web/templates/session/new.html.eex:46
+#: lib/pjeski_web/templates/page/index.html.eex:47
+#: lib/pjeski_web/templates/registration/new.html.eex:5 lib/pjeski_web/templates/registration/new.html.eex:76
+#: lib/pjeski_web/templates/session/new.html.eex:46
 msgid "Register"
 msgstr "Zarejestruj się"
 
@@ -396,16 +397,6 @@ msgstr "Zaloguj się do DeerStorage"
 #: lib/pjeski_web/views/layout_view.ex:27 lib/pjeski_web/views/layout_view.ex:39
 msgid "DeerStorage"
 msgstr "DeerStorage"
-
-#, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:5
-msgid "Welcome to DeerStorage"
-msgstr "Witamy w DeerStorage"
-
-#, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:8
-msgid "Your group files' deer-ectory!"
-msgstr "Baza danych plików nie dla jeleni!"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:58
@@ -1475,11 +1466,6 @@ msgid "File size exceeds your database limits"
 msgstr "Rozmiar pliku przekracza limit bazy danych"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:20
-msgid "Go back to your database"
-msgstr "Powrót do Twojej bazy danych"
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/user/form.html.eex:39
 msgid "Last used database"
 msgstr "Ostatnio użyta baza danych"
@@ -1604,3 +1590,48 @@ msgstr "Notatki..."
 #: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:26
 msgid "Drop files on this window or select them by hand"
 msgstr "Upuść pliki na to okno lub wybierz je ręcznie"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:38
+msgid "See all changes right away"
+msgstr "Zobacz swoje zmiany od razu"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:30
+msgid "Share whatever you want. Allow users to edit your data"
+msgstr "Udostępniaj cokolwiek chcesz. Pozwalaj użytkownikom na edycję swoich danych"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:33
+msgid "You can share your data and allow people to edit them using a secret link. Afterwards, you can invalidate all your shared links and revoke access to the data. They can even upload files for you!"
+msgstr "Możesz udostępniać swoje dane i pozwolić ludziom edytować je za pomocą tajnego linka. Potem, możesz wygasić udostępnione linki i cofnąć dostęp do tych danych. Ludzie mogą nawet wgrywać pliki dla Ciebie!"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:22
+msgid "DeerStorage. Store your data in a structured way. Inside a deer-ectory!"
+msgstr "DeerStorage. Nie bądź jeleniem. Przechowuj swoje dane w ustrukturyzowany sposób!"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:41
+msgid "When user makes changes to anything, you can see it right away. If there is a risk of loosing your changes, you will see an alert allowing you to handle this."
+msgstr "Kiedy użytkownik coś zmienia, od razu to zobaczysz. Jeśli istnieje ryzyko utraty zmian, wyświetli Ci się komunikat i będziesz mógł/mogła zareagować."
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:25
+msgid "With DeerStorage you can create your database as tables and store your files inside each row."
+msgstr "Z DeerStorage możesz stworzyć swoją bazę danych jako tabele i przechowywać pliki w każdym wierszu."
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:46
+msgid "Don't wait. Register now and unleash the power of the deer!"
+msgstr "Nie czekaj. Zarejestruj się i odkryj potęgę jelenia!"
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:11
+msgid "Go back to your database..."
+msgstr "Powrót do Twojej bazy danych..."
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:7
+msgid "You are logged in! Great choice!"
+msgstr "Jesteś zalogowany/-a! Świetny wybór!"
