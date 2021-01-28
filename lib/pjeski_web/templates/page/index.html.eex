@@ -43,8 +43,8 @@
       </article>
       <article class="row section">
         <h1 class="title">
-          <%= gettext("Don't wait. Register now and unleash the power of the deer!") %>
-          <%= link gettext("Register"), to: Routes.registration_path(@conn, :new), class: "button is-success" %>
+          <%= gettext("Don't wait. Register now and unleash the power of the deer!") %>&nbsp;
+          <%= link gettext("Register now"), to: Routes.registration_path(@conn, :new), class: "button is-success" %>
         </h1>
       </article>
       <span>
