@@ -40,7 +40,7 @@ defmodule Pjeski.CsvImporter do
           log_error(pid, filename, msg)
           Repo.rollback(msg)
       end
-    end, timeout: 100_000)
+    end, timeout: 300_000) # 5 minutes
   after
     if remove_file?, do: File.rm!(path)
   end
