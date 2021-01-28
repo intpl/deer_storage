@@ -1,4 +1,5 @@
 defmodule PjeskiWeb.SessionController do
+  require Logger
   use PjeskiWeb, :controller
 
   import PjeskiWeb.ControllerHelpers.ConfirmationHelpers, only: [send_confirmation_email: 2]
@@ -23,6 +24,8 @@ defmodule PjeskiWeb.SessionController do
 
         case email_confirmed?(user) do
             true ->
+              Logger.info("User (id #{user.id}) signing in...")
+
               conn
               |> assign_current_user_and_preload_available_subscriptions(user)
               |> maybe_put_subscription_into_session
