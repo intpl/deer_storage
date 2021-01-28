@@ -12,11 +12,6 @@ msgstr ""
 "Plural-Forms: nplurals=3\n"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:22
-msgid "Not logged in"
-msgstr "Niezalogowany"
-
-#, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/_form.html.eex:4
 #: lib/pjeski_web/templates/admin/user/form.html.eex:4 lib/pjeski_web/templates/registration/new.html.eex:20
 #: lib/pjeski_web/templates/registration/user_fields.html.eex:7 lib/pjeski_web/templates/reset_password/edit.html.eex:19
@@ -25,16 +20,15 @@ msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:23
-#: lib/pjeski_web/templates/registration/new.html.eex:5 lib/pjeski_web/templates/registration/new.html.eex:76
-#: lib/pjeski_web/templates/session/new.html.eex:46
+#: lib/pjeski_web/templates/registration/new.html.eex:5
+#: lib/pjeski_web/templates/registration/new.html.eex:76 lib/pjeski_web/templates/session/new.html.eex:46
 msgid "Register"
 msgstr "Zarejestruj się"
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:41
-#: lib/pjeski_web/templates/page/index.html.eex:25 lib/pjeski_web/templates/reset_password/edit.html.eex:41
-#: lib/pjeski_web/templates/session/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:41
+#: lib/pjeski_web/templates/reset_password/edit.html.eex:41 lib/pjeski_web/templates/session/new.html.eex:5
+#: lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
 msgstr "Zaloguj się"
 
@@ -694,8 +688,8 @@ msgstr "Na pewno USUNĄĆ ten rekord?"
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_edit_component.ex:21
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:107 lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:124
 #: lib/pjeski_web/live/deer_records_live/modal/edit_component.ex:130 lib/pjeski_web/live/deer_records_live/modal/new_component.ex:73
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:21 lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:10
-#: lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:10
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:14 lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:52
+#: lib/pjeski_web/templates/deer_dashboard/_editable_title.html.leex:10 lib/pjeski_web/templates/deer_dashboard/_import_csv.html.leex:10
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -773,7 +767,7 @@ msgstr "Wprowadź rekord do tabeli"
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:92
-#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:35 lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:70
+#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:35 lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:23
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:23 lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:33
 msgid "Close"
 msgstr "Zamknij"
@@ -1354,29 +1348,29 @@ msgid "Share"
 msgstr "Udostępnij"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:14
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:55 lib/pjeski_web/live/deer_records_live/show_component.ex:78
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:40
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:87 lib/pjeski_web/live/deer_records_live/show_component.ex:78
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:119 lib/pjeski_web/templates/deer_record/show_external.html.leex:46
 msgid "Upload file(s)"
 msgstr "Wyślij plik(i)"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:61
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:94
 msgid "File '%{filename}' could not be uploaded (space limit exceeded?)"
 msgstr "Plik '%{filename}' nie został dodany (przekroczono limit miejsca?)"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:60
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:93
 msgid "File '%{filename}' uploaded successfuly"
 msgstr "Plik '%{filename}' dodany poprawnie"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:51
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:83
 msgid "Select file(s) to upload"
 msgstr "Wybierz plik(i) to wysłania"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:28
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:60
 msgid "Waiting for other uploads to complete..."
 msgstr "Oczekiwanie na resztę plików..."
 
@@ -1476,7 +1470,7 @@ msgid "Disconnect from this database"
 msgstr "Odłącz od tej bazy danych"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:77
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:110
 msgid "File size exceeds your database limits"
 msgstr "Rozmiar pliku przekracza limit bazy danych"
 
@@ -1533,7 +1527,7 @@ msgid "This user has no last used database attached"
 msgstr "Ten użytkownik nie ma ostatnio używanej bazy danych"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:78
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:111
 msgid "Upload has been canceled due to the total size of files exceeded database limits"
 msgstr "Proces wgrywania pliku/-ów został przerwany ponieważ przekroczono dostępne miejsce dla tej bazy danych"
 
@@ -1605,3 +1599,8 @@ msgstr "Imię"
 #: lib/pjeski_web/live/deer_records_live/modal/new_component.ex:61
 msgid "Notes..."
 msgstr "Notatki..."
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:26
+msgid "Drop files on this window or select them by hand"
+msgstr "Upuść pliki na to okno lub wybierz je ręcznie"

@@ -1,0 +1,9 @@
+.drop-area {
+  border: 5px dashed #ddd;
+  padding: 1.5rem;
+}
+.drop-area-text {
+  font-weight: bolder;
+  padding-bottom: 1.5rem;
+  color: #ddd;
+}
