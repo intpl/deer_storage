@@ -1,10 +1,29 @@
-FROM elixir:1.10 AS build
+FROM bitwalker/alpine-elixir:1.11.0 AS build
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+# Install NPM
+RUN \
+    mkdir -p /opt/app && \
+    chmod -R 777 /opt/app && \
+    apk update && \
+    apk --no-cache --update add \
+      make \
+      g++ \
+      wget \
+      curl \
+      inotify-tools \
+      nodejs \
+      nodejs-npm && \
+    npm install npm -g --no-progress && \
+    update-ca-certificates --fresh && \
+    rm -rf /var/cache/apk/*
 
-RUN apt-get update && apt-get install -y gcc g++ make nodejs git python curl software-properties-common build-essential && rm -rf /var/lib/apt/lists/*
+# Add local node module binaries to PATH
+ENV PATH=./node_modules/.bin:$PATH
 
-WORKDIR /app
+# Ensure latest versions of Hex/Rebar are installed on build
+ONBUILD RUN mix do local.hex --force, local.rebar --force
+
+WORKDIR /opt/app
 
 RUN mix local.hex --force && \
     mix local.rebar --force
@@ -30,16 +49,16 @@ COPY lib lib
 
 RUN mix do compile, release
 
-FROM elixir:1.10 AS app
-RUN apt-get update && \
-    apt-get install -y bash libz-dev openssl ncurses-base postgresql-client-11 && \
-    rm -rf /var/lib/apt/lists/*
+FROM bitwalker/alpine-elixir:1.11.0 AS app
 
+RUN apk --no-cache --no-progress add -q postgresql-client=11.10-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.10/main
 
-WORKDIR /app
+WORKDIR /opt/app
 
-COPY --from=build /app/_build/prod/rel/pjeski ./
-COPY entrypoint.sh ./
+COPY --from=build /opt/app/_build/prod/rel/pjeski ./
+RUN ["chmod", "+x", "/opt/app/bin/pjeski"]
+RUN ["chmod", "+x", "/opt/app/releases/0.1.0/elixir"]
 
-ENV HOME=/app
-CMD bash entrypoint.sh
+COPY entrypoint.bash ./
+
+CMD bash entrypoint.bash
