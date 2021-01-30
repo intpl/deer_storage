@@ -38,7 +38,7 @@ services:
     depends_on:
       - db
     volumes:
-      - uploaded_files:/app/uploaded_files
+      - uploaded_files:/opt/app/uploaded_files
   db:
     image: postgres:11-alpine
     environment:
