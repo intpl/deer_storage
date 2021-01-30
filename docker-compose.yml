@@ -30,14 +30,11 @@ services:
     build:
       dockerfile: Dockerfile.prod
       context: .
+    env_file:
+      - .env
     environment:
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
       APP_HOST: "${APP_HOST}"
-      PGUSER: postgres
-      PGPASSWORD: postgres
-      PGDATABASE: pjeski
-      PGPORT: 5432
-      PGHOST: db
     depends_on:
       - db
     volumes:
