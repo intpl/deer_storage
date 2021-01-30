@@ -37,3 +37,4 @@ npm-debug.log
 
 /uploaded_files/
 /Mnesia.*
+.env
