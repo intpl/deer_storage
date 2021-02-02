@@ -4,3 +4,4 @@
 .sticky {top: 0px; position: -webkit-sticky; position: sticky}
 .is-clickable {cursor: pointer}
 .prewrapped {white-space: pre-line;}
+img {max-width:100%; height:auto}

@@ -68,15 +68,19 @@
 
           <div class="box">
             <article class="media">
-              <div class="media-left">
-                <figure class="image">
-                  <img src="/images/demo_gifs/step1.gif" alt="Image">
-                </figure>
-              </div>
               <div class="media-content">
                 <div class="content">
-                    <%= gettext("Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. But first: ") %>
-                  <%= link gettext("Go ahead and create your account"), to: Routes.registration_path(@conn, :new) %>
+                  <div class="columns">
+                    <div class="column is-one-third">
+                      <figure class="image">
+                        <img src="/images/demo_gifs/step1.gif" alt="Image">
+                      </figure>
+                    </div>
+                    <div class="column">
+                      <%= gettext("Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. But first: ") %>
+                      <%= link gettext("Go ahead and create your account"), to: Routes.registration_path(@conn, :new) %>
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
@@ -92,17 +96,21 @@
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <%= gettext("Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through.") %>
-                  <a href="#how-to-structure-your-data">
-                    <%= gettext("See how to make the best decision") %>
-                  </a>.
-                  <%= gettext("Note that after creating your table, you still will be able to rename columns, ") %>
+                  <div class="columns">
+                    <div class="column">
+                      <%= gettext("Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through.") %>
+                      <a href="#how-to-structure-your-data">
+                        <%= gettext("See how to make the best decision") %>
+                      </a>.
+                      <%= gettext("Note that after creating your table, you still will be able to rename columns, ") %>
+                    </div>
+                    <div class="column is-one-third">
+                      <figure class="image">
+                        <img src="/images/demo_gifs/step2.gif" alt="Image">
+                      </figure>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="media-right">
-                <figure class="image">
-                  <img src="/images/demo_gifs/step2.gif" alt="Image">
-                </figure>
               </div>
             </article>
           </div>
@@ -114,15 +122,19 @@
 
           <div class="box">
             <article class="media">
-              <div class="media-left">
-                <figure class="image">
-                  <img src="/images/demo_gifs/step3.gif" alt="Image">
-                </figure>
-              </div>
               <div class="media-content">
                 <div class="content">
-                  <%= gettext("I've tested record search with over 100,000 records within one table and it remains blazingly fast even with such immense amounts of data. Having that said, you can create many records and don't worry about quick access to your data.") %>
-                  <%= gettext("DeerStorage is a great solution for example for sales teams with their hundreds of clients worked on simultaneously.") %>
+                  <div class="columns">
+                    <div class="column is-one-third">
+                      <figure class="image">
+                        <img src="/images/demo_gifs/step3.gif" alt="Image">
+                      </figure>
+                    </div>
+                    <div class="column">
+                      <%= gettext("I've tested record search with over 100,000 records within one table and it remains blazingly fast even with such immense amounts of data. Having that said, you can create many records and don't worry about quick access to your data.") %>
+                      <%= gettext("DeerStorage is a great solution for example for sales teams with their hundreds of clients worked on simultaneously.") %>
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
@@ -137,13 +149,17 @@
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <%= gettext("You can share records for viewing and downloading files or for editing and uploading files. You can invalidate all shared links for a record with one click.") %>
+                  <div class="columns">
+                    <div class="column">
+                      <%= gettext("You can share records for viewing and downloading files or for editing and uploading files. You can invalidate all shared links for a record with one click.") %>
+                    </div>
+                    <div class="column is-one-third">
+                      <figure class="image">
+                        <img src="/images/demo_gifs/step4.gif" alt="Image">
+                      </figure>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="media-right">
-                <figure class="image">
-                  <img src="/images/demo_gifs/step4.gif" alt="Image">
-                </figure>
               </div>
             </article>
           </div>
