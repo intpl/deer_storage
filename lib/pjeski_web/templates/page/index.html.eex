@@ -7,7 +7,7 @@
             <%= gettext("You are logged in! Great choice!") %> :)
           </span>
           <br> <br>
-          <%= link gettext("Go back to your database..."), to: Routes.live_path(PjeskiWeb.Endpoint, PjeskiWeb.DeerDashboardLive.Index), class: "button is-link" %>
+          <%= dashboard_link(@conn) %>
           <br> <br> <br> <br> <br> <br>
         </article>
       <% end %>
@@ -69,8 +69,8 @@
           <div class="box">
             <article class="media">
               <div class="media-left">
-                <figure class="image is-128x128">
-                  <img src="https://www.newhope.com/sites/newhope360.com/files/styles/article_featured_retina/public/uploads/2012/09/lemons.jpg?itok=1nQYq8D2" alt="Image">
+                <figure class="image">
+                  <img src="/images/demo_gifs/step1.gif" alt="Image">
                 </figure>
               </div>
               <div class="media-content">
@@ -100,8 +100,8 @@
                 </div>
               </div>
               <div class="media-right">
-                <figure class="image is-128x128">
-                  <img src="https://centrumodzyskiwaniadanych.pl/wp-content/uploads/2018/02/apple-odzyskiwanie-danych.jpg" alt="Image">
+                <figure class="image">
+                  <img src="/images/demo_gifs/step2.gif" alt="Image">
                 </figure>
               </div>
             </article>
@@ -115,8 +115,8 @@
           <div class="box">
             <article class="media">
               <div class="media-left">
-                <figure class="image is-128x128">
-                  <img src="https://cdn.pixabay.com/photo/2017/06/27/22/21/banana-2449019_1280.jpg" alt="Image">
+                <figure class="image">
+                  <img src="/images/demo_gifs/step3.gif" alt="Image">
                 </figure>
               </div>
               <div class="media-content">
@@ -141,8 +141,8 @@
                 </div>
               </div>
               <div class="media-right">
-                <figure class="image is-128x128">
-                  <img src="https://www.dateland.com/product_images/uploaded_images/cta-medjool-dates.jpg" alt="Image">
+                <figure class="image">
+                  <img src="/images/demo_gifs/step4.gif" alt="Image">
                 </figure>
               </div>
             </article>

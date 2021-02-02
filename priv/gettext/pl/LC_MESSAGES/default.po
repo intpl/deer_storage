@@ -1620,7 +1620,7 @@ msgid "Don't wait. Register now and unleash the power of the deer!"
 msgstr "Nie czekaj. Zarejestruj się i odkryj potęgę jelenia!"
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:10
+#: lib/pjeski_web/views/page_view.ex:9
 msgid "Go back to your database..."
 msgstr "Powrót do Twojej bazy danych..."
 
@@ -1677,7 +1677,7 @@ msgstr "Krok 3: Zacznij tworzyć swoje rekordy i sam/-a zobacz, jak sprawnie si�
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:133
 msgid "Step 4 (optional): Share whatever you want, to whoever you want, and revoke access with just one click."
-msgstr "Krok 4 (opcjonalny): Udostępniaj cokolwike chcesz, komu chcesz. Odbieraj dostęp do zasobów natychmiast. Jednym kliknięciem!"
+msgstr "Krok 4 (opcjonalny): Udostępniaj cokolwiek chcesz, komu chcesz. Odbieraj dostęp do zasobów natychmiast. Jednym kliknięciem!"
 
 #, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:140
@@ -1704,7 +1704,12 @@ msgstr "DeerStorage to świetne rozwiązanie dla np. zespołów sprzedażowych, 
 msgid "Step 2: Rethink and decide how you want to manage your data"
 msgstr "Krok 2: Przemyśl i podejmij decyzję, jak chcesz zarządzać swoimi danymi"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:95
 msgid "Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through."
 msgstr "Decyzja, jak stworzyć swoje tabele może nie wydawać się banalna na pierwszy rzut oka, ale wierz mi, że warto ją podjąć."
+
+#, elixir-format
+#: lib/pjeski_web/views/page_view.ex:5
+msgid "Go back to Admin Panel..."
+msgstr "Powrót do panelu administracyjnego"

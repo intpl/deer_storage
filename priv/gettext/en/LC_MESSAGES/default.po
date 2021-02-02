@@ -1619,7 +1619,7 @@ msgid "Don't wait. Register now and unleash the power of the deer!"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:10
+#: lib/pjeski_web/views/page_view.ex:9
 msgid "Go back to your database..."
 msgstr ""
 
@@ -1703,7 +1703,12 @@ msgstr ""
 msgid "Step 2: Rethink and decide how you want to manage your data"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/templates/page/index.html.eex:95
 msgid "Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/views/page_view.ex:5
+msgid "Go back to Admin Panel..."
 msgstr ""
