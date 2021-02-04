@@ -113,6 +113,7 @@ defmodule PjeskiWeb.SubscriptionNavigationLive do
                   available_space: @storage_limit_megabytes
                 ) %>
               </button>
+              <%= live_redirect gettext("Support"), to: Routes.live_path(@socket, PjeskiWeb.SupportLive.Index), class: "button is-dark navbar-item" %>
               <%= link gettext("Settings"), to: Routes.registration_path(@socket, :edit), method: :get, class: "button is-dark navbar-item" %>
               <%= link gettext("Sign out"), to: Routes.session_path(@socket, :delete), method: :delete, class: "button is-link navbar-item" %>
             </div>

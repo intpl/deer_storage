@@ -26,6 +26,7 @@ defmodule PjeskiWeb.Router do
 
     get "/files/record/:record_id/:file_id", DeerFilesController, :download_record
 
+    live "/support", SupportLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
     live "/dashboard", DeerDashboardLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
     live "/records/:table_id", DeerRecordsLive.Index, layout: {PjeskiWeb.LayoutView, "without_navigation.html"}
 
