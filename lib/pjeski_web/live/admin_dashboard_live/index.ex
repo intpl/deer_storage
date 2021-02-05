@@ -15,7 +15,13 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
                  PubSub.subscribe(Pjeski.PubSub, "session_#{token}")
                  PubSub.subscribe(Pjeski.PubSub, "user_#{current_user_id}")
                  fetch(socket)
-               false -> socket |> assign(users_count: "", subscriptions_count: "")
+               false -> assign(socket,
+                 users_count: "",
+                 subscriptions_count: "",
+                 disk_data: [],
+                 root_disk_percentage: 0,
+                 root_disk_total_size: 0
+               )
              end
 
     Gettext.put_locale(locale)
@@ -23,28 +29,18 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
     {:ok, assign(socket, token: token)}
   end
 
-  def render(assigns) do
-    ~L"""
-    <section class="hero is-light is-fullheight-with-navbar is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <p class="title">
-            <%= gettext("Databases") %>: <%= @subscriptions_count %><br>
-          </p>
-          <p class="subtitle">
-            <%= gettext("Users") %>: <%= @users_count %>
-          </p>
-        </div>
-      </div>
-    </section>
-    """
-  end
+  def render(assigns), do: PjeskiWeb.Admin.DashboardView.render("index.html", assigns)
 
   defp fetch(socket) do
     users = Users.total_count
     subscriptions = Subscriptions.total_count
+    {_, root_disk_total_size, root_disk_percentage} = :disksup.get_disk_data |> Enum.find(fn {mountpoint, _size, _perc} -> mountpoint == '/' end)
 
-    socket |> assign(users_count: users, subscriptions_count: subscriptions)
+    socket |> assign(users_count: users,
+    subscriptions_count: subscriptions,
+    root_disk_percentage: root_disk_percentage,
+    root_disk_total_size: root_disk_total_size
+  )
   end
 
   def handle_info({[:user | _], _}, socket), do: {:noreply, socket |> fetch}

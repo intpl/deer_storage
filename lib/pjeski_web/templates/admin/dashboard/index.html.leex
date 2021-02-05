@@ -1,0 +1,28 @@
+<% total_megabytes = floor(@root_disk_total_size / 1024) %>
+<% used_megabytes = floor(@root_disk_total_size * (@root_disk_percentage / 100) / 1024) %>
+
+<section class="hero is-light is-fullheight-with-navbar is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <p class="title">
+        <%= gettext("Databases") %>: <%= @subscriptions_count %><br>
+      </p>
+      <p class="subtitle">
+        <%= gettext("Users") %>: <%= @users_count %>
+      </p>
+      <%= @root_disk_percentage %>% <span class="has-text-weight-bold"></span>
+
+      <%= gettext(
+          "%{used_space} MB used out of %{available_space} MB",
+          used_space: used_megabytes,
+          available_space: total_megabytes
+      ) %>
+      <%= case @root_disk_percentage do %>
+        <% perc when perc > 90 -> %><progress class="progress is-danger" value="<%= perc %>" max="100"><%= perc %>%</progress>
+        <% perc when perc > 80 -> %><progress class="progress is-warning" value="<%= perc %>" max="100"><%= perc %>%</progress>
+        <% perc when perc > 50 -> %><progress class="progress is-info" value="<%= perc %>" max="100"><%= perc %>%</progress>
+        <% perc -> %><progress class="progress is-success" value="<%= perc %>" max="100"><%= perc %>%</progress>
+      <% end %>
+    </div>
+  </div>
+</section>
