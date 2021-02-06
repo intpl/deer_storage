@@ -16,7 +16,7 @@ defmodule Pjeski.Subscriptions.Subscription do
     field :storage_limit_kilobytes, :integer, default: 102_400 # 100 MB
     field :deer_records_per_table_limit, :integer, default: 1000
     field :deer_columns_per_table_limit, :integer, default: 10
-    field :deer_tables_limit, :integer, default: 10
+    field :deer_tables_limit, :integer, default: 5
 
     has_many :user_subscription_links, UserAvailableSubscriptionLink
     many_to_many :users, User, join_through: UserAvailableSubscriptionLink
