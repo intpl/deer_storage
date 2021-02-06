@@ -72,6 +72,14 @@
       <%= error_tag f, :password_confirmation %>
     </div>
 
+    <hr>
+
+    <div class="field">
+      <%= label f, :captcha, @captcha_challenge, class: 'label' %>
+      <%= text_input f, :captcha, class: 'input', placeholder: gettext("Solve the math question here...") %>
+      <%= error_tag f, :captcha %>
+    </div>
+
     <div>
       <%= submit gettext("Register"), class: 'button is-primary' %>
     </div>

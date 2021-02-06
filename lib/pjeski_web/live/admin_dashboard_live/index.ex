@@ -24,7 +24,7 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
                )
              end
 
-    Gettext.put_locale(locale)
+    Gettext.put_locale(locale) # change to user locale, not session locale
 
     {:ok, assign(socket, token: token)}
   end

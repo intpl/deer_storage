@@ -6,25 +6,39 @@ defmodule PjeskiWeb.RegistrationController do
   alias Pjeski.Users
   alias Pjeski.Users.User
 
+  import Plug.Conn, only: [put_session: 3, get_session: 2]
   import PjeskiWeb.ControllerHelpers.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
-  def new(conn, _params), do: render(conn, "new.html", changeset: Pow.Plug.change_user(conn))
-  def edit(conn, _params), do: render_edit_for_current_user(conn, Pow.Plug.change_user(conn))
-  def create(conn, %{"user" => user_params}) do
-    conn
-    |> Pow.Plug.create_user(user_params)
-    |> case do
-      {:ok, user, conn} ->
-        Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise, %{permission_to_manage_users: true})
-        Users.notify_subscribers!([:user, :created], user)
-        send_confirmation_email(user, conn)
+  def new(conn, _params) do
+    render_new_with_captcha(conn, Pow.Plug.change_user(conn))
+  end
 
-        conn
-        |> Pow.Plug.delete
-        |> put_flash(:info, gettext("Please confirm your e-mail before logging in"))
-        |> redirect(to: Routes.session_path(conn, :new))
-      {:error, changeset, conn} ->
-        render(conn, "new.html", changeset: changeset)
+  def edit(conn, _params), do: render_edit_for_current_user(conn, Pow.Plug.change_user(conn))
+
+  def create(conn, %{"user" => user_params}) do
+    {user_captcha_string, user_params} = Map.pop!(user_params, "captcha")
+
+    if captcha_solved_correctly?(conn, user_captcha_string) do
+      conn
+      |> Pow.Plug.create_user(user_params)
+      |> case do
+           {:ok, user, conn} ->
+             Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise, %{permission_to_manage_users: true})
+             Users.notify_subscribers!([:user, :created], user)
+             send_confirmation_email(user, conn)
+
+             conn
+             |> Pow.Plug.delete
+             |> put_flash(:info, gettext("Please confirm your e-mail before logging in"))
+             |> redirect(to: Routes.session_path(conn, :new))
+           {:error, changeset, conn} -> render_new_with_captcha(conn, changeset)
+         end
+    else
+      user_changeset = User.changeset(%User{}, user_params)
+
+      conn
+      |> put_flash(:error, gettext("Invalid answer to math question"))
+      |> render_new_with_captcha(user_changeset)
     end
   end
 
@@ -83,6 +97,34 @@ defmodule PjeskiWeb.RegistrationController do
       current_subscription: current_subscription |> maybe_preload_users
     )
   end
+
+  defp captcha_solved_correctly?(conn, user_solution) do
+    captcha_solution = get_session(conn, "captcha_solution")
+
+    case Integer.parse(user_solution) do
+      {^captcha_solution, ""} -> true
+      _ -> false
+    end
+  end
+
+  defp render_new_with_captcha(conn, changeset) do
+    {solution, challenge_text} = random_captcha()
+
+    conn
+    |> put_session(:captcha_solution, solution)
+    |> render("new.html", changeset: changeset, captcha_challenge: challenge_text)
+  end
+
+  defp random_captcha do
+    num1 = Enum.random(0..20)
+    num2 = Enum.random(0..50)
+
+    {
+      Enum.sum([num1, num2]),
+      gettext("Please add %{num1} to %{num2}:", num1: num1, num2: num2)
+    }
+  end
+
 
   defp current_user_with_preloaded_subscriptions(%{assigns: %{current_user: user}}) do
     user |> Repo.preload([:available_subscriptions, :last_used_subscription])
