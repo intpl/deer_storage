@@ -184,10 +184,10 @@ end %>
                       <br>
                     <% end %>
                   </div>
-                  <%= for matched_deer_field <- show_matched_deer_files(record.deer_files, @query) do %>
-                    <%= case matched_deer_field do %>
-                      <% {:matched, %{original_filename: filename}} -> %> <b><%= filename %></b>
-                      <% %{original_filename: filename} -> %> <%= filename %>
+                  <%= for %{original_filename: filename} <- record.deer_files do %>
+                    <%= case Enum.any?(@query, fn word -> compare_downcased_strings(filename, word) end) do %>
+                      <% true -> %> <b><%= filename %></b>
+                      <% false -> %> <%= filename %>
                     <% end %>
                     <br>
                   <% end %>

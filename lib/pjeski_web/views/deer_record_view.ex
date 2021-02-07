@@ -19,19 +19,6 @@ defmodule PjeskiWeb.DeerRecordView do
   def compare_downcased_strings(_, ""), do: false
   def compare_downcased_strings(str1, str2), do: String.downcase(str1) =~ String.downcase(str2)
 
-  def show_matched_deer_files([], _query), do: []
-  def show_matched_deer_files(deer_files, []), do: deer_files
-  def show_matched_deer_files(deer_files, split_query) do
-    Enum.reduce(deer_files, [], fn %{original_filename: name} = df, acc ->
-      filename = String.downcase(name)
-
-      case Enum.any?(split_query, fn word -> filename =~ word end) do
-        true -> [{:matched, df} | acc]
-        false -> [df | acc]
-      end
-    end)
-  end
-
   def render_prepared_fields(prepared_fields), do: render(PjeskiWeb.DeerRecordView, "_editable_prepared_fields.html", prepared_fields: prepared_fields)
 
   def prepare_fields_for_form(deer_columns, changeset) do
