@@ -45,7 +45,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
 
   def assign_closed_connecting_records(socket), do: assign(socket, connecting_record: nil, connecting_records: [], connecting_query: nil)
 
-  def assign_filtered_connected_records(%{assigns: %{current_subscription: subscription, connecting_selected_table_id: old_table_id}} = socket, query, new_table_id) when byte_size(query) <= 50 do
+  def assign_filtered_connected_records(%{assigns: %{current_subscription: subscription, connecting_selected_table_id: old_table_id}} = socket, query, new_table_id) do
     if new_table_id != old_table_id, do: Enum.find(subscription.deer_tables, fn %{id: id} -> id == new_table_id end) || raise("invalid table id")
 
     assign(socket,
@@ -67,7 +67,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords do
   def assign_modal_for_connecting_records(%{assigns: %{records: records, current_subscription: subscription, table_id: table_id}} = socket, record_id) do
     record = find_record_in_list_or_database(subscription, records, record_id, table_id)
     table_id = List.first(subscription.deer_tables).id
-    connecting_record_records = search_records(subscription.id, table_id, "", 1)
+    connecting_record_records = search_records(subscription.id, table_id, [], 1)
 
     socket |> assign(
       connecting_record: record,

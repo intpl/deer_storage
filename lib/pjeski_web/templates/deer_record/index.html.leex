@@ -175,9 +175,12 @@ end %>
                 <div class="media-content">
                   <div class="content">
                     <%= for %{id: column_id, name: column_name} <- deer_columns do %>
-                      <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong>
+                      <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong><br>
                     <% end %>
                   </div>
+                  <%= for filename <- show_matched_deer_files(record.deer_files, @query) do %>
+                    <%= filename %><br>
+                  <% end %>
                 </div>
               </article>
             </a>

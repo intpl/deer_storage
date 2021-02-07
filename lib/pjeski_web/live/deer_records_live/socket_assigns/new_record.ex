@@ -16,7 +16,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.NewRecord do
     atomized_attrs = atomize_and_merge_table_id_to_attrs(attrs, table_id)
 
     case check_limits_and_create_record(subscription, atomized_attrs, cached_count) do
-      {:ok, _} -> assign(socket, new_record: nil, query: "")
+      {:ok, _} -> assign(socket, new_record: nil, query: [])
       {:error, %Ecto.Changeset{} = changeset} -> assign(socket, new_record: changeset)
     end
   end

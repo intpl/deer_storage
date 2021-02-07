@@ -5,7 +5,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.{Subscription, EditingRecord, NewRecord, NewConnectedRecord, Records, OpenedRecords, ConnectingRecords, UploadingFiles}
-  import Pjeski.DbHelpers.DeerRecordsSearch, only: [per_page: 0]
+  import Pjeski.DbHelpers.DeerRecordsSearch, only: [per_page: 0, prepare_search_query: 1]
 
   def mount(_params, %{"pjeski_auth" => token, "current_subscription_id" => subscription_id} = session, socket) do
     user = get_live_user(socket, session)
@@ -27,7 +27,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
          socket
          |> assign_subscription_if_available_subscription_link_exists!(user.id, subscription_id)
          |> assign_table_or_redirect_to_dashboard!(table_id)
-         |> maybe_assign_first_search_query(params["query"])
+         |> maybe_assign_first_search_query(prepare_search_query(params["query"]))
          |> assign_opened_record_from_params(params["id"])
         }
       false -> {:noreply, socket |> assign(query: "", records: [], count: 0)}
@@ -66,7 +66,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("invalidate-shared-links", %{"record_id" => record_id}, socket), do: {:noreply, assign_invalidated_shared_records_for_record(socket, record_id)}
   def handle_event("share_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, assign_created_shared_file_uuid(socket, record_id, file_id)}
 
-  def handle_event("connecting_record_filter", %{"query" => query, "table_id" => new_table_id}, socket), do: {:noreply, assign_filtered_connected_records(socket, query, new_table_id)}
+  def handle_event("connecting_record_filter", %{"query" => query, "table_id" => new_table_id}, socket) when byte_size(query) <= 50, do: {:noreply, assign_filtered_connected_records(socket, prepare_search_query(query), new_table_id)}
   def handle_event("connect_records", %{"record_id" => record_id}, socket), do: {:noreply, handle_connecting_records(socket, String.to_integer(record_id))}
   def handle_event("disconnect_records", %{"opened_record_id" => opened_record_id, "connected_record_id" => connected_record_id}, socket) do
     {:noreply, handle_disconnecting_records(socket, String.to_integer(opened_record_id), String.to_integer(connected_record_id))}
@@ -80,10 +80,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("cancel_upload_entry", %{"ref" => ref}, socket), do: {:noreply, cancel_upload(socket, :deer_file, ref)}
   def handle_event("submit_upload", _, socket), do: {:noreply, assign_submitted_upload(socket, self())}
 
-  def handle_event("clear", _, socket), do: {:noreply, run_search_query_and_assign_results(socket, "", 1)}
-  def handle_event("filter", %{"query" => query}, socket) when byte_size(query) <= 50, do: {:noreply, run_search_query_and_assign_results(socket, query, 1)}
+  def handle_event("clear", _, socket), do: {:noreply, run_search_query_and_assign_results(socket, [], 1)}
+  def handle_event("filter", %{"query" => query}, socket) when byte_size(query) <= 50, do: {:noreply, run_search_query_and_assign_results(socket, prepare_search_query(query), 1)}
 
-  def handle_event("submit", %{"query" => query}, socket), do: {:noreply, assign(socket, :query, query)}
+  def handle_event("submit", %{"query" => query}, socket), do: {:noreply, assign(socket, :query, prepare_search_query(query))}
 
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: {:noreply, change_page(socket, page + 1)}
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: {:noreply, change_page(socket, page - 1)}

@@ -6,19 +6,25 @@ defmodule Pjeski.DbHelpers.DeerRecordsSearch do
 
   def per_page(), do: 30
 
-  def search_records(subscription_id, table_id, query_string, page) do
+  def prepare_search_query(""), do: []
+  def prepare_search_query(nil), do: []
+  def prepare_search_query(query_string) do
+    query_string
+    |> String.replace("%", "\\%")
+    |> String.replace("*", "%")
+    |> String.split
+  end
+
+  def search_records(subscription_id, table_id, query_list, page) when is_list(query_list) do
     initial_query = DeerRecord
     |> where([dr], dr.subscription_id == ^subscription_id and dr.deer_table_id == ^table_id)
     |> offset(^calculate_offset(page))
     |> limit(^per_page())
     |> order_by(desc: :updated_at)
 
-    query = case query_string do
-      nil -> initial_query
-      "" -> initial_query
-      _ ->
-        initial_query
-        |> where(^recursive_dynamic_query(query_string |> String.replace("%", "\\%") |> String.replace("*", "%") |> String.split))
+    query = case query_list do
+      [] -> initial_query
+      _ -> initial_query |> where(^recursive_dynamic_query(query_list))
     end
 
     Repo.all(query)

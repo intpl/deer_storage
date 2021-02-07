@@ -62,8 +62,8 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
           <% end) %>
           <br>
             <%= case [dt(current_user, record.inserted_at), dt(current_user, record.updated_at)] do %>
-            <%= [inserted_at, inserted_at] -> %> <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
-            <%= [inserted_at, updated_at] -> %>
+            <% [inserted_at, inserted_at] -> %> <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
+            <% [inserted_at, updated_at] -> %>
               <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
               <li><%= gettext("Updated at") %>: <b><%= updated_at %></b></li>
             <% end %>
@@ -141,8 +141,8 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                 <br>
 
                 <%= case [dt(current_user, connected_record.inserted_at), dt(current_user, connected_record.updated_at)] do %>
-                <%= [inserted_at, inserted_at] -> %> <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
-                <%= [inserted_at, updated_at] -> %>
+                <% [inserted_at, inserted_at] -> %> <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
+                <% [inserted_at, updated_at] -> %>
                   <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
                   <li><%= gettext("Updated at") %>: <b><%= updated_at %></b></li>
                 <% end %>

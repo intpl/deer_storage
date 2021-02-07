@@ -10,6 +10,17 @@ defmodule PjeskiWeb.DeerRecordView do
   def empty?(""), do: true
   def empty?(_), do: false
 
+  def show_matched_deer_files([], _query), do: []
+  def show_matched_deer_files(_deer_files, ""), do: []
+  def show_matched_deer_files(_deer_files, nil), do: []
+  def show_matched_deer_files(deer_files, split_query) do
+    Enum.reduce(deer_files, [], fn %{original_filename: name} = df, acc ->
+      filename = String.downcase(name)
+
+      if Enum.any?(split_query, fn word -> filename =~ word end), do: [name | acc], else: acc
+    end)
+  end
+
   def render_prepared_fields(prepared_fields), do: render(PjeskiWeb.DeerRecordView, "_editable_prepared_fields.html", prepared_fields: prepared_fields)
 
   def prepare_fields_for_form(deer_columns, changeset) do
