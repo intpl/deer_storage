@@ -255,7 +255,7 @@ msgstr "Nazwa"
 #: lib/pjeski_web/views/admin/subscription_view.ex:60 lib/pjeski_web/views/admin/subscription_view.ex:61
 #: lib/pjeski_web/views/admin/user_view.ex:62 lib/pjeski_web/views/admin/user_view.ex:63
 msgid "Updated at"
-msgstr "Ostatnia aktualizacja"
+msgstr "Zaktualizowano"
 
 #, elixir-format
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:153

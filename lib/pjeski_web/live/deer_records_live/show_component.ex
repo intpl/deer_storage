@@ -3,6 +3,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
   alias PjeskiWeb.Router.Helpers, as: Routes
   import Phoenix.HTML.Link, only: [link: 2]
   import PjeskiWeb.Gettext
+  import PjeskiWeb.DateHelpers, only: [dt: 2]
 
   import PjeskiWeb.DeerRecordView, only: [
     deer_columns_from_subscription: 2,
@@ -11,7 +12,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
     display_filesize_from_kilobytes: 1
   ]
 
-  def render(%{record: record, subscription: subscription, table_id: table_id} = assigns) do
+  def render(%{record: record, subscription: subscription, table_id: table_id, current_user: current_user} = assigns) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
     ~L"""
@@ -59,6 +60,13 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
               <%= deer_field_content_from_column_id(@record, column_id) %>
             </li>
           <% end) %>
+          <br>
+            <%= case [dt(current_user, record.inserted_at), dt(current_user, record.updated_at)] do %>
+            <%= [inserted_at, inserted_at] -> %> <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
+            <%= [inserted_at, updated_at] -> %>
+              <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
+              <li><%= gettext("Updated at") %>: <b><%= updated_at %></b></li>
+            <% end %>
         </ul>
 
         <div class="prewrapped">
@@ -130,6 +138,15 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                   <%= deer_field_content_from_column_id(connected_record, column_id) %><br />
                 <% end) %>
 
+                <br>
+
+                <%= case [dt(current_user, connected_record.inserted_at), dt(current_user, connected_record.updated_at)] do %>
+                <%= [inserted_at, inserted_at] -> %> <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
+                <%= [inserted_at, updated_at] -> %>
+                  <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
+                  <li><%= gettext("Updated at") %>: <b><%= updated_at %></b></li>
+                <% end %>
+
                 <%= if Enum.any?(connected_record.deer_files) do %>
                   <br />
 
@@ -146,5 +163,5 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
       </div>
     </div>
     """
-   end
+     end
 end
