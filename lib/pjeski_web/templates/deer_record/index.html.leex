@@ -175,7 +175,13 @@ end %>
                 <div class="media-content">
                   <div class="content">
                     <%= for %{id: column_id, name: column_name} <- deer_columns do %>
-                      <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong><br>
+                      <% content = deer_field_content_from_column_id(record, column_id) %>
+                      <%= column_name %>:
+                      <%= case Enum.any?(@query, fn word -> compare_downcased_strings(content, word) end) do %>
+                        <% true -> %> <b><%= content %></b>
+                        <% false -> %> <%= content %>
+                      <% end %>
+                      <br>
                     <% end %>
                   </div>
                   <%= for matched_deer_field <- show_matched_deer_files(record.deer_files, @query) do %>

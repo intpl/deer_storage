@@ -13,13 +13,19 @@ defmodule PjeskiWeb.DeerRecordView do
   def maybe_join_query(""), do: ""
   def maybe_join_query(list) when is_list(list), do: Enum.join(list, " ")
 
+  def compare_downcased_strings(nil, _), do: false
+  def compare_downcased_strings(_, nil), do: false
+  def compare_downcased_strings("", _), do: false
+  def compare_downcased_strings(_, ""), do: false
+  def compare_downcased_strings(str1, str2), do: String.downcase(str1) =~ String.downcase(str2)
+
   def show_matched_deer_files([], _query), do: []
   def show_matched_deer_files(deer_files, []), do: deer_files
   def show_matched_deer_files(deer_files, split_query) do
     Enum.reduce(deer_files, [], fn %{original_filename: name} = df, acc ->
       filename = String.downcase(name)
 
-      case Enum.all?(split_query, fn word -> filename =~ word end) do
+      case Enum.any?(split_query, fn word -> filename =~ word end) do
         true -> [{:matched, df} | acc]
         false -> [df | acc]
       end
