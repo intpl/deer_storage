@@ -10,14 +10,19 @@ defmodule PjeskiWeb.DeerRecordView do
   def empty?(""), do: true
   def empty?(_), do: false
 
+  def maybe_join_query(""), do: ""
+  def maybe_join_query(list) when is_list(list), do: Enum.join(list, " ")
+
   def show_matched_deer_files([], _query), do: []
-  def show_matched_deer_files(_deer_files, ""), do: []
-  def show_matched_deer_files(_deer_files, nil), do: []
+  def show_matched_deer_files(deer_files, []), do: deer_files
   def show_matched_deer_files(deer_files, split_query) do
     Enum.reduce(deer_files, [], fn %{original_filename: name} = df, acc ->
       filename = String.downcase(name)
 
-      if Enum.any?(split_query, fn word -> filename =~ word end), do: [name | acc], else: acc
+      case Enum.all?(split_query, fn word -> filename =~ word end) do
+        true -> [{:matched, df} | acc]
+        false -> [df | acc]
+      end
     end)
   end
 

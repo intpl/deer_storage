@@ -120,7 +120,7 @@ end %>
                 type="text" name="query"
                 list="matches"
                 placeholder="<%= gettext("Search...") %>"
-                value="<%= @query %>"
+                value="<%= maybe_join_query(@query) %>"
                 onkeypress="window.scrollTo(0,0)"
                 phx-debounce="300" />
             </p>
@@ -151,7 +151,7 @@ end %>
   </div>
 
   <div class="columns is-mobile">
-    <div class="column <%= if length(@opened_records) > 0, do: "is-hidden-mobile is-half-tablet" %>">
+    <div class="column <%= if Enum.any?(@opened_records), do: "is-hidden-mobile" %>">
         <%= if @count == 0 do %>
           <div class="section">
             <h1 class="title has-text-grey-light has-text-centered">
@@ -178,8 +178,12 @@ end %>
                       <%= column_name %>: <strong><%= deer_field_content_from_column_id(record, column_id) %></strong><br>
                     <% end %>
                   </div>
-                  <%= for filename <- show_matched_deer_files(record.deer_files, @query) do %>
-                    <%= filename %><br>
+                  <%= for matched_deer_field <- show_matched_deer_files(record.deer_files, @query) do %>
+                    <%= case matched_deer_field do %>
+                      <% {:matched, %{original_filename: filename}} -> %> <b><%= filename %></b>
+                      <% %{original_filename: filename} -> %> <%= filename %>
+                    <% end %>
+                    <br>
                   <% end %>
                 </div>
               </article>
