@@ -13,7 +13,7 @@ defmodule Pjeski.CsvImporter do
   def run!(pid, subscription, user, path, filename, random_name, remove_file? \\ false) do
     Gettext.put_locale(user.locale)
 
-    log_info pid, gettext("Starting importer for file named '%{filename}'...", filename: filename)
+    log_info pid, gettext("Starting importer for file named '%{filename}' in the background (don't close this window to receive messages)...", filename: filename)
 
     stream = path |> File.stream! |> CSV.decode
     assigns = %{caller_pid: pid, subscription: subscription, user: user, records_stream: Stream.drop(stream, 1), filename: filename, random_name: random_name}
@@ -24,6 +24,8 @@ defmodule Pjeski.CsvImporter do
               end
 
     Repo.transaction(fn ->
+      log_info pid, gettext("Locking database scheme for the duration of the import")
+
       result = initial_map
       |> lock_and_update_subscription
       |> prepare_table_data

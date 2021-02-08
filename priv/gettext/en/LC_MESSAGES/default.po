@@ -158,7 +158,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:21
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:27 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:28 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:130 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:160 lib/pjeski_web/templates/admin/user/edit.html.eex:19
 #: lib/pjeski_web/templates/admin/user/index.html.eex:130 lib/pjeski_web/templates/admin/user/show.html.eex:19
@@ -226,7 +226,9 @@ msgid "Delete account"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/show.html.eex:67
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:65
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:67 lib/pjeski_web/live/deer_records_live/show_component.ex:144
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:146 lib/pjeski_web/templates/admin/subscription/show.html.eex:67
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:134
 msgid "Created at"
 msgstr ""
@@ -248,7 +250,8 @@ msgid "Name"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/admin/subscription/index.html.eex:79
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:68
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:147 lib/pjeski_web/templates/admin/subscription/index.html.eex:79
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:112 lib/pjeski_web/templates/admin/subscription/show.html.eex:72
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:142 lib/pjeski_web/templates/admin/user/index.html.eex:77
 #: lib/pjeski_web/templates/admin/user/index.html.eex:106 lib/pjeski_web/templates/admin/user/show.html.eex:90
@@ -585,13 +588,13 @@ msgid "Confirmed email at"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:123
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:131
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:161 lib/pjeski_web/templates/admin/user/show.html.eex:145
 msgid "Disconnect"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:74
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:82
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:86 lib/pjeski_web/templates/admin/user/show.html.eex:46
 msgid "Connect"
 msgstr ""
@@ -663,7 +666,7 @@ msgid "Manage users or invite new"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:51
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:52
 msgid "Are you sure to REMOVE this record?"
 msgstr ""
 
@@ -688,7 +691,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:18
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:52 lib/pjeski_web/live/deer_records_live/show_component.ex:95
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:53 lib/pjeski_web/live/deer_records_live/show_component.ex:103
 #: lib/pjeski_web/templates/deer_record/show_external.html.leex:76
 msgid "Delete"
 msgstr ""
@@ -751,7 +754,7 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:92
 #: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:35 lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:23
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:23 lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:33
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:24 lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:33
 msgid "Close"
 msgstr ""
 
@@ -784,7 +787,7 @@ msgid "Unlink"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:93
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:101
 #: lib/pjeski_web/templates/deer_record/show_external.html.leex:75
 msgid "Are you sure to DELETE this file?"
 msgstr ""
@@ -922,7 +925,7 @@ msgid "All uploaded files for this record are removed and record connections are
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:122
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:130
 msgid "Are you sure you want to unlink these records from each other?"
 msgstr ""
 
@@ -963,7 +966,7 @@ msgid "You can still save this form data, but it will appear as a new record."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:115
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:123
 msgid "Open"
 msgstr ""
 
@@ -1236,17 +1239,17 @@ msgid "Edit record"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:39
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:40
 msgid "Share for 90 days"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:42
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:43
 msgid "Share to edit for 90 days"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:33
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:34
 msgid "Sharing"
 msgstr ""
 
@@ -1256,7 +1259,7 @@ msgid "You can overwrite the following changes."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:45
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:46
 msgid "Delete/invalidate all shared links"
 msgstr ""
 
@@ -1281,60 +1284,55 @@ msgid "Clear messages"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:16
-msgid "Starting importer for file named '%{filename}'..."
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski/csv_importer.ex:36
+#: lib/pjeski/csv_importer.ex:38
 msgid "Successfully imported '%{filename}'"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:103
+#: lib/pjeski/csv_importer.ex:105
 msgid "Inserted %{count} records from file '%{filename}'"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:80
+#: lib/pjeski/csv_importer.ex:82
 msgid "CSV parser error: %{message}"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:83
+#: lib/pjeski/csv_importer.ex:85
 msgid "Too many records: Limit is %{limit}"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:157
+#: lib/pjeski/csv_importer.ex:159
 msgid "Unknown error occurred when importing '%{filename}'."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:78
+#: lib/pjeski/csv_importer.ex:80
 msgid "Validation failed: %{errors}"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/deer_record/index.html.leex:139
-#: lib/pjeski_web/templates/deer_record/index.html.leex:194
+#: lib/pjeski_web/templates/deer_record/index.html.leex:215
 msgid "%{count} records selected."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:44
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:45
 msgid "Are you sure you want to delete all shared links for this record and files in it?"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:20 lib/pjeski_web/live/deer_records_live/show_component.ex:90
+#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:20 lib/pjeski_web/live/deer_records_live/show_component.ex:98
 msgid "Share"
 msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:40
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:87 lib/pjeski_web/live/deer_records_live/show_component.ex:78
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:119 lib/pjeski_web/templates/deer_record/show_external.html.leex:46
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:87 lib/pjeski_web/live/deer_records_live/show_component.ex:86
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:127 lib/pjeski_web/templates/deer_record/show_external.html.leex:46
 msgid "Upload file(s)"
 msgstr ""
 
@@ -1359,7 +1357,7 @@ msgid "Waiting for other uploads to complete..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:70
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:78
 msgid "Create connected record"
 msgstr ""
 
@@ -1552,7 +1550,7 @@ msgid "Your database limits do not allow to use this template. Please contact th
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski/csv_importer.ex:152
+#: lib/pjeski/csv_importer.ex:154
 msgid "Your database limits don't allow to import file named '%{filename}'."
 msgstr ""
 
@@ -1727,4 +1725,14 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/templates/registration/new.html.eex:79
 msgid "Solve the math question here..."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:16
+msgid "Starting importer for file named '%{filename}' in the background (don't close this window to receive messages)..."
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski/csv_importer.ex:27
+msgid "Locking database scheme for the duration of the import"
 msgstr ""
