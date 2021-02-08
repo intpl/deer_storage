@@ -113,7 +113,7 @@ end %>
           </a>
 
         <p class="is-fullwidth">
-          <form phx-submit="submit" phx-change="filter" class="field has-addons overwrite-fullwidth" autocomplete="off">
+          <form phx-submit="filter" phx-change="filter" class="field has-addons overwrite-fullwidth" autocomplete="off">
             <p class="control is-expanded">
               <input
                 class="input"
@@ -122,7 +122,7 @@ end %>
                 placeholder="<%= gettext("Search...") %>"
                 value="<%= maybe_join_query(@query) %>"
                 onkeypress="window.scrollTo(0,0)"
-                phx-debounce="100" />
+                phx-debounce="<%= @search_debounce %>" />
             </p>
 
             <p class="control">

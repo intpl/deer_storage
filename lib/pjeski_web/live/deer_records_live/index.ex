@@ -81,9 +81,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("submit_upload", _, socket), do: {:noreply, assign_submitted_upload(socket, self())}
 
   def handle_event("clear", _, socket), do: {:noreply, run_search_query_and_assign_results(socket, [], 1)}
-  def handle_event("filter", %{"query" => query}, socket) when byte_size(query) <= 50, do: {:noreply, run_search_query_and_assign_results(socket, prepare_search_query(query), 1)}
 
-  def handle_event("submit", %{"query" => query}, socket), do: {:noreply, assign(socket, :query, prepare_search_query(query))}
+  def handle_event("filter", %{"query" => query}, socket) when byte_size(query) <= 50, do: {:noreply, run_search_query_and_assign_results(socket, prepare_search_query(query), 1)}
 
   def handle_event("next_page", _, %{assigns: %{page: page}} = socket), do: {:noreply, change_page(socket, page + 1)}
   def handle_event("previous_page", _, %{assigns: %{page: page}} = socket), do: {:noreply, change_page(socket, page - 1)}
@@ -99,7 +98,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_call(:whats_my_table_id, _pid, %{assigns: %{table_id: table_id}} = socket), do: {:reply, table_id, socket}
   def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
   def handle_info({:subscription_updated, subscription}, socket), do: {:noreply, socket |> assign_updated_subscription(subscription) |> maybe_reload_and_overwrite_deer_file_upload}
-  def handle_info({:cached_records_count_changed, _table_id, new_count}, %{assigns: %{cached_count: _}} = socket), do: {:noreply, socket |> assign(cached_count: new_count)}
+  def handle_info({:cached_records_count_changed, _table_id, new_count}, %{assigns: %{cached_count: _}} = socket), do: {:noreply, socket |> assign(cached_count: new_count) |> assign_search_debounce}
   def handle_info({:assign_connected_records_to_opened_record, record, ids}, socket), do: {:noreply, assign_connected_records_to_opened_record(socket, record, ids)}
   def handle_info({:remove_orphans_after_receiveing_connected_records, record, records}, socket), do: {:noreply, remove_orphans_after_receiveing_connected_records(socket, record, records)}
 
@@ -165,7 +164,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       storage_limit_kilobytes: 0,
       uploading_file_for_record: nil,
       upload_results: [],
-      locale: user.locale
+      locale: user.locale,
+      search_debounce: "0",
     )
   end
 

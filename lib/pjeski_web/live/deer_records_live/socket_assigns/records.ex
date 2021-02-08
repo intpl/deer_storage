@@ -30,10 +30,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Records do
         socket
         |> run_search_query_and_assign_results(query, 1)
         |> assign(:cached_count, DeerCache.RecordsCountsCache.fetch_count(table_id))
+        |> assign_search_debounce
     end
   end
 
   def maybe_assign_first_search_query(socket, _query), do: socket
+
+  def assign_search_debounce(%{assigns: %{cached_count: cached_count}} = socket) when cached_count >= 50_000, do: assign(socket, :search_debounce, "1000")
+  def assign_search_debounce(%{assigns: %{cached_count: cached_count}} = socket) when cached_count >= 5_000, do: assign(socket, :search_debounce, "500")
+  def assign_search_debounce(%{assigns: %{cached_count: cached_count}} = socket), do: assign(socket, :search_debounce, "0")
 
   def run_search_query_and_assign_results(%{assigns: %{current_subscription: %{id: subscription_id}, table_id: table_id}} = socket, query, page) do
     records = search_records(subscription_id, table_id, query, page)
