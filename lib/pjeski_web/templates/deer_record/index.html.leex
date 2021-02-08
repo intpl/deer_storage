@@ -109,7 +109,7 @@ end %>
              phx-click="clear"
              onclick="window.scrollTo(0,0)"
              <%= if empty?(@query), do: "disabled" %>>
-              <%= gettext("Clear") %>
+               <%= gettext("Clear") %>
           </a>
 
         <p class="is-fullwidth">
@@ -173,36 +173,30 @@ end %>
             <a class="box <%= classes_for_record_box(@current_user.id, record, @opened_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
               <article class="media">
                 <div class="media-content">
-                  <div class="content">
-                    <div class="columns is-desktop">
-                      <div class="column">
-                        <%= for %{id: column_id, name: column_name} <- deer_columns do %>
-                          <% content = deer_field_content_from_column_id(record, column_id) %>
-                          <%= column_name %>:
-                          <%= case @query do %>
-                            <% [] -> %> <b><%= content %></b>
-                            <% _list -> %>
-                            <%= case Enum.any?(@query, fn word -> compare_downcased_strings(content, word) end) do %>
-                              <% true -> %> <b><%= content %></b>
-                              <% false -> %> <%= content %>
-                            <% end %>
+                  <div class="columns is-desktop">
+                    <div class="column">
+                      <%= for %{id: column_id, name: column_name} <- deer_columns do %>
+                        <% content = deer_field_content_from_column_id(record, column_id) %>
+                        <%= column_name %>:
+                        <%= case @query do %>
+                          <% [] -> %> <b><%= content %></b>
+                          <% _list -> %>
+                          <%= case Enum.any?(@query, fn word -> compare_downcased_strings(content, word) end) do %>
+                            <% true -> %> <b><%= content %></b>
+                            <% false -> %> <%= content %>
                           <% end %>
-                          <br>
                         <% end %>
-                      </div>
-                      <div class="column">
-                        <%= for %{original_filename: filename} <- record.deer_files do %>
-                          <%= case @query do %>
-                            <% [] -> %> <b><%= filename %></b>
-                            <% _list -> %>
-                            <%= case Enum.any?(@query, fn word -> compare_downcased_strings(filename, word) end) do %>
-                              <% true -> %> <b><%= filename %></b>
-                              <% false -> %> <%= filename %>
-                            <% end %>
-                          <% end %>
-                          <br>
+                        <br>
+                      <% end %>
+                    </div>
+                    <div class="column">
+                      <%= for %{original_filename: filename} <- record.deer_files do %>
+                        <%= case Enum.any?(@query, fn word -> compare_downcased_strings(filename, word) end) do %>
+                          <% true -> %> <b><%= filename %></b>
+                          <% false -> %> <%= filename %>
                         <% end %>
-                      </div>
+                        <br>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -243,5 +237,5 @@ end %>
         </div>
       <% end %>
     <% end %>
-  </div>
-</section>
+  </section>
+</div>
