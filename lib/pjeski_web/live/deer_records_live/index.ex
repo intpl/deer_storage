@@ -165,7 +165,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       uploading_file_for_record: nil,
       upload_results: [],
       locale: user.locale,
-      search_debounce: "0",
+      search_debounce: "0"
     )
   end
 
