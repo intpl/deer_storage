@@ -2,14 +2,16 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
   use Phoenix.LiveView
   alias Phoenix.PubSub
 
-  import PjeskiWeb.Gettext
+  import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
 
   alias Pjeski.Users
   alias Pjeski.Subscriptions
 
-  def mount(%{}, %{"pjeski_auth" => token, "locale" => locale, "current_user_id" => current_user_id}, socket) do
+  def mount(%{}, %{"pjeski_auth" => token, "current_user_id" => current_user_id} = session, socket) do
     socket = case connected?(socket) do
                true ->
+                 get_live_user(socket, session).locale |> Gettext.put_locale()
+
                  # TODO: Renewing tokens
                  PubSub.subscribe(Pjeski.PubSub, "Users")
                  PubSub.subscribe(Pjeski.PubSub, "session_#{token}")
@@ -23,8 +25,6 @@ defmodule PjeskiWeb.Admin.DashboardLive.Index do
                  root_disk_total_size: 0
                )
              end
-
-    Gettext.put_locale(locale) # change to user locale, not session locale
 
     {:ok, assign(socket, token: token)}
   end
