@@ -1,7 +1,7 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   @tmp_dir System.tmp_dir!()
 
-  import Phoenix.LiveView, only: [assign: 3, allow_upload: 3, consume_uploaded_entries: 3, uploaded_entries: 2, cancel_upload: 3]
+  import Phoenix.LiveView, only: [assign: 3, allow_upload: 3, consume_uploaded_entry: 3, consume_uploaded_entries: 3, uploaded_entries: 2, cancel_upload: 3]
   import PjeskiWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [any_entry_started_upload?: 1]
 
@@ -25,10 +25,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   def assign_uploading_file_for_record_after_delete(socket, _id), do: socket
 
   def assign_closed_file_upload_modal(socket) do
-    case uploaded_entries(socket, :deer_file) do
-      {[], [_ | _] = _entries} -> cancel_all_entries_in_socket(socket)
-      _ -> socket
-    end
+    cancel_all_entries_in_socket(socket)
     |> assign(:uploading_file_for_record, nil)
     |> assign(:upload_results, [])
   end
@@ -90,8 +87,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
     (space_left - size < 0) || (files_left - files_count < 0)
   end
 
-  defp cancel_all_entries_in_socket(%{assigns: %{uploads: %{deer_file: %{entries: entries}}}} = socket) do
-    Enum.reduce(entries, socket, fn %{ref: entry_ref}, socket_acc -> cancel_upload(socket_acc, :deer_file, entry_ref) end)
+  defp cancel_all_entries_in_socket(socket) do
+    {completed, in_progress} = uploaded_entries(socket, :deer_file)
+
+    Enum.each(completed, fn entry -> consume_uploaded_entry(socket, entry, fn _ -> nil end) end)
+    Enum.reduce(in_progress, socket, fn entry, socket_acc -> cancel_upload(socket_acc, :deer_file, entry.ref) end)
   end
 
   defp allow_deer_file_upload_or_overwrite_existing(%{assigns: %{uploads: %{deer_file: deer_file} = uploads}} = socket, files, size) do
