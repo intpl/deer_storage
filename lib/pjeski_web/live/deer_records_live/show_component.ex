@@ -90,19 +90,21 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         <ul>
           <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
             <li>
-              <p>
-                <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
-                (<%= display_filesize_from_kilobytes(kilobytes) %>)
-
-                <a class="button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
+              <div class="columns">
+                <div class="column">
+                  <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
+                  (<%= display_filesize_from_kilobytes(kilobytes) %>)
+                </div>
+                <div class="column has-text-right">
+                  <a class="button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
                   <span><%= gettext("Share") %></span>
-                </a>
-
-                <a class="button" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
-                  <span class="delete"></span>&nbsp;
-                  <span><%= gettext("Delete") %></span>
-                </a>
-              </p>
+                  </a>
+                  <a class="button" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
+                    <span class="delete"></span>&nbsp;
+                    <span><%= gettext("Delete") %></span>
+                  </a>
+                </div>
+              </div>
             </li>
           <% end) %>
         </ul>
