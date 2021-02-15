@@ -27,11 +27,22 @@ defmodule PjeskiWeb.DeerDashboardLive.DeerTableShowComponent do
 
       <br>
 
-      <a href="#" phx-click="toggle_table_edit" phx-value-table_id="<%= table_id %>"><%= gettext("Edit") %></a>
+      <a href="#" phx-click="toggle_table_edit" phx-value-table_id="<%= table_id %>" class="button is-small"><%= gettext("Edit") %></a>
         <%= if cached_count == 0 do %>
-          <a href="#" phx-click="delete_table" phx-value-table_id="<%= table_id %>"><%= gettext("Delete") %></a>
+          <a href="#"
+            phx-click="delete_table"
+            phx-value-table_id="<%= table_id %>"
+            class="button is-small is-warning">
+              <%= gettext("Delete") %>
+          </a>
         <% else %>
-          <a href="#" phx-click="destroy_table_with_data" phx-value-table_id="<%= table_id %>" data-confirm="<%= gettext("Are you sure you want to delete this table, all of the records, shared links and uploaded files?") %>"><%= gettext("Delete") %></a>
+          <a href="#"
+            phx-click="destroy_table_with_data"
+            phx-value-table_id="<%= table_id %>"
+            class="button is-small is-danger"
+            data-confirm="<%= gettext("Are you sure you want to delete this table, all of the records, shared links and uploaded files?") %>">
+              <%= gettext("Delete") %>
+          </a>
         <% end %>
     </div>
     """
