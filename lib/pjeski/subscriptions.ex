@@ -1,15 +1,20 @@
 defmodule Pjeski.Subscriptions do
+  require Logger
   import Ecto.Query, warn: false
   alias Phoenix.PubSub
   alias Pjeski.Repo
   alias DeerCache.RecordsCountsCache
 
-  import Pjeski.Subscriptions.Helpers
-  import Pjeski.DbHelpers.ComposeSearchQuery
-
+  alias DeerCache.SubscriptionStorageCache
   alias Pjeski.Subscriptions.Subscription
   alias Pjeski.Subscriptions.DeerTable
   alias Pjeski.DeerRecords
+  alias Pjeski.DeerRecords.DeerRecord
+
+  import Pjeski.Subscriptions.Helpers
+  import Pjeski.DbHelpers.ComposeSearchQuery
+
+  import DeerRecord, only: [deer_files_stats: 1]
 
   def total_count(), do: Pjeski.Repo.aggregate(from(s in "subscriptions"), :count, :id)
 
@@ -109,20 +114,27 @@ defmodule Pjeski.Subscriptions do
     |> maybe_notify_about_updated_subscription
   end
 
-  def delete_deer_table!(subscription, table_id) do
-    deer_tables = subscription.deer_tables
-    |> deer_tables_to_attrs
-    |> Enum.reject(fn dt -> dt.id == table_id end)
-
+  def delete_deer_table(subscription, table_id) do
     case DeerRecords.at_least_one_record_with_table_id?(subscription, table_id) do
       true -> {:error, subscription}
-      false -> change_subscription_deer(subscription)
-      |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
-      |> Ecto.Changeset.cast_embed(:deer_tables)
-      |> Repo.update()
-      |> maybe_notify_about_updated_subscription
-      |> maybe_delete_table_from_cache(table_id)
+      false -> delete_deer_table!(subscription, table_id) |> maybe_notify_about_updated_subscription |> maybe_delete_table_from_cache(table_id)
     end
+  end
+
+  def destroy_table_with_data!(%{id: subscription_id}, table_id) do
+    records_query = from dr in DeerRecord, where: dr.deer_table_id == ^table_id and dr.subscription_id == ^subscription_id
+
+    {:ok, _result} = Repo.transaction(fn ->
+      subscription = Repo.one!(from s in Subscription, where: s.id == ^subscription_id, lock: "FOR UPDATE")
+      records = Repo.all(records_query, lock: "FOR UPDATE")
+
+      delete_deer_table!(subscription, table_id)
+      |> maybe_notify_about_updated_subscription
+      |> maybe_delete_table_records!(records_query)
+      |> maybe_delete_deer_table_directory!(subscription_id, table_id)
+      |> maybe_substract_table_from_cache(subscription_id, table_id, records)
+      |> maybe_delete_table_from_cache(table_id)
+    end)
   end
 
   # this is used only in tests and seeds
@@ -208,5 +220,58 @@ defmodule Pjeski.Subscriptions do
     left_join: u in assoc(s, :users),
     order_by: [asc: count(u.id)],
     group_by: s.id
+  end
+
+  defp maybe_delete_table_records!({:error, error_message} = response, _records_query) do
+    Logger.error(error_message)
+
+    response
+  end
+
+  defp maybe_delete_table_records!({:ok, _} = response, records_query) do
+    {_count, _} = Repo.delete_all(records_query)
+
+    response
+  end
+
+  defp maybe_delete_deer_table_directory!({:error, error_message} = response, _subscription_id, _table_id) do
+    Logger.error(error_message)
+
+    response
+  end
+
+  defp maybe_delete_deer_table_directory!({:ok, _} = response, subscription_id, table_id) do
+    File.rm_rf!(File.cwd! <> "/uploaded_files/#{subscription_id}/#{table_id}")
+
+    response
+  end
+
+  defp maybe_substract_table_from_cache({:error, error_message} = response, _subscription_id, _table_id, _records) do
+    Logger.error(error_message)
+
+    response
+  end
+
+  defp maybe_substract_table_from_cache({:ok, _} = response, subscription_id, table_id, records) do
+    [table_files_count, table_kilobytes] = Enum.reduce(records, [0, 0],
+      fn %{subscription_id: ^subscription_id, deer_table_id: ^table_id} = dr, [total_files, total_kilobytes] ->
+        {dr_files, dr_kilobytes} = deer_files_stats(dr)
+        [total_files + dr_files, total_kilobytes + dr_kilobytes]
+    end)
+
+    GenServer.cast(SubscriptionStorageCache, {:removed_files, subscription_id, table_files_count, table_kilobytes})
+
+    response
+  end
+
+  defp delete_deer_table!(subscription, table_id) do
+    deer_tables = subscription.deer_tables
+    |> deer_tables_to_attrs
+    |> Enum.reject(fn dt -> dt.id == table_id end)
+
+    change_subscription_deer(subscription)
+    |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
+    |> Ecto.Changeset.cast_embed(:deer_tables)
+    |> Repo.update()
   end
 end

@@ -17,7 +17,8 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
     create_deer_table!: 3,
     create_deer_tables!: 2,
     update_subscription: 2,
-    delete_deer_table!: 2
+    delete_deer_table: 2,
+    destroy_table_with_data!: 2
   ]
   import Pjeski.Subscriptions.DeerTable, only: [
     add_empty_column: 1,
@@ -112,7 +113,7 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
   end
 
   def handle_event("delete_table", %{"table_id" => table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
-    case delete_deer_table!(subscription, table_id) do
+    case delete_deer_table(subscription, table_id) do
       {:error, _subscription} ->
         {:noreply, socket |> assign(editing_table_changeset: nil)}
       {:ok, updated_subscription} -> {:noreply, socket |> assign(
@@ -123,6 +124,12 @@ defmodule PjeskiWeb.DeerDashboardLive.Index do
                                        current_subscription_tables: updated_subscription.deer_tables
                                        )}
     end
+  end
+
+  def handle_event("destroy_table_with_data", %{"table_id" => table_id}, %{assigns: %{current_subscription: subscription}} = socket) do
+    destroy_table_with_data!(subscription, table_id)
+
+    {:noreply, socket}
   end
 
   def handle_event("move_column_up", %{"index" => index}, %{assigns: %{editing_table_changeset: ch}} = socket) do
