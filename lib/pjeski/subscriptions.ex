@@ -123,16 +123,17 @@ defmodule Pjeski.Subscriptions do
 
   def destroy_table_with_data!(%{id: subscription_id}, table_id) do
     records_query = from dr in DeerRecord, where: dr.deer_table_id == ^table_id and dr.subscription_id == ^subscription_id
+    records_with_files_query = records_query |> where([r], fragment("cardinality(?) > 0", field(r, :deer_files)))
 
     {:ok, _result} = Repo.transaction(fn ->
       subscription = Repo.one!(from s in Subscription, where: s.id == ^subscription_id, lock: "FOR UPDATE")
-      records = Repo.all(records_query, lock: "FOR UPDATE")
+      records_with_files = Repo.all(records_with_files_query, lock: "FOR UPDATE")
 
       delete_deer_table!(subscription, table_id)
       |> maybe_notify_about_updated_subscription
       |> maybe_delete_table_records!(records_query)
       |> maybe_delete_deer_table_directory!(subscription_id, table_id)
-      |> maybe_substract_table_from_cache(subscription_id, table_id, records)
+      |> maybe_substract_table_from_cache(subscription_id, table_id, records_with_files)
       |> maybe_delete_table_from_cache(table_id)
     end, timeout: 300_000) # 5 minutes
   end
