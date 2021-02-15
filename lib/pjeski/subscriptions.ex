@@ -134,7 +134,7 @@ defmodule Pjeski.Subscriptions do
       |> maybe_delete_deer_table_directory!(subscription_id, table_id)
       |> maybe_substract_table_from_cache(subscription_id, table_id, records)
       |> maybe_delete_table_from_cache(table_id)
-    end)
+    end, timeout: 300_000) # 5 minutes
   end
 
   # this is used only in tests and seeds
