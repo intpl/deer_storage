@@ -73,7 +73,37 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
           <%= @record.notes %>
         </div>
 
-        <hr>
+        <a class="is-small button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
+          <span><%= gettext("Upload file(s)") %></span>
+        </a>
+
+        <br>
+        <br>
+
+        <ul>
+          <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
+            <li>
+              <div class="field is-grouped">
+                <p class="control is-expanded">
+                  <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
+                  (<%= display_filesize_from_kilobytes(kilobytes) %>)
+                </p>
+                <p class="control">
+                  <a class="is-small button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
+                    <span><%= gettext("Share") %></span>
+                  </a>
+                  <a class="is-small button" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
+                    <span class="delete"></span>&nbsp;
+                    <span><%= gettext("Delete") %></span>
+                  </a>
+                </p>
+              </div>
+            </li>
+          <% end) %>
+        </ul>
+
+        <br>
+
         <a class="is-small button is-link is-light" href="#" phx-click="new_connected_record" phx-value-connecting-with-record_id="<%= record.id %>">
           <span><%= gettext("Create connected record") %></span>
         </a>
@@ -82,32 +112,8 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
           <span><%= gettext("Connect") %></span>
         </a>
 
-        <a class="is-small button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
-          <span><%= gettext("Upload file(s)") %></span>
-        </a>
-        <hr>
-
-        <ul>
-          <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
-            <li>
-              <div class="columns">
-                <div class="column">
-                  <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
-                  (<%= display_filesize_from_kilobytes(kilobytes) %>)
-                </div>
-                <div class="column has-text-right">
-                  <a class="is-small button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
-                  <span><%= gettext("Share") %></span>
-                  </a>
-                  <a class="is-small button" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
-                    <span class="delete"></span>&nbsp;
-                    <span><%= gettext("Delete") %></span>
-                  </a>
-                </div>
-              </div>
-            </li>
-          <% end) %>
-        </ul>
+        <br>
+        <br>
 
         <ul>
           <%= Enum.map(@connected_records, fn connected_record -> %>
