@@ -34,7 +34,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                 <%= gettext("Sharing") %> ↷
               </a>
             </div>
-            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-menu">
               <div class="dropdown-content">
                 <a href="#" class="dropdown-item" href="#" phx-click="share" phx-value-record_id="<%= record.id %>">
                   <%= gettext("Share for 90 days") %>
