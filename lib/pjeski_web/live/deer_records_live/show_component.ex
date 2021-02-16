@@ -18,19 +18,19 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
     ~L"""
     <div class="hero-body is-paddingless">
       <div class="container">
-        <h3 class="subtitle">
-          <a class="button" href="#" phx-click="close_show" phx-value-id="<%= record.id %>">
+        <div class="field is-grouped">
+          <a class="is-small button" href="#" phx-click="close_show" phx-value-id="<%= record.id %>">
             <span class="delete"></span>&nbsp;
             <span><%= gettext("Close") %></span>
           </a>
 
-          <a class="button" href="#" phx-click="edit" phx-value-record_id="<%= record.id %>">
+          <a class="is-small button" href="#" phx-click="edit" phx-value-record_id="<%= record.id %>">
             <%= gettext("Edit") %>
           </a>
 
           <div class="dropdown is-hoverable">
             <div class="dropdown-trigger">
-              <a class="button">
+              <a class="is-small button">
                 <%= gettext("Sharing") %> ↷
               </a>
             </div>
@@ -49,10 +49,10 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             </div>
           </div>
 
-          <a class="button is-danger is-outlined" href="#" phx-click="delete" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this record?") %>">
+          <a class="is-small button is-danger is-outlined" href="#" phx-click="delete" phx-value-record_id="<%= record.id %>" data-confirm="<%= gettext("Are you sure to REMOVE this record?") %>">
             <%= gettext("Delete") %>
           </a>
-        </h3>
+        </div>
         <ul>
           <%= Enum.map(deer_columns, fn %{id: column_id, name: column_name} -> %>
             <li>
@@ -74,15 +74,15 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         </div>
 
         <hr>
-        <a class="button is-link is-light" href="#" phx-click="new_connected_record" phx-value-connecting-with-record_id="<%= record.id %>">
+        <a class="is-small button is-link is-light" href="#" phx-click="new_connected_record" phx-value-connecting-with-record_id="<%= record.id %>">
           <span><%= gettext("Create connected record") %></span>
         </a>
 
-        <a class="button is-link is-light" href="#" phx-click="show_connect_record_modal" phx-value-record_id="<%= record.id %>">
+        <a class="is-small button is-link is-light" href="#" phx-click="show_connect_record_modal" phx-value-record_id="<%= record.id %>">
           <span><%= gettext("Connect") %></span>
         </a>
 
-        <a class="button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
+        <a class="is-small button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
           <span><%= gettext("Upload file(s)") %></span>
         </a>
         <hr>
@@ -96,10 +96,10 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                   (<%= display_filesize_from_kilobytes(kilobytes) %>)
                 </div>
                 <div class="column has-text-right">
-                  <a class="button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
+                  <a class="is-small button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
                   <span><%= gettext("Share") %></span>
                   </a>
-                  <a class="button" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
+                  <a class="is-small button" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
                     <span class="delete"></span>&nbsp;
                     <span><%= gettext("Delete") %></span>
                   </a>
@@ -121,15 +121,15 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                           phx-click="redirect_to_connected_record"
                           phx-value-record_id="<%= connected_record.id %>"
                           phx-value-table_id="<%= connected_record.deer_table_id %>"
-                          class="button is-success is-light">
+                          class="is-small button is-success is-light">
                     <%= gettext("Open") %>
                   </a>
 
-                  <a class="button is-info" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= connected_record.id %>" phx-value-table_id="<%= connected_record.deer_table_id %>">
+                  <a class="is-small button is-info" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= connected_record.id %>" phx-value-table_id="<%= connected_record.deer_table_id %>">
                     <span><%= gettext("Upload file(s)") %></span>
                   </a>
 
-                  <a class="button is-danger is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
+                  <a class="is-small button is-danger is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
                     <%= gettext("Disconnect") %>
                   </a>
                 </div>
