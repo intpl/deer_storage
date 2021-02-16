@@ -14,6 +14,7 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles, only: [
     assign_upload_result: 2,
     cancel_all_uploads_if_limit_is_exceeded: 1,
+    cancel_all_entries_in_socket: 1,
     maybe_reload_and_overwrite_deer_file_upload: 1,
     reload_subscription_storage_and_allow_upload: 1
   ]
@@ -63,7 +64,7 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   end
 
   def handle_event("close_edit", _, %{assigns: %{is_editable: true}} = socket), do: {:noreply, assign(socket, editing_record: nil, old_editing_record: nil)}
-  def handle_event("close_upload_file_modal", _, %{assigns: %{is_editable: true}} = socket), do: {:noreply, assign(socket, uploading: false, upload_results: [])}
+  def handle_event("close_upload_file_modal", _, %{assigns: %{is_editable: true}} = socket), do: {:noreply, assign(socket, uploading: false, upload_results: []) |> cancel_all_entries_in_socket}
   def handle_event("show_upload_file_modal", _, %{assigns: %{is_editable: true}} = socket), do: {:noreply, socket |> assign(:uploading, true) |> reload_subscription_storage_and_allow_upload}
 
   def handle_event("submit_upload", _, %{assigns: %{is_editable: true, deer_record: %{id: record_id}, shared_record: %{created_by_user_id: user_id}}} = socket) do

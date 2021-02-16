@@ -87,7 +87,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
     (space_left - size < 0) || (files_left - files_count < 0)
   end
 
-  defp cancel_all_entries_in_socket(socket) do
+  def cancel_all_entries_in_socket(socket) do
     {completed, in_progress} = uploaded_entries(socket, :deer_file)
 
     Enum.each(completed, fn entry -> consume_uploaded_entry(socket, entry, fn _ -> nil end) end)
