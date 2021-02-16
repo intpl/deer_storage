@@ -73,10 +73,6 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
           <%= @record.notes %>
         </div>
 
-        <a class="is-small button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
-          <span><%= gettext("Upload file(s)") %></span>
-        </a>
-
         <br>
         <br>
 
@@ -110,6 +106,10 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
 
         <a class="is-small button is-link is-light" href="#" phx-click="show_connect_record_modal" phx-value-record_id="<%= record.id %>">
           <span><%= gettext("Connect") %></span>
+        </a>
+
+        <a class="is-small button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= record.id %>" phx-value-table_id="<%= record.deer_table_id %>">
+          <span><%= gettext("Upload file(s)") %></span>
         </a>
 
         <br>
