@@ -32,6 +32,7 @@ defmodule Pjeski.CsvImporter do
       |> prepare_records
       |> insert_records_and_notify_subscribers
       |> rename_subscription_table_to_filename
+      |> ensure_subscription_table_limit_is_not_exceeded
 
       case result do
         {:ok, _} ->
@@ -91,7 +92,6 @@ defmodule Pjeski.CsvImporter do
     err -> {:error, err}
   end
 
-
   defp insert_records_and_notify_subscribers({:error, _} = result), do: result
   defp insert_records_and_notify_subscribers({:ok, %{caller_pid: pid, records_maps: records_maps, subscription: subscription, table_id: table_id, filename: filename} = assigns}) do
     maps_chunks = Enum.chunk_every(records_maps, 1000)
@@ -124,7 +124,11 @@ defmodule Pjeski.CsvImporter do
     {:ok, Map.merge(assigns, %{subscription: new_subscription})}
   end
 
-  def prepare_record_map(fields_list, columns_ids, table_id, subscription_id, user_id, timestamp) do
+  defp ensure_subscription_table_limit_is_not_exceeded({:error, _} = result), do: result
+  defp ensure_subscription_table_limit_is_not_exceeded({:ok, %{subscription: %{deer_tables: deer_tables, deer_tables_limit: limit} = subscription}} = result) when length(deer_tables) > limit, do: {:error, gettext("Exceeded table limit")}
+  defp ensure_subscription_table_limit_is_not_exceeded({:ok, _assigns} = result), do: result
+
+  defp prepare_record_map(fields_list, columns_ids, table_id, subscription_id, user_id, timestamp) do
     deer_fields = Enum.zip(fields_list, columns_ids) |> Enum.map(fn {content, column_id} ->
       if String.length(content) > 200, do: throw "Found field with more than 200 characters"
 
