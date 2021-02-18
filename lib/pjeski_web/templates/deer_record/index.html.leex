@@ -90,7 +90,7 @@ end %>
 <% opened_records_count = length(@opened_records) %>
 
 <section class="section">
-  <div class="columns z-index-max has-background-white sticky <%= if Enum.any?(@opened_records), do: "is-hidden-mobile" %>">
+  <div class="columns z-index-39 has-background-white sticky <%= if Enum.any?(@opened_records), do: "is-hidden-mobile" %>">
     <div class="column is-2">
       <div class="field">
       <%= if @cached_count < @current_subscription_deer_records_per_table_limit do %>
