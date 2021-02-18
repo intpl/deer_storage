@@ -5,9 +5,9 @@
 .is-clickable {cursor: pointer}
 .prewrapped {white-space: pre-line;}
 img {max-width:100%; height:auto}
-.scrollable-vh90 {
+.scrollable-vh75 {
     overflow-x: hidden;
     overflow-y: auto;
-    height: 90vh;
+    height: 75vh;
 }
 .z-index-39 { z-index: 39; }

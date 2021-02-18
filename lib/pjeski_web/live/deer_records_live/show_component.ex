@@ -16,7 +16,7 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
     ~L"""
-    <div class="scrollable-vh90 overwrite-padding-top-120">
+    <div class="scrollable-vh75 overwrite-padding-top-120">
       <div class="field is-grouped">
         <a class="is-small button" href="#" phx-click="close_show" phx-value-id="<%= record.id %>">
           <span class="delete"></span>&nbsp;
