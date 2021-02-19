@@ -8,7 +8,8 @@ defmodule PjeskiWeb.Telemetry do
 
   def init(_arg) do
     children = [
-      {:telemetry_poller, measurements: periodic_measurements(), period: 10_000}
+      {:telemetry_poller, measurements: periodic_measurements(), period: 10_000},
+      {PjeskiWeb.MetricsStorage, metrics()}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
@@ -36,7 +37,30 @@ defmodule PjeskiWeb.Telemetry do
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
       summary("vm.total_run_queue_lengths.total"),
       summary("vm.total_run_queue_lengths.cpu"),
-      summary("vm.total_run_queue_lengths.io")
+      summary("vm.total_run_queue_lengths.io"),
+
+      # LV
+      summary("phoenix.live_view.mount.stop.duration",
+        tags: [:view],
+        tag_values: fn metadata ->
+          Map.put(metadata, :view, "#{inspect(metadata.socket.view)}")
+        end,
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.live_view.handle_params.stop.duration",
+        tags: [:view],
+        tag_values: fn metadata ->
+          Map.put(metadata, :view, "#{inspect(metadata.socket.view)}")
+        end,
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.live_view.handle_event.stop.duration",
+        tags: [:view, :event],
+        tag_values: fn metadata ->
+          Map.put(metadata, :view, "#{inspect(metadata.socket.view)}")
+        end,
+        unit: {:native, :millisecond}
+      )
     ]
   end
 

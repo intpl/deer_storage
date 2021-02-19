@@ -54,14 +54,15 @@ defmodule Pjeski.MixProject do
       {:floki, ">= 0.0.0", only: :test},
       {:faker, "~> 0.13", only: [:test, :dev]},
       {:phoenix_live_dashboard, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
-      {:telemetry_metrics, "~> 0.4"},
+      {:telemetry_poller, "~> 0.5"},
+      {:telemetry_metrics, "~> 0.6"},
       {:poison, "~> 4.0"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:csv, "~> 2.4"},
       {:ecto_psql_extras, "~> 0.2"},
       {:xxhash, "~> 0.3.1"},
-      {:navigation_history, "~> 0.3"}
+      {:navigation_history, "~> 0.3"},
+      {:circular_buffer, "~> 0.3"}
     ]
   end
 
