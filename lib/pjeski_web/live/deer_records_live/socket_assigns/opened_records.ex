@@ -6,6 +6,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
 
   import Phoenix.LiveView, only: [assign: 2, push_redirect: 2]
 
+  import PjeskiWeb.DeerRecordView, only: [mimetype_is_previewable?: 1]
+
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [
     reduce_list_with_function: 2,
     find_record_in_list_or_database: 4,
@@ -60,6 +62,17 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     %{id: uuid} = SharedFiles.create_file!(subscription.id, user.id, record.id, file_id)
     assign(socket, current_shared_link: shared_link_for_file(subscription.id, uuid, file_id))
   end
+
+  def assign_preview_modal(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id, file_id) do
+    record_id = String.to_integer(record_id)
+    [record, _connected_records] = find_record_in_opened_records(opened_records, record_id)
+    deer_file = ensure_deer_file_exists_in_record!(record, file_id)
+    mimetype_is_previewable?(deer_file.mimetype) || raise "invalid preview requested"
+
+    assign(socket, preview_for_record_id: record_id, preview_deer_file: deer_file)
+  end
+
+  def close_preview_modal(socket), do: assign(socket, preview_for_record_id: nil, preview_deer_file: nil)
 
   def assign_invalidated_shared_records_for_record(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))

@@ -44,6 +44,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("close_connecting_record", _, socket), do: {:noreply, assign_closed_connecting_records(socket)}
   def handle_event("close_edit", _, socket), do: {:noreply, assign_closed_editing_record(socket)}
   def handle_event("close_upload_file_modal", _, socket), do: {:noreply, assign_closed_file_upload_modal(socket)}
+  def handle_event("close_preview_modal", _, socket), do: {:noreply, close_preview_modal(socket)}
   def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :opened_records, [])}
 
   def handle_event("validate_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_editing_record(socket, attrs)}
@@ -65,6 +66,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("share-for-editing", %{"record_id" => record_id}, socket), do: {:noreply, assign_created_shared_record_for_editing_uuid(socket, record_id)}
   def handle_event("invalidate-shared-links", %{"record_id" => record_id}, socket), do: {:noreply, assign_invalidated_shared_records_for_record(socket, record_id)}
   def handle_event("share_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, assign_created_shared_file_uuid(socket, record_id, file_id)}
+
+  def handle_event("preview_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, assign_preview_modal(socket, record_id, file_id)}
 
   def handle_event("connecting_record_filter", %{"query" => query, "table_id" => new_table_id}, socket) when byte_size(query) <= 50, do: {:noreply, assign_filtered_connected_records(socket, prepare_search_query(query), new_table_id)}
   def handle_event("connect_records", %{"record_id" => record_id}, socket), do: {:noreply, handle_connecting_records(socket, String.to_integer(record_id))}
@@ -161,6 +164,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       connecting_query: nil,
       connecting_records: [],
       connecting_selected_table_id: nil,
+      preview_for_record_id: nil,
+      preview_for_deer_file: nil,
       storage_limit_kilobytes: 0,
       uploading_file_for_record: nil,
       upload_results: [],

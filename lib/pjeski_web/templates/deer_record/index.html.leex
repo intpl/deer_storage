@@ -15,6 +15,13 @@
 <% end %>
 
 <%= cond do
+  @preview_for_record_id && @preview_deer_file ->
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.PreviewFileComponent,
+      id: "preview_file_component",
+      deer_file: @preview_deer_file
+    )
   @uploading_file_for_record ->
     live_component(
       @socket,
