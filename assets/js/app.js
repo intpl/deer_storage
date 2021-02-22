@@ -7,9 +7,6 @@ import NProgress from "nprogress"
 import jquery from 'jquery';
 window.$ = window.jQuery = jquery
 
-import dropzone from "dropzone";
-window.Dropzone = dropzone;
-
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
 // in "webpack.config.js".
