@@ -9,7 +9,8 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
     deer_columns_from_subscription: 2,
     deer_table_from_subscription: 2,
     deer_field_content_from_column_id: 2,
-    display_filesize_from_kilobytes: 1
+    display_filesize_from_kilobytes: 1,
+    mimetype_is_previewable?: 1
   ]
 
   def render(%{record: record, subscription: subscription, table_id: table_id, current_user: current_user} = assigns) do
@@ -76,14 +77,19 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
       <br>
 
       <ul>
-        <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
+        <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes, mimetype: mimetype} -> %>
           <li>
             <div class="field is-grouped">
               <p class="control is-expanded">
                 <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
-                (<%= display_filesize_from_kilobytes(kilobytes) %>)
+                (<%= mimetype %>, <%= display_filesize_from_kilobytes(kilobytes) %>)
               </p>
               <p class="control">
+                <%= if mimetype_is_previewable?(mimetype) do %>
+                  <a class="is-small button" href="#" phx-click="preview_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
+                    <span><%= gettext("Preview") %></span>
+                  </a>
+                 <% end %>
                 <a class="is-small button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
                   <span><%= gettext("Share") %></span>
                 </a>

@@ -21,6 +21,10 @@ defmodule PjeskiWeb.DeerRecordView do
 
   def render_prepared_fields(prepared_fields), do: render(PjeskiWeb.DeerRecordView, "_editable_prepared_fields.html", prepared_fields: prepared_fields)
 
+  def mimetype_is_previewable?("image/png"), do: true
+  def mimetype_is_previewable?("image/jpeg"), do: true
+  def mimetype_is_previewable?(_), do: false
+
   def prepare_fields_for_form(deer_columns, changeset) do
     deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
 
