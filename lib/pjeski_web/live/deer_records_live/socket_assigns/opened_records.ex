@@ -5,7 +5,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   alias Pjeski.SharedRecords
   alias Pjeski.SharedFiles
 
-  import Phoenix.LiveView, only: [assign: 2, push_redirect: 2]
+  import Phoenix.LiveView, only: [assign: 2, assign: 3, push_redirect: 2]
 
   import PjeskiWeb.DeerRecordView, only: [mimetype_is_previewable?: 1]
 
@@ -83,7 +83,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     end)
 
     case next_deer_file do
-      %DeerFile{} -> assign(socket, preview_deer_file: next_deer_file)
+      %DeerFile{} -> assign(socket, :preview_deer_file, next_deer_file)
       _ -> socket
     end
   end
@@ -97,10 +97,29 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     end
 
     case previous_deer_file do
-      %DeerFile{} -> assign(socket, preview_deer_file: previous_deer_file)
+      %DeerFile{} -> assign(socket, :preview_deer_file, previous_deer_file)
       _ -> socket
     end
   end
+
+  def maybe_close_preview_window_after_record_update(%{assigns: %{preview_for_record_id: record_id, preview_deer_file: %{id: preview_deer_file_id}}} = socket, %{id: record_id} = new_record) do
+    case Enum.find(new_record.deer_files, fn df -> df.id == preview_deer_file_id end) do
+      nil -> assign(socket, preview_deer_file: nil, preview_for_record_id: nil)
+      _ -> socket
+    end
+  end
+  def maybe_close_preview_window_after_record_update(socket, _record), do: socket
+
+  def maybe_close_preview_window_after_record_delete(%{assigns: %{preview_for_record_id: id}} = socket, id) when is_number(id) do
+    assign(socket, preview_deer_file: nil, preview_for_record_id: nil)
+  end
+  def maybe_close_preview_window_after_record_delete(%{assigns: %{preview_for_record_id: id}} = socket, ids) when is_list(ids) do
+    case Enum.member?(ids, id) do
+      true -> assign(socket, preview_deer_file: nil, preview_for_record_id: nil)
+      false -> socket
+    end
+  end
+  def maybe_close_preview_window_after_record_delete(socket, _id_or_ids), do: socket
 
   def assign_invalidated_shared_records_for_record(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))

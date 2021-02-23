@@ -118,6 +118,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_opened_records_after_record_update(record)
     |> assign_editing_record_after_update(record)
     |> assign_uploading_file_for_record_after_update(record)
+    |> maybe_close_preview_window_after_record_update(record)
 
     {:noreply, socket}
   end
@@ -141,6 +142,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_editing_record_after_delete(id_or_ids)
     |> assign_uploading_file_for_record_after_delete(id_or_ids)
     |> maybe_close_new_connected_record_modal(id_or_ids)
+    |> maybe_close_preview_window_after_record_delete(id_or_ids)
   end
 
   defp assign_initial_data(socket, user, current_subscription_id) do
