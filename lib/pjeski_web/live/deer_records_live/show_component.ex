@@ -10,7 +10,8 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
     deer_table_from_subscription: 2,
     deer_field_content_from_column_id: 2,
     display_filesize_from_kilobytes: 1,
-    mimetype_is_previewable?: 1
+    mimetype_is_previewable?: 1,
+    maybe_shrink_filename: 1
   ]
 
   def render(%{record: record, subscription: subscription, table_id: table_id, current_user: current_user} = assigns) do
@@ -81,8 +82,8 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
           <li>
             <div class="field is-grouped">
               <p class="control is-expanded">
-                <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
-                (<%= mimetype %>, <%= display_filesize_from_kilobytes(kilobytes) %>)
+                <%= link maybe_shrink_filename(name), to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
+                (<%= display_filesize_from_kilobytes(kilobytes) %>)
               </p>
               <p class="control">
                 <%= if mimetype_is_previewable?(mimetype) do %>
@@ -175,5 +176,5 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
       </ul>
     </div>
     """
-     end
+  end
 end

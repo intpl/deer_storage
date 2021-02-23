@@ -13,6 +13,13 @@ defmodule PjeskiWeb.DeerRecordView do
   def maybe_join_query(""), do: ""
   def maybe_join_query(list) when is_list(list), do: Enum.join(list, " ")
 
+  def maybe_shrink_filename(text, limit \\ 15)
+  def maybe_shrink_filename(text, limit) when byte_size(text) > limit do
+    half_limit = trunc(limit / 2)
+    String.slice(text, 0..(half_limit)) <> "..." <> String.slice(text, -(half_limit)..-1)
+  end
+  def maybe_shrink_filename(text, _), do: text
+
   def compare_downcased_strings(nil, _), do: false
   def compare_downcased_strings(_, nil), do: false
   def compare_downcased_strings("", _), do: false
