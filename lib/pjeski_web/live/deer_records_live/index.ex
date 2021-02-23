@@ -66,6 +66,11 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("invalidate-shared-links", %{"record_id" => record_id}, socket), do: {:noreply, assign_invalidated_shared_records_for_record(socket, record_id)}
   def handle_event("share_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, assign_created_shared_file_uuid(socket, record_id, file_id)}
 
+  def handle_event("preview_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, assign_preview_modal(socket, record_id, file_id)}
+
+  def handle_event("next_file_gesture", _, socket), do: {:noreply, preview_next_file(socket)}
+  def handle_event("previous_file_gesture", _, socket), do: {:noreply, preview_previous_file(socket)}
+
   def handle_event("connecting_record_filter", %{"query" => query, "table_id" => new_table_id}, socket) when byte_size(query) <= 50, do: {:noreply, assign_filtered_connected_records(socket, prepare_search_query(query), new_table_id)}
   def handle_event("connect_records", %{"record_id" => record_id}, socket), do: {:noreply, handle_connecting_records(socket, String.to_integer(record_id))}
   def handle_event("disconnect_records", %{"opened_record_id" => opened_record_id, "connected_record_id" => connected_record_id}, socket) do
@@ -102,6 +107,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_info({:assign_connected_records_to_opened_record, record, ids}, socket), do: {:noreply, assign_connected_records_to_opened_record(socket, record, ids)}
   def handle_info({:remove_orphans_after_receiveing_connected_records, record, records}, socket), do: {:noreply, remove_orphans_after_receiveing_connected_records(socket, record, records)}
 
+  def handle_info(:close_preview_modal, socket), do: {:noreply, close_preview_modal(socket)}
+  def handle_info(:preview_previous_file, socket), do: {:noreply, preview_previous_file(socket)}
+  def handle_info(:preview_next_file, socket), do: {:noreply, preview_next_file(socket)}
+
   def handle_info({:batch_record_delete, deleted_records_ids}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_records_ids)}
   def handle_info({:record_delete, deleted_record_id}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_record_id)}
 
@@ -112,6 +121,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_opened_records_after_record_update(record)
     |> assign_editing_record_after_update(record)
     |> assign_uploading_file_for_record_after_update(record)
+    |> maybe_close_preview_window_after_record_update(record)
 
     {:noreply, socket}
   end
@@ -135,6 +145,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
     |> assign_editing_record_after_delete(id_or_ids)
     |> assign_uploading_file_for_record_after_delete(id_or_ids)
     |> maybe_close_new_connected_record_modal(id_or_ids)
+    |> maybe_close_preview_window_after_record_delete(id_or_ids)
   end
 
   defp assign_initial_data(socket, user, current_subscription_id) do
@@ -161,6 +172,8 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
       connecting_query: nil,
       connecting_records: [],
       connecting_selected_table_id: nil,
+      preview_for_record_id: nil,
+      preview_for_deer_file: nil,
       storage_limit_kilobytes: 0,
       uploading_file_for_record: nil,
       upload_results: [],

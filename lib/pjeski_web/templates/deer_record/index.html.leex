@@ -15,6 +15,14 @@
 <% end %>
 
 <%= cond do
+  @preview_for_record_id && @preview_deer_file ->
+    live_component(
+      @socket,
+      PjeskiWeb.DeerRecordsLive.Modal.PreviewFileComponent,
+      id: "preview_file_component",
+      image_url: Routes.deer_files_path(@socket, :download_record, @preview_for_record_id, @preview_deer_file.id),
+      original_filename: @preview_deer_file.original_filename
+    )
   @uploading_file_for_record ->
     live_component(
       @socket,
@@ -190,8 +198,8 @@ end %>
                 <div class="column">
                   <%= for %{original_filename: filename} <- record.deer_files do %>
                     <%= case Enum.any?(@query, fn word -> compare_downcased_strings(filename, word) end) do %>
-                      <% true -> %> <b><%= filename %></b>
-                      <% false -> %> <%= filename %>
+                      <% true -> %> <b><%= maybe_shrink_filename(filename, 100) %></b>
+                      <% false -> %> <%= maybe_shrink_filename(filename, 30) %>
                     <% end %>
                     <br>
                   <% end %>

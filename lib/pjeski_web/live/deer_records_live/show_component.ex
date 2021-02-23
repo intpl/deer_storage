@@ -9,7 +9,9 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
     deer_columns_from_subscription: 2,
     deer_table_from_subscription: 2,
     deer_field_content_from_column_id: 2,
-    display_filesize_from_kilobytes: 1
+    display_filesize_from_kilobytes: 1,
+    mimetype_is_previewable?: 1,
+    maybe_shrink_filename: 1
   ]
 
   def render(%{record: record, subscription: subscription, table_id: table_id, current_user: current_user} = assigns) do
@@ -20,7 +22,6 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
       <div class="field is-grouped">
         <a class="is-small button" href="#" phx-click="close_show" phx-value-id="<%= record.id %>">
           <span class="delete"></span>&nbsp;
-          <span><%= gettext("Close") %></span>
         </a>
 
         <a class="is-small button" href="#" phx-click="edit" phx-value-record_id="<%= record.id %>">
@@ -76,22 +77,30 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
       <br>
 
       <ul>
-        <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes} -> %>
+        <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes, mimetype: mimetype} -> %>
           <li>
-            <div class="field is-grouped">
-              <p class="control is-expanded">
-                <%= link name, to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
-                (<%= display_filesize_from_kilobytes(kilobytes) %>)
-              </p>
-              <p class="control">
-                <a class="is-small button" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
-                  <span><%= gettext("Share") %></span>
-                </a>
-                <a class="is-small button" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
-                  <span class="delete"></span>&nbsp;
-                  <span><%= gettext("Delete") %></span>
-                </a>
-              </p>
+            <%= if mimetype_is_previewable?(mimetype) do %>
+                <a href="#" phx-click="preview_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>"> <%= maybe_shrink_filename(name) %> </a>
+              <% else %>
+                <%= link maybe_shrink_filename(name), to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
+              <% end %>
+              (<%= display_filesize_from_kilobytes(kilobytes) %>)
+
+            <div class="dropdown is-hoverable is-right">
+              <div class="dropdown-trigger">
+                <span class="button is-small">↴</span>
+              </div>
+              <div class="dropdown-menu">
+                <div class="dropdown-content">
+                    <a class="dropdown-item" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
+                      <span><%= gettext("Share") %></span>
+                    </a>
+                    <a class="dropdown-item" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
+                      <span class="delete"></span>&nbsp;
+                      <span><%= gettext("Delete") %></span>
+                    </a>
+                </div>
+              </div>
             </div>
           </li>
         <% end) %>
@@ -169,5 +178,5 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
       </ul>
     </div>
     """
-     end
+  end
 end

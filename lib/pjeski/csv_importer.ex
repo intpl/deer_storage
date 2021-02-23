@@ -125,7 +125,7 @@ defmodule Pjeski.CsvImporter do
   end
 
   defp ensure_subscription_table_limit_is_not_exceeded({:error, _} = result), do: result
-  defp ensure_subscription_table_limit_is_not_exceeded({:ok, %{subscription: %{deer_tables: deer_tables, deer_tables_limit: limit} = subscription}} = result) when length(deer_tables) > limit, do: {:error, gettext("Exceeded table limit")}
+  defp ensure_subscription_table_limit_is_not_exceeded({:ok, %{subscription: %{deer_tables: deer_tables, deer_tables_limit: limit}}}) when length(deer_tables) > limit, do: {:error, gettext("Exceeded table limit")}
   defp ensure_subscription_table_limit_is_not_exceeded({:ok, _assigns} = result), do: result
 
   defp prepare_record_map(fields_list, columns_ids, table_id, subscription_id, user_id, timestamp) do

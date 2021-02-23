@@ -1,5 +1,5 @@
 defmodule Pjeski.Services.UploadDeerFile do
-  defstruct [:caller_pid, :tmp_path, :record, :original_filename, :subscription, :subscription_id, :uploaded_by_user_id, :id, :kilobytes]
+  defstruct [:caller_pid, :tmp_path, :record, :original_filename, :subscription, :subscription_id, :uploaded_by_user_id, :id, :kilobytes, :mimetype]
 
   import Ecto.Query, warn: false
   alias Pjeski.Repo
@@ -21,6 +21,7 @@ defmodule Pjeski.Services.UploadDeerFile do
       |> validate_maximum_filename_length
       |> ensure_limits_for_subscription
       |> copy_file!
+      |> detect_and_assign_mime_type
       |> notify_subscription_storage_cache # this may be wrong if update_record raises error
       |> update_record
     end)
@@ -69,6 +70,14 @@ defmodule Pjeski.Services.UploadDeerFile do
 
     assigns
   end
+
+  defp detect_and_assign_mime_type({:error, _} = result), do: result
+  defp detect_and_assign_mime_type(%{tmp_path: tmp_path} = assigns) do
+    {mimetype_with_newline, 0 = _exit_status} = System.cmd("file", ["--mime-type", "-b", tmp_path])
+
+    Map.put(assigns, :mimetype, String.trim(mimetype_with_newline))
+  end
+
 
   defp notify_subscription_storage_cache({:error, _} = result), do: result
   defp notify_subscription_storage_cache(%{subscription: %{id: subscription_id}, kilobytes: kilobytes} = assigns) do

@@ -11,3 +11,8 @@ img {max-width:100%; height:auto}
     height: 75vh;
 }
 .z-index-39 { z-index: 39; }
+img.image-inside-modal-overwrite {
+    max-height: 90vh;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
