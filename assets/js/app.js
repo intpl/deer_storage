@@ -7,7 +7,7 @@ import NProgress from "nprogress"
 import jquery from 'jquery';
 window.$ = window.jQuery = jquery
 
-import Xwiper from 'xwiper';
+import Xwiper from './xwiper';
 window.Xwiper = Xwiper;
 
 // webpack automatically bundles all modules in your
