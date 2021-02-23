@@ -5,7 +5,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.PreviewFileComponent do
 
   def render(assigns) do
     ~L"""
-      <div class="modal is-active" phx-window-keydown="key" phx-target="<%= @myself %>">
+      <div class="modal is-active" phx-window-keydown="key" phx-target="<%= @myself %>" phx-hook="hookPreviewGestures">
         <a class="modal-background" phx-click="close_preview_modal" phx-target="<%= @myself %>" style="cursor: default;"></a>
         <div class="modal-content">
           <p class="image">

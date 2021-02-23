@@ -68,6 +68,9 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
 
   def handle_event("preview_record_file", %{"file-id" => file_id, "record-id" => record_id}, socket), do: {:noreply, assign_preview_modal(socket, record_id, file_id)}
 
+  def handle_event("next_file_gesture", _, socket), do: {:noreply, preview_next_file(socket)}
+  def handle_event("previous_file_gesture", _, socket), do: {:noreply, preview_previous_file(socket)}
+
   def handle_event("connecting_record_filter", %{"query" => query, "table_id" => new_table_id}, socket) when byte_size(query) <= 50, do: {:noreply, assign_filtered_connected_records(socket, prepare_search_query(query), new_table_id)}
   def handle_event("connect_records", %{"record_id" => record_id}, socket), do: {:noreply, handle_connecting_records(socket, String.to_integer(record_id))}
   def handle_event("disconnect_records", %{"opened_record_id" => opened_record_id, "connected_record_id" => connected_record_id}, socket) do
