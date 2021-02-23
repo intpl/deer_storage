@@ -80,25 +80,25 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes, mimetype: mimetype} -> %>
           <li>
             <%= if mimetype_is_previewable?(mimetype) do %>
-                <a href="#" phx-click="preview_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>"> <%= maybe_shrink_filename(name) %> </a>
-              <% else %>
-                <%= link maybe_shrink_filename(name), to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
-              <% end %>
-              (<%= display_filesize_from_kilobytes(kilobytes) %>)
+              <a href="#" phx-click="preview_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>"> <%= maybe_shrink_filename(name) %> </a>
+            <% else %>
+              <%= link maybe_shrink_filename(name), to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
+            <% end %>
+            (<%= display_filesize_from_kilobytes(kilobytes) %>)
 
-            <div class="dropdown is-hoverable is-right">
-              <div class="dropdown-trigger">
-                <span class="button is-small">↴</span>
-              </div>
-              <div class="dropdown-menu">
-                <div class="dropdown-content">
-                    <a class="dropdown-item" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
-                      <span><%= gettext("Share") %></span>
-                    </a>
-                    <a class="dropdown-item" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
-                      <span class="delete"></span>&nbsp;
-                      <span><%= gettext("Delete") %></span>
-                    </a>
+          <div class="dropdown is-hoverable is-right">
+            <div class="dropdown-trigger">
+              <span class="button is-small">↴</span>
+            </div>
+            <div class="dropdown-menu">
+              <div class="dropdown-content">
+                  <a class="dropdown-item" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
+                    <span><%= gettext("Share") %></span>
+                  </a>
+                  <a class="dropdown-item" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
+                    <span class="delete"></span>&nbsp;
+                    <span><%= gettext("Delete") %></span>
+                  </a>
                 </div>
               </div>
             </div>
