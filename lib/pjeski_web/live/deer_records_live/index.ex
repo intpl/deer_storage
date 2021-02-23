@@ -44,7 +44,6 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_event("close_connecting_record", _, socket), do: {:noreply, assign_closed_connecting_records(socket)}
   def handle_event("close_edit", _, socket), do: {:noreply, assign_closed_editing_record(socket)}
   def handle_event("close_upload_file_modal", _, socket), do: {:noreply, assign_closed_file_upload_modal(socket)}
-  def handle_event("close_preview_modal", _, socket), do: {:noreply, close_preview_modal(socket)}
   def handle_event("clear_selected", _, socket), do: {:noreply, assign(socket, :opened_records, [])}
 
   def handle_event("validate_edit", %{"deer_record" => attrs}, socket), do: {:noreply, assign_editing_record(socket, attrs)}
@@ -104,6 +103,10 @@ defmodule PjeskiWeb.DeerRecordsLive.Index do
   def handle_info({:cached_records_count_changed, _table_id, new_count}, %{assigns: %{cached_count: _}} = socket), do: {:noreply, socket |> assign(cached_count: new_count) |> assign_search_debounce}
   def handle_info({:assign_connected_records_to_opened_record, record, ids}, socket), do: {:noreply, assign_connected_records_to_opened_record(socket, record, ids)}
   def handle_info({:remove_orphans_after_receiveing_connected_records, record, records}, socket), do: {:noreply, remove_orphans_after_receiveing_connected_records(socket, record, records)}
+
+  def handle_info(:close_preview_modal, socket), do: {:noreply, close_preview_modal(socket)}
+  def handle_info(:preview_previous_file, socket), do: {:noreply, preview_previous_file(socket)}
+  def handle_info(:preview_next_file, socket), do: {:noreply, preview_next_file(socket)}
 
   def handle_info({:batch_record_delete, deleted_records_ids}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_records_ids)}
   def handle_info({:record_delete, deleted_record_id}, socket), do: {:noreply, remove_record_from_assigns(socket, deleted_record_id)}

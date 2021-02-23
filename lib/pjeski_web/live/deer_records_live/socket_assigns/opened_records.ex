@@ -1,6 +1,7 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   alias PjeskiWeb.Router.Helpers, as: Routes
   alias Pjeski.DeerRecords.DeerRecord
+  alias Pjeski.DeerRecords.DeerFile
   alias Pjeski.SharedRecords
   alias Pjeski.SharedFiles
 
@@ -63,7 +64,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     assign(socket, current_shared_link: shared_link_for_file(subscription.id, uuid, file_id))
   end
 
-  def assign_preview_modal(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id, file_id) do
+  def assign_preview_modal(%{assigns: %{opened_records: opened_records}} = socket, record_id, file_id) do
     record_id = String.to_integer(record_id)
     [record, _connected_records] = find_record_in_opened_records(opened_records, record_id)
     deer_file = ensure_deer_file_exists_in_record!(record, file_id)
@@ -73,6 +74,33 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   end
 
   def close_preview_modal(socket), do: assign(socket, preview_for_record_id: nil, preview_deer_file: nil)
+
+  def preview_next_file(%{assigns: %{opened_records: opened_records, preview_for_record_id: record_id, preview_deer_file: %{id: current_deer_file_id}}} = socket) do
+    [%{deer_files: all_deer_files}, _connected_records] = find_record_in_opened_records(opened_records, record_id)
+    next_deer_file = Enum.reduce_while(all_deer_files, :finding_current, fn
+      df, :finding_current -> if df.id == current_deer_file_id, do: {:cont, :found_current}, else: {:cont, :finding_current}
+      df, :found_current -> if mimetype_is_previewable?(df.mimetype), do: {:halt, df}, else: {:cont, :found_current}
+    end)
+
+    case next_deer_file do
+      %DeerFile{} -> assign(socket, preview_deer_file: next_deer_file)
+      _ -> socket
+    end
+  end
+
+  def preview_previous_file(%{assigns: %{opened_records: opened_records, preview_for_record_id: record_id, preview_deer_file: %{id: current_deer_file_id}}} = socket) do
+    [%{deer_files: all_deer_files}, _connected_records] = find_record_in_opened_records(opened_records, record_id)
+
+    previous_deer_file = case Enum.find_index(all_deer_files, fn df -> df.id == current_deer_file_id end) do
+      0 -> socket
+      n -> Enum.slice(all_deer_files, 0, n) |> Enum.reverse |> Enum.find(fn %{mimetype: mimetype} -> mimetype_is_previewable?(mimetype) end)
+    end
+
+    case previous_deer_file do
+      %DeerFile{} -> assign(socket, preview_deer_file: previous_deer_file)
+      _ -> socket
+    end
+  end
 
   def assign_invalidated_shared_records_for_record(%{assigns: %{opened_records: opened_records, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
