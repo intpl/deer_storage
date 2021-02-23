@@ -10,7 +10,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.PreviewFileComponent do
         <div class="modal-content">
           <p class="image">
             <img src="<%= @image_url %>" class="image-inside-modal-overwrite">
-            <span class="has-text-white"><%= maybe_shrink_filename(@original_filename, 100) %></span>
+            <span class="has-text-white"><%= maybe_shrink_filename(@original_filename, 30) %></span>
           </p>
         </div>
         <a class="modal-close is-large" data-bulma-modal="close" href="#" phx-target="<%= @myself %>" phx-click="close_preview_modal"><%= gettext("Close") %></a>

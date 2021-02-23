@@ -199,7 +199,7 @@ end %>
                   <%= for %{original_filename: filename} <- record.deer_files do %>
                     <%= case Enum.any?(@query, fn word -> compare_downcased_strings(filename, word) end) do %>
                       <% true -> %> <b><%= maybe_shrink_filename(filename, 100) %></b>
-                      <% false -> %> <%= maybe_shrink_filename(filename, 40) %>
+                      <% false -> %> <%= maybe_shrink_filename(filename, 30) %>
                     <% end %>
                     <br>
                   <% end %>
