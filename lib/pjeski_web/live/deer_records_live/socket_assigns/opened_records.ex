@@ -48,13 +48,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   def assign_created_shared_record_for_editing_uuid(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
     %{id: uuid} = SharedRecords.create_record_for_editing!(subscription.id, user.id, record.id)
-    assign(socket, current_shared_link: shared_link_for_record(subscription.id, uuid))
+    assign(socket, :current_shared_link, shared_link_for_record(subscription.id, uuid))
   end
 
   def assign_created_shared_record_uuid(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id) do
     [record, _connected_records] = find_record_in_opened_records(opened_records, String.to_integer(record_id))
     %{id: uuid} = SharedRecords.create_record!(subscription.id, user.id, record.id)
-    assign(socket, current_shared_link: shared_link_for_record(subscription.id, uuid))
+    assign(socket, :current_shared_link, shared_link_for_record(subscription.id, uuid))
   end
 
   def assign_created_shared_file_uuid(%{assigns: %{opened_records: opened_records, current_user: user, current_subscription: subscription}} = socket, record_id, file_id) do
@@ -62,7 +62,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     ensure_deer_file_exists_in_record!(record, file_id)
 
     %{id: uuid} = SharedFiles.create_file!(subscription.id, user.id, record.id, file_id)
-    assign(socket, current_shared_link: shared_link_for_file(subscription.id, uuid, file_id))
+    assign(socket, :current_shared_link, shared_link_for_file(subscription.id, uuid, file_id))
   end
 
   def assign_preview_modal(%{assigns: %{opened_records: opened_records}} = socket, record_id, file_id) do
@@ -128,16 +128,16 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
       end
     end)
 
-    assign(socket, opened_records: new_opened_records)
+    assign(socket, :opened_records, new_opened_records)
   end
 
   def assign_opened_records_after_delete(%{assigns: %{opened_records: []}} = socket, _), do: socket
   def assign_opened_records_after_delete(%{assigns: %{opened_records: opened_records}} = socket, id) when is_number(id) do
-    assign(socket, opened_records: reduce_opened_records_with_function(opened_records, fn record -> unless(id == record.id, do: record) end))
+    assign(socket, :opened_records, reduce_opened_records_with_function(opened_records, fn record -> unless(id == record.id, do: record) end))
   end
 
   def assign_opened_records_after_delete(%{assigns: %{opened_records: opened_records}} = socket, ids) when is_list(ids) do
-    assign(socket, opened_records: reduce_opened_records_with_function(opened_records, fn record -> unless(Enum.member?(ids, record.id), do: record) end))
+    assign(socket, :opened_records, reduce_opened_records_with_function(opened_records, fn record -> unless(Enum.member?(ids, record.id), do: record) end))
   end
 
   def toggle_opened_record_in_list([], opened_record), do: [opened_record]
@@ -172,7 +172,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
 
     send(self(), {:assign_connected_records_to_opened_record, record, record.connected_deer_records_ids})
 
-    assign(socket, opened_records: opened_records)
+    assign(socket, :opened_records, opened_records)
   end
 
   def assign_opened_record_and_fetch_connected_records(socket, _), do: socket
@@ -192,7 +192,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
 
     send(self(), {:remove_orphans_after_receiveing_connected_records, record, connected_records_from_database})
 
-    assign(socket, opened_records: new_opened_records)
+    assign(socket, :opened_records, new_opened_records)
   end
 
   defp maybe_send_assign_connected_records(%DeerRecord{connected_deer_records_ids: list}, %DeerRecord{connected_deer_records_ids: list}), do: nil
