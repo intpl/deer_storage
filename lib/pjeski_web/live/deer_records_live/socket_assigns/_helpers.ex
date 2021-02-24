@@ -1,9 +1,13 @@
 defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
   import Ecto.Changeset, only: [change: 1, put_embed: 3, apply_changes: 1, fetch_field!: 2]
 
+  import Phoenix.LiveView, only: [assign: 3]
   import PjeskiWeb.LiveHelpers, only: [keys_to_atoms: 1]
   import Pjeski.DeerRecords, only: [get_record!: 3]
+  import PjeskiWeb.DeerRecordView, only: [mimetype_is_previewable?: 1]
+
   alias Pjeski.DeerRecords.DeerField
+  alias Pjeski.DeerRecords.DeerFile
 
   def any_entry_started_upload?([]), do: false
   def any_entry_started_upload?(entries), do: Enum.any?(entries, fn entry -> entry.progress > 0 end)
@@ -13,6 +17,27 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
   end
 
   def atomize_and_merge_table_id_to_attrs(attrs, table_id), do: Map.merge(attrs, %{"deer_table_id" => table_id}) |> keys_to_atoms
+
+  def assign_next_previewable(socket, deer_files, current_deer_file_id) do
+    next_deer_file = Enum.reduce_while(deer_files, :finding_current, fn
+      df, :finding_current -> if df.id == current_deer_file_id, do: {:cont, :found_current}, else: {:cont, :finding_current}
+      df, :found_current -> if mimetype_is_previewable?(df.mimetype), do: {:halt, df}, else: {:cont, :found_current}
+    end)
+
+    assign_preview_deer_file_or_untouched_socket(socket, next_deer_file)
+  end
+
+  def assign_previous_previewable(socket, deer_files, current_deer_file_id) do
+    previous_deer_file = case Enum.find_index(deer_files, fn df -> df.id == current_deer_file_id end) do
+                           0 -> nil
+                           n -> deer_files
+                           |> Enum.slice(0, n)
+                           |> Enum.reverse
+                           |> Enum.find(fn %{mimetype: mimetype} -> mimetype_is_previewable?(mimetype) end)
+                         end
+
+    assign_preview_deer_file_or_untouched_socket(socket, previous_deer_file)
+  end
 
   def overwrite_deer_fields(record, deer_fields) do
     change(record)
@@ -57,4 +82,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
       idx -> [updated_record | List.delete_at(records, idx)]
     end
   end
+
+  defp assign_preview_deer_file_or_untouched_socket(socket, %DeerFile{} = df), do: assign(socket, :preview_deer_file, df)
+  defp assign_preview_deer_file_or_untouched_socket(socket, _), do: socket
 end

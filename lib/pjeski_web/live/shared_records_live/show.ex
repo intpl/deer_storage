@@ -8,6 +8,8 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
   import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [
     atomize_and_merge_table_id_to_attrs: 2,
     append_missing_fields_to_record: 3,
+    assign_previous_previewable: 3,
+    assign_next_previewable: 3,
     overwrite_deer_fields: 2,
     connected_records_or_deer_files_changed?: 2
   ]
@@ -18,7 +20,8 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
     maybe_reload_and_overwrite_deer_file_upload: 1,
     reload_subscription_storage_and_allow_upload: 1
   ]
-  import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3, delete_file_from_record!: 3]
+
+  import Pjeski.DeerRecords, only: [change_record: 3, update_record: 3, delete_file_from_record!: 3, ensure_deer_file_exists_in_record!: 2]
 
   alias Phoenix.PubSub
   alias Pjeski.Subscriptions
@@ -49,6 +52,7 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
 
           {:noreply, assign(socket,
               deer_record: deer_record,
+              preview_deer_file: nil,
               old_editing_record: nil,
               current_subscription: subscription,
               shared_record: shared_record,
@@ -111,6 +115,35 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
     end
   end
 
+  def handle_event("preview_file", %{"file-id" => file_id}, %{assigns: %{deer_record: record}} = socket) do
+    deer_file = ensure_deer_file_exists_in_record!(record, file_id)
+    DeerRecordView.mimetype_is_previewable?(deer_file.mimetype) || raise "invalid preview requested"
+
+    {:noreply, assign(socket, :preview_deer_file, deer_file)}
+  end
+
+  def handle_event("next_file_gesture", _, socket) do
+    send(self(), :preview_next_file)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("previous_file_gesture", _, socket) do
+    send(self(), :preview_previous_file)
+
+    {:noreply, socket}
+  end
+
+  def handle_info(:close_preview_modal, socket), do: {:noreply, assign(socket, :preview_deer_file, nil)}
+
+  def handle_info(:preview_previous_file, %{assigns: %{deer_record: %{deer_files: deer_files}, preview_deer_file: %{id: current_deer_file_id}}} = socket) do
+    {:noreply, assign_previous_previewable(socket, deer_files, current_deer_file_id)}
+  end
+
+  def handle_info(:preview_next_file, %{assigns: %{deer_record: %{deer_files: deer_files}, preview_deer_file: %{id: current_deer_file_id}}} = socket) do
+    {:noreply, assign_next_previewable(socket, deer_files, current_deer_file_id)}
+  end
+
   def handle_info({:batch_record_delete, deleted_record_ids}, %{assigns: %{deer_record: %{id: deer_record_id}}} = socket) do
     case Enum.member?(deleted_record_ids, deer_record_id) do
       true -> {:noreply, push_redirect(socket, to: "/")}
@@ -129,6 +162,7 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
      |> assign(deer_record: updated_deer_record)
      |> assign_editing_deer_record_as_old_record(updated_deer_record)
      |> maybe_reload_and_overwrite_deer_file_upload
+     |> maybe_close_preview_modal(updated_deer_record)
     }
   end
   def handle_info({:record_update, _}, socket), do: {:noreply, maybe_reload_and_overwrite_deer_file_upload(socket)}
@@ -165,6 +199,14 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
     case is_expired?(subscription) do
       true -> {:noreply, push_redirect(socket, to: "/")}
       false -> function_to_run.()
+    end
+  end
+
+  defp maybe_close_preview_modal(%{assigns: %{preview_deer_file: nil}} = socket, _updated_record), do: socket
+  defp maybe_close_preview_modal(%{assigns: %{preview_deer_file: %{id: preview_deer_file_id}}} = socket, updated_record) do
+    case Enum.find(updated_record.deer_files, fn df -> df.id == preview_deer_file_id end) do
+      nil -> assign(socket, preview_deer_file: nil, preview_for_record_id: nil)
+      _ -> socket
     end
   end
 end
