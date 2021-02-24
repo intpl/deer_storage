@@ -8,7 +8,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.PreviewFileComponent do
       <div class="modal is-active" phx-window-keydown="key" phx-target="<%= @myself %>" phx-hook="hookPreviewGestures">
         <a class="modal-background" phx-click="close_preview_modal" phx-target="<%= @myself %>" style="cursor: default;"></a>
 
-        <div class="buttons has-addons is-centered">
+        <div class="buttons has-addons is-centered is-hidden-mobile">
           <a class="button is-dark" phx-click="previous" phx-target="<%= @myself %>" href="#">
             <%= gettext("Previous") %>
           </a>
