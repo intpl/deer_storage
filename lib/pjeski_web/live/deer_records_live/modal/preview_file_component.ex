@@ -16,14 +16,15 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.PreviewFileComponent do
             <%= gettext("Next") %>
           </a>
         </div>
+        <div class="has-text-white modal-content has-text-centered" id="divLoading">
+          <br> <%= gettext("Loading") %>...
+        </div>
 
         <p class="image">
           <img id="imagePreview" src="<%= @image_url %>" class="image-inside-modal-overwrite">
         </p>
 
         <div class="modal-content has-text-centered">
-          <div class="has-text-white" id="divLoading"><%= gettext("Loading") %>...</div>
-
           <span class="has-text-white"><%= maybe_shrink_filename(@original_filename, 30) %></span>
         </div>
         <a class="modal-close is-large" data-bulma-modal="close" href="#" phx-target="<%= @myself %>" phx-click="close_preview_modal"><%= gettext("Close") %></a>
