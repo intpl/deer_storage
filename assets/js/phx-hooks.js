@@ -42,6 +42,10 @@ export default {
 
       xwiper.onSwipeRight(() => {this.pushEvent("previous_file_gesture", {})});
       xwiper.onSwipeLeft(() => {this.pushEvent("next_file_gesture", {})});
+
+      $("#imagePreview").on("load", function() {
+        $("#divLoading").remove();
+      });
     }
   }
 }
