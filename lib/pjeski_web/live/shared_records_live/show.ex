@@ -122,17 +122,8 @@ defmodule PjeskiWeb.SharedRecordsLive.Show do
     {:noreply, assign(socket, :preview_deer_file, deer_file)}
   end
 
-  def handle_event("next_file_gesture", _, socket) do
-    send(self(), :preview_next_file)
-
-    {:noreply, socket}
-  end
-
-  def handle_event("previous_file_gesture", _, socket) do
-    send(self(), :preview_previous_file)
-
-    {:noreply, socket}
-  end
+  def handle_event("next_file_gesture", _, socket), do: send(self(), :preview_next_file) && {:noreply, socket}
+  def handle_event("previous_file_gesture", _, socket), do: send(self(), :preview_previous_file) && {:noreply, socket}
 
   def handle_info(:close_preview_modal, socket), do: {:noreply, assign(socket, :preview_deer_file, nil)}
 

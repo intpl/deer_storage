@@ -83,6 +83,12 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers do
     end
   end
 
+  def find_record_in_opened_or_connected_records([], _record_id), do: raise "no opened records found"
+  def find_record_in_opened_or_connected_records([[%{id: id} = record, _] | _], id), do: record
+  def find_record_in_opened_or_connected_records([[_, connected_records] | rest], record_id) do
+    Enum.find(connected_records, fn record -> record.id == record_id end) || find_record_in_opened_or_connected_records(rest, record_id)
+  end
+
   defp assign_preview_deer_file_or_untouched_socket(socket, %DeerFile{} = df), do: assign(socket, :preview_deer_file, df)
   defp assign_preview_deer_file_or_untouched_socket(socket, _), do: socket
 end

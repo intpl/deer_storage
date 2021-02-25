@@ -166,9 +166,14 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
               <%= if Enum.any?(connected_record.deer_files) do %>
                 <br />
 
-                <%= Enum.map(connected_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: _kilobytes} -> %>
+                <%= Enum.map(connected_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes, mimetype: mimetype} -> %>
                   <p>
-                    <%= link name, to: Routes.deer_files_path(@socket, :download_record, connected_record.id, file_id) %>
+                    <%= if mimetype_is_previewable?(mimetype) do %>
+                      <a href="#" phx-click="preview_record_file" phx-value-record-id="<%= connected_record.id %>" phx-value-file-id="<%= file_id %>" title="<%= name %>"> <%= maybe_shrink_filename(name) %> </a>
+                    <% else %>
+                      <%= link maybe_shrink_filename(name), to: Routes.deer_files_path(@socket, :download_record, connected_record.id, file_id), title: name %>
+                    <% end %>
+                    (<%= display_filesize_from_kilobytes(kilobytes) %>)
                   </p>
                 <% end) %>
               <% end %>

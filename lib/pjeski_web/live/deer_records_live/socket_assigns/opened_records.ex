@@ -13,6 +13,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     assign_next_previewable: 3,
     find_record_in_list_or_database: 4,
     find_record_in_opened_records: 2,
+    find_record_in_opened_or_connected_records: 2,
     reduce_list_with_function: 2
   ]
 
@@ -67,7 +68,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
 
   def assign_preview_modal(%{assigns: %{opened_records: opened_records}} = socket, record_id, file_id) do
     record_id = String.to_integer(record_id)
-    [record, _connected_records] = find_record_in_opened_records(opened_records, record_id)
+    record = find_record_in_opened_or_connected_records(opened_records, record_id)
     deer_file = ensure_deer_file_exists_in_record!(record, file_id)
     mimetype_is_previewable?(deer_file.mimetype) || raise "invalid preview requested"
 
@@ -77,13 +78,13 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   def close_preview_modal(socket), do: assign(socket, preview_for_record_id: nil, preview_deer_file: nil)
 
   def preview_next_file(%{assigns: %{opened_records: opened_records, preview_for_record_id: record_id, preview_deer_file: %{id: current_deer_file_id}}} = socket) do
-    [%{deer_files: all_deer_files}, _connected_records] = find_record_in_opened_records(opened_records, record_id)
+    %{deer_files: all_deer_files} = find_record_in_opened_or_connected_records(opened_records, record_id)
 
     assign_next_previewable(socket, all_deer_files, current_deer_file_id)
   end
 
   def preview_previous_file(%{assigns: %{opened_records: opened_records, preview_for_record_id: record_id, preview_deer_file: %{id: current_deer_file_id}}} = socket) do
-    [%{deer_files: all_deer_files}, _connected_records] = find_record_in_opened_records(opened_records, record_id)
+    %{deer_files: all_deer_files} = find_record_in_opened_or_connected_records(opened_records, record_id)
 
     assign_previous_previewable(socket, all_deer_files, current_deer_file_id)
   end

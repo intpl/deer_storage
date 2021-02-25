@@ -3,7 +3,7 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
 
   import Phoenix.LiveView, only: [assign: 3, allow_upload: 3, consume_uploaded_entry: 3, consume_uploaded_entries: 3, uploaded_entries: 2, cancel_upload: 3]
   import PjeskiWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
-  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [any_entry_started_upload?: 1]
+  import PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [any_entry_started_upload?: 1, find_record_in_opened_or_connected_records: 2]
 
   def assign_uploading_file_for_record_after_update(%{assigns: %{uploading_file_for_record: %{id: record_id}}} = socket, %{id: record_id} = updated_record) do
     socket |> assign(:uploading_file_for_record, updated_record) |> reload_subscription_storage_and_allow_upload
@@ -102,12 +102,4 @@ defmodule PjeskiWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   end
 
   defp allow_deer_file_upload_or_overwrite_existing(socket, files, size), do: allow_upload(socket, :deer_file, accept: :any, auto_upload: false, max_entries: files, max_file_size: size)
-
-  defp find_record_in_opened_or_connected_records([], _record_id), do: raise "no opened records found"
-  defp find_record_in_opened_or_connected_records([[%{id: id} = record, _] | _], id), do: record
-  defp find_record_in_opened_or_connected_records([[_, connected_records] | rest], record_id) do
-    find_record_in_list(connected_records, record_id) || find_record_in_opened_or_connected_records(rest, record_id)
-  end
-
-  defp find_record_in_list(records, id), do: Enum.find(records, fn record -> record.id == id end)
 end
