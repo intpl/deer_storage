@@ -23,6 +23,7 @@ if System.get_env("POW_MAILGUN_API_KEY") && System.get_env("POW_MAILGUN_DOMAIN")
   config :pjeski,
     PjeskiWeb.PowMailer,
     adapter: Bamboo.MailgunAdapter,
+    base_uri: "https://api.eu.mailgun.net/v3",
     api_key: {:system, "POW_MAILGUN_API_KEY"},
     domain: {:system, "POW_MAILGUN_DOMAIN"},
     hackney_opts: [recv_timeout: :timer.minutes(1)]
