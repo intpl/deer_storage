@@ -19,13 +19,13 @@ config :pjeski, PjeskiWeb.Endpoint,
   server: true,
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
-if System.get_env("POW_MAILGUN_API_KEY") && System.get_env("POW_MAILGUN_DOMAIN") do
+if System.get_env("POW_MAILGUN_API_KEY") && System.get_env("POW_MAILGUN_DOMAIN") && System.get_env("POW_MAILGUN_BASE_URI") do
   config :pjeski,
     PjeskiWeb.PowMailer,
     adapter: Bamboo.MailgunAdapter,
-    base_uri: "https://api.eu.mailgun.net/v3",
-    api_key: {:system, "POW_MAILGUN_API_KEY"},
+    base_uri: {:system, "POW_MAILGUN_BASE_URI"},
     domain: {:system, "POW_MAILGUN_DOMAIN"},
+    api_key: {:system, "POW_MAILGUN_API_KEY"},
     hackney_opts: [recv_timeout: :timer.minutes(1)]
 else
   # TODO: this does not work inside docker
