@@ -23,9 +23,9 @@ if System.get_env("POW_MAILGUN_API_KEY") && System.get_env("POW_MAILGUN_DOMAIN")
   config :pjeski,
     PjeskiWeb.PowMailer,
     adapter: Bamboo.MailgunAdapter,
-    base_uri: {:system, "POW_MAILGUN_BASE_URI"},
-    domain: {:system, "POW_MAILGUN_DOMAIN"},
-    api_key: {:system, "POW_MAILGUN_API_KEY"},
+    base_uri: System.fetch_env!("POW_MAILGUN_BASE_URI"),
+    domain: System.fetch_env!("POW_MAILGUN_DOMAIN"),
+    api_key: System.fetch_env!("POW_MAILGUN_API_KEY"),
     hackney_opts: [recv_timeout: :timer.minutes(1)]
 else
   # TODO: this does not work inside docker
