@@ -49,7 +49,3 @@ config :logger, :console, level: :info
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
 # moved to releases.exs // import_config "prod.secret.exs"
-
-
-# FIXME
-config :pjeski, PjeskiWeb.PowMailer, adapter: Bamboo.LocalAdapter

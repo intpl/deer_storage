@@ -18,3 +18,15 @@ config :pjeski, PjeskiWeb.Endpoint,
   http: [port: 80],
   server: true,
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
+
+if System.get_env("POW_MAILGUN_API_KEY") && System.get_env("POW_MAILGUN_DOMAIN") do
+  config :pjeski,
+    PjeskiWeb.PowMailer,
+    adapter: Bamboo.MailgunAdapter,
+    api_key: {:system, "POW_MAILGUN_API_KEY"},
+    domain: {:system, "POW_MAILGUN_DOMAIN"},
+    hackney_opts: [recv_timeout: :timer.minutes(1)]
+else
+  # TODO: this does not work inside docker
+  config :pjeski, PjeskiWeb.PowMailer, adapter: Bamboo.LocalAdapter
+end

@@ -7,7 +7,7 @@ defmodule PjeskiWeb.PowMailer do
   def cast(%{user: user, subject: subject, text: text, html: html}) do
     new_email(
       to: user.email,
-      from: "no-reply@storagedeer.com",
+      from: "no-reply@deerstorage.com",
       subject: subject,
       html_body: html,
       text_body: text
