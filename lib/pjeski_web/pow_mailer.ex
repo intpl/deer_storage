@@ -15,6 +15,6 @@ defmodule PjeskiWeb.PowMailer do
   end
 
   def process(email) do
-    deliver_now(email)
+    deliver_later(email)
   end
 end
