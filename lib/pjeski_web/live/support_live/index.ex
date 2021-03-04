@@ -2,7 +2,7 @@ defmodule PjeskiWeb.SupportLive.Index do
   use Phoenix.LiveView
   alias Phoenix.PubSub
   import Pjeski.Users.UserSessionUtils, only: [get_live_user: 2]
-  import PjeskiWeb.Gettext
+  # import PjeskiWeb.Gettext
 
   def mount(_params, %{"pjeski_auth" => token} = session, socket) do
     user = get_live_user(socket, session)
