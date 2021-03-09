@@ -61,12 +61,13 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
           </li>
         <% end) %>
         <br>
-          <%= case [dt(current_user, record.inserted_at), dt(current_user, record.updated_at)] do %>
-          <% [inserted_at, inserted_at] -> %> <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
+        <%= case [dt(current_user, record.inserted_at), dt(current_user, record.updated_at)] do %>
+          <% [inserted_at, inserted_at] -> %>
+              <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
           <% [inserted_at, updated_at] -> %>
             <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
             <li><%= gettext("Updated at") %>: <b><%= updated_at %></b></li>
-          <% end %>
+        <% end %>
       </ul>
 
       <div class="prewrapped">
