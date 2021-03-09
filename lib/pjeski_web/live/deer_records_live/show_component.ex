@@ -164,6 +164,10 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                 <li><%= gettext("Updated at") %>: <b><%= updated_at %></b></li>
               <% end %>
 
+              <div class="prewrapped">
+                <%= connected_record.notes %>
+              </div>
+
               <%= if Enum.any?(connected_record.deer_files) do %>
                 <br />
 
