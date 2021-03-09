@@ -140,11 +140,11 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                   <%= gettext("Open") %>
                 </a>
 
-                <a class="is-small button is-info" href="#" phx-click="show_upload_file_modal" phx-value-record_id="<%= connected_record.id %>" phx-value-table_id="<%= connected_record.deer_table_id %>">
+                <a href="#" class="is-small button is-info" phx-click="show_upload_file_modal" phx-value-record_id="<%= connected_record.id %>" phx-value-table_id="<%= connected_record.deer_table_id %>">
                   <span><%= gettext("Upload file(s)") %></span>
                 </a>
 
-                <a class="is-small button is-danger is-light" href="#" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
+                <a href="#" class="is-small button is-danger is-light" phx-click="disconnect_records" phx-value-opened_record_id="<%= record.id %>" phx-value-connected_record_id="<%= connected_record.id %>" data-confirm="<%= gettext("Are you sure you want to unlink these records from each other?") %>">
                   <%= gettext("Disconnect") %>
                 </a>
               </div>
