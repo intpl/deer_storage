@@ -1,0 +1,24 @@
+<div class="modal is-active" phx-window-keydown="key" phx-target="<%= assigns.myself %>" phx-hook="hookPreviewGestures">
+  <a class="modal-background" phx-click="close_preview_modal" phx-target="<%= assigns.myself %>" style="cursor: default;"></a>
+
+  <div class="buttons has-addons is-centered is-hidden-mobile mb-0" title="<%= gettext("You can use keyboard arrows instead of clicking these buttons") %>">
+    <a class="button is-small is-dark mb-0" phx-click="previous" phx-target="<%= assigns.myself %>" href="#">
+      <%= pgettext("image", "Previous") %>
+    </a>
+    <a class="button is-small is-dark mb-0" phx-click="next" phx-target="<%= assigns.myself %>" href="#">
+      <%= pgettext("image", "Next") %>
+    </a>
+  </div>
+  <div class="has-text-white modal-content has-text-centered hide-overflow" id="divLoading">
+    <br> <%= gettext("Loading") %>...
+  </div>
+
+  <p class="image">
+    <img id="imagePreview" src="<%= assigns.image_url %>" class="image-inside-modal-overwrite" title="<%= assigns.deer_file.original_filename %>">
+  </p>
+
+  <div class="modal-content has-text-centered hide-overflow">
+    <span class="has-text-white" title="<%= assigns.deer_file.original_filename %>"><%= maybe_shrink_filename(assigns.deer_file.original_filename, 30) %></span>
+  </div>
+  <a class="modal-close is-large" data-bulma-modal="close" href="#" phx-target="<%= assigns.myself %>" phx-click="close_preview_modal"><%= gettext("Close") %></a>
+</div>

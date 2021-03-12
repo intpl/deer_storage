@@ -21,7 +21,7 @@
       PjeskiWeb.DeerRecordsLive.Modal.PreviewFileComponent,
       id: "preview_file_component",
       image_url: Routes.deer_files_path(@socket, :download_record, @preview_for_record_id, @preview_deer_file.id),
-      original_filename: @preview_deer_file.original_filename
+      deer_file: @preview_deer_file
     )
   @uploading_file_for_record ->
     live_component(
