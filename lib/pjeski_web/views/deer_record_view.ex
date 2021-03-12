@@ -28,9 +28,20 @@ defmodule PjeskiWeb.DeerRecordView do
 
   def render_prepared_fields(prepared_fields), do: render(PjeskiWeb.DeerRecordView, "_editable_prepared_fields.html", prepared_fields: prepared_fields)
 
+  # images
   def mimetype_is_previewable?("image/jpeg"), do: true
   def mimetype_is_previewable?("image/png"), do: true
   def mimetype_is_previewable?("image/gif"), do: true
+
+  # videos
+  def mimetype_is_previewable?("video/x-flv"), do: true
+  def mimetype_is_previewable?("video/mp4"), do: true
+  def mimetype_is_previewable?("video/3gpp"), do: true
+  def mimetype_is_previewable?("video/quicktime"), do: true
+  def mimetype_is_previewable?("video/x-msvideo"), do: true
+  def mimetype_is_previewable?("video/x-ms-wmv"), do: true
+  def mimetype_is_previewable?("video/webm"), do: true
+
   def mimetype_is_previewable?(_), do: false
 
   def prepare_fields_for_form(deer_columns, changeset) do

@@ -6,6 +6,14 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.PreviewFileComponent do
   def render(%{deer_file: %{mimetype: "image/png"}} = assigns), do: render("preview_modal_image.html", assigns)
   def render(%{deer_file: %{mimetype: "image/gif"}} = assigns), do: render("preview_modal_image.html", assigns)
 
+  def render(%{deer_file: %{mimetype: "video/x-flv"}} = assigns), do: render("preview_modal_video.html", assigns)
+  def render(%{deer_file: %{mimetype: "video/mp4"}} = assigns), do: render("preview_modal_video.html", assigns)
+  def render(%{deer_file: %{mimetype: "video/3gpp"}} = assigns), do: render("preview_modal_video.html", assigns)
+  def render(%{deer_file: %{mimetype: "video/quicktime"}} = assigns), do: render("preview_modal_video.html", assigns)
+  def render(%{deer_file: %{mimetype: "video/x-msvideo"}} = assigns), do: render("preview_modal_video.html", assigns)
+  def render(%{deer_file: %{mimetype: "video/x-ms-wmv"}} = assigns), do: render("preview_modal_video.html", assigns)
+  def render(%{deer_file: %{mimetype: "video/webm"}} = assigns), do: render("preview_modal_video.html", assigns)
+
   def handle_event("close_preview_modal", _, socket) do
     send(self(), :close_preview_modal)
     {:noreply, socket}
