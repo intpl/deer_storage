@@ -5,6 +5,7 @@ defmodule PjeskiWeb.SharedRecordFilesController do
   alias Pjeski.SharedFiles
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
   import Pjeski.DeerRecords, only: [ensure_deer_file_exists_in_record!: 2]
+  import PjeskiWeb.ControllerHelpers.FileHelpers
 
   def download_file_from_shared_file(conn, %{"subscription_id" => subscription_id, "shared_file_id" => shared_file_id, "file_id" => file_id}) do
     shared_file = SharedFiles.get_file!(subscription_id, shared_file_id, file_id) |> Pjeski.Repo.preload([:deer_record, :subscription])
@@ -15,8 +16,7 @@ defmodule PjeskiWeb.SharedRecordFilesController do
 
     file_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{deer_record.deer_table_id}/#{deer_record.id}/#{deer_file.id}"
 
-    send_download(conn, {:file, file_path}, filename: deer_file.original_filename)
-
+    send_download_with_range_headers(conn, file_path, deer_file)
 
     rescue _ -> {:noreply, conn |> put_flash(:error, "Could not find file.") |> redirect(to: "/")}
   end
@@ -30,7 +30,7 @@ defmodule PjeskiWeb.SharedRecordFilesController do
 
     file_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{deer_record.deer_table_id}/#{deer_record.id}/#{deer_file.id}"
 
-    send_download(conn, {:file, file_path}, filename: deer_file.original_filename)
+    send_download_with_range_headers(conn, file_path, deer_file)
 
     rescue _ -> {:noreply, conn |> put_flash(:error, "Could not find record.") |> redirect(to: "/")}
   end

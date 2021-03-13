@@ -4,6 +4,7 @@ defmodule PjeskiWeb.DeerFilesController do
   import PjeskiWeb.LiveHelpers, only: [is_expired?: 1]
   import Pjeski.DeerRecords, only: [get_record!: 1, ensure_deer_file_exists_in_record!: 2]
   import Pjeski.Users, only: [ensure_user_subscription_link!: 2]
+  import PjeskiWeb.ControllerHelpers.FileHelpers
 
   def download_record(%Plug.Conn{assigns: %{current_user: user}} = conn, %{"record_id" => record_id, "file_id" => file_id}) do
     record = get_record!(record_id) |> Pjeski.Repo.preload(:subscription)
@@ -16,6 +17,6 @@ defmodule PjeskiWeb.DeerFilesController do
 
     file_path = File.cwd! <> "/uploaded_files/#{subscription_id}/#{record.deer_table_id}/#{record.id}/#{deer_file.id}"
 
-    send_download(conn, {:file, file_path}, filename: deer_file.original_filename)
+    send_download_with_range_headers(conn, file_path, deer_file)
   end
 end
