@@ -110,38 +110,33 @@ end %>
     </div>
 
     <div class="column is-8">
-      <div class="field has-addons">
-          <a class="button is-inline"
-             type="submit"
-             href="#"
-             phx-click="clear"
-             onclick="window.scrollTo(0,0)"
-             <%= if empty?(@query), do: "disabled" %>>
-               <%= gettext("Clear") %>
-          </a>
+      <form phx-submit="filter" phx-change="filter" class="field has-addons overwrite-fullwidth" autocomplete="off">
+        <a class="button is-inline"
+            type="submit"
+            href="#"
+            phx-click="clear"
+            onclick="window.scrollTo(0,0)" <%= if empty?(@query), do: "disabled" %>>
+              <%= gettext("Clear") %>
+        </a>
 
-        <p class="is-fullwidth">
-          <form phx-submit="filter" phx-change="filter" class="field has-addons overwrite-fullwidth" autocomplete="off">
-            <p class="control is-expanded">
-              <input
-                class="input"
-                type="text" name="query"
-                list="matches"
-                placeholder="<%= gettext("Search...") %>"
-                value="<%= maybe_join_query(@query) %>"
-                onkeypress="window.scrollTo(0,0)"
-                phx-debounce="<%= @search_debounce %>" />
-            </p>
-
-            <p class="control">
-              <button class="button" type="submit">
-                <%= gettext("Search") %>
-              </button>
-            </p>
-          </form>
-
+        <p class="control is-expanded">
+          <input
+            class="input"
+            type="text" name="query"
+            list="matches"
+            placeholder="<%= gettext("Search...") %>"
+            value="<%= maybe_join_query(@query) %>"
+            onkeypress="window.scrollTo(0,0)"
+            phx-debounce="<%= @search_debounce %>" />
         </p>
-      </div>
+
+        <p class="control">
+          <button class="button" type="submit">
+            <%= gettext("Search") %>
+          </button>
+        </p>
+      </form>
+
       <div class="is-hidden-mobile">
         <%= if opened_records_count > 0 do %>
           <%= gettext("%{count} records selected.", count: opened_records_count) %>

@@ -34,36 +34,32 @@ defmodule PjeskiWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
           </header>
 
           <section class="modal-card-body">
-            <div class="column is-8">
-              <div class="field has-addons">
-                <p class="is-fullwidth">
-                  <form phx-change="connecting_record_filter" class="field has-addons overwrite-fullwidth" autocomplete="off">
-                    <p class="control">
-                      <span class="select">
-                        <select name="table_id">
-                          <%= for %{id: id, name: name} <- @deer_tables do %>
-                            <option value="<%= id %>" <%= if @table_id == id, do: "selected" %>>
-                              <%= name %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </span>
-                    </p>
-                    <p class="control is-expanded">
-                      <input
-                        class="input"
-                        name="query"
-                        type="text"
-                        list="matches"
-                        placeholder="<%= gettext("Search...") %>"
-                        value="<%= @query %>"
-                        onkeypress="window.scrollTo(0,0)"
-                        phx-debounce="300" />
-                    </p>
-                  </form>
-                </p>
-              </div>
-            </div>
+            <form phx-change="connecting_record_filter" class="field has-addons overwrite-fullwidth" autocomplete="off">
+              <p class="control is-expanded">
+                <input
+                  class="input"
+                  name="query"
+                  type="text"
+                  list="matches"
+                  placeholder="<%= gettext("Search...") %>"
+                  value="<%= @query %>"
+                  onkeypress="window.scrollTo(0,0)"
+                  phx-debounce="300" />
+              </p>
+
+              <p class="control">
+                <span class="select">
+                  <select name="table_id" class="select">
+                    <%= for %{id: id, name: name} <- @deer_tables do %>
+                      <option value="<%= id %>" <%= if @table_id == id, do: "selected" %>>
+                        <%= name %>
+                      </option>
+                    <% end %>
+                  </select>
+                </span>
+              </p>
+            </form>
+
             <div class="columns is-mobile">
               <div class="column">
                 <%= for record <- @records do %>

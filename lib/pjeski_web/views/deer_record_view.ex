@@ -7,7 +7,7 @@ defmodule PjeskiWeb.DeerRecordView do
   alias Pjeski.Subscriptions.Subscription
 
   def empty?(nil), do: true
-  def empty?(""), do: true
+  def empty?([]), do: true
   def empty?(_), do: false
 
   def maybe_join_query(""), do: ""
