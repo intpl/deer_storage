@@ -14,6 +14,8 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
     maybe_shrink_filename: 1
   ]
 
+  def mount(socket), do: {:ok, assign(socket, :display_full_names, false)}
+
   def render(%{record: record, subscription: subscription, table_id: table_id, current_user: current_user} = assigns) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
@@ -74,16 +76,25 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
         <%= @record.notes %>
       </div>
 
+      <a href="#" phx-click="toggle_fullnames" phx-target="<%= @myself %>">
+        <%= if assigns.display_full_names do %>
+          <%= gettext("Show short filenames") %>
+        <% else %>
+          <%= gettext("Show full filenames") %>
+        <% end %>
+      </a>
+
       <br>
       <br>
 
       <ul>
         <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes, mimetype: mimetype} -> %>
+          <% download_url = Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
           <li>
             <%= if mimetype_is_previewable?(mimetype) do %>
-              <a href="#" phx-click="preview_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" title="<%= name %>"> <%= maybe_shrink_filename(name) %> </a>
+              <a href="#" phx-click="preview_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" title="<%= name %>"> <%= maybe_shrink_if_not_fullnames(assigns, name) %> </a>
             <% else %>
-              <%= link maybe_shrink_filename(name), to: Routes.deer_files_path(@socket, :download_record, @record.id, file_id), title: name %>
+              <%= link maybe_shrink_if_not_fullnames(assigns, name), to: download_url, title: name %>
             <% end %>
             (<%= display_filesize_from_kilobytes(kilobytes) %>)
 
@@ -93,14 +104,16 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
             </div>
             <div class="dropdown-menu">
               <div class="dropdown-content">
-                  <a class="dropdown-item" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
-                    <span><%= gettext("Share") %></span>
-                  </a>
-                  <a class="dropdown-item" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
-                    <span class="delete"></span>&nbsp;
-                    <span><%= gettext("Delete") %></span>
-                  </a>
-                </div>
+                <a class="dropdown-item" href="<%= download_url %>">
+                  <span><%= gettext("Download") %></span>
+                </a>
+                <a class="dropdown-item" href="#" phx-click="share_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>">
+                  <span><%= gettext("Share") %></span>
+                </a>
+                <a class="dropdown-item" href="#" phx-click="delete_record_file" phx-value-record-id="<%= record.id %>" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
+                  <span class="delete"></span>&nbsp;
+                  <span><%= gettext("Delete") %></span>
+                </a>
               </div>
             </div>
           </li>
@@ -174,9 +187,9 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
                 <%= Enum.map(connected_record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes, mimetype: mimetype} -> %>
                   <p>
                     <%= if mimetype_is_previewable?(mimetype) do %>
-                      <a href="#" phx-click="preview_record_file" phx-value-record-id="<%= connected_record.id %>" phx-value-file-id="<%= file_id %>" title="<%= name %>"> <%= maybe_shrink_filename(name) %> </a>
+                      <a href="#" phx-click="preview_record_file" phx-value-record-id="<%= connected_record.id %>" phx-value-file-id="<%= file_id %>" title="<%= name %>"> <%= maybe_shrink_if_not_fullnames(assigns, name) %> </a>
                     <% else %>
-                      <%= link maybe_shrink_filename(name), to: Routes.deer_files_path(@socket, :download_record, connected_record.id, file_id), title: name %>
+                      <%= link maybe_shrink_if_not_fullnames(assigns, name), to: Routes.deer_files_path(@socket, :download_record, connected_record.id, file_id), title: name %>
                     <% end %>
                     (<%= display_filesize_from_kilobytes(kilobytes) %>)
                   </p>
@@ -189,4 +202,11 @@ defmodule PjeskiWeb.DeerRecordsLive.ShowComponent do
     </div>
     """
   end
+
+  def handle_event("toggle_fullnames", _, %{assigns: %{display_full_names: previous_display_value}} = socket) do
+    {:noreply, assign(socket, :display_full_names, !previous_display_value)}
+  end
+
+  defp maybe_shrink_if_not_fullnames(%{display_full_names: true}, filename), do: filename
+  defp maybe_shrink_if_not_fullnames(_, filename), do: maybe_shrink_filename(filename)
 end

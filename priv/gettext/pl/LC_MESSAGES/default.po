@@ -158,7 +158,7 @@ msgstr "Strefa niebezpieczeństwa"
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:30
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:28 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:30 lib/pjeski_web/templates/admin/subscription/edit.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:128 lib/pjeski_web/templates/admin/subscription/show.html.eex:12
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:160 lib/pjeski_web/templates/admin/user/edit.html.eex:19
 #: lib/pjeski_web/templates/admin/user/index.html.eex:128 lib/pjeski_web/templates/admin/user/show.html.eex:19
@@ -226,9 +226,9 @@ msgid "Delete account"
 msgstr "Usuń konto"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:66
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:68 lib/pjeski_web/live/deer_records_live/show_component.ex:161
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:163 lib/pjeski_web/templates/admin/subscription/show.html.eex:67
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:68
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:70 lib/pjeski_web/live/deer_records_live/show_component.ex:174
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:176 lib/pjeski_web/templates/admin/subscription/show.html.eex:67
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:134
 msgid "Created at"
 msgstr "Utworzono"
@@ -250,8 +250,8 @@ msgid "Name"
 msgstr "Nazwa"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:69
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:164 lib/pjeski_web/templates/admin/subscription/index.html.eex:77
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:71
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:177 lib/pjeski_web/templates/admin/subscription/index.html.eex:77
 #: lib/pjeski_web/templates/admin/subscription/index.html.eex:110 lib/pjeski_web/templates/admin/subscription/show.html.eex:72
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:142 lib/pjeski_web/templates/admin/user/index.html.eex:75
 #: lib/pjeski_web/templates/admin/user/index.html.eex:104 lib/pjeski_web/templates/admin/user/show.html.eex:90
@@ -589,13 +589,13 @@ msgid "Confirmed email at"
 msgstr "Potwierdzono"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:148
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:161
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:161 lib/pjeski_web/templates/admin/user/show.html.eex:145
 msgid "Disconnect"
 msgstr "Odłącz"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:117
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:130
 #: lib/pjeski_web/templates/admin/subscription/show.html.eex:86 lib/pjeski_web/templates/admin/user/show.html.eex:46
 msgid "Connect"
 msgstr "Połącz"
@@ -668,7 +668,7 @@ msgid "Manage users or invite new"
 msgstr "Zarządzaj użytkownikami lub zaproś nowych"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:52
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:54
 msgid "Are you sure to REMOVE this record?"
 msgstr "Na pewno USUNĄĆ ten rekord?"
 
@@ -693,8 +693,8 @@ msgstr "Utwórz rekord"
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:36
-#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:44 lib/pjeski_web/live/deer_records_live/show_component.ex:53
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:101 lib/pjeski_web/templates/deer_record/show_external.html.leex:90
+#: lib/pjeski_web/live/deer_dashboard_live/deer_table_show_component.ex:44 lib/pjeski_web/live/deer_records_live/show_component.ex:55
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:115 lib/pjeski_web/templates/deer_record/show_external.html.leex:90
 msgid "Delete"
 msgstr "Usuń"
 
@@ -756,8 +756,8 @@ msgstr "Wprowadź rekord do tabeli"
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/connect_record_component.ex:88
 #: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:35 lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:23
-#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:33 lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:23
-#: lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:25
+#: lib/pjeski_web/templates/deer_dashboard/examples_index.html.leex:33 lib/pjeski_web/templates/deer_record/preview_modal_document.html.leex:29
+#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:23 lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:25
 msgid "Close"
 msgstr "Zamknij"
 
@@ -790,7 +790,7 @@ msgid "Unlink"
 msgstr "Odłącz"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:99
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:113
 #: lib/pjeski_web/templates/deer_record/show_external.html.leex:89
 msgid "Are you sure to DELETE this file?"
 msgstr "Na pewno USUNĄĆ ten plik?"
@@ -928,7 +928,7 @@ msgid "All uploaded files for this record are removed and record connections are
 msgstr "Wszystkie wgrane pliki dla tego rekordu zostały usunięte i połączenia między tym rekordem już nie istnieją"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:147
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:160
 msgid "Are you sure you want to unlink these records from each other?"
 msgstr "Czy na pewno odłączyć od siebie te rekordy?"
 
@@ -969,7 +969,7 @@ msgid "You can still save this form data, but it will appear as a new record."
 msgstr "Możesz w dalszym ciągu zapisać ten rekord jako zupełnie nowy."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:140
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:153
 msgid "Open"
 msgstr "Otwórz"
 
@@ -1242,17 +1242,17 @@ msgid "Edit record"
 msgstr "Edytuj rekord z tabeli"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:40
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:42
 msgid "Share for 90 days"
 msgstr "Udostępnij na 90 dni"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:43
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:45
 msgid "Share to edit for 90 days"
 msgstr "Udostępnij do edycji na 90 dni"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:34
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:36
 msgid "Sharing"
 msgstr "Udostępnianie"
 
@@ -1262,7 +1262,7 @@ msgid "You can overwrite the following changes."
 msgstr "Możesz nadpisać poniższe zmiany."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:46
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:48
 msgid "Delete/invalidate all shared links"
 msgstr "Usuń/wygaś wszystkie udostępnione linki"
 
@@ -1323,19 +1323,19 @@ msgid "%{count} records selected."
 msgstr "Zaznaczono %{count} rekordy/-ów."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:45
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:47
 msgid "Are you sure you want to delete all shared links for this record and files in it?"
 msgstr "Czy na pewno usunąć wszystkie linki do tego rekordu i/lub plików w nim?"
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:20 lib/pjeski_web/live/deer_records_live/show_component.ex:97
+#: lib/pjeski_web/live/deer_records_live/modal/created_shared_record_component.ex:20 lib/pjeski_web/live/deer_records_live/show_component.ex:111
 msgid "Share"
 msgstr "Udostępnij"
 
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:40
-#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:87 lib/pjeski_web/live/deer_records_live/show_component.ex:121
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:144 lib/pjeski_web/templates/deer_record/show_external.html.leex:56
+#: lib/pjeski_web/live/deer_records_live/modal/uploading_file_component.ex:87 lib/pjeski_web/live/deer_records_live/show_component.ex:134
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:157 lib/pjeski_web/templates/deer_record/show_external.html.leex:56
 msgid "Upload file(s)"
 msgstr "Wyślij plik(i)"
 
@@ -1360,7 +1360,7 @@ msgid "Waiting for other uploads to complete..."
 msgstr "Oczekiwanie na resztę plików..."
 
 #, elixir-format
-#: lib/pjeski_web/live/deer_records_live/show_component.ex:113
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:126
 msgid "Create connected record"
 msgstr "Utwórz połączony rekord"
 
@@ -1751,21 +1751,21 @@ msgid "Exceeded table limit"
 msgstr "Przekroczono limit tabel"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:4
-#: lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:4
+#: lib/pjeski_web/templates/deer_record/preview_modal_document.html.leex:4
+#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:4 lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:4
 msgid "You can use keyboard arrows instead of clicking these buttons"
 msgstr "Możesz używać strzałek zamiast klikać przyciski"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:12
-#: lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:12
+#: lib/pjeski_web/templates/deer_record/preview_modal_document.html.leex:12
+#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:12 lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:12
 msgctxt "image"
 msgid "Next"
 msgstr "Następne"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:6
-#: lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:6
+#: lib/pjeski_web/templates/deer_record/preview_modal_document.html.leex:6
+#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:6 lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:6
 msgctxt "image"
 msgid "Previous"
 msgstr "Poprzednie"
@@ -1777,8 +1777,23 @@ msgid "Refresh"
 msgstr "Odśwież"
 
 #, elixir-format
-#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:9
-#: lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:9
+#: lib/pjeski_web/templates/deer_record/preview_modal_document.html.leex:9
+#: lib/pjeski_web/templates/deer_record/preview_modal_image.html.leex:9 lib/pjeski_web/templates/deer_record/preview_modal_video.html.leex:9
 msgctxt "image"
 msgid "Download"
 msgstr "Pobierz"
+
+#, elixir-format, fuzzy
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:108
+msgid "Download"
+msgstr "Pobierz"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:83
+msgid "Show full filenames"
+msgstr "Wyświetlaj pełne nazwy plików"
+
+#, elixir-format
+#: lib/pjeski_web/live/deer_records_live/show_component.ex:81
+msgid "Show short filenames"
+msgstr "Wyświetlaj skrócone nazwy plików"
