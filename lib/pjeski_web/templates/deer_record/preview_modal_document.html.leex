@@ -13,8 +13,14 @@
     </a>
   </div>
 
-  <p class="image">
-    <img src="<%= assigns.file_url %>" class="media-inside-modal-overwrite" title="<%= assigns.deer_file.original_filename %>">
+  <p class="image overwrite-width90 overwrite-height90">
+    <iframe
+      id="<%= assigns.deer_file.id %>"
+      class="overwrite-fullwidth overwrite-fullheight"
+      src="/ViewerJS/index.html#<%= assigns.file_url %>#/<%= assigns.deer_file.original_filename %>"
+      allowfullscreen
+      webkitallowfullscreen>
+    </iframe>
   </p>
 
   <div class="modal-content has-text-centered hide-overflow">

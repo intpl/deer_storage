@@ -42,6 +42,12 @@ defmodule PjeskiWeb.DeerRecordView do
   def mimetype_is_previewable?("video/x-ms-wmv"), do: true
   def mimetype_is_previewable?("video/webm"), do: true
 
+  # documents
+  def mimetype_is_previewable?("application/pdf"), do: true
+  def mimetype_is_previewable?("application/vnd.oasis.opendocument.text"), do: true
+  def mimetype_is_previewable?("application/vnd.oasis.opendocument.spreadsheet"), do: true
+  def mimetype_is_previewable?("application/vnd.oasis.opendocument.presentation"), do: true
+
   def mimetype_is_previewable?(_), do: false
 
   def prepare_fields_for_form(deer_columns, changeset) do
