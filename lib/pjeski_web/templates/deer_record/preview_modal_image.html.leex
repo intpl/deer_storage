@@ -5,6 +5,9 @@
     <a class="button is-small is-dark mb-0" phx-click="previous" phx-target="<%= assigns.myself %>" href="#">
       <%= pgettext("image", "Previous") %>
     </a>
+    <a class="button is-small is-dark mb-0" href="<%= assigns.file_url %>">
+      <%= pgettext("image", "Download") %>
+    </a>
     <a class="button is-small is-dark mb-0" phx-click="next" phx-target="<%= assigns.myself %>" href="#">
       <%= pgettext("image", "Next") %>
     </a>
