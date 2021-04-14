@@ -19,7 +19,7 @@ config :pjeski, PjeskiWeb.Endpoint,
   server: true,
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
-if System.get_env("POW_MAILGUN_API_KEY") && System.get_env("POW_MAILGUN_DOMAIN") && System.get_env("POW_MAILGUN_BASE_URI") do
+if System.get_env("POW_MAILGUN_API_KEY") do
   config :pjeski,
     PjeskiWeb.PowMailer,
     adapter: Bamboo.MailgunAdapter,
