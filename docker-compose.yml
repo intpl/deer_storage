@@ -1,7 +1,5 @@
-# Version of docker-compose
 version: '3'
 
-# Containers we are going to run
 services:
   nginx-proxy:
     build:
@@ -19,17 +17,20 @@ services:
     depends_on:
       - phoenix
       - certbot
+    restart: always # needs to restart until certbot has generated certificates
   certbot:
-    image: certbot/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    build:
+      dockerfile: ./Dockerfile.certbot
+      context: ./docker-data
     volumes:
       - ./docker-data/certbot/conf:/etc/letsencrypt
       - ./docker-data/certbot/www:/var/www/certbot
+    restart: always
   phoenix:
     image: pjeski-prod
     build:
-      dockerfile: Dockerfile.prod
-      context: .
+      context: ./
+      dockerfile: ./docker-data/Dockerfile.phoenix
     env_file:
       - .env
     environment:
@@ -39,11 +40,12 @@ services:
       - db
     volumes:
       - uploaded_files:/opt/app/uploaded_files
+    restart: always
   db:
     image: postgres:11-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: "${PGUSER}"
+      POSTGRES_PASSWORD: "${PGPASSWORD}"
       PGDATA: /var/lib/postgresql/data/pgdata
     restart: always
     volumes:

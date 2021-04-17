@@ -1,0 +1,7 @@
+FROM certbot/certbot:latest
+
+RUN apk --no-cache --update add bash
+
+COPY certbot-entrypoint.sh /
+RUN ["chmod", "+x", "/certbot-entrypoint.sh"]
+ENTRYPOINT /certbot-entrypoint.sh

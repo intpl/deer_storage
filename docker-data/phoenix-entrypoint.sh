@@ -1,4 +1,7 @@
-echo "Running entrypoint.sh..."
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Running phoenix-entrypoint.sh..."
 
 while ! pg_isready -q -h $PGHOST -p $PGPORT -U $PGUSER
 do

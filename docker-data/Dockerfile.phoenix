@@ -60,6 +60,7 @@ COPY --from=build /opt/app/_build/prod/rel/pjeski ./
 RUN ["chmod", "+x", "/opt/app/bin/pjeski"]
 RUN ["chmod", "+x", "/opt/app/releases/0.1.0/elixir"]
 
-COPY entrypoint.bash ./
+COPY ./docker-data/phoenix-entrypoint.sh /opt/app
+RUN ["chmod", "+x", "/opt/app/phoenix-entrypoint.sh"]
 
-CMD bash entrypoint.bash
+ENTRYPOINT /opt/app/phoenix-entrypoint.sh
