@@ -33,9 +33,9 @@ server {
 
     add_header Strict-Transport-Security "max-age=15768000; includeSubdomains; preload;";
 
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-    ssl_certificate /etc/letsencrypt/live/${APP_HOST}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/${APP_HOST}/privkey.pem;
+    ssl_dhparam /config_and_certificates/ssl-dhparams.pem;
+    ssl_certificate /config_and_certificates/fullchain.pem;
+    ssl_certificate_key /config_and_certificates/privkey.pem;
 
     # Proxy Headers
     proxy_http_version 1.1;

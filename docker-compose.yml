@@ -5,27 +5,32 @@ services:
     build:
       dockerfile: ./Dockerfile.nginx-proxy
       context: ./docker-data
+    env_file:
+      - .env
     environment:
-      APP_HOST: ${APP_HOST}
       PHOENIX: phoenix
     ports:
       - "${APP_HTTP_PORT}:80"
       - "${APP_HTTPS_PORT}:443"
     volumes:
-      - ./docker-data/certbot/conf:/etc/letsencrypt
-      - ./docker-data/certbot/www:/var/www/certbot
+      - config_and_certificates:/config_and_certificates
+      - certbot_www:/var/www/certbot
+      - certbot_conf:/etc/letsencrypt
     depends_on:
       - phoenix
-      - certbot
     restart: always # needs to restart until certbot has generated certificates
   certbot:
     build:
       dockerfile: ./Dockerfile.certbot
       context: ./docker-data
+    env_file:
+      - .env
     volumes:
-      - ./docker-data/certbot/conf:/etc/letsencrypt
-      - ./docker-data/certbot/www:/var/www/certbot
+      - certbot_www:/var/www/certbot
+      - config_and_certificates:/config_and_certificates
     restart: always
+    depends_on:
+      - nginx-proxy
   phoenix:
     image: pjeski-prod
     build:
@@ -53,3 +58,6 @@ services:
 volumes:
   pgdata:
   uploaded_files:
+  config_and_certificates:
+  certbot_www:
+  certbot_conf:

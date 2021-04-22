@@ -1,7 +1,9 @@
 FROM certbot/certbot:latest
 
-RUN apk --no-cache --update add bash
+RUN apk --no-cache --update add bash curl
 
-COPY certbot-entrypoint.sh /
+COPY certbot-entrypoint.sh /certbot-entrypoint.sh
 RUN ["chmod", "+x", "/certbot-entrypoint.sh"]
-ENTRYPOINT /certbot-entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["/certbot-entrypoint.sh"]

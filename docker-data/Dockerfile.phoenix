@@ -61,6 +61,6 @@ RUN ["chmod", "+x", "/opt/app/bin/pjeski"]
 RUN ["chmod", "+x", "/opt/app/releases/0.1.0/elixir"]
 
 COPY ./docker-data/phoenix-entrypoint.sh /opt/app
-RUN ["chmod", "+x", "/opt/app/phoenix-entrypoint.sh"]
 
-ENTRYPOINT /opt/app/phoenix-entrypoint.sh
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["/opt/app/phoenix-entrypoint.sh"]
