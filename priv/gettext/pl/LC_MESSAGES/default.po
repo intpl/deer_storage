@@ -20,8 +20,9 @@ msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 
 #, elixir-format
-#: lib/pjeski_web/templates/registration/new.html.eex:5
-#: lib/pjeski_web/templates/registration/new.html.eex:84 lib/pjeski_web/templates/session/new.html.eex:46
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:40
+#: lib/pjeski_web/templates/registration/new.html.eex:5 lib/pjeski_web/templates/registration/new.html.eex:84
+#: lib/pjeski_web/templates/session/new.html.eex:46
 msgid "Register"
 msgstr "Zarejestruj się"
 
@@ -114,11 +115,6 @@ msgstr "Nowe hasło"
 #: lib/pjeski_web/views/admin/user_view.ex:51
 msgid "E-mail"
 msgstr "Adres E-mail"
-
-#, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:40
-msgid "Free demo"
-msgstr "Przetestuj za darmo"
 
 #, elixir-format
 #: lib/pjeski_web/live/subscription_navigation_live.ex:78
@@ -1783,7 +1779,7 @@ msgctxt "image"
 msgid "Download"
 msgstr "Pobierz"
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:108
 msgid "Download"
 msgstr "Pobierz"
