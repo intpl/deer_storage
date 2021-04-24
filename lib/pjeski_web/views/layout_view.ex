@@ -1,4 +1,5 @@
 defmodule PjeskiWeb.LayoutView do
+  import Pjeski.FeatureFlags
   use PjeskiWeb, :view
 
   def available_languages_and_locales(), do: [{"Polski", "pl"}, {"English", "en"}]

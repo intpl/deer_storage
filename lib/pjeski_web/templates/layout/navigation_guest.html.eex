@@ -37,7 +37,10 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-primary" href="<%= Routes.registration_path(PjeskiWeb.Endpoint, :new) %>"> <strong><%= gettext("Register") %></strong> </a>
+          <%= if registration_enabled?() do %>
+            <a class="button is-primary" href="<%= Routes.registration_path(PjeskiWeb.Endpoint, :new) %>"> <strong><%= gettext("Register") %></strong> </a>
+          <% end %>
+
           <%= link gettext("Sign in"), to: Routes.session_path(PjeskiWeb.Endpoint, :new), class: 'button is-light' %>
         </div>
       </div>

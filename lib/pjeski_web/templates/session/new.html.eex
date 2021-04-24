@@ -43,7 +43,9 @@
     <% end %>
     <br>
 
-    <%= link(gettext("Register"), to: Routes.registration_path(@conn, :new)) %> /
+    <% if registration_enabled?() do %>
+      <%= link(gettext("Register"), to: Routes.registration_path(@conn, :new)) %> /
+    <% end %>
     <%= link(gettext("Reset password"), to: Routes.reset_password_path(@conn, :new)) %>
   </div>
 </section>

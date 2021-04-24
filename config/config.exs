@@ -6,6 +6,7 @@
 
 # General application configuration
 use Mix.Config
+# TODO: use Config module: https://hexdocs.pm/elixir/Config.html
 
 config :pjeski,
   ecto_repos: [Pjeski.Repo]

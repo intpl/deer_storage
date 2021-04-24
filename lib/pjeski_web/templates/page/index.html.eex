@@ -39,7 +39,10 @@
       <article class="row section">
         <h1 class="title">
           <%= gettext("Don't wait. Register now and unleash the power of the deer!") %>&nbsp;
-          <%= link gettext("Register now"), to: Routes.registration_path(@conn, :new), class: "button is-success" %>
+
+          <%= if registration_enabled?() do %>
+            <%= link gettext("Register now"), to: Routes.registration_path(@conn, :new), class: "button is-success" %>
+          <% end %>
         </h1>
         <h2 class="subtitle">
           <%= gettext("... or slide down to learn more") %>
@@ -77,8 +80,10 @@
                       </figure>
                     </div>
                     <div class="column">
-                      <%= gettext("Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. But first: ") %>
-                      <%= link gettext("Go ahead and create your account"), to: Routes.registration_path(@conn, :new) %>
+                      <%= gettext("Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. ") %>
+                      <%= if registration_enabled?() do %>
+                        <%= link gettext("Go ahead and create your account"), to: Routes.registration_path(@conn, :new) %>
+                      <% end %>
                     </div>
                   </div>
                 </div>

@@ -19,14 +19,14 @@ msgid "Oops, something went wrong! Please check the errors below."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:40
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:41
 #: lib/pjeski_web/templates/registration/new.html.eex:5 lib/pjeski_web/templates/registration/new.html.eex:84
-#: lib/pjeski_web/templates/session/new.html.eex:46
+#: lib/pjeski_web/templates/session/new.html.eex:47
 msgid "Register"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:41
+#: lib/pjeski_web/templates/layout/navigation_guest.html.eex:44
 #: lib/pjeski_web/templates/session/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:41
 msgid "Sign in"
 msgstr ""
@@ -389,7 +389,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/layout/navigation_guest.html.eex:6
-#: lib/pjeski_web/views/layout_view.ex:27 lib/pjeski_web/views/layout_view.ex:39
+#: lib/pjeski_web/views/layout_view.ex:28 lib/pjeski_web/views/layout_view.ex:40
 msgid "DeerStorage"
 msgstr ""
 
@@ -457,7 +457,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/pjeski_web/templates/reset_password/edit.html.eex:5
-#: lib/pjeski_web/templates/reset_password/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:47
+#: lib/pjeski_web/templates/reset_password/new.html.eex:5 lib/pjeski_web/templates/session/new.html.eex:49
 msgid "Reset password"
 msgstr ""
 
@@ -492,7 +492,7 @@ msgid "Failed to confirm e-mail"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:32
+#: lib/pjeski_web/controllers/registration_controller.ex:38
 msgid "Please confirm your e-mail before logging in"
 msgstr ""
 
@@ -502,12 +502,12 @@ msgid "Click the link in the confirmation email to change your email to:"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:139
+#: lib/pjeski_web/controllers/registration_controller.ex:145
 msgid "Click the link in the confirmation email to change your email."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:52
+#: lib/pjeski_web/controllers/registration_controller.ex:59
 msgid "Account updated"
 msgstr ""
 
@@ -1402,12 +1402,12 @@ msgid "Current database"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:83
+#: lib/pjeski_web/controllers/registration_controller.ex:90
 msgid "Current database changed"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/views/layout_view.ex:36
+#: lib/pjeski_web/views/layout_view.ex:37
 msgid "DATABASE EXPIRED"
 msgstr ""
 
@@ -1615,7 +1615,7 @@ msgid "Don't wait. Register now and unleash the power of the deer!"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/views/page_view.ex:9
+#: lib/pjeski_web/views/page_view.ex:10
 msgid "Go back to your database..."
 msgstr ""
 
@@ -1625,7 +1625,7 @@ msgid "You are logged in! Great choice!"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:42
+#: lib/pjeski_web/templates/page/index.html.eex:44
 msgid "Register now"
 msgstr ""
 
@@ -1635,87 +1635,82 @@ msgid "Connect a user"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:45
+#: lib/pjeski_web/templates/page/index.html.eex:48
 msgid "... or slide down to learn more"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:81
+#: lib/pjeski_web/templates/page/index.html.eex:85
 msgid "Go ahead and create your account"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:134
+#: lib/pjeski_web/templates/page/index.html.eex:139
 msgid "I've tested record search with over 100,000 records within one table and it remains blazingly fast even with such immense amounts of data. Having that said, you can create many records and don't worry about quick access to your data."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:105
+#: lib/pjeski_web/templates/page/index.html.eex:110
 msgid "Note that after creating your table, you still will be able to rename columns, "
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:103
+#: lib/pjeski_web/templates/page/index.html.eex:108
 msgid "See how to make the best decision"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:66
+#: lib/pjeski_web/templates/page/index.html.eex:69
 msgid "Step 1: Create your database"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:120
+#: lib/pjeski_web/templates/page/index.html.eex:125
 msgid "Step 3: Start creating your records and see for yourself how efficient it is!"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:145
+#: lib/pjeski_web/templates/page/index.html.eex:150
 msgid "Step 4 (optional): Share whatever you want, to whoever you want, and revoke access with just one click."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:154
+#: lib/pjeski_web/templates/page/index.html.eex:159
 msgid "You can share records for viewing and downloading files or for editing and uploading files. You can invalidate all shared links for a record with one click."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:80
-msgid "Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. But first: "
-msgstr ""
-
-#, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:58
+#: lib/pjeski_web/templates/page/index.html.eex:61
 msgid "So, how exactly does it work?"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:135
+#: lib/pjeski_web/templates/page/index.html.eex:140
 msgid "DeerStorage is a great solution for example for sales teams with their hundreds of clients worked on simultaneously."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:92
+#: lib/pjeski_web/templates/page/index.html.eex:97
 msgid "Step 2: Rethink and decide how you want to manage your data"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/templates/page/index.html.eex:101
+#: lib/pjeski_web/templates/page/index.html.eex:106
 msgid "Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/views/page_view.ex:5
+#: lib/pjeski_web/views/page_view.ex:6
 msgid "Go back to Admin Panel..."
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:40
+#: lib/pjeski_web/controllers/registration_controller.ex:46
 msgid "Invalid answer to math question"
 msgstr ""
 
 #, elixir-format
-#: lib/pjeski_web/controllers/registration_controller.ex:124
+#: lib/pjeski_web/controllers/registration_controller.ex:131
 msgid "Please add %{num1} to %{num2}:"
 msgstr ""
 
@@ -1790,4 +1785,9 @@ msgstr ""
 #, elixir-format
 #: lib/pjeski_web/live/deer_records_live/show_component.ex:81
 msgid "Show short filenames"
+msgstr ""
+
+#, elixir-format
+#: lib/pjeski_web/templates/page/index.html.eex:83
+msgid "Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. "
 msgstr ""
