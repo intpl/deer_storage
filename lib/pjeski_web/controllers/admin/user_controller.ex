@@ -104,7 +104,7 @@ defmodule PjeskiWeb.Admin.UserController do
 
   def toggle_admin(conn, %{"user_id" => id}) do
     user = Users.get_user!(id)
-    {:ok, user} = Users.toggle_admin(user)
+    {:ok, user} = Users.toggle_admin!(user)
 
     conn
     |> put_flash(:info, gettext("%{name} is now '%{role}'", name: user.name, role: user.role))

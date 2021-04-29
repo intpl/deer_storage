@@ -1,5 +1,5 @@
 defmodule PjeskiWeb.RegistrationController do
-  import Pjeski.FeatureFlags
+  import Pjeski.FeatureFlags, only: [registration_enabled?: 0, promote_first_user_to_admin_enabled?: 0]
 
   use PjeskiWeb, :controller
 
@@ -28,15 +28,21 @@ defmodule PjeskiWeb.RegistrationController do
         conn
         |> Pow.Plug.create_user(user_params)
         |> case do
-             {:ok, user, conn} ->
-               Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise, %{permission_to_manage_users: true})
-               Users.notify_subscribers!([:user, :created], user)
-               send_confirmation_email(user, conn)
+             {:ok, %{id: 1} = user, conn} ->
+               conn = do_register_user!(user, conn)
 
-               conn
-               |> Pow.Plug.delete
-               |> put_flash(:info, gettext("Please confirm your e-mail before logging in"))
-               |> redirect(to: Routes.session_path(conn, :new))
+               if promote_first_user_to_admin_enabled?() do
+                 token = user.email_confirmation_token
+                 {:ok, _user} = Users.toggle_admin!(user)
+                 {:ok, _user, conn} = PowEmailConfirmation.Plug.confirm_email(conn, token)
+
+                 put_flash(conn, :info, gettext("You now can log in to your account"))
+               else
+                 do_register_user!(user, conn) |> put_flash(:info, gettext("Please confirm your e-mail before logging in"))
+
+                 conn
+               end
+             {:ok, user, conn} -> do_register_user!(user, conn) |> put_flash(:info, gettext("Please confirm your e-mail before logging in"))
              {:error, changeset, conn} -> render_new_with_captcha(conn, changeset)
            end
       else
@@ -79,6 +85,16 @@ defmodule PjeskiWeb.RegistrationController do
   def reset_subscription_id(%{assigns: %{current_user: %{role: "admin"} = user}} = conn, _params) do
     maybe_update_user_and_put_subscription_into_session(true, conn, user, nil)
     |> redirect(to: Routes.registration_path(conn, :edit))
+  end
+
+  defp do_register_user!(user, conn) do
+    Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise, %{permission_to_manage_users: true})
+    Users.notify_subscribers!([:user, :created], user)
+    send_confirmation_email(user, conn)
+
+    conn
+    |> Pow.Plug.delete
+    |> redirect(to: Routes.session_path(conn, :new))
   end
 
   # let it fail if false is unmatched

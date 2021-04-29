@@ -98,7 +98,7 @@ defmodule Pjeski.Users do
     User.changeset(user, %{})
   end
 
-  def toggle_admin(%User{} = user) do
+  def toggle_admin!(%User{} = user) do
     role = case user.role do
              "user" -> "admin"
              "admin" -> "user"

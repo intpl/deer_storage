@@ -62,7 +62,7 @@ defmodule PjeskiWeb.SessionControllerTest do
     end
 
     test "[guest -> admin] [valid / assigned subscription] POST /session", %{conn: conn} do
-      {:ok, user} = create_valid_user_with_subscription() |> Users.toggle_admin
+      {:ok, user} = create_valid_user_with_subscription() |> Users.toggle_admin!
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
@@ -71,7 +71,7 @@ defmodule PjeskiWeb.SessionControllerTest do
     end
 
     test "[guest -> admin] [valid / expired subscription] POST /session", %{conn: conn} do
-      {:ok, user} = create_user_with_expired_subscription() |> Users.toggle_admin
+      {:ok, user} = create_user_with_expired_subscription() |> Users.toggle_admin!
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
@@ -80,7 +80,7 @@ defmodule PjeskiWeb.SessionControllerTest do
     end
 
     test "[guest -> admin] [valid / no subscription] POST /session", %{conn: conn} do
-      {:ok, user} = create_user_without_subscription() |> Users.toggle_admin
+      {:ok, user} = create_user_without_subscription() |> Users.toggle_admin!
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 
@@ -89,7 +89,7 @@ defmodule PjeskiWeb.SessionControllerTest do
     end
 
     test "[guest -> admin] [valid / assigned subscription, unconfirmed email] POST /session", %{conn: conn} do
-      {:ok, user} = create_valid_user_with_unconfirmed_email() |> Users.toggle_admin
+      {:ok, user} = create_valid_user_with_unconfirmed_email() |> Users.toggle_admin!
 
       conn = post(conn, "/session", user: %{email: user.email, password: user.password})
 

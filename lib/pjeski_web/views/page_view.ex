@@ -1,5 +1,5 @@
 defmodule PjeskiWeb.PageView do
-  import Pjeski.FeatureFlags
+  import Pjeski.FeatureFlags, only: [registration_enabled?: 0]
   use PjeskiWeb, :view
 
   def dashboard_link(%{assigns: %{current_user: %{role: "admin"}, current_subscription: nil}}) do
