@@ -19,7 +19,7 @@ defmodule PjeskiWeb.InvitationController do
   plug :load_user_from_invitation_token when action in [:show, :edit, :update]
   plug :assign_create_path when action in [:new, :create]
   plug :assign_update_path when action in [:edit, :update]
-  plug :ensure_user_can_manage_users! when action in [:new, :edit, :create]
+  plug :ensure_user_can_manage_users! when action in [:new, :create]
 
   def new(conn, _params) do
     conn
