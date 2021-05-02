@@ -13,6 +13,16 @@
 
 <section class="section">
   <div class="container">
+    <%= if mailing_disabled?() do %>
+      <div class="notification is-warning">
+        <%= gettext("Emails are disabled. New users must be confirmed by an administrator.") %>
+          <br><br>
+        <%= gettext("You can still invite users to edit your database after they register. Just ask them for the e-mail used during registration and submit it in the form below.") %>
+          <br><br>
+        <%= gettext("... or you can ask an administrator to connect them to your database.") %>
+      </div>
+    <% end %>
+
     <%= form_for @changeset, @action, [as: :user, autocomplete: "off"], fn f -> %>
       <%= if @changeset.action do %>
         <div class="alert alert-danger">

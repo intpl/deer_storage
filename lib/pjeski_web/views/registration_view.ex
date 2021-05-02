@@ -1,4 +1,5 @@
 defmodule PjeskiWeb.RegistrationView do
+  import Pjeski.FeatureFlags, only: [mailing_enabled?: 0]
   use PjeskiWeb, :view
 
   def time_zones_select_options, do: Tzdata.zone_list

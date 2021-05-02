@@ -1,5 +1,5 @@
 defmodule PjeskiWeb.RegistrationController do
-  import Pjeski.FeatureFlags, only: [registration_enabled?: 0, promote_first_user_to_admin_enabled?: 0]
+  import Pjeski.FeatureFlags, only: [registration_enabled?: 0, promote_first_user_to_admin_enabled?: 0, mailing_enabled?: 0]
 
   use PjeskiWeb, :controller
 
@@ -33,12 +33,13 @@ defmodule PjeskiWeb.RegistrationController do
 
                if promote_first_user_to_admin_enabled?() do
                  token = user.email_confirmation_token
+
+                 {:ok, user, conn} = PowEmailConfirmation.Plug.confirm_email(conn, token)
                  {:ok, _user} = Users.toggle_admin!(user)
-                 {:ok, _user, conn} = PowEmailConfirmation.Plug.confirm_email(conn, token)
 
                  put_flash(conn, :info, gettext("You now can log in to your account"))
                else
-                 do_register_user!(user, conn) |> put_flash(:info, gettext("Please confirm your e-mail before logging in"))
+                 put_flash(conn, :info, gettext("Please confirm your e-mail before logging in"))
 
                  conn
                end
@@ -90,7 +91,15 @@ defmodule PjeskiWeb.RegistrationController do
   defp do_register_user!(user, conn) do
     Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise, %{permission_to_manage_users: true})
     Users.notify_subscribers!([:user, :created], user)
-    send_confirmation_email(user, conn)
+
+    conn = case mailing_enabled?() do
+    true ->
+      send_confirmation_email(user, conn)
+
+      put_flash(conn, :info, gettext("Click the link in the confirmation email to change your email."))
+    false ->
+      put_flash(conn, :info, gettext("Emails are disabled. New users must be confirmed by an administrator."))
+    end
 
     conn
     |> Pow.Plug.delete
@@ -155,10 +164,14 @@ defmodule PjeskiWeb.RegistrationController do
   defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: email, unconfirmed_email: email}}} = conn), do: conn
   defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: nil}}} = conn), do: conn
   defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: _} = user}} = conn) do
-    send_confirmation_email(user, conn)
+    case mailing_enabled?() do
+    true ->
+      send_confirmation_email(user, conn)
 
-    conn
-    |> put_flash(:info, gettext("Click the link in the confirmation email to change your email."))
+      put_flash(conn, :info, gettext("Click the link in the confirmation email to change your email."))
+    false ->
+      put_flash(conn, :info, gettext("E-mailing is disabled. You must be confirmed by an administrator"))
+    end
   end
 
   defp maybe_preload_users(nil), do: nil

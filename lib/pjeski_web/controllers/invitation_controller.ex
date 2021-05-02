@@ -1,5 +1,8 @@
 defmodule PjeskiWeb.InvitationController do
   use PjeskiWeb, :controller
+
+  import Pjeski.FeatureFlags, only: [mailing_enabled?: 0]
+
   import Plug.Conn, only: [assign: 3]
   import Pjeski.Users.UserSessionUtils, only: [
     assign_current_user_and_preload_available_subscriptions: 2,
@@ -10,6 +13,7 @@ defmodule PjeskiWeb.InvitationController do
   alias Pjeski.{Repo, Users, Users.User}
 
   import PjeskiWeb.ControllerHelpers.SubscriptionHelpers, only: [verify_if_subscription_is_expired: 2]
+  import PjeskiWeb.ControllerHelpers.FeatureFlagsHelpers
 
   plug :verify_if_subscription_is_expired when action in [:new, :create]
   plug :load_user_from_invitation_token when action in [:show, :edit, :update]
@@ -24,18 +28,22 @@ defmodule PjeskiWeb.InvitationController do
   end
 
   def create(%{assigns: %{current_subscription: %{id: current_subscription_id}}} = conn, %{"user" => user_params}) do
-    case Plug.create_user(conn, user_params) do
-      {:ok, %{email: email} = user, conn} when is_binary(email) ->
+    case [mailing_enabled?, Plug.create_user(conn, user_params)] do
+      [true, {:ok, %{email: email} = user, conn}] when is_binary(email) ->
         Users.insert_subscription_link_and_maybe_change_last_used_subscription_id(user, current_subscription_id)
 
         maybe_send_email_and_respond_success(conn, user)
-      {:error, %{errors: [email: {_msg, [constraint: :unique, constraint_name: "users_email_index"]}]} = changeset, conn} ->
+      [false, {:ok, %{email: email} = user, conn}] when is_binary(email) ->
+        conn
+        |> put_flash(:error, gettext("Emails are disabled. New users must be confirmed by an administrator before you can invite them."))
+        |> redirect(to: Routes.user_path(conn, :index))
+      [_mailing_enabled?, {:error, %{errors: [email: {_msg, [constraint: :unique, constraint_name: "users_email_index"]}]} = changeset, conn}] ->
         user = Repo.get_by!(User, [email: changeset.changes.email])
 
         Users.upsert_subscription_link!(user.id, current_subscription_id, :nothing)
 
         maybe_send_email_and_respond_success(conn, user)
-      {:error, changeset, conn} ->
+      [_mailing_enabled?, {:error, changeset, conn}] ->
         conn
         |> assign(:changeset, changeset)
         |> render("new.html")
