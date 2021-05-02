@@ -34,7 +34,7 @@ defmodule DeerStorageWeb.RegistrationController do
                if promote_first_user_to_admin_enabled?() do
                  token = user.email_confirmation_token
 
-                 {:ok, user, conn} = PowEmailConfirmation.Plug.confirm_email(conn, token)
+                 {:ok, user, conn} = PowEmailConfirmation.Plug.confirm_email(conn, token) # TODO fix deprecation warning
                  {:ok, _user} = Users.toggle_admin!(user)
 
                  put_flash(conn, :info, gettext("You now can log in to your account"))

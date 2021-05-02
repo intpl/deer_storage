@@ -2,7 +2,7 @@ defmodule DeerStorageWeb.ConfirmationController do
   use DeerStorageWeb, :controller
 
   def show(conn, %{"id" => token}) do
-    case PowEmailConfirmation.Plug.confirm_email(conn, token) do
+    case PowEmailConfirmation.Plug.confirm_email(conn, token) do # TODO fix deprecation warning
       {:ok, _user, conn} ->
         conn
         |> put_flash(:info, gettext("E-mail has been confirmed"))
