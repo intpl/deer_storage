@@ -31,6 +31,7 @@ defmodule DeerStorageWeb.RegistrationController do
              {:ok, %{id: 1} = user, conn} ->
                conn = do_register_user!(user, conn)
 
+               # FIXME does not work in production
                if promote_first_user_to_admin_enabled?() do
                  token = user.email_confirmation_token
 
