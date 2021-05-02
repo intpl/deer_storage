@@ -1,0 +1,76 @@
+<%= if @current_subscription_id do %>
+  <%= live_render(
+      @socket,
+      DeerStorageWeb.SubscriptionNavigationLive,
+      container: {:div, class: "navbar is-dark"},
+      id: "navigation_live",
+      session: %{
+        "header_text" => @current_subscription_name,
+        "subscription_id" => @current_subscription_id,
+        "subscription_tables" => @current_subscription_tables,
+        "storage_limit_kilobytes" => @storage_limit_kilobytes,
+        "locale" => @locale
+      }
+  ) %>
+<% end %>
+
+<section class="hero is-primary is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <%= render(DeerStorageWeb.DeerDashboardView, "_editable_title.html", editing_subscription_name: @editing_subscription_name, current_subscription_name: @current_subscription_name) %>
+      <h2 class="subtitle">
+        <%= gettext("Welcome!") %>
+      </h2>
+    </div>
+  </div>
+</section>
+
+<br />
+
+<%= if @current_subscription_tables do %>
+  <div class="container">
+    <%= for tables <- Enum.chunk_every(@current_subscription_tables, 3) do %>
+      <div class="columns">
+        <%= for table <- tables do %>
+          <div class="column is-4">
+            <div class="box">
+              <article class="media">
+                <div class="content">
+                  <%= case table.id == @editing_table_id do %>
+                    <% true -> %>
+                      <%= live_component(
+                          @socket,
+                          DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent,
+                          table: table,
+                          columns_per_table_limit: @subscription_deer_columns_per_table_limit,
+                          changeset: @editing_table_changeset) %>
+                    <% false -> %>
+                      <%= live_component(
+                          @socket,
+                          DeerStorageWeb.DeerDashboardLive.DeerTableShowComponent,
+                          table: table,
+                          editing_table_id: @editing_table_id,
+                          records_per_table_limit: @subscription_deer_records_per_table_limit,
+                          cached_count: @cached_counts[table.id] || 0) %>
+                  <% end %>
+                </div>
+              </article>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    <% end %>
+    <br>
+
+    <%= cond do %>
+      <% @subscription_deer_tables_limit <= length(@current_subscription_tables) -> %>
+        <i><%= gettext("You can't add new tables due to your database limits") %></i>
+      <% @editing_table_id == nil -> %>
+        <a href="#" phx-click="add_table"><%= gettext("Add table") %></a>
+
+        <%= render(DeerStorageWeb.DeerDashboardView, "_import_csv.html", uploads: @uploads, csv_importer_messages: @csv_importer_messages) %>
+      <% true -> %>
+    <% end %>
+  </div>
+<% end %>

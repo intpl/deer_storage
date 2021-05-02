@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AddDeerFileLimitToSubscription do
+defmodule DeerStorage.Repo.Migrations.AddDeerFileLimitToSubscription do
   use Ecto.Migration
 
   def change do

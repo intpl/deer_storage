@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AddPermissionToManageUsersToUserAvailableSubscriptionLinks do
+defmodule DeerStorage.Repo.Migrations.AddPermissionToManageUsersToUserAvailableSubscriptionLinks do
   use Ecto.Migration
 
   def change do

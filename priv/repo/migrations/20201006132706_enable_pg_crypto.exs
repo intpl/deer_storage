@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.EnablePgCrypto do
+defmodule DeerStorage.Repo.Migrations.EnablePgCrypto do
   use Ecto.Migration
 
   def change do

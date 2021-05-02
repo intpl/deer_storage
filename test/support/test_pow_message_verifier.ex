@@ -1,4 +1,4 @@
-defmodule Pjeski.Test.Pow.MessageVerifier do
+defmodule DeerStorage.Test.Pow.MessageVerifier do
   def sign(_conn, salt, message, _config),
     do: "signed.#{salt}.#{message}"
 

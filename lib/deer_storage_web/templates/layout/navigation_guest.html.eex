@@ -1,0 +1,53 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand is-vcentered">
+    <span class="navbar-item">
+      <a href="/">
+        <strong>
+          🦌 <%= gettext("DeerStorage") %>
+        </strong>
+      </a>
+      &nbsp;
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <% current_locale = Gettext.get_locale(DeerStorageWeb.Gettext) %>
+
+            <%= form_for DeerStorageWeb.Endpoint, Routes.change_language_path(DeerStorageWeb.Endpoint, :change_language), fn _f -> %>
+              <select onChange="this.form.submit()" name="locale">
+                <%= Enum.map(available_languages_and_locales(), fn {language, ^current_locale} -> %>
+                  <option value="<%= current_locale %>" selected><%= language %></option>
+                <% {language, locale} -> %>
+                  <option value="<%= locale %>"><%= language %></option>
+                <% end) %>
+              </select>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </span>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navigation">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navigation" class="navbar-menu">
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <%= if registration_enabled?() do %>
+            <a class="button is-primary" href="<%= Routes.registration_path(DeerStorageWeb.Endpoint, :new) %>"> <strong><%= gettext("Register") %></strong> </a>
+          <% end %>
+
+          <%= link gettext("Sign in"), to: Routes.session_path(DeerStorageWeb.Endpoint, :new), class: 'button is-light' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script type="text/javascript">
+  window.hook_navbar_burger();
+</script>

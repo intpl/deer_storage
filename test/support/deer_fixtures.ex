@@ -1,7 +1,7 @@
-defmodule Pjeski.DeerFixtures do
-  alias Pjeski.DeerRecords
-  alias Pjeski.Subscriptions
-  alias Pjeski.Subscriptions.Subscription
+defmodule DeerStorage.DeerFixtures do
+  alias DeerStorage.DeerRecords
+  alias DeerStorage.Subscriptions
+  alias DeerStorage.Subscriptions.Subscription
 
   def create_valid_subscription_with_tables(tables_count \\ 1, columns_count \\ 1) do
     deer_tables = Enum.map(1..tables_count, fn _ ->

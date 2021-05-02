@@ -1,5 +1,0 @@
-Hi,
-
-You've been invited by <%= @invited_by_user_id %> to join their DeerStorage database. Please use the following link to accept your invitation:
-
-<%= PjeskiWeb.Endpoint.url() <> @url %>

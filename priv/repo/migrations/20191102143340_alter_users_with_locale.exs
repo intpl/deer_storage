@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AlterUsersWithLocales do
+defmodule DeerStorage.Repo.Migrations.AlterUsersWithLocales do
   use Ecto.Migration
 
   def change do

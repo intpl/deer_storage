@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.CreateSubscriptions do
+defmodule DeerStorage.Repo.Migrations.CreateSubscriptions do
   use Ecto.Migration
 
   def change do

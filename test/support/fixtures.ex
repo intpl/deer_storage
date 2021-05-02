@@ -1,5 +1,5 @@
-defmodule Pjeski.Fixtures do
-  alias Pjeski.{Repo, Users, Subscriptions.Subscription}
+defmodule DeerStorage.Fixtures do
+  alias DeerStorage.{Repo, Users, Subscriptions.Subscription}
 
   def random_subscription_attrs(), do: %Subscription{name: Faker.Person.name()}
   def random_user_attrs(), do: %{email: Faker.Internet.safe_email(),

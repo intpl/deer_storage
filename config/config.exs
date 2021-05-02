@@ -8,17 +8,17 @@
 use Mix.Config
 # TODO: use Config module: https://hexdocs.pm/elixir/Config.html
 
-config :pjeski,
-  ecto_repos: [Pjeski.Repo]
+config :deer_storage,
+  ecto_repos: [DeerStorage.Repo]
 
-config :pjeski, Pjeski.Gettext, default_locale: "en", locales: ~w(en pl)
+config :deer_storage, DeerStorage.Gettext, default_locale: "en", locales: ~w(en pl)
 
 # Configures the endpoint
-config :pjeski, PjeskiWeb.Endpoint,
+config :deer_storage, DeerStorageWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "Kkpy/olWADIHhc0fK7C/K2YuBOE3u2BTzJZAnqeI59WAH33cl57Snvee6xGETJfm",
-  render_errors: [view: PjeskiWeb.ErrorView, accepts: ~w(html json)],
-  pubsub_server: Pjeski.PubSub,
+  render_errors: [view: DeerStorageWeb.ErrorView, accepts: ~w(html json)],
+  pubsub_server: DeerStorage.PubSub,
   live_view: [
     signing_salt: "Cx4+NQzV+jnvqWiZKk+v0u1YPxyS/vIg", # overwrite in production
     hibernate_after: 3_600_000 # 1 hour
@@ -33,12 +33,12 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Pow (authentication)
-config :pjeski, :pow,
-  user: Pjeski.Users.User,
-  repo: Pjeski.Repo,
-  mailer_backend: PjeskiWeb.PowMailer,
-  web_module: PjeskiWeb,
-  web_mailer_module: PjeskiWeb,
+config :deer_storage, :pow,
+  user: DeerStorage.Users.User,
+  repo: DeerStorage.Repo,
+  mailer_backend: DeerStorageWeb.PowMailer,
+  web_module: DeerStorageWeb,
+  web_mailer_module: DeerStorageWeb,
   cache_store_backend: Pow.Store.Backend.MnesiaCache,
   extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession, PowInvitation]
   # controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks

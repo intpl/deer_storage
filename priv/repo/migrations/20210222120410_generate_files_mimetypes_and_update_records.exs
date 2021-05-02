@@ -1,10 +1,10 @@
-defmodule Pjeski.Repo.Migrations.GenerateFilesMimetypesAndUpdateRecords do
+defmodule DeerStorage.Repo.Migrations.GenerateFilesMimetypesAndUpdateRecords do
   use Ecto.Migration
   import Ecto.Query, warn: false
   import Ecto.Changeset
 
   def change do
-    records_with_files = Pjeski.DeerRecords.DeerRecord |> where([r], fragment("cardinality(?) > 0", field(r, :deer_files))) |> Pjeski.Repo.all
+    records_with_files = DeerStorage.DeerRecords.DeerRecord |> where([r], fragment("cardinality(?) > 0", field(r, :deer_files))) |> DeerStorage.Repo.all
 
     for %{deer_files: deer_files, deer_table_id: deer_table_id, subscription_id: subscription_id, id: record_id} = record <- records_with_files do
       new_deer_files = Enum.map(deer_files, fn %{id: df_id} = df ->
@@ -20,7 +20,7 @@ defmodule Pjeski.Repo.Migrations.GenerateFilesMimetypesAndUpdateRecords do
       |> change
       |> cast(%{deer_files: new_deer_files}, [])
       |> cast_embed(:deer_files)
-      |> Pjeski.Repo.update!
+      |> DeerStorage.Repo.update!
     end
   end
 end

@@ -1,0 +1,238 @@
+<%= if @current_subscription_id do %>
+  <%= live_render(
+      @socket,
+      DeerStorageWeb.SubscriptionNavigationLive,
+      container: {:div, class: "navbar is-dark"},
+      id: "navigation_live",
+      session: %{
+        "header_text" => @current_subscription_name,
+        "subscription_id" => @current_subscription_id,
+        "subscription_tables" => @current_subscription_tables,
+        "storage_limit_kilobytes" => @storage_limit_kilobytes,
+        "locale" => @locale
+      }
+  ) %>
+<% end %>
+
+<%= cond do
+  @preview_for_record_id && @preview_deer_file ->
+    live_component(
+      @socket,
+      DeerStorageWeb.DeerRecordsLive.Modal.PreviewFileComponent,
+      id: "preview_file_component",
+      file_url: Routes.deer_files_path(@socket, :download_record, @preview_for_record_id, @preview_deer_file.id),
+      deer_file: @preview_deer_file
+    )
+  @uploading_file_for_record ->
+    live_component(
+      @socket,
+      DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent,
+      id: "uploading_file_component",
+      upload_results: @upload_results,
+      uploads: @uploads
+    )
+  @connecting_record ->
+    live_component(
+      @socket,
+      DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent,
+      id: "connecting_component",
+      subscription: @current_subscription,
+      excluded_records_ids: [@connecting_record.id | @connecting_record.connected_deer_records_ids],
+      connecting_record_query: @connecting_query,
+      connecting_record_records: @connecting_records,
+      connecting_record_selected_table_id: @connecting_selected_table_id
+    )
+  @current_shared_link ->
+    live_component(
+      @socket,
+      DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent,
+      id: "shared_record_component",
+      subscription_id: @current_subscription_id,
+      current_shared_link: @current_shared_link
+    )
+  @editing_record ->
+    live_component(
+      @socket,
+      DeerStorageWeb.DeerRecordsLive.Modal.EditComponent,
+      id: "edit",
+      changeset: @editing_record,
+      can_create_records: @cached_count < @current_subscription_deer_records_per_table_limit,
+      subscription: @current_subscription,
+      table_id: @table_id,
+      table_name: @table_name,
+      editing_record_has_been_removed: @editing_record_has_been_removed,
+      old_editing_record: @old_editing_record
+    )
+  @new_record_connecting_with_record_id ->
+    table_id = Ecto.Changeset.fetch_field!(@new_record, :deer_table_id)
+    table_name = deer_table_name_from_id(@current_subscription_tables, table_id)
+
+    live_component(
+      @socket,
+      DeerStorageWeb.DeerRecordsLive.Modal.NewComponent,
+      id: "new",
+      connecting_record?: true,
+      changeset: @new_record,
+      subscription: @current_subscription,
+      table_id: table_id,
+      table_name: table_name,
+      deer_tables: @current_subscription_tables,
+      cached_count: 0 # FIXME
+    )
+  @new_record ->
+    live_component(
+      @socket,
+      DeerStorageWeb.DeerRecordsLive.Modal.NewComponent,
+      id: "new",
+      connecting_record?: false,
+      changeset: @new_record,
+      subscription: @current_subscription,
+      table_id: @table_id,
+      table_name: @table_name,
+      deer_tables: [],
+      cached_count: @cached_count
+    )
+  true -> ""
+end %>
+
+<% opened_records_count = length(@opened_records) %>
+
+<section class="section">
+  <div class="columns z-index-39 has-background-white sticky <%= if Enum.any?(@opened_records), do: "is-hidden-mobile" %>">
+    <div class="column is-2">
+      <div class="field">
+      <%= if @cached_count < @current_subscription_deer_records_per_table_limit do %>
+        <a href="#" phx-click="new" class="button is-primary">
+          <%= gettext("New record") %>
+        </a>
+      <% end %>
+      </div>
+    </div>
+
+    <div class="column is-8">
+      <form phx-submit="filter" phx-change="filter" class="field has-addons overwrite-fullwidth" autocomplete="off">
+        <a class="button is-inline"
+            type="submit"
+            href="#"
+            phx-click="clear"
+            onclick="window.scrollTo(0,0)" <%= if empty?(@query), do: "disabled" %>>
+              <%= gettext("Clear") %>
+        </a>
+
+        <p class="control is-expanded">
+          <input
+            class="input"
+            type="text" name="query"
+            list="matches"
+            placeholder="<%= gettext("Search...") %>"
+            value="<%= maybe_join_query(@query) %>"
+            onkeypress="window.scrollTo(0,0)"
+            phx-debounce="<%= @search_debounce %>" />
+        </p>
+
+        <p class="control">
+          <button class="button" type="submit">
+            <%= gettext("Search") %>
+          </button>
+        </p>
+      </form>
+
+      <div class="is-hidden-mobile">
+        <%= if opened_records_count > 0 do %>
+          <%= gettext("%{count} records selected.", count: opened_records_count) %>
+          |
+          <a href="#" phx-click="clear_selected"><%= gettext("Unselect") %></a>
+          |
+          <a href="#" phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: opened_records_count) %>">
+            <%= gettext("Delete selected (%{count})", count: opened_records_count) %>
+          </a>
+        <% else %>
+          <br>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns is-mobile">
+    <div class="column <%= if Enum.any?(@opened_records), do: "is-hidden-mobile" %>">
+        <%= if @count == 0 do %>
+          <div class="section">
+            <h1 class="title has-text-grey-light has-text-centered">
+              <%= gettext("Could not find anything...") %>
+            </h3>
+
+            <%= if @page > 1 do %>
+              <h3 class="subtitle has-text-grey-light has-text-centered">
+                <%= gettext("There are no more records") %>
+              </h3>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%= if assigns[:table_id] do %>
+          <% deer_columns = deer_columns_from_subscription(@current_subscription, @table_id) %>
+
+          <%= for record <- @records do %>
+            <a class="box <%= classes_for_record_box(@current_user.id, record, @opened_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
+              <div class="columns is-desktop">
+                <div class="column">
+                  <%= for %{id: column_id, name: column_name} <- deer_columns do %>
+                    <% content = deer_field_content_from_column_id(record, column_id) %>
+                    <%= column_name %>:
+                    <%= case @query do %>
+                      <% [] -> %> <b><%= content %></b>
+                      <% _list -> %>
+                      <%= case Enum.any?(@query, fn word -> compare_downcased_strings(content, word) end) do %>
+                        <% true -> %> <b><%= content %></b>
+                        <% false -> %> <%= content %>
+                      <% end %>
+                    <% end %>
+                    <br>
+                  <% end %>
+                </div>
+                <div class="column">
+                  <%= for %{original_filename: filename} <- record.deer_files do %>
+                    <%= case Enum.any?(@query, fn word -> compare_downcased_strings(filename, word) end) do %>
+                      <% true -> %> <b><%= maybe_shrink_filename(filename, 100) %></b>
+                      <% false -> %> <%= maybe_shrink_filename(filename, 30) %>
+                    <% end %>
+                    <br>
+                  <% end %>
+                </div>
+              </div>
+            </a>
+          <% end %>
+        <% end %>
+
+        <%= render(DeerStorageWeb.PaginationView, "simple.html", page: @page, count: @count, per_page: @per_page) %>
+    </div>
+
+    <%= if opened_records_count > 10 do %>
+      <div class="column">
+        <div class="has-text-centered">
+          <div class="sticky overwrite-padding-top-120">
+            <%= gettext("%{count} records selected.", count: opened_records_count) %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <%= for [record, connected_records] <- @opened_records do %>
+        <div class="column">
+          <div class="sticky">
+            <%= live_component(
+                @socket,
+                DeerStorageWeb.DeerRecordsLive.ShowComponent,
+                id: record.id,
+                current_user: @current_user,
+                record: record,
+                subscription: @current_subscription,
+                table_id: @table_id,
+                connected_records: connected_records
+              )
+            %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </section>
+</div>

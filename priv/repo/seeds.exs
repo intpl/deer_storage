@@ -1,11 +1,11 @@
-alias Pjeski.Repo
+alias DeerStorage.Repo
 
-alias Pjeski.Users
-alias Pjeski.Subscriptions
-alias Pjeski.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
+alias DeerStorage.Users
+alias DeerStorage.Subscriptions
+alias DeerStorage.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
-alias Pjeski.Users.User
-alias Pjeski.Subscriptions.Subscription
+alias DeerStorage.Users.User
+alias DeerStorage.Subscriptions.Subscription
 
 import Ecto.Query, warn: false
 
@@ -118,7 +118,7 @@ for %Subscription{id: sub_id} = sub <- subscriptions do
     Repo.insert_all(UserAvailableSubscriptionLink, user_subscription_links)
 
     IO.puts " OK"
-    IO.puts "Current User count: #{Pjeski.Repo.aggregate(from(u in "users"), :count, :id)}"
+    IO.puts "Current User count: #{DeerStorage.Repo.aggregate(from(u in "users"), :count, :id)}"
 end
 
 IO.puts "Done!"

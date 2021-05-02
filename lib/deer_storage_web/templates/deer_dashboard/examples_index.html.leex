@@ -1,0 +1,85 @@
+<%= if @current_subscription_id do %>
+  <%= live_render(
+      @socket,
+      DeerStorageWeb.SubscriptionNavigationLive,
+      container: {:div, class: "navbar is-light"},
+      id: "navigation_live",
+      session: %{
+        "header_text" => @current_subscription_name,
+        "subscription_id" => @current_subscription_id,
+        "subscription_tables" => @current_subscription_tables,
+        "storage_limit_kilobytes" => @storage_limit_kilobytes,
+        "locale" => @locale
+      }
+  ) %>
+<% end %>
+
+<%= if assigns[:displayed_error] do %>
+  <div class="modal is-active">
+    <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title is-danger has-text-danger">
+            <%= gettext("Error") %>
+          </p>
+        <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="reset_displayed_error"></a>
+      </header>
+      <section class="modal-card-body">
+        <div class="container">
+          <%= assigns.displayed_error %>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <a class="button" aria-label="close" data-bulma-modal="close" href="#" phx-click="reset_displayed_error"><%= gettext("Close") %></a>
+      </footer>
+    </div>
+  </div>
+<% end %>
+
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <%= render(DeerStorageWeb.DeerDashboardView, "_editable_title.html", editing_subscription_name: @editing_subscription_name, current_subscription_name: @current_subscription_name) %>
+      <h2 class="subtitle">
+        <%= gettext("Welcome to DeerStorage! You can create your database using example templates and edit it or start building from scratch.") %>
+      </h2>
+    </div>
+  </div>
+</section>
+
+<br />
+
+<div class="container">
+  <%= if @subscription_deer_tables_limit > 0 && assigns.all_listed_examples do %>
+    <%= for listed_examples <- Enum.chunk_every(assigns.all_listed_examples, 3) do %>
+      <div class="columns">
+        <%= for {key, {name, description, _tables}} <- listed_examples do %>
+          <div class="column is-one-third">
+            <div class="box">
+              <article class="media">
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong> <%= name %> </strong>
+                      <br>
+                      <%= description %>
+                    </p>
+                  </div>
+                  <nav class="level is-mobile">
+                    <a href="#" phx-click="use_example" phx-value-key="<%= key %>" class="button is-link is-light"><%= gettext("Use this template") %></a>
+                  </nav>
+                </div>
+              </article>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <a href="#" phx-click="add_table"><%= gettext("Start with empty database instead") %></a>
+
+    <%= render(DeerStorageWeb.DeerDashboardView, "_import_csv.html", uploads: @uploads, csv_importer_messages: @csv_importer_messages) %>
+  <% else %>
+    <i><%= gettext("You can't add new tables due to your database limits") %></i>
+  <% end %>
+</div>

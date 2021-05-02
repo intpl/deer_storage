@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.CreateSharedFiles do
+defmodule DeerStorage.Repo.Migrations.CreateSharedFiles do
   use Ecto.Migration
 
   def change do

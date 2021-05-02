@@ -1,6 +1,6 @@
 defmodule DeerCacheRecordsCountsCacheTest do
-  use Pjeski.DataCase
-  import Pjeski.DeerFixtures
+  use DeerStorage.DataCase
+  import DeerStorage.DeerFixtures
 
   describe "fetch_count/1" do
     test "responds with 0 when invalid id" do
@@ -27,7 +27,7 @@ defmodule DeerCacheRecordsCountsCacheTest do
     create_valid_records_for_subscription(subscription, 5)
     assert DeerCache.RecordsCountsCache.fetch_count(table_id) == 10
 
-    Pjeski.DeerRecords.delete_record(subscription, first_record)
+    DeerStorage.DeerRecords.delete_record(subscription, first_record)
     assert DeerCache.RecordsCountsCache.fetch_count(table_id) == 9
     end
   end

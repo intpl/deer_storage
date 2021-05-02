@@ -1,4 +1,4 @@
-defmodule PjeskiWeb.ChannelCase do
+defmodule DeerStorageWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule PjeskiWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint PjeskiWeb.Endpoint
+      @endpoint DeerStorageWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Pjeski.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(DeerStorage.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Pjeski.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(DeerStorage.Repo, {:shared, self()})
     end
 
     :ok

@@ -1,4 +1,4 @@
-defmodule PjeskiWeb.EtsCacheMock do
+defmodule DeerStorageWeb.EtsCacheMock do
   @tab __MODULE__
 
   def init, do: :ets.new(@tab, [:ordered_set, :protected, :named_table])

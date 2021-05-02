@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AlterUsersWithAdminNotes do
+defmodule DeerStorage.Repo.Migrations.AlterUsersWithAdminNotes do
   use Ecto.Migration
 
   def change do

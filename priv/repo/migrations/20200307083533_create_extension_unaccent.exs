@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.CreateExtensionUnaccent do
+defmodule DeerStorage.Repo.Migrations.CreateExtensionUnaccent do
   use Ecto.Migration
 
   def change do

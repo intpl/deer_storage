@@ -1,4 +1,4 @@
-defmodule PjeskiWeb.ConnCase do
+defmodule DeerStorageWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -12,7 +12,7 @@ defmodule PjeskiWeb.ConnCase do
   inside a transaction which is reset at the beginning
   of the test unless the test case is marked as async.
   """
-  alias PjeskiWeb.EtsCacheMock
+  alias DeerStorageWeb.EtsCacheMock
 
   use ExUnit.CaseTemplate
 
@@ -22,23 +22,23 @@ defmodule PjeskiWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
 
-      alias PjeskiWeb.Router.Helpers, as: Routes
+      alias DeerStorageWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint PjeskiWeb.Endpoint
+      @endpoint DeerStorageWeb.Endpoint
     end
   end
 
   setup tags do
     EtsCacheMock.init()
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Pjeski.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(DeerStorage.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Pjeski.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(DeerStorage.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn(), ets: EtsCacheMock}
   end
 
-  setup %{conn: conn}, do: {:ok, conn: conn |> Pow.Plug.put_config([otp_app: :pjeski])}
+  setup %{conn: conn}, do: {:ok, conn: conn |> Pow.Plug.put_config([otp_app: :deer_storage])}
 end

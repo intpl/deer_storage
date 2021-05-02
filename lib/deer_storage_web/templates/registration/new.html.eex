@@ -1,0 +1,99 @@
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <%= gettext("Register") %>
+      </h1>
+      <h2 class="subtitle">
+        <%= gettext("Register to DeerStorage") %>
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <%= form_for @changeset, Routes.registration_path(@conn, :create), [as: :user, autocomplete: "off"], fn f -> %>
+      <%= if @changeset.action do %>
+        <div class="help is-danger">
+          <p><%= gettext("Oops, something went wrong! Please check the errors below.") %></p>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= inputs_for f, :last_used_subscription, fn sf -> %>
+          <div class="field">
+            <%= label sf, :name, gettext("Database name"), class: 'label' %>
+            <%= text_input sf, :name, class: 'input' %>
+            <%= error_tag sf, :name %>
+          </div>
+        <% end %>
+      </div>
+
+      <br>
+
+      <div class="field">
+        <%= label f, :locale, gettext("Language"), class: 'label' %>
+        <%= select f, :locale, languages_select_options(), selected: Gettext.get_locale(DeerStorageWeb.Gettext), class: 'input' %>
+        <%= error_tag f, :locale %>
+      </div>
+
+      <div class="field">
+        <%= label f, :name, gettext("Name and surname"), class: 'label' %>
+        <%= text_input f, :name, class: 'input' %>
+        <%= error_tag f, :name %>
+      </div>
+
+      <div class="field">
+        <label for="user_email" class="label">
+          <%= gettext("E-mail address") %>
+        </label>
+        <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
+        <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+      </div>
+
+      <div class="field">
+        <%= label f, :time_zone, gettext("Display dates in the following time zone"), class: 'label' %>
+        <%= select f, :time_zone, time_zones_select_options(), class: 'input use-select2' %>
+        <%= error_tag f, :time_zone %>
+      </div>
+
+      <div class="field">
+        <%= label f, :password, gettext("Password"), class: 'label' %>
+        <%= password_input f, :password, class: 'input' %>
+        <%= error_tag f, :password %>
+      </div>
+
+      <div class="field">
+        <%= label f, :password_confirmation, gettext("Confirm password"), class: 'label' %>
+        <%= password_input f, :password_confirmation, class: 'input' %>
+        <%= error_tag f, :password_confirmation %>
+      </div>
+
+      <hr>
+
+      <div class="field">
+        <%= label f, :captcha, @captcha_challenge, class: 'label' %>
+        <%= text_input f, :captcha, class: 'input', placeholder: gettext("Solve the math question here...") %>
+        <%= error_tag f, :captcha %>
+      </div>
+
+      <%= case mailing_enabled?() do %>
+      <% true -> %>
+        <div>
+          <%= submit gettext("Register"), class: 'button is-primary' %>
+        </div>
+      <% false -> %>
+        <div class="notification is-warning">
+          <%= gettext("Emails are disabled. New users must be confirmed by an administrator.") %>
+
+          <br><br>
+
+          <%= submit gettext("Register"), class: 'button is-primary' %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<script type="text/javascript"> $('.use-select2').select2(); </script>

@@ -16,7 +16,7 @@ if [[ -z `psql -Atqc "\\list $PGDATABASE"` ]]; then
 fi
 
 echo "Running migrations..."
-bin/pjeski eval "Pjeski.Release.migrate"
+bin/deer_storage eval "DeerStorage.Release.migrate"
 
 echo "Starting application..."
-exec bin/pjeski start
+exec bin/deer_storage start

@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AddEditingBoolToDeerSharedRecords do
+defmodule DeerStorage.Repo.Migrations.AddEditingBoolToDeerSharedRecords do
   use Ecto.Migration
 
   def change do

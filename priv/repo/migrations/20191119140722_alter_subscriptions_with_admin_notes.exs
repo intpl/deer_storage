@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AlterSubscriptionsWithAdminNotes do
+defmodule DeerStorage.Repo.Migrations.AlterSubscriptionsWithAdminNotes do
   use Ecto.Migration
 
   def change do

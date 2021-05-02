@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.RenameDisplayedNameToNameInUsers do
+defmodule DeerStorage.Repo.Migrations.RenameDisplayedNameToNameInUsers do
   use Ecto.Migration
 
   def change do

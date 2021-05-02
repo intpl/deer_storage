@@ -32,7 +32,7 @@ services:
     depends_on:
       - nginx-proxy
   phoenix:
-    image: pjeski-prod
+    image: deer_storage-prod
     build:
       context: ./
       dockerfile: ./docker-data/Dockerfile.phoenix

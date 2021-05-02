@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AlterUsersWithRole do
+defmodule DeerStorage.Repo.Migrations.AlterUsersWithRole do
   use Ecto.Migration
 
   def change do

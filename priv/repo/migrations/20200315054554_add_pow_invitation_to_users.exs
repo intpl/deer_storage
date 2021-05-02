@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AddPowInvitationToUsers do
+defmodule DeerStorage.Repo.Migrations.AddPowInvitationToUsers do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AddConnectedDeerRecordsIdsToDeerRecords do
+defmodule DeerStorage.Repo.Migrations.AddConnectedDeerRecordsIdsToDeerRecords do
   use Ecto.Migration
 
   def change do

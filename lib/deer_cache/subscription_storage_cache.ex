@@ -23,7 +23,7 @@ defmodule DeerCache.SubscriptionStorageCache do
 
     set(subscription_id, new_data, state)
 
-    PubSub.broadcast Pjeski.PubSub, "subscription_deer_storage:#{subscription_id}", {:cached_deer_storage_changed, new_data}
+    PubSub.broadcast DeerStorage.PubSub, "subscription_deer_storage:#{subscription_id}", {:cached_deer_storage_changed, new_data}
 
     {:noreply, state}
   end
@@ -34,7 +34,7 @@ defmodule DeerCache.SubscriptionStorageCache do
 
     set(subscription_id, new_data, state)
 
-    PubSub.broadcast Pjeski.PubSub, "subscription_deer_storage:#{subscription_id}", {:cached_deer_storage_changed, new_data}
+    PubSub.broadcast DeerStorage.PubSub, "subscription_deer_storage:#{subscription_id}", {:cached_deer_storage_changed, new_data}
 
     {:noreply, state}
   end
@@ -42,7 +42,7 @@ defmodule DeerCache.SubscriptionStorageCache do
   def init(args) do
     [{:ets_table_name, ets_table_name}] = args
     :ets.new(ets_table_name, [:named_table, :set, :private])
-    grouped_data = Pjeski.Services.CalculateDeerStorage.run!()
+    grouped_data = DeerStorage.Services.CalculateDeerStorage.run!()
     state = %{ets_table_name: ets_table_name}
 
     for {subscription_id, {files, kilobytes}} <- grouped_data, do: set(subscription_id, {files, kilobytes}, state)

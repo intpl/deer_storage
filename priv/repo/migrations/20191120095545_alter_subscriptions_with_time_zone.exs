@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.AlterUsersWithTimeZone do
+defmodule DeerStorage.Repo.Migrations.AlterUsersWithTimeZone do
   use Ecto.Migration
 
   def change do

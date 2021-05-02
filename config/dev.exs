@@ -1,10 +1,10 @@
 use Mix.Config
 
 # Configure your database
-config :pjeski, Pjeski.Repo,
+config :deer_storage, DeerStorage.Repo,
   username: "pjeski",
   password: "pjeski",
-  database: "pjeski_dev",
+  database: "deer_storage_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -15,7 +15,7 @@ config :pjeski, Pjeski.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :pjeski, PjeskiWeb.Endpoint,
+config :deer_storage, DeerStorageWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -55,13 +55,13 @@ config :pjeski, PjeskiWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :pjeski, PjeskiWeb.Endpoint,
+config :deer_storage, DeerStorageWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/pjeski_web/{live,views}/.*(ex)$",
-      ~r"lib/pjeski_web/templates/.*(eex)$"
+      ~r"lib/deer_storage_web/{live,views}/.*(ex)$",
+      ~r"lib/deer_storage_web/templates/.*(eex)$"
     ]
   ]
 
@@ -75,4 +75,4 @@ config :phoenix, :stacktrace_depth, 20
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
 
-config :pjeski, PjeskiWeb.PowMailer, adapter: Bamboo.LocalAdapter
+config :deer_storage, DeerStorageWeb.PowMailer, adapter: Bamboo.LocalAdapter

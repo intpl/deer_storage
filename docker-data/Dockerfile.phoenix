@@ -56,8 +56,8 @@ RUN apk --no-cache --no-progress add -q coreutils file
 
 WORKDIR /opt/app
 
-COPY --from=build /opt/app/_build/prod/rel/pjeski ./
-RUN ["chmod", "+x", "/opt/app/bin/pjeski"]
+COPY --from=build /opt/app/_build/prod/rel/deer_storage ./
+RUN ["chmod", "+x", "/opt/app/bin/deer_storage"]
 RUN ["chmod", "+x", "/opt/app/releases/0.1.0/elixir"]
 
 COPY ./docker-data/phoenix-entrypoint.sh /opt/app

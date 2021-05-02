@@ -1,4 +1,4 @@
-defmodule Pjeski.Repo.Migrations.RenameUsersSubscriptionIdToLastUsedSubscriptionId do
+defmodule DeerStorage.Repo.Migrations.RenameUsersSubscriptionIdToLastUsedSubscriptionId do
   use Ecto.Migration
 
   def change do

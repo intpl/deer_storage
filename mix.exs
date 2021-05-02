@@ -1,9 +1,9 @@
-defmodule Pjeski.MixProject do
+defmodule DeerStorage.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :pjeski,
+      app: :deer_storage,
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Pjeski.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Pjeski.Application, []},
+      mod: {DeerStorage.Application, []},
       extra_applications: [:mnesia, :logger, :runtime_tools, :timex, :phoenix_ecto, :bamboo, :os_mon]
     ]
   end
