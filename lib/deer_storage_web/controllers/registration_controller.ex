@@ -28,23 +28,11 @@ defmodule DeerStorageWeb.RegistrationController do
         conn
         |> Pow.Plug.create_user(user_params)
         |> case do
-             {:ok, %{id: 1} = user, conn} ->
-               conn = do_register_user!(user, conn)
-
-               # FIXME does not work in production
-               if promote_first_user_to_admin_enabled?() do
-                 token = user.email_confirmation_token
-
-                 {:ok, user, conn} = PowEmailConfirmation.Plug.confirm_email(conn, token) # TODO fix deprecation warning
-                 {:ok, _user} = Users.toggle_admin!(user)
-
-                 put_flash(conn, :info, gettext("You now can log in to your account"))
-               else
-                 put_flash(conn, :info, gettext("Please confirm your e-mail before logging in"))
-
-                 conn
-               end
-             {:ok, user, conn} -> do_register_user!(user, conn) |> put_flash(:info, gettext("Please confirm your e-mail before logging in"))
+             {:ok, user, conn} ->
+               conn
+               |> do_register_user!(user)
+               |> maybe_send_confirmation_email
+               |> delete_plug_session_and_redirect
              {:error, changeset, conn} -> render_new_with_captcha(conn, changeset)
            end
       else
@@ -63,7 +51,7 @@ defmodule DeerStorageWeb.RegistrationController do
         Gettext.put_locale(DeerStorageWeb.Gettext, locale) # in case the user changed locale in this request
 
         conn
-        |> maybe_send_confirmation_email
+        |> maybe_send_confirmation_email_on_update
         |> put_flash(:info, gettext("Account updated"))
         |> render_edit_for_current_user(Pow.Plug.change_user(conn))
 
@@ -89,22 +77,11 @@ defmodule DeerStorageWeb.RegistrationController do
     |> redirect(to: Routes.registration_path(conn, :edit))
   end
 
-  defp do_register_user!(user, conn) do
+  defp do_register_user!(conn, user) do
     Users.upsert_subscription_link!(user.id, user.last_used_subscription_id, :raise, %{permission_to_manage_users: true})
     Users.notify_subscribers!([:user, :created], user)
 
-    conn = case mailing_enabled?() do
-    true ->
-      send_confirmation_email(user, conn)
-
-      put_flash(conn, :info, gettext("Click the link in the confirmation email to change your email."))
-    false ->
-      put_flash(conn, :info, gettext("Emails are disabled. New users must be confirmed by an administrator."))
-    end
-
     conn
-    |> Pow.Plug.delete
-    |> redirect(to: Routes.session_path(conn, :new))
   end
 
   # let it fail if false is unmatched
@@ -162,17 +139,40 @@ defmodule DeerStorageWeb.RegistrationController do
     user |> Repo.preload([:available_subscriptions, :last_used_subscription])
   end
 
-  defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: email, unconfirmed_email: email}}} = conn), do: conn
-  defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: nil}}} = conn), do: conn
-  defp maybe_send_confirmation_email(%{assigns: %{current_user: %User{email: _, unconfirmed_email: _} = user}} = conn) do
+  defp maybe_send_confirmation_email_on_update(%{assigns: %{current_user: %User{email: email, unconfirmed_email: email}}} = conn), do: conn
+  defp maybe_send_confirmation_email_on_update(%{assigns: %{current_user: %User{email: _, unconfirmed_email: nil}}} = conn), do: conn
+  defp maybe_send_confirmation_email_on_update(%{assigns: %{current_user: user}} = conn) do
     case mailing_enabled?() do
-    true ->
-      send_confirmation_email(user, conn)
-
-      put_flash(conn, :info, gettext("Click the link in the confirmation email to change your email."))
-    false ->
-      put_flash(conn, :info, gettext("E-mailing is disabled. You must be confirmed by an administrator"))
+      true ->
+        send_confirmation_email(user, conn)
+        |> put_flash(:info, gettext("Click the link in the confirmation email to change your email."))
+      false -> put_flash(conn, :info, gettext("E-mailing is disabled."))
     end
+  end
+
+  defp maybe_send_confirmation_email(%{assigns: %{current_user: user}} = conn) do
+    case [mailing_enabled?(), promote_first_user_to_admin_enabled?(), user] do
+      [_mailing_flag, true = _autopromote_enabled, %{id: 1}] ->
+        # TODO fix deprecation warning
+        {:ok, user, conn} = PowEmailConfirmation.Plug.confirm_email(conn, user.email_confirmation_token)
+        {:ok, user} = Users.toggle_admin!(user)
+
+        conn
+        |> Pow.Plug.assign_current_user(user, Pow.Plug.fetch_config(conn))
+        |> put_flash(:info, gettext("You now can log in to your account"))
+      [true = _mailing_enabled, _autopromote_flag, _user] ->
+        send_confirmation_email(user, conn)
+
+        put_flash(conn, :info, gettext("Click the link in the confirmation email to activate your account."))
+      [false = _mailing_disabled, _autopromote_flag, _user] ->
+        put_flash(conn, :info, gettext("E-mailing is disabled. You must be confirmed by an administrator"))
+    end
+  end
+
+  defp delete_plug_session_and_redirect(conn) do
+    conn
+    |> Pow.Plug.delete
+    |> redirect(to: Routes.session_path(conn, :new))
   end
 
   defp maybe_preload_users(nil), do: nil
