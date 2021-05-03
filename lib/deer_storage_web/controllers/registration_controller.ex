@@ -46,17 +46,18 @@ defmodule DeerStorageWeb.RegistrationController do
   end
 
   def update(conn, %{"user" => user_params}) do
-    conn |> Pow.Plug.update_user(user_params) |> case do
-      {:ok, %User{locale: locale}, conn} ->
-        Gettext.put_locale(DeerStorageWeb.Gettext, locale) # in case the user changed locale in this request
+    case mailing_enabled?() do
+      true -> do_update_user!(conn, user_params)
+      false ->
+        case [user_params["email"], Pow.Plug.current_user(conn).email] do
+          [email, email] -> do_update_user!(conn, user_params)
+          [_, _] ->
+            changeset = User.changeset(%User{}, user_params)
 
-        conn
-        |> maybe_send_confirmation_email_on_update
-        |> put_flash(:info, gettext("Account updated"))
-        |> render_edit_for_current_user(Pow.Plug.change_user(conn))
-
-      {:error, changeset, conn} ->
-        render_edit_for_current_user(conn, changeset)
+            conn
+            |> put_flash(:error, gettext("You cannot change your e-mail. Ask your administrator to do it for you."))
+            |> render_edit_for_current_user(changeset)
+        end
     end
   end
 
@@ -82,6 +83,21 @@ defmodule DeerStorageWeb.RegistrationController do
     Users.notify_subscribers!([:user, :created], user)
 
     conn
+  end
+
+  defp do_update_user!(conn, user_params) do
+    conn |> Pow.Plug.update_user(user_params) |> case do
+      {:ok, %User{locale: locale}, conn} ->
+        Gettext.put_locale(DeerStorageWeb.Gettext, locale) # in case the user changed locale in this request
+
+        conn
+        |> maybe_send_confirmation_email_on_update
+        |> put_flash(:info, gettext("Account updated"))
+        |> render_edit_for_current_user(Pow.Plug.change_user(conn))
+
+      {:error, changeset, conn} ->
+        render_edit_for_current_user(conn, changeset)
+    end
   end
 
   # let it fail if false is unmatched
@@ -145,7 +161,8 @@ defmodule DeerStorageWeb.RegistrationController do
     case mailing_enabled?() do
       true ->
         send_confirmation_email(user, conn)
-        |> put_flash(:info, gettext("Click the link in the confirmation email to change your email."))
+
+        put_flash(conn, :info, gettext("Click the link in the confirmation email to change your email."))
       false -> put_flash(conn, :info, gettext("E-mailing is disabled."))
     end
   end
