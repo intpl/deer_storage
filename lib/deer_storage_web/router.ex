@@ -59,6 +59,7 @@ defmodule DeerStorageWeb.Router do
 
         put "/toggle_admin", UserController, :toggle_admin
         put "/log_out_from_devices", UserController, :log_out_from_devices
+        put "/confirm_user", UserController, :confirm_user
       end
 
 

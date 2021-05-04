@@ -111,6 +111,28 @@ defmodule DeerStorageWeb.Admin.UserController do
     |> redirect(to: Routes.admin_user_path(conn, :show, user))
   end
 
+  def confirm_user(conn, %{"user_id" => id}) do
+    user = Users.get_user!(id)
+    token = user.email_confirmation_token
+    case token do
+      nil ->
+        conn
+        |> put_flash(:info, gettext("User is already confirmed"))
+        |> redirect(to: Routes.admin_user_path(conn, :show, user))
+      _token ->
+        case PowEmailConfirmation.Plug.confirm_email(conn, token) do
+          {:ok, _user, conn} ->
+            conn
+            |> put_flash(:info, gettext("E-mail has been confirmed"))
+            |> redirect(to: Routes.admin_user_path(conn, :show, user))
+          {:error, _changeset, conn} ->
+            conn
+            |> put_flash(:error, gettext("Failed to confirm e-mail"))
+            |> redirect(to: Routes.admin_user_path(conn, :show, user))
+        end
+    end
+  end
+
   def log_out_from_devices(conn, %{"user_id" => id}) do
     user = Users.get_user!(id)
     UserSessionUtils.delete_all_sessions_for_user!(user)

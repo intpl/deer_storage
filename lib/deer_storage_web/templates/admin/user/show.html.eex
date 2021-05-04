@@ -98,23 +98,22 @@
               <td> <%= @user.unconfirmed_email || gettext("empty") %> </td>
             </tr>
             <tr>
-              <td> <%= gettext("Email confirmation url") %> </td>
+              <td> <%= gettext("Email confirmation") %> </td>
               <td>
                 <%= if @user.email_confirmation_token do %>
-                  <% confirmation_url = Routes.confirmation_path(@conn, :show, @user.email_confirmation_token) %>
-                  <%=  link confirmation_url, to: confirmation_url %>
+                  <%= button gettext("Confirm user"), to: Routes.admin_user_user_path(@conn, :confirm_user, @user), method: :put, class: "button is-success is-small" %>
+                  <%= if mailing_enabled?(), do: gettext("User did not click a confirmation link") %>
                 <% else %>
-                <%= gettext("empty") %>
+                  <%= gettext("User is confirmed") %>
                 <% end %>
               </td>
             </tr>
           </table>
         </div>
         <div class="column">
-            <%= gettext("Changing user's last used database requires new session") %>
-            <br />
-            <br />
           <h4 class="title is-4"><%= gettext("Current database") %></h4>
+          <h2 class="subtitle is-6"><%= gettext("Changing user's current database requires a new session") %></h2>
+
           <%= if @user.last_used_subscription do %>
             <%= link gettext("Reset"),
             to: Routes.admin_user_user_subscription_link_path(@conn, :reset, @user.id),

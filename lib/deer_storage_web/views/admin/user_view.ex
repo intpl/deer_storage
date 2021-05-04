@@ -1,6 +1,7 @@
 defmodule DeerStorageWeb.Admin.UserView do
   use DeerStorageWeb, :view
 
+  import DeerStorage.FeatureFlags, only: [mailing_enabled?: 0]
   import DeerStorageWeb.RegistrationView, only: [languages_select_options: 0, time_zones_select_options: 0]
 
   def determine_if_sorted(title, field, sort_by, query) do
