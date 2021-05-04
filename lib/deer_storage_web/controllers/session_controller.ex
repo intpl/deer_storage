@@ -2,6 +2,7 @@ defmodule DeerStorageWeb.SessionController do
   require Logger
   use DeerStorageWeb, :controller
 
+  import DeerStorage.FeatureFlags, only: [mailing_enabled?: 0]
   import DeerStorageWeb.ControllerHelpers.ConfirmationHelpers, only: [send_confirmation_email: 2]
 
   import DeerStorage.Users.UserSessionUtils, only: [
@@ -23,22 +24,17 @@ defmodule DeerStorageWeb.SessionController do
         user = conn |> Pow.Plug.current_user()
 
         case email_confirmed?(user) do
-            true ->
-              Logger.info("User (id #{user.id}) signing in...")
+          true ->
+            Logger.info("User (id #{user.id}) signing in...")
 
-              conn
-              |> assign_current_user_and_preload_available_subscriptions(user)
-              |> maybe_put_subscription_into_session
-              |> put_into_session(:locale, user.locale)
-              |> put_into_session(:current_user_id, user.id)
-              |> redirect_to_dashboard(user.last_used_subscription_id) # this will be assigned to session on next request
-            false ->
-              send_confirmation_email(user, conn)
-
-              conn
-              |> Pow.Plug.delete
-              |> put_flash(:info, gettext("E-mail not confirmed. Confirmation e-mail has been sent again"))
-              |> redirect(to: Routes.session_path(conn, :new))
+            conn
+            |> assign_current_user_and_preload_available_subscriptions(user)
+            |> maybe_put_subscription_into_session
+            |> put_into_session(:locale, user.locale)
+            |> put_into_session(:current_user_id, user.id)
+            |> redirect_to_dashboard(user.last_used_subscription_id) # this will be assigned to session on next request
+          false ->
+            maybe_resend_confirmation_email(conn, user)
         end
       {:error, conn} ->
         changeset = Pow.Plug.change_user(conn, conn.params["user"])
@@ -65,6 +61,26 @@ defmodule DeerStorageWeb.SessionController do
   end
   def redirect_to_dashboard(conn, _), do: conn |> redirect(to: Routes.live_path(conn, DeerStorageWeb.DeerDashboardLive.Index))
 
+  defp maybe_resend_confirmation_email(conn, user) do
+    case mailing_enabled?() do
+      true -> send_confirmation_email_and_delete_session(conn, user)
+      false -> notice_about_unconfirmed_email_by_administrator(conn)
+    end
+  end
+
+  defp notice_about_unconfirmed_email_by_administrator(conn) do
+    delete_session_and_put_flash(conn, gettext("You have to be confirmed by an administrator before you can log in"))
+  end
+
+  defp send_confirmation_email_and_delete_session(conn, user) do
+    send_confirmation_email(user, conn)
+
+    delete_session_and_put_flash(conn, gettext("E-mail not confirmed. Confirmation e-mail has been sent again"))
+  end
+
+  defp delete_session_and_put_flash(conn, translated_flash) do
+    conn |> Pow.Plug.delete |> put_flash(:info, translated_flash) |> redirect(to: Routes.session_path(conn, :new))
+  end
 
   defp email_confirmed?(%{role: "admin"}), do: true
   defp email_confirmed?(%{email_confirmed_at: nil, email_confirmation_token: token, unconfirmed_email: nil}) when not is_nil(token), do: false
