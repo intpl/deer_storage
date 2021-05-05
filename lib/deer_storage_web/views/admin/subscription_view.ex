@@ -9,19 +9,17 @@ defmodule DeerStorageWeb.Admin.SubscriptionView do
     end
   end
 
-  def storage_limit_options() do
-    [
-      {"0 MB", 0},
-      {"50 MB", 51_200},
-      {"100 MB", 102_400},
-      {"200 MB", 204_800},
-      {"500 MB", 512_000},
-      {"1 GB", 1_024_000},
-      {"5 GB", 5_120_000},
-      {"10 GB", 10_240_000},
-      {"20 GB", 20_480_000},
-      {"50 GB", 51_200_000}
-    ]
+  def storage_limit_options(selected_option \\ nil) do
+    default_limits_list = default_limits_list()
+
+    case selected_option do
+      nil -> default_limits_list
+      _ ->
+        case Enum.find(default_limits_list, fn {text, value} -> value == selected_option end) do
+          nil -> ["#{selected_option} KB" | default_limits_list]
+          _ -> default_limits_list
+        end
+    end
   end
 
   def determine_if_sorted(title, field, sort_by, query) do
@@ -61,6 +59,21 @@ defmodule DeerStorageWeb.Admin.SubscriptionView do
       ["updated_at_asc", gettext("Updated at") <> ascending],
       ["users_count_desc", gettext("Users") <> descending],
       ["users_count_asc", gettext("Users") <> ascending]
+    ]
+  end
+
+  defp default_limits_list do
+    [
+      {"0 MB", 0},
+      {"50 MB", 51_200},
+      {"100 MB", 102_400},
+      {"200 MB", 204_800},
+      {"500 MB", 512_000},
+      {"1 GB", 1_024_000},
+      {"5 GB", 5_120_000},
+      {"10 GB", 10_240_000},
+      {"20 GB", 20_480_000},
+      {"50 GB", 51_200_000}
     ]
   end
 end

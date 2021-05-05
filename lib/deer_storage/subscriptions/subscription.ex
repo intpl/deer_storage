@@ -9,14 +9,20 @@ defmodule DeerStorage.Subscriptions.Subscription do
   alias DeerStorage.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   schema "subscriptions" do
+    default_records_per_table_limit = System.get_env("NEW_SUBSCRIPTION_RECORDS_PER_TABLE_LIMIT") |> String.to_integer
+    default_files_limit = System.get_env("NEW_SUBSCRIPTION_FILES_COUNT_LIMIT") |> String.to_integer
+    default_storage_limit = System.get_env("NEW_SUBSCRIPTION_STORAGE_LIMIT_IN_KILOBYTES") |> String.to_integer
+    default_columns_per_table_limit = System.get_env("NEW_SUBSCRIPTION_COLUMNS_PER_TABLE_LIMIT") |> String.to_integer
+    default_tables_limit = System.get_env("NEW_SUBSCRIPTION_TABLES_LIMIT") |> String.to_integer
+
     field :admin_notes, :string
     field :name, :string
     field :expires_on, :date
-    field :deer_files_limit, :integer, default: 200
-    field :storage_limit_kilobytes, :integer, default: 102_400 # 100 MB
-    field :deer_records_per_table_limit, :integer, default: 1000
-    field :deer_columns_per_table_limit, :integer, default: 10
-    field :deer_tables_limit, :integer, default: 5
+    field :deer_records_per_table_limit, :integer, default: default_records_per_table_limit
+    field :deer_files_limit, :integer, default: default_files_limit
+    field :storage_limit_kilobytes, :integer, default: default_storage_limit
+    field :deer_columns_per_table_limit, :integer, default: default_columns_per_table_limit
+    field :deer_tables_limit, :integer, default: default_tables_limit
 
     has_many :user_subscription_links, UserAvailableSubscriptionLink
     many_to_many :users, User, join_through: UserAvailableSubscriptionLink

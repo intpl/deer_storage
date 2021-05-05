@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= label f, :storage_limit_kilobytes, gettext("Storage limit"), class: 'label' %>
-    <%= select f, :storage_limit_kilobytes, storage_limit_options(), class: 'input' %>
+    <%= select f, :storage_limit_kilobytes, storage_limit_options(field_value(f, :storage_limit_kilobytes)), class: 'input' %>
     <%= error_tag f, :storage_limit_kilobytes %>
   </div>
 
