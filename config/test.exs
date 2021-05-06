@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :deer_storage, DeerStorage.Repo,
-  username: "deer_storage",
-  password: "deer_storage",
+  username: "pjeski",
+  password: "pjeski",
   database: "deer_storage_test",
   hostname: "localhost",
   secret_key_base: String.duplicate("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 2),

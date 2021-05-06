@@ -64,7 +64,7 @@ defmodule DeerStorage.CsvImporterTest do
       result = CsvImporter.run!(self(), subscription, user, @polish_people_csv, "test.csv", "XYZ")
 
       assert all_records_for.(subscription.id) == []
-      assert {:error, "Too many records: Limit is 0"} = result
+      assert {:error, "Zbyt wiele rekordów: Limit wynosi 0"} = result
     end
   end
 end
