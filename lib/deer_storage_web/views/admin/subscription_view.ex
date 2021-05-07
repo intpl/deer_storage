@@ -15,7 +15,7 @@ defmodule DeerStorageWeb.Admin.SubscriptionView do
     case selected_option do
       nil -> default_limits_list
       _ ->
-        case Enum.find(default_limits_list, fn {text, value} -> value == selected_option end) do
+        case Enum.find(default_limits_list, fn {_text, value} -> value == selected_option end) do
           nil -> ["#{selected_option} KB" | default_limits_list]
           _ -> default_limits_list
         end
