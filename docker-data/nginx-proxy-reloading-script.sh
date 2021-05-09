@@ -25,6 +25,7 @@ echo "Starting nginx-proxy reloading script..."
 if [ $LETSENCRYPT_ENABLED == 1 ]; then
     if [ "$(certificate_matching_letsencrypt)" -ge 1 ]; then
         echo "LetsEncrypt certificate found."
+        # TODO loop waiting if it's expired
     else
         while [ "$(certificate_matching_letsencrypt)" -eq 0 ]; do
             echo "Waiting for Let's Encrypt certificate..."
