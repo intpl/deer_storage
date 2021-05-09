@@ -12,7 +12,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:4
-#: lib/deer_storage_web/templates/admin/user/form.html.eex:4 lib/deer_storage_web/templates/registration/new.html.eex:20
+#: lib/deer_storage_web/templates/admin/user/form.html.eex:4 lib/deer_storage_web/templates/registration/new.html.eex:19
 #: lib/deer_storage_web/templates/registration/user_fields.html.eex:7 lib/deer_storage_web/templates/reset_password/edit.html.eex:19
 #: lib/deer_storage_web/templates/reset_password/new.html.eex:19 lib/deer_storage_web/templates/session/new.html.eex:19
 msgid "Oops, something went wrong! Please check the errors below."
@@ -21,7 +21,7 @@ msgstr ""
 #, elixir-format
 #: lib/deer_storage_web/templates/layout/navigation_guest.html.eex:41
 #: lib/deer_storage_web/templates/registration/new.html.eex:5 lib/deer_storage_web/templates/registration/new.html.eex:84
-#: lib/deer_storage_web/templates/session/new.html.eex:47
+#: lib/deer_storage_web/templates/registration/new.html.eex:92 lib/deer_storage_web/templates/session/new.html.eex:47
 msgid "Register"
 msgstr ""
 
@@ -37,29 +37,29 @@ msgid "Update"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/registration_view.ex:9
+#: lib/deer_storage_web/views/registration_view.ex:10
 msgid "English"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/form.html.eex:21
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:84 lib/deer_storage_web/templates/registration/new.html.eex:38
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:84 lib/deer_storage_web/templates/registration/new.html.eex:36
 #: lib/deer_storage_web/templates/registration/user_fields.html.eex:25
 msgid "Language"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/registration_view.ex:8
+#: lib/deer_storage_web/views/registration_view.ex:9
 msgid "Polish"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/registration/new.html.eex:70
+#: lib/deer_storage_web/templates/registration/new.html.eex:68
 msgid "Confirm password"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/registration/new.html.eex:64
+#: lib/deer_storage_web/templates/registration/new.html.eex:62
 #: lib/deer_storage_web/templates/session/new.html.eex:30
 msgid "Password"
 msgstr ""
@@ -71,7 +71,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/form.html.eex:27
-#: lib/deer_storage_web/templates/registration/new.html.eex:51 lib/deer_storage_web/templates/registration/user_fields.html.eex:43
+#: lib/deer_storage_web/templates/registration/new.html.eex:49 lib/deer_storage_web/templates/registration/user_fields.html.eex:43
 msgid "E-mail address"
 msgstr ""
 
@@ -109,9 +109,9 @@ msgstr ""
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:70
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:89 lib/deer_storage_web/templates/admin/user/show.html.eex:75
-#: lib/deer_storage_web/templates/invitation/new.html.eex:23 lib/deer_storage_web/templates/session/new.html.eex:24
-#: lib/deer_storage_web/templates/user/index.html.eex:29 lib/deer_storage_web/views/admin/user_view.ex:50
-#: lib/deer_storage_web/views/admin/user_view.ex:51
+#: lib/deer_storage_web/templates/invitation/new.html.eex:33 lib/deer_storage_web/templates/session/new.html.eex:24
+#: lib/deer_storage_web/templates/user/index.html.eex:29 lib/deer_storage_web/views/admin/user_view.ex:51
+#: lib/deer_storage_web/views/admin/user_view.ex:52
 msgid "E-mail"
 msgstr ""
 
@@ -129,7 +129,7 @@ msgid "Actions"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/admin/user_view.ex:29
+#: lib/deer_storage_web/views/admin/user_view.ex:30
 msgid "Admin"
 msgstr ""
 
@@ -141,8 +141,8 @@ msgstr ""
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/edit.html.eex:24
 #: lib/deer_storage_web/templates/admin/subscription/show.html.eex:105 lib/deer_storage_web/templates/admin/subscription/show.html.eex:164
-#: lib/deer_storage_web/templates/admin/user/edit.html.eex:50 lib/deer_storage_web/templates/admin/user/show.html.eex:148
-#: lib/deer_storage_web/views/admin/user_view.ex:24
+#: lib/deer_storage_web/templates/admin/user/edit.html.eex:50 lib/deer_storage_web/templates/admin/user/show.html.eex:147
+#: lib/deer_storage_web/views/admin/user_view.ex:25
 msgid "Are you sure?"
 msgstr ""
 
@@ -162,19 +162,19 @@ msgid "Edit"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/admin/user_view.ex:21
+#: lib/deer_storage_web/views/admin/user_view.ex:22
 msgid "Grant admin privileges"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/admin/user_view.ex:19
+#: lib/deer_storage_web/views/admin/user_view.ex:20
 msgid "Revoke admin privileges"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:79
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:123 lib/deer_storage_web/templates/admin/user/show.html.eex:81
-#: lib/deer_storage_web/views/admin/user_view.ex:56 lib/deer_storage_web/views/admin/user_view.ex:57
+#: lib/deer_storage_web/views/admin/user_view.ex:57 lib/deer_storage_web/views/admin/user_view.ex:58
 msgid "Role"
 msgstr ""
 
@@ -186,7 +186,7 @@ msgid "Save"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/admin/user_view.ex:30
+#: lib/deer_storage_web/views/admin/user_view.ex:31
 msgid "User"
 msgstr ""
 
@@ -194,8 +194,8 @@ msgstr ""
 #: lib/deer_storage_web/templates/admin/dashboard/index.html.leex:11
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:78 lib/deer_storage_web/templates/admin/subscription/index.html.eex:113
 #: lib/deer_storage_web/templates/admin/subscription/show.html.eex:96 lib/deer_storage_web/templates/admin/user/_header.html.eex:5
-#: lib/deer_storage_web/templates/layout/navigation_admin.html.eex:17 lib/deer_storage_web/views/admin/subscription_view.ex:62
-#: lib/deer_storage_web/views/admin/subscription_view.ex:63
+#: lib/deer_storage_web/templates/layout/navigation_admin.html.eex:17 lib/deer_storage_web/views/admin/subscription_view.ex:60
+#: lib/deer_storage_web/views/admin/subscription_view.ex:61
 msgid "Users"
 msgstr ""
 
@@ -231,16 +231,16 @@ msgstr ""
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:45
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:70 lib/deer_storage_web/templates/admin/subscription/index.html.eex:89
-#: lib/deer_storage_web/templates/admin/subscription/show.html.eex:60 lib/deer_storage_web/templates/admin/user/show.html.eex:128
-#: lib/deer_storage_web/views/admin/subscription_view.ex:46 lib/deer_storage_web/views/admin/subscription_view.ex:47
+#: lib/deer_storage_web/templates/admin/subscription/show.html.eex:60 lib/deer_storage_web/templates/admin/user/show.html.eex:127
+#: lib/deer_storage_web/views/admin/subscription_view.ex:44 lib/deer_storage_web/views/admin/subscription_view.ex:45
 msgid "Expires on"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:21 lib/deer_storage/deer_tables_examples.ex:32
-#: lib/deer_storage/deer_tables_examples.ex:35 lib/deer_storage_web/live/deer_dashboard_live/deer_table_edit_component.ex:24
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:125 lib/deer_storage_web/views/admin/subscription_view.ex:44
-#: lib/deer_storage_web/views/admin/subscription_view.ex:45
+#: lib/deer_storage/deer_tables_examples.ex:21
+#: lib/deer_storage/deer_tables_examples.ex:32 lib/deer_storage/deer_tables_examples.ex:35
+#: lib/deer_storage_web/live/deer_dashboard_live/deer_table_edit_component.ex:24 lib/deer_storage_web/templates/admin/user/show.html.eex:124
+#: lib/deer_storage_web/views/admin/subscription_view.ex:42 lib/deer_storage_web/views/admin/subscription_view.ex:43
 msgid "Name"
 msgstr ""
 
@@ -250,8 +250,8 @@ msgstr ""
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:110 lib/deer_storage_web/templates/admin/subscription/show.html.eex:72
 #: lib/deer_storage_web/templates/admin/subscription/show.html.eex:142 lib/deer_storage_web/templates/admin/user/index.html.eex:75
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:104 lib/deer_storage_web/templates/admin/user/show.html.eex:90
-#: lib/deer_storage_web/views/admin/subscription_view.ex:60 lib/deer_storage_web/views/admin/subscription_view.ex:61
-#: lib/deer_storage_web/views/admin/user_view.ex:62 lib/deer_storage_web/views/admin/user_view.ex:63
+#: lib/deer_storage_web/views/admin/subscription_view.ex:58 lib/deer_storage_web/views/admin/subscription_view.ex:59
+#: lib/deer_storage_web/views/admin/user_view.ex:63 lib/deer_storage_web/views/admin/user_view.ex:64
 msgid "Updated at"
 msgstr ""
 
@@ -259,17 +259,16 @@ msgstr ""
 #: lib/deer_storage_web/templates/admin/subscription/show.html.eex:153
 #: lib/deer_storage_web/templates/admin/user/edit.html.eex:10 lib/deer_storage_web/templates/admin/user/show.html.eex:10
 #: lib/deer_storage_web/templates/admin/user/show.html.eex:94 lib/deer_storage_web/templates/admin/user/show.html.eex:98
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:107 lib/deer_storage_web/views/admin/user_view.ex:34
-#: lib/deer_storage_web/views/admin/user_view.ex:39
+#: lib/deer_storage_web/views/admin/user_view.ex:35 lib/deer_storage_web/views/admin/user_view.ex:40
 msgid "empty"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/form.html.eex:9
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:69 lib/deer_storage_web/templates/admin/user/show.html.eex:72
-#: lib/deer_storage_web/templates/registration/new.html.eex:44 lib/deer_storage_web/templates/registration/user_fields.html.eex:19
-#: lib/deer_storage_web/templates/user/index.html.eex:28 lib/deer_storage_web/views/admin/user_view.ex:48
-#: lib/deer_storage_web/views/admin/user_view.ex:49
+#: lib/deer_storage_web/templates/registration/new.html.eex:42 lib/deer_storage_web/templates/registration/user_fields.html.eex:19
+#: lib/deer_storage_web/templates/user/index.html.eex:28 lib/deer_storage_web/views/admin/user_view.ex:49
+#: lib/deer_storage_web/views/admin/user_view.ex:50
 msgid "Name and surname"
 msgstr ""
 
@@ -290,7 +289,7 @@ msgstr ""
 #: lib/deer_storage_web/templates/admin/subscription/show.html.eex:126
 #: lib/deer_storage_web/templates/admin/user/form.html.eex:15 lib/deer_storage_web/templates/admin/user/index.html.eex:73
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:98 lib/deer_storage_web/templates/admin/user/show.html.eex:78
-#: lib/deer_storage_web/views/admin/user_view.ex:52 lib/deer_storage_web/views/admin/user_view.ex:53
+#: lib/deer_storage_web/views/admin/user_view.ex:53 lib/deer_storage_web/views/admin/user_view.ex:54
 msgid "Time zone"
 msgstr ""
 
@@ -300,7 +299,7 @@ msgid "%{name} is now '%{role}'"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/session_controller.ex:47
+#: lib/deer_storage_web/controllers/session_controller.ex:43
 msgid "Invalid e-mail or password"
 msgstr ""
 
@@ -332,7 +331,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/admin/user_controller.ex:120
+#: lib/deer_storage_web/controllers/admin/user_controller.ex:142
 msgid "%{name} has been logged out from all devices"
 msgstr ""
 
@@ -348,21 +347,20 @@ msgid "Search"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/live/deer_records_live/modal/connect_record_component.ex:44
-#: lib/deer_storage_web/templates/admin/subscription/index.html.eex:32 lib/deer_storage_web/templates/admin/user/index.html.eex:33
-#: lib/deer_storage_web/templates/deer_record/index.html.leex:127
+#: lib/deer_storage_web/live/deer_records_live/modal/connect_record_component.ex:44 lib/deer_storage_web/templates/admin/subscription/index.html.eex:32
+#: lib/deer_storage_web/templates/admin/user/index.html.eex:33 lib/deer_storage_web/templates/deer_record/index.html.leex:127
 msgid "Search..."
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/admin/subscription/_index_pagination.html.eex:13
-#: lib/deer_storage_web/templates/admin/user/_index_pagination.html.eex:12 lib/deer_storage_web/templates/pagination/simple.html.eex:12
+#: lib/deer_storage_web/templates/admin/subscription/_index_pagination.html.eex:13 lib/deer_storage_web/templates/admin/user/_index_pagination.html.eex:12
+#: lib/deer_storage_web/templates/pagination/simple.html.eex:12
 msgid "Next page"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/admin/subscription/_index_pagination.html.eex:4
-#: lib/deer_storage_web/templates/admin/user/_index_pagination.html.eex:4 lib/deer_storage_web/templates/pagination/simple.html.eex:4
+#: lib/deer_storage_web/templates/admin/subscription/_index_pagination.html.eex:4 lib/deer_storage_web/templates/admin/user/_index_pagination.html.eex:4
+#: lib/deer_storage_web/templates/pagination/simple.html.eex:4
 msgid "Previous page"
 msgstr ""
 
@@ -397,9 +395,9 @@ msgstr ""
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:58
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:79 lib/deer_storage_web/templates/admin/subscription/index.html.eex:116
 #: lib/deer_storage_web/templates/admin/user/form.html.eex:33 lib/deer_storage_web/templates/admin/user/index.html.eex:78
-#: lib/deer_storage_web/templates/admin/user/index.html.eex:113 lib/deer_storage_web/views/admin/subscription_view.ex:56
-#: lib/deer_storage_web/views/admin/subscription_view.ex:57 lib/deer_storage_web/views/admin/user_view.ex:58
-#: lib/deer_storage_web/views/admin/user_view.ex:59
+#: lib/deer_storage_web/templates/admin/user/index.html.eex:113 lib/deer_storage_web/views/admin/subscription_view.ex:54
+#: lib/deer_storage_web/views/admin/subscription_view.ex:55 lib/deer_storage_web/views/admin/user_view.ex:59
+#: lib/deer_storage_web/views/admin/user_view.ex:60
 msgid "Admin notes"
 msgstr ""
 
@@ -407,57 +405,57 @@ msgstr ""
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:76
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:107 lib/deer_storage_web/templates/admin/user/index.html.eex:74
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:101 lib/deer_storage_web/templates/admin/user/show.html.eex:87
-#: lib/deer_storage_web/views/admin/subscription_view.ex:58 lib/deer_storage_web/views/admin/subscription_view.ex:59
-#: lib/deer_storage_web/views/admin/user_view.ex:60 lib/deer_storage_web/views/admin/user_view.ex:61
+#: lib/deer_storage_web/views/admin/subscription_view.ex:56 lib/deer_storage_web/views/admin/subscription_view.ex:57
+#: lib/deer_storage_web/views/admin/user_view.ex:61 lib/deer_storage_web/views/admin/user_view.ex:62
 msgid "Inserted at"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:77
-#: lib/deer_storage_web/templates/admin/user/index.html.eex:110 lib/deer_storage_web/views/admin/user_view.ex:54
-#: lib/deer_storage_web/views/admin/user_view.ex:55
+#: lib/deer_storage_web/templates/admin/user/index.html.eex:110 lib/deer_storage_web/views/admin/user_view.ex:55
+#: lib/deer_storage_web/views/admin/user_view.ex:56
 msgid "Locale"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/admin/subscription_view.ex:43
-#: lib/deer_storage_web/views/admin/user_view.ex:47
+#: lib/deer_storage_web/views/admin/subscription_view.ex:41
+#: lib/deer_storage_web/views/admin/user_view.ex:48
 msgid "No sorting"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/admin/subscription_view.ex:40
-#: lib/deer_storage_web/views/admin/user_view.ex:44
+#: lib/deer_storage_web/views/admin/subscription_view.ex:38
+#: lib/deer_storage_web/views/admin/user_view.ex:45
 msgid "ascending"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/views/admin/subscription_view.ex:39
-#: lib/deer_storage_web/views/admin/user_view.ex:43
+#: lib/deer_storage_web/views/admin/subscription_view.ex:37
+#: lib/deer_storage_web/views/admin/user_view.ex:44
 msgid "descending"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/registration/new.html.eex:58
+#: lib/deer_storage_web/templates/registration/new.html.eex:56
 #: lib/deer_storage_web/templates/registration/user_fields.html.eex:31
 msgid "Display dates in the following time zone"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/reset_password_controller.ex:25
 #: lib/deer_storage_web/controllers/reset_password_controller.ex:31
+#: lib/deer_storage_web/controllers/reset_password_controller.ex:37
 msgid "Email has been sent"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/invitation_controller.ex:72
-#: lib/deer_storage_web/controllers/reset_password_controller.ex:68
+#: lib/deer_storage_web/controllers/invitation_controller.ex:80
+#: lib/deer_storage_web/controllers/reset_password_controller.ex:79
 msgid "Invalid token"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/reset_password/edit.html.eex:5
-#: lib/deer_storage_web/templates/reset_password/new.html.eex:5 lib/deer_storage_web/templates/session/new.html.eex:49
+#: lib/deer_storage_web/templates/reset_password/new.html.eex:5 lib/deer_storage_web/templates/session/new.html.eex:51
 msgid "Reset password"
 msgstr ""
 
@@ -472,28 +470,25 @@ msgid "Send a link to reset your password"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/reset_password_controller.ex:37
+#: lib/deer_storage_web/controllers/reset_password_controller.ex:43
 msgid "User not found"
 msgstr ""
 
 #, elixir-format
+#: lib/deer_storage_web/controllers/admin/user_controller.ex:126
 #: lib/deer_storage_web/controllers/confirmation_controller.ex:8
 msgid "E-mail has been confirmed"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/session_controller.ex:40
+#: lib/deer_storage_web/controllers/session_controller.ex:78
 msgid "E-mail not confirmed. Confirmation e-mail has been sent again"
 msgstr ""
 
 #, elixir-format
+#: lib/deer_storage_web/controllers/admin/user_controller.ex:130
 #: lib/deer_storage_web/controllers/confirmation_controller.ex:12
 msgid "Failed to confirm e-mail"
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/controllers/registration_controller.ex:38
-msgid "Please confirm your e-mail before logging in"
 msgstr ""
 
 #, elixir-format
@@ -502,12 +497,12 @@ msgid "Click the link in the confirmation email to change your email to:"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/registration_controller.ex:145
+#: lib/deer_storage_web/controllers/registration_controller.ex:165
 msgid "Click the link in the confirmation email to change your email."
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/registration_controller.ex:59
+#: lib/deer_storage_web/controllers/registration_controller.ex:95
 msgid "Account updated"
 msgstr ""
 
@@ -517,7 +512,7 @@ msgid "New Password"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/reset_password_controller.ex:55
+#: lib/deer_storage_web/controllers/reset_password_controller.ex:65
 msgid "Password has been changed"
 msgstr ""
 
@@ -528,17 +523,12 @@ msgid "Confirmed at"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:101
-msgid "Email confirmation url"
-msgstr ""
-
-#, elixir-format
 #: lib/deer_storage_web/templates/admin/user/show.html.eex:97
 msgid "Unconfirmed email"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/invitation_controller.ex:124
+#: lib/deer_storage_web/controllers/invitation_controller.ex:132
 msgid "Invitation e-mail sent"
 msgstr ""
 
@@ -568,7 +558,7 @@ msgid "Manage users"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/invitation_controller.ex:58
+#: lib/deer_storage_web/controllers/invitation_controller.ex:66
 msgid "User has been created"
 msgstr ""
 
@@ -584,7 +574,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/live/deer_records_live/show_component.ex:161
-#: lib/deer_storage_web/templates/admin/subscription/show.html.eex:161 lib/deer_storage_web/templates/admin/user/show.html.eex:145
+#: lib/deer_storage_web/templates/admin/subscription/show.html.eex:161 lib/deer_storage_web/templates/admin/user/show.html.eex:144
 msgid "Disconnect"
 msgstr ""
 
@@ -596,12 +586,12 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/show.html.eex:181
-#: lib/deer_storage_web/templates/admin/user/form.html.eex:51 lib/deer_storage_web/templates/admin/user/show.html.eex:171
+#: lib/deer_storage_web/templates/admin/user/form.html.eex:51 lib/deer_storage_web/templates/admin/user/show.html.eex:170
 msgid "Empty"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:152
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:151
 msgid "Make current"
 msgstr ""
 
@@ -612,7 +602,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:22
-#: lib/deer_storage_web/templates/admin/user/index.html.eex:22 lib/deer_storage_web/templates/admin/user/show.html.eex:119
+#: lib/deer_storage_web/templates/admin/user/index.html.eex:22 lib/deer_storage_web/templates/admin/user/show.html.eex:118
 msgid "Reset"
 msgstr ""
 
@@ -622,7 +612,7 @@ msgid "Switch"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:157
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:156
 msgid "Current"
 msgstr ""
 
@@ -670,8 +660,9 @@ msgstr ""
 #: lib/deer_storage_web/live/deer_dashboard_live/deer_table_edit_component.ex:57
 #: lib/deer_storage_web/live/deer_records_live/modal/edit_component.ex:107 lib/deer_storage_web/live/deer_records_live/modal/edit_component.ex:124
 #: lib/deer_storage_web/live/deer_records_live/modal/edit_component.ex:130 lib/deer_storage_web/live/deer_records_live/modal/new_component.ex:73
-#: lib/deer_storage_web/live/deer_records_live/modal/uploading_file_component.ex:14 lib/deer_storage_web/live/deer_records_live/modal/uploading_file_component.ex:52
-#: lib/deer_storage_web/templates/deer_dashboard/_editable_title.html.leex:10 lib/deer_storage_web/templates/deer_dashboard/_import_csv.html.leex:10
+#: lib/deer_storage_web/live/deer_records_live/modal/uploading_file_component.ex:14
+#: lib/deer_storage_web/live/deer_records_live/modal/uploading_file_component.ex:52 lib/deer_storage_web/templates/deer_dashboard/_editable_title.html.leex:10
+#: lib/deer_storage_web/templates/deer_dashboard/_import_csv.html.leex:10
 msgid "Cancel"
 msgstr ""
 
@@ -749,9 +740,10 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/live/deer_records_live/modal/connect_record_component.ex:88
-#: lib/deer_storage_web/live/deer_records_live/modal/created_shared_record_component.ex:35 lib/deer_storage_web/live/deer_records_live/modal/uploading_file_component.ex:23
-#: lib/deer_storage_web/templates/deer_dashboard/examples_index.html.leex:33 lib/deer_storage_web/templates/deer_record/preview_modal_document.html.leex:29
-#: lib/deer_storage_web/templates/deer_record/preview_modal_image.html.leex:23 lib/deer_storage_web/templates/deer_record/preview_modal_video.html.leex:25
+#: lib/deer_storage_web/live/deer_records_live/modal/created_shared_record_component.ex:35
+#: lib/deer_storage_web/live/deer_records_live/modal/uploading_file_component.ex:23 lib/deer_storage_web/templates/deer_dashboard/examples_index.html.leex:33
+#: lib/deer_storage_web/templates/deer_record/preview_modal_document.html.leex:29 lib/deer_storage_web/templates/deer_record/preview_modal_image.html.leex:23
+#: lib/deer_storage_web/templates/deer_record/preview_modal_video.html.leex:25
 msgid "Close"
 msgstr ""
 
@@ -768,7 +760,7 @@ msgstr ""
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:15
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:71 lib/deer_storage_web/templates/admin/subscription/index.html.eex:92
-#: lib/deer_storage_web/views/admin/subscription_view.ex:54 lib/deer_storage_web/views/admin/subscription_view.ex:55
+#: lib/deer_storage_web/views/admin/subscription_view.ex:52 lib/deer_storage_web/views/admin/subscription_view.ex:53
 msgid "Storage limit"
 msgstr ""
 
@@ -822,7 +814,7 @@ msgstr ""
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:21
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:72 lib/deer_storage_web/templates/admin/subscription/index.html.eex:95
-#: lib/deer_storage_web/views/admin/subscription_view.ex:48 lib/deer_storage_web/views/admin/subscription_view.ex:49
+#: lib/deer_storage_web/views/admin/subscription_view.ex:46 lib/deer_storage_web/views/admin/subscription_view.ex:47
 msgid "Files limit"
 msgstr ""
 
@@ -843,7 +835,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/invitation/edit.html.eex:41
-#: lib/deer_storage_web/templates/invitation/new.html.eex:28 lib/deer_storage_web/templates/reset_password/edit.html.eex:36
+#: lib/deer_storage_web/templates/invitation/new.html.eex:38 lib/deer_storage_web/templates/reset_password/edit.html.eex:36
 #: lib/deer_storage_web/templates/reset_password/new.html.eex:30
 msgid "Submit"
 msgstr ""
@@ -851,16 +843,16 @@ msgstr ""
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:39
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:75 lib/deer_storage_web/templates/admin/subscription/index.html.eex:104
-#: lib/deer_storage_web/templates/admin/subscription/show.html.eex:55 lib/deer_storage_web/views/admin/subscription_view.ex:52
-#: lib/deer_storage_web/views/admin/subscription_view.ex:53
+#: lib/deer_storage_web/templates/admin/subscription/show.html.eex:55 lib/deer_storage_web/views/admin/subscription_view.ex:50
+#: lib/deer_storage_web/views/admin/subscription_view.ex:51
 msgid "Records per table limit"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:27
 #: lib/deer_storage_web/templates/admin/subscription/index.html.eex:73 lib/deer_storage_web/templates/admin/subscription/index.html.eex:98
-#: lib/deer_storage_web/templates/admin/subscription/show.html.eex:45 lib/deer_storage_web/views/admin/subscription_view.ex:50
-#: lib/deer_storage_web/views/admin/subscription_view.ex:51
+#: lib/deer_storage_web/templates/admin/subscription/show.html.eex:45 lib/deer_storage_web/views/admin/subscription_view.ex:48
+#: lib/deer_storage_web/views/admin/subscription_view.ex:49
 msgid "Tables limit"
 msgstr ""
 
@@ -993,12 +985,14 @@ msgid "Clients"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:47 lib/deer_storage/deer_tables_examples.ex:61
+#: lib/deer_storage/deer_tables_examples.ex:47
+#: lib/deer_storage/deer_tables_examples.ex:61
 msgid "Date"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:18 lib/deer_storage/deer_tables_examples.ex:33
+#: lib/deer_storage/deer_tables_examples.ex:18
+#: lib/deer_storage/deer_tables_examples.ex:33
 msgid "Date of birth"
 msgstr ""
 
@@ -1028,13 +1022,14 @@ msgid "Phone number"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:18 lib/deer_storage/deer_tables_examples.ex:33
+#: lib/deer_storage/deer_tables_examples.ex:18
+#: lib/deer_storage/deer_tables_examples.ex:33
 msgid "Students"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:19 lib/deer_storage/deer_tables_examples.ex:20
-#: lib/deer_storage/deer_tables_examples.ex:34
+#: lib/deer_storage/deer_tables_examples.ex:19
+#: lib/deer_storage/deer_tables_examples.ex:20 lib/deer_storage/deer_tables_examples.ex:34
 msgid "Subject"
 msgstr ""
 
@@ -1089,13 +1084,15 @@ msgid "Country/place"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:36 lib/deer_storage/deer_tables_examples.ex:48
+#: lib/deer_storage/deer_tables_examples.ex:36
+#: lib/deer_storage/deer_tables_examples.ex:48
 msgid "Deadline"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:20 lib/deer_storage/deer_tables_examples.ex:21
-#: lib/deer_storage/deer_tables_examples.ex:35 lib/deer_storage/deer_tables_examples.ex:36
+#: lib/deer_storage/deer_tables_examples.ex:20
+#: lib/deer_storage/deer_tables_examples.ex:21 lib/deer_storage/deer_tables_examples.ex:35
+#: lib/deer_storage/deer_tables_examples.ex:36
 msgid "Description"
 msgstr ""
 
@@ -1120,13 +1117,14 @@ msgid "Family"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:20 lib/deer_storage/deer_tables_examples.ex:21
-#: lib/deer_storage/deer_tables_examples.ex:35
+#: lib/deer_storage/deer_tables_examples.ex:20
+#: lib/deer_storage/deer_tables_examples.ex:21 lib/deer_storage/deer_tables_examples.ex:35
 msgid "Grade"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:21 lib/deer_storage/deer_tables_examples.ex:35
+#: lib/deer_storage/deer_tables_examples.ex:21
+#: lib/deer_storage/deer_tables_examples.ex:35
 msgid "Grades"
 msgstr ""
 
@@ -1359,7 +1357,7 @@ msgid "Create connected record"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/invitation_controller.ex:130
+#: lib/deer_storage_web/controllers/invitation_controller.ex:138
 msgid "Added user to your database"
 msgstr ""
 
@@ -1386,23 +1384,18 @@ msgid "Are you sure to unlink %{name} from your database?"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:136
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:135
 #: lib/deer_storage_web/templates/registration/edit.html.eex:44
 msgid "Available databases"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/show.html.eex:114
-msgid "Changing user's last used database requires new session"
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:117
 msgid "Current database"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/registration_controller.ex:90
+#: lib/deer_storage_web/controllers/registration_controller.ex:109
 msgid "Current database changed"
 msgstr ""
 
@@ -1413,21 +1406,21 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:71
-#: lib/deer_storage_web/templates/admin/user/index.html.eex:92 lib/deer_storage_web/views/admin/user_view.ex:64
-#: lib/deer_storage_web/views/admin/user_view.ex:65
+#: lib/deer_storage_web/templates/admin/user/index.html.eex:92 lib/deer_storage_web/views/admin/user_view.ex:65
+#: lib/deer_storage_web/views/admin/user_view.ex:66
 msgid "Database"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:72
-#: lib/deer_storage_web/templates/admin/user/index.html.eex:95 lib/deer_storage_web/views/admin/user_view.ex:66
-#: lib/deer_storage_web/views/admin/user_view.ex:67
+#: lib/deer_storage_web/templates/admin/user/index.html.eex:95 lib/deer_storage_web/views/admin/user_view.ex:67
+#: lib/deer_storage_web/views/admin/user_view.ex:68
 msgid "Database expires on"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:9
-#: lib/deer_storage_web/templates/admin/subscription/index.html.eex:69 lib/deer_storage_web/templates/registration/new.html.eex:28
+#: lib/deer_storage_web/templates/admin/subscription/index.html.eex:69 lib/deer_storage_web/templates/registration/new.html.eex:26
 msgid "Database name"
 msgstr ""
 
@@ -1496,7 +1489,7 @@ msgid "This database expired"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:131
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:130
 msgid "This user has no last used database attached"
 msgstr ""
 
@@ -1531,8 +1524,7 @@ msgid "User has been removed from your database"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/deer_dashboard/editable_deer_tables.html.leex:68
-#: lib/deer_storage_web/templates/deer_dashboard/examples_index.html.leex:83
+#: lib/deer_storage_web/templates/deer_dashboard/editable_deer_tables.html.leex:68 lib/deer_storage_web/templates/deer_dashboard/examples_index.html.leex:83
 msgid "You can't add new tables due to your database limits"
 msgstr ""
 
@@ -1562,8 +1554,9 @@ msgid "Import table from .csv file"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage/deer_tables_examples.ex:18 lib/deer_storage/deer_tables_examples.ex:31
-#: lib/deer_storage/deer_tables_examples.ex:33 lib/deer_storage/deer_tables_examples.ex:58 lib/deer_storage/deer_tables_examples.ex:59
+#: lib/deer_storage/deer_tables_examples.ex:18
+#: lib/deer_storage/deer_tables_examples.ex:31 lib/deer_storage/deer_tables_examples.ex:33
+#: lib/deer_storage/deer_tables_examples.ex:58 lib/deer_storage/deer_tables_examples.ex:59
 msgctxt "people"
 msgid "Name"
 msgstr ""
@@ -1705,17 +1698,17 @@ msgid "Go back to Admin Panel..."
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/registration_controller.ex:46
+#: lib/deer_storage_web/controllers/registration_controller.ex:42
 msgid "Invalid answer to math question"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/registration_controller.ex:131
+#: lib/deer_storage_web/controllers/registration_controller.ex:150
 msgid "Please add %{num1} to %{num2}:"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/registration/new.html.eex:79
+#: lib/deer_storage_web/templates/registration/new.html.eex:77
 msgid "Solve the math question here..."
 msgstr ""
 
@@ -1746,8 +1739,8 @@ msgid "You can use keyboard arrows instead of clicking these buttons"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/deer_record/preview_modal_document.html.leex:12
-#: lib/deer_storage_web/templates/deer_record/preview_modal_image.html.leex:12 lib/deer_storage_web/templates/deer_record/preview_modal_video.html.leex:12
+#: lib/deer_storage_web/templates/deer_record/preview_modal_document.html.leex:12 lib/deer_storage_web/templates/deer_record/preview_modal_image.html.leex:12
+#: lib/deer_storage_web/templates/deer_record/preview_modal_video.html.leex:12
 msgctxt "image"
 msgid "Next"
 msgstr ""
@@ -1790,4 +1783,85 @@ msgstr ""
 #, elixir-format
 #: lib/deer_storage_web/templates/page/index.html.eex:83
 msgid "Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. "
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/invitation/new.html.eex:22
+msgid "... or you can ask an administrator to connect them to your database."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:115
+msgid "Changing user's current database requires a new session"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/controllers/registration_controller.ex:183
+msgid "Click the link in the confirmation email to activate your account."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:104
+msgid "Confirm user"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/controllers/registration_controller.ex:166
+msgid "E-mailing is disabled."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/controllers/registration_controller.ex:185
+msgid "E-mailing is disabled. You must be confirmed by an administrator"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:101
+msgid "Email confirmation"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/controllers/invitation_controller.ex:38
+msgid "Emails are disabled. New users must be confirmed by an administrator before you can invite them."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/invitation/new.html.eex:18
+#: lib/deer_storage_web/templates/registration/new.html.eex:88
+msgid "Emails are disabled. New users must be confirmed by an administrator."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:105
+msgid "User did not click a confirmation link"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/controllers/admin/user_controller.ex:120
+msgid "User is already confirmed"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:107
+msgid "User is confirmed"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/invitation/new.html.eex:20
+msgid "You can still invite users to edit your database after they register. Just ask them for the e-mail used during registration and submit it in the form below."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/controllers/registration_controller.ex:58
+msgid "You cannot change your e-mail. Ask your administrator to do it for you."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/controllers/session_controller.ex:72
+msgid "You have to be confirmed by an administrator before you can log in"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/controllers/registration_controller.ex:179
+msgid "You now can log in to your account"
 msgstr ""
