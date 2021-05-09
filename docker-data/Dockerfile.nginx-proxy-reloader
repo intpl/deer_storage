@@ -1,0 +1,8 @@
+FROM nginx:1.19-alpine
+
+RUN apk --no-cache --update add bash openssl
+
+COPY default.conf.template /etc/nginx/templates/
+
+COPY nginx-proxy-reloading-script.sh /nginx-proxy-reloading-script.sh
+ENTRYPOINT ["bash", "/nginx-proxy-reloading-script.sh"]

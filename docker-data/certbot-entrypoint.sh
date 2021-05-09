@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-email="" # Adding a valid address is strongly recommended
-staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
-
 domains=($APP_HOST) # TODO
 rsa_key_size=4096
 data_path="/config_and_certificates"
@@ -58,13 +55,18 @@ if [ $LETSENCRYPT_ENABLED == 1 ]; then
          done
 
          # Select appropriate email arg
-         case "$email" in
+         case "$LETSENCRYPT_EMAIL" in
             "") email_arg="--register-unsafely-without-email" ;;
-            *) email_arg="--email $email" ;;
+            *) email_arg="--email $LETSENCRYPT_EMAIL" ;;
          esac
 
          # Enable staging mode if needed
-         if [ $staging != "0" ]; then staging_arg="--staging"; else staging_arg=""; fi
+         if [ $LETSENCRYPT_STAGING != "0" ]; then
+           echo "### Setting Let's Encrypt to staging mode..."
+           staging_arg="--staging";
+         else
+            staging_arg="";
+         fi
 
          certbot certonly --webroot -w /var/www/certbot \
             $staging_arg \

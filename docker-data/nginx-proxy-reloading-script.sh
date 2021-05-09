@@ -9,8 +9,8 @@ reload_nginx () {
 }
 
 loop_reloading_nginx_every_6h () {
-    echo "Looping reloading every 6h..."
-    while true; do
+    while [ $LETSENCRYPT_ENABLED == 1 ]; do
+        echo "Will reload Nginx in 6h..."
         sleep 6h
         reload_nginx
     done
@@ -20,17 +20,22 @@ certificate_matching_letsencrypt () {
     openssl x509 -in ${data_path}/fullchain.pem -text | grep -c "Let's Encrypt"
 }
 
-while [ $LETSENCRYPT_ENABLED == 1 ]; do
+echo "Starting nginx-proxy reloading script..."
+
+if [ $LETSENCRYPT_ENABLED == 1 ]; then
     if [ "$(certificate_matching_letsencrypt)" -ge 1 ]; then
         echo "LetsEncrypt certificate found."
-        loop_reloading_nginx_every_6h
     else
-        while [ certificate_matching_letsencrypt  == 0 ]; do
-            echo "Waiting for LetsEncrypt certificate..."
+        while [ "$(certificate_matching_letsencrypt)" -eq 0 ]; do
+            echo "Waiting for Let's Encrypt certificate..."
             sleep 1;
         done
-
-        reload_nginx
-        loop_reloading_nginx_every_6h
     fi
-done &
+
+    reload_nginx
+    loop_reloading_nginx_every_6h
+
+    echo "Exiting nginx-proxy reloading script..."
+else
+    echo "Let's Encrypt is disabled. No need to keep reloading nginx. Exiting..."
+fi
