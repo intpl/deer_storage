@@ -74,6 +74,7 @@ if [ $LETSENCRYPT_ENABLED == 1 ]; then
             $domain_args \
             --rsa-key-size $rsa_key_size \
             --agree-tos \
+            --non-interactive \
             --force-renewal
 
          if [ $? -eq 0 ]; then
