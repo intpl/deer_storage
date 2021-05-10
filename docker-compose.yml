@@ -11,6 +11,8 @@ services:
       - config_and_certificates:/config_and_certificates
     env_file:
       - .env
+    depends_on:
+      - nginx-proxy
     restart: "no"
   nginx-proxy:
     build:
