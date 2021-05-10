@@ -1,19 +1,6 @@
 version: '3'
 
 services:
-  nginx-proxy-reloader:
-    pid: service:nginx-proxy
-    build:
-      dockerfile: ./Dockerfile.nginx-proxy-reloader
-      context: ./docker-data
-    volumes:
-      - shared_run:/run
-      - config_and_certificates:/config_and_certificates
-    env_file:
-      - .env
-    depends_on:
-      - nginx-proxy
-    restart: always
   nginx-proxy:
     build:
       dockerfile: ./Dockerfile.nginx-proxy
@@ -26,10 +13,8 @@ services:
       - "${APP_HTTP_PORT}:80"
       - "${APP_HTTPS_PORT}:443"
     volumes:
-      - shared_run:/run
       - config_and_certificates:/config_and_certificates
       - certbot_www:/var/www/certbot
-      - certbot_conf:/etc/letsencrypt
     depends_on:
       - phoenix
     restart: always
@@ -81,5 +66,3 @@ volumes:
   uploaded_files:
   config_and_certificates:
   certbot_www:
-  certbot_conf:
-  shared_run:

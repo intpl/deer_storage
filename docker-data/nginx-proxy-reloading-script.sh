@@ -20,22 +20,15 @@ certificate_matching_letsencrypt () {
     openssl x509 -in ${data_path}/fullchain.pem -text | grep -c "Let's Encrypt"
 }
 
-echo "### Starting nginx-proxy reloading script..."
-
 if [ $LETSENCRYPT_ENABLED == 1 ]; then
-    if [ "$(certificate_matching_letsencrypt)" -ge 1 ]; then
-        echo "### LetsEncrypt certificate found."
-        # TODO loop waiting if it's expired
-    else
-        while [ "$(certificate_matching_letsencrypt)" -eq 0 ]; do
-            echo "Waiting for Let's Encrypt certificate..."
-            sleep 1;
-        done
-    fi
+    echo "### Looping nginx-proxy reloading script..."
 
+    while [ "$(certificate_matching_letsencrypt)" -eq 0 ]; do
+        echo "Waiting for Let's Encrypt certificate..."
+        sleep 1;
+    done;
+
+    # TODO what if it's expired? loop: wait a couple of seconds and check again
     reload_nginx
     loop_reloading_nginx_every_6h
-fi
-
-echo "### Sleeping forever..."
-sleep infinity
+fi &
