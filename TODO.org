@@ -1,19 +1,13 @@
 #+TITLE: TODO
 
-* TODO open source
-** TODO write feature flags everywhere (registration, reset password etc, database expiration days)
-
 * TODO [0%] [0/13]
-** TODO static code analysis: https://github.com/jeremyjh/dialyxir
 ** TODO user_from_auth_token(token) -> research better method
 ** [?] Validation for deer record: at least one field has to be filled in
 ** [?] Model validations everywhere (records and tables)
 ** TODO Adapt layout to subscription's tables
-** TODO gettext all submits
 ** TODO Update account -> make Enter work
 ** WAIT Write high level logging/history mechanism + TEST
 ** TODO Write restrictions for subscriptions, sending email (registration, forget, confirmation, invite) + TESTS
 ** TODO Invitation can enumerate users -> think of that?
-** WAIT use jaro_distance to colorize fields
 ** TODO "Notes" markdown everywhere
 ** TODO Add "failed login attempts" to user: https://elixirforum.com/t/how-to-increment-database-table-column/15457/2
