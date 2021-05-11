@@ -8,6 +8,8 @@ defmodule DeerStorage.Subscriptions.Subscription do
 
   alias DeerStorage.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
+  defmacro days_to_expire, do: System.get_env("NEW_SUBSCRIPTION_DAYS_TO_EXPIRE") |> String.to_integer
+
   schema "subscriptions" do
     default_records_per_table_limit = System.get_env("NEW_SUBSCRIPTION_RECORDS_PER_TABLE_LIMIT") |> String.to_integer
     default_files_limit = System.get_env("NEW_SUBSCRIPTION_FILES_COUNT_LIMIT") |> String.to_integer
@@ -88,9 +90,7 @@ defmodule DeerStorage.Subscriptions.Subscription do
   defp columns_length_valid?(list, limit) when length(list) > limit, do: false
   defp columns_length_valid?(_, _), do: true
 
-  defp maybe_add_expires_on_date(%{data: %{expires_on: nil}} = changeset) do
-    put_change(changeset, :expires_on, Date.add(Date.utc_today, 90))
-  end
-
+  defp maybe_add_expires_on_date(%{data: %{expires_on: nil}} = changeset),
+    do: put_change(changeset, :expires_on, Date.add(Date.utc_today, days_to_expire()))
   defp maybe_add_expires_on_date(changeset), do: changeset
 end

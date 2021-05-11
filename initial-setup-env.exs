@@ -64,7 +64,11 @@ env_structs = [
        description: "First user that registers to this DeerStorage instance will be autoconfirmed and promoted to administrator automatically. DON'T CHANGE THIS or else you will have to promote yourself to admin using PostgreSQL console."
     }
   },
-
+  %{key: "NEW_SUBSCRIPTION_DAYS_TO_EXPIRE", data: %{
+       value: "90",
+       description: "Default lifespan for new databases in days. After expiration database will not be accessible unless changed in admin panel."
+    }
+  },
   %{key: "NEW_SUBSCRIPTION_RECORDS_PER_TABLE_LIMIT", data: %{
        value: "200000",
        description: "Every new database will limit users to create more than X records per each table. Set lower limit if you don't trust your users. This can be changed for each database in the admin panel."
