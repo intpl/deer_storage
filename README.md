@@ -38,3 +38,7 @@ Above instruction works on fresh VPS installation with DNS assigned domain (with
 - You can have e-mail support when providing API credentials from MailGun (more services to come).
 - Although untested, I am pretty sure it can be hosted under HAProxy (ports are variables in .env file)
 - Ability to import `.csv` files and use them as DeerStorage tables.
+
+# License
+
+GNU GENERAL PUBLIC LICENSE Version 3
