@@ -18,7 +18,7 @@ docker run -i --rm -v $(pwd)/initial-setup-env.exs:/s.exs elixir:1.11-alpine eli
 ```
 
 3. Paste generated variables to `.env`
-4. Run `docker-compose up`. This command will fetch all necessary images and compile entire application, so it will take a while.
+4. Run `docker-compose up`. This command will fetch all necessary docker images and compile entire application, so it will take a while. Then it will host it under your APP_HOST:APP_PORT you selected in previous steps
 
 Above instruction works on fresh VPS installation with DNS assigned domain (with Let's Encrypt) as well as localhost (with self-certificate)
 
