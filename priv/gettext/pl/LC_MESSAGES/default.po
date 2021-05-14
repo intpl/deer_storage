@@ -1805,7 +1805,7 @@ msgstr "Wysłano e-mail na nowy adres w celu potwierdzenia."
 #, elixir-format, fuzzy
 #: lib/deer_storage_web/templates/admin/user/show.html.eex:104
 msgid "Confirm user"
-msgstr "Potwierdź hasło"
+msgstr "Potwierdź użytkownika"
 
 #, elixir-format
 #: lib/deer_storage_web/controllers/registration_controller.ex:166
