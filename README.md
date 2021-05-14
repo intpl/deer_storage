@@ -1,5 +1,9 @@
 # DeerStorage
+
+Read more about this project here: http://gladecki.pl/2021/05/16/deerstorage/
+
 ## Installation
+
 1. Install docker-compose
 https://docs.docker.com/compose/install/
 2. Clone the repository
@@ -18,26 +22,10 @@ docker run -i --rm -v $(pwd)/initial-setup-env.exs:/s.exs elixir:1.11-alpine eli
 ```
 
 3. Paste generated variables to `.env`
-4. Run `docker-compose up`. This command will fetch all necessary docker images and compile entire application, so it will take a while. Then it will host it under your APP_HOST:APP_PORT you selected in previous steps
+4. Run `docker-compose up`. This command will fetch all necessary docker images and compile entire application, so it will take a while. Then it will host it under APP_HOST:APP_PORT you selected in previous steps
+5. If you selected to autopromote first registered user to administrator (which I strongly recommend), you can register and immediately log into your account (without any confirmation). 
 
-Above instruction works on fresh VPS installation with DNS assigned domain (with Let's Encrypt) as well as localhost (with self-certificate)
-
-# What is DeerStorage?
-- Collaborative and safe cloud system for files/data storage and sharing
-- Containerized application to be hosted and used independently as instances
-- Very fast database and files lookup, live changes without page reload using WebSockets
-- Ability to "connect" records to each other, making it a sort of user level relational database
-- Ready to be multi language. (I need people willing to provide translated files though)
-- Ready to handle high traffic. Works well even when being hosted with limited resources (e.g. 5$/mo VPS)
-# Why?
-- Very easy set-up with Let's Encrypt certificate installed automatically (if enabled)
-- Independent from cloud storage providers (e.g. Google, Dropbox, Microsoft). Hosted on your machine or VPS
-- File previews (images are shown in gallery, video files have players, PDFs and open documents have readers in popup)
-- You can share files or entire collections with just one click that generates link
-- You can share collections (records) to be edited and uploaded files into
-- You can have e-mail support when providing API credentials from MailGun (more services to come).
-- Although untested, I am pretty sure it can be hosted under HAProxy (ports are variables in .env file)
-- Ability to import `.csv` files and use them as DeerStorage tables.
+Above instruction works on fresh VPS installation with DNS assigned domain (with Let's Encrypt) as well as localhost (with self-signed certificate)
 
 # License
 
