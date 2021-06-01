@@ -4,6 +4,7 @@ defmodule DeerStorageWeb.SessionController do
 
   import DeerStorage.FeatureFlags, only: [mailing_enabled?: 0]
   import DeerStorageWeb.ControllerHelpers.ConfirmationHelpers, only: [send_confirmation_email: 2]
+  import DeerStorageWeb.ControllerHelpers.UserHelpers, only: [redirect_to_dashboard: 2]
 
   import DeerStorage.Users.UserSessionUtils, only: [
     assign_current_user_and_preload_available_subscriptions: 2,
@@ -55,11 +56,6 @@ defmodule DeerStorageWeb.SessionController do
     |> clear_session
     |> redirect(to: Routes.page_path(conn, :index))
   end
-
-  def redirect_to_dashboard(%{assigns: %{current_user: %{role: "admin"}}} = conn, nil) do
-    conn |> redirect(to: Routes.admin_live_path(conn, DeerStorageWeb.Admin.DashboardLive.Index))
-  end
-  def redirect_to_dashboard(conn, _), do: conn |> redirect(to: Routes.live_path(conn, DeerStorageWeb.DeerDashboardLive.Index))
 
   defp maybe_resend_confirmation_email(conn, user) do
     case mailing_enabled?() do
