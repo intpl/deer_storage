@@ -1,0 +1,17 @@
+#+TITLE: Presentation
+
+* What is DeerStorage?
+** Highly collaborative cloud system for files/data storage and sharing
+** Contenerized application to be hosted and used separately, deerstorage.com is just a instance
+** Extremely fast database and files lookup, live changes without page reload
+** Prone to data losing
+** Ability to "connect" records to each other, making it a sort of relational database solution made easy
+** Multi-language, any timezone collaboration
+* Who can benefit from DeerStorage?
+** Freelancers: graphic designers with many project versions
+** Interactive/software agencies with many projects and/or clients
+** Sales teams with many leads and clients, orders in various stages, call centers
+** Veterinary clinics: animals, owners/clients, visits
+** Schools, universities, teachers
+** Physical therapists, trainers and everybody who has many clients
+** ... everybody who is tired of storing files in directories in the cloud, need fast data lookup and sharing files once in a while
