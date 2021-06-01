@@ -10,6 +10,7 @@ RUN \
       g++ \
       wget \
       curl \
+      python3 \
       inotify-tools \
       nodejs \
       nodejs-npm && \
