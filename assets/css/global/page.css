@@ -1,0 +1,22 @@
+section#deerLandingPage {
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+#deerLandingPage::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: 0%;
+  left: 50%;
+  z-index: -1;
+  background: url("/images/demo/full.png") repeat;
+  transform: rotate(20deg);
+}
+#deerLandingPage .installation-step {
+  font-family: monospace;
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 10px 0px 10px 0px;
+}

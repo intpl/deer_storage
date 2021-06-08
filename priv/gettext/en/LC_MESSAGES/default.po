@@ -300,7 +300,7 @@ msgid "%{name} is now '%{role}'"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/session_controller.ex:43
+#: lib/deer_storage_web/controllers/session_controller.ex:44
 msgid "Invalid e-mail or password"
 msgstr ""
 
@@ -482,7 +482,7 @@ msgid "E-mail has been confirmed"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/session_controller.ex:78
+#: lib/deer_storage_web/controllers/session_controller.ex:74
 msgid "E-mail not confirmed. Confirmation e-mail has been sent again"
 msgstr ""
 
@@ -1574,38 +1574,33 @@ msgid "Drop files on this window or select them by hand"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:33
+#: lib/deer_storage_web/templates/page/index.html.eex:79
 msgid "See all changes right away"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:25
+#: lib/deer_storage_web/templates/page/index.html.eex:71
 msgid "Share whatever you want. Allow users to edit your data"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:28
+#: lib/deer_storage_web/templates/page/index.html.eex:74
 msgid "You can share your data and allow people to edit them using a secret link. Afterwards, you can invalidate all your shared links and revoke access to the data. They can even upload files for you!"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:17
+#: lib/deer_storage_web/templates/page/index.html.eex:63
 msgid "DeerStorage. Store your data in a structured way. Inside a deer-ectory!"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:36
+#: lib/deer_storage_web/templates/page/index.html.eex:82
 msgid "When user makes changes to anything, you can see it right away. If there is a risk of loosing your changes, you will see an alert allowing you to handle this."
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:20
+#: lib/deer_storage_web/templates/page/index.html.eex:66
 msgid "With DeerStorage you can create your database as tables and store your files inside each row."
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:41
-msgid "Don't wait. Register now and unleash the power of the deer!"
 msgstr ""
 
 #, elixir-format
@@ -1614,13 +1609,8 @@ msgid "Go back to your database..."
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:7
+#: lib/deer_storage_web/templates/page/index.html.eex:15
 msgid "You are logged in! Great choice!"
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:44
-msgid "Register now"
 msgstr ""
 
 #, elixir-format
@@ -1629,67 +1619,37 @@ msgid "Connect a user"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:48
-msgid "... or slide down to learn more"
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:85
+#: lib/deer_storage_web/templates/page/index.html.eex:108
 msgid "Go ahead and create your account"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:139
-msgid "I've tested record search with over 100,000 records within one table and it remains blazingly fast even with such immense amounts of data. Having that said, you can create many records and don't worry about quick access to your data."
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:110
-msgid "Note that after creating your table, you still will be able to rename columns, "
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:108
-msgid "See how to make the best decision"
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:69
+#: lib/deer_storage_web/templates/page/index.html.eex:92
 msgid "Step 1: Create your database"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:125
+#: lib/deer_storage_web/templates/page/index.html.eex:145
 msgid "Step 3: Start creating your records and see for yourself how efficient it is!"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:150
+#: lib/deer_storage_web/templates/page/index.html.eex:170
 msgid "Step 4 (optional): Share whatever you want, to whoever you want, and revoke access with just one click."
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:159
+#: lib/deer_storage_web/templates/page/index.html.eex:179
 msgid "You can share records for viewing and downloading files or for editing and uploading files. You can invalidate all shared links for a record with one click."
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:61
-msgid "So, how exactly does it work?"
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:140
-msgid "DeerStorage is a great solution for example for sales teams with their hundreds of clients worked on simultaneously."
-msgstr ""
-
-#, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:97
+#: lib/deer_storage_web/templates/page/index.html.eex:120
 msgid "Step 2: Rethink and decide how you want to manage your data"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:106
+#: lib/deer_storage_web/templates/page/index.html.eex:129
 msgid "Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through."
 msgstr ""
 
@@ -1782,26 +1742,21 @@ msgid "Show short filenames"
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:83
-msgid "Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. Don't hesitate create a support ticket if you want to exceed your database's limit. "
-msgstr ""
-
-#, elixir-format
 #: lib/deer_storage_web/templates/invitation/new.html.eex:22
 msgid "... or you can ask an administrator to connect them to your database."
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/deer_storage_web/templates/admin/user/show.html.eex:115
 msgid "Changing user's current database requires a new session"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/deer_storage_web/controllers/registration_controller.ex:183
 msgid "Click the link in the confirmation email to activate your account."
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/deer_storage_web/templates/admin/user/show.html.eex:104
 msgid "Confirm user"
 msgstr ""
@@ -1816,7 +1771,7 @@ msgstr ""
 msgid "E-mailing is disabled. You must be confirmed by an administrator"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/deer_storage_web/templates/admin/user/show.html.eex:101
 msgid "Email confirmation"
 msgstr ""
@@ -1858,11 +1813,51 @@ msgid "You cannot change your e-mail. Ask your administrator to do it for you."
 msgstr ""
 
 #, elixir-format
-#: lib/deer_storage_web/controllers/session_controller.ex:72
+#: lib/deer_storage_web/controllers/session_controller.ex:68
 msgid "You have to be confirmed by an administrator before you can log in"
 msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/controllers/registration_controller.ex:179
 msgid "You now can log in to your account"
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:130
+msgid "After creating your table, you still will be able to rename columns to match your data. At this point, you cannot remove your columns because of data-loss prevention."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:160
+msgid "DeerStorage is a great solution for example for sales teams with hundreds of clients worked on simultaneously."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:159
+msgid "I've tested record search with over 100,000 records within one table and it remains blazingly fast even with such immense amounts of data. Having said that, you can create many records and don't need to worry about quick access to your data."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:9
+msgid "Your online database. As it should be."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:43
+msgid "Read more about this project here: "
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:106
+msgid "Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. You can toggle administrator mode in \"Settins\" tab (as long as you own the website)."
+msgstr ""
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:49
+msgid "License: "
+msgstr ""
+
+#, elixir-format, fuzzy
+#: lib/deer_storage_web/templates/page/index.html.eex:46
+msgid "Read the source code here: "
 msgstr ""
