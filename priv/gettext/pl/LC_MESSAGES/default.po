@@ -13,7 +13,7 @@ msgstr ""
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:4
-#: lib/deer_storage_web/templates/admin/user/form.html.eex:4 lib/deer_storage_web/templates/registration/new.html.eex:19
+#: lib/deer_storage_web/templates/admin/user/form.html.eex:4 lib/deer_storage_web/templates/registration/new.html.eex:32
 #: lib/deer_storage_web/templates/registration/user_fields.html.eex:7 lib/deer_storage_web/templates/reset_password/edit.html.eex:19
 #: lib/deer_storage_web/templates/reset_password/new.html.eex:19 lib/deer_storage_web/templates/session/new.html.eex:19
 msgid "Oops, something went wrong! Please check the errors below."
@@ -21,8 +21,8 @@ msgstr "Coś poszło nie tak. Sprawdź błędy poniżej"
 
 #, elixir-format
 #: lib/deer_storage_web/templates/layout/navigation_guest.html.eex:41
-#: lib/deer_storage_web/templates/registration/new.html.eex:5 lib/deer_storage_web/templates/registration/new.html.eex:84
-#: lib/deer_storage_web/templates/registration/new.html.eex:92 lib/deer_storage_web/templates/session/new.html.eex:47
+#: lib/deer_storage_web/templates/registration/new.html.eex:5 lib/deer_storage_web/templates/registration/new.html.eex:97
+#: lib/deer_storage_web/templates/registration/new.html.eex:105 lib/deer_storage_web/templates/session/new.html.eex:47
 msgid "Register"
 msgstr "Zarejestruj się"
 
@@ -44,7 +44,7 @@ msgstr "Angielski"
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/form.html.eex:21
-#: lib/deer_storage_web/templates/admin/user/show.html.eex:84 lib/deer_storage_web/templates/registration/new.html.eex:36
+#: lib/deer_storage_web/templates/admin/user/show.html.eex:84 lib/deer_storage_web/templates/registration/new.html.eex:49
 #: lib/deer_storage_web/templates/registration/user_fields.html.eex:25
 msgid "Language"
 msgstr "Język"
@@ -55,12 +55,12 @@ msgid "Polish"
 msgstr "Polski"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/registration/new.html.eex:68
+#: lib/deer_storage_web/templates/registration/new.html.eex:81
 msgid "Confirm password"
 msgstr "Potwierdź hasło"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/registration/new.html.eex:62
+#: lib/deer_storage_web/templates/registration/new.html.eex:75
 #: lib/deer_storage_web/templates/session/new.html.eex:30
 msgid "Password"
 msgstr "Hasło"
@@ -72,7 +72,7 @@ msgstr "Edytuj konto"
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/form.html.eex:27
-#: lib/deer_storage_web/templates/registration/new.html.eex:49 lib/deer_storage_web/templates/registration/user_fields.html.eex:43
+#: lib/deer_storage_web/templates/registration/new.html.eex:62 lib/deer_storage_web/templates/registration/user_fields.html.eex:43
 msgid "E-mail address"
 msgstr "Adres e-mail"
 
@@ -267,7 +267,7 @@ msgstr "puste"
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/user/form.html.eex:9
 #: lib/deer_storage_web/templates/admin/user/index.html.eex:69 lib/deer_storage_web/templates/admin/user/show.html.eex:72
-#: lib/deer_storage_web/templates/registration/new.html.eex:42 lib/deer_storage_web/templates/registration/user_fields.html.eex:19
+#: lib/deer_storage_web/templates/registration/new.html.eex:55 lib/deer_storage_web/templates/registration/user_fields.html.eex:19
 #: lib/deer_storage_web/templates/user/index.html.eex:28 lib/deer_storage_web/views/admin/user_view.ex:49
 #: lib/deer_storage_web/views/admin/user_view.ex:50
 msgid "Name and surname"
@@ -438,7 +438,7 @@ msgid "descending"
 msgstr "malejąco"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/registration/new.html.eex:56
+#: lib/deer_storage_web/templates/registration/new.html.eex:69
 #: lib/deer_storage_web/templates/registration/user_fields.html.eex:31
 msgid "Display dates in the following time zone"
 msgstr "Wyświetlaj daty w poniższej strefie czasowej"
@@ -1422,7 +1422,7 @@ msgstr "Baza danych wygasa"
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:9
-#: lib/deer_storage_web/templates/admin/subscription/index.html.eex:69 lib/deer_storage_web/templates/registration/new.html.eex:26
+#: lib/deer_storage_web/templates/admin/subscription/index.html.eex:69 lib/deer_storage_web/templates/registration/new.html.eex:39
 msgid "Database name"
 msgstr "Nazwa bazy danych"
 
@@ -1575,32 +1575,32 @@ msgid "Drop files on this window or select them by hand"
 msgstr "Upuść pliki na to okno lub wybierz je ręcznie"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:79
+#: lib/deer_storage_web/templates/page/index.html.eex:91
 msgid "See all changes right away"
 msgstr "Zobacz swoje zmiany od razu"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:71
+#: lib/deer_storage_web/templates/page/index.html.eex:83
 msgid "Share whatever you want. Allow users to edit your data"
 msgstr "Udostępniaj cokolwiek chcesz. Pozwalaj użytkownikom na edycję Twoich danych"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:74
+#: lib/deer_storage_web/templates/page/index.html.eex:86
 msgid "You can share your data and allow people to edit them using a secret link. Afterwards, you can invalidate all your shared links and revoke access to the data. They can even upload files for you!"
 msgstr "Możesz udostępniać swoje dane i pozwolić ludziom edytować je za pomocą tajnego linka. Potem, możesz wygasić udostępnione linki i cofnąć dostęp do tych danych. Ludzie mogą nawet wgrywać pliki dla Ciebie!"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:63
+#: lib/deer_storage_web/templates/page/index.html.eex:75
 msgid "DeerStorage. Store your data in a structured way. Inside a deer-ectory!"
 msgstr "DeerStorage. Nie bądź jeleniem. Przechowuj swoje dane w ustrukturyzowany sposób!"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:82
+#: lib/deer_storage_web/templates/page/index.html.eex:94
 msgid "When user makes changes to anything, you can see it right away. If there is a risk of loosing your changes, you will see an alert allowing you to handle this."
 msgstr "Kiedy użytkownik coś zmienia, od razu to zobaczysz. Jeśli istnieje ryzyko utraty zmian, wyświetli Ci się komunikat i będziesz mógł/mogła zareagować."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:66
+#: lib/deer_storage_web/templates/page/index.html.eex:78
 msgid "With DeerStorage you can create your database as tables and store your files inside each row."
 msgstr "Z DeerStorage możesz stworzyć swoją bazę danych jako tabele i przechowywać pliki w każdym wierszu."
 
@@ -1610,7 +1610,7 @@ msgid "Go back to your database..."
 msgstr "Powrót do Twojej bazy danych..."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:15
+#: lib/deer_storage_web/templates/page/index.html.eex:27
 msgid "You are logged in! Great choice!"
 msgstr "Jesteś zalogowany/-a! Świetny wybór!"
 
@@ -1620,37 +1620,37 @@ msgid "Connect a user"
 msgstr "Połącz użytkownika"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:108
+#: lib/deer_storage_web/templates/page/index.html.eex:120
 msgid "Go ahead and create your account"
 msgstr "Stwórz swoje konto"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:92
+#: lib/deer_storage_web/templates/page/index.html.eex:104
 msgid "Step 1: Create your database"
 msgstr "Krok 1: Stwórz swoją bazę danych"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:145
+#: lib/deer_storage_web/templates/page/index.html.eex:157
 msgid "Step 3: Start creating your records and see for yourself how efficient it is!"
 msgstr "Krok 3: Zacznij tworzyć swoje rekordy i sam/-a zobacz, jak sprawnie się w tym odnajdziesz!"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:170
+#: lib/deer_storage_web/templates/page/index.html.eex:182
 msgid "Step 4 (optional): Share whatever you want, to whoever you want, and revoke access with just one click."
 msgstr "Krok 4 (opcjonalny): Udostępniaj cokolwiek chcesz, komu chcesz. Odbieraj dostęp do zasobów natychmiast. Jednym kliknięciem!"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:179
+#: lib/deer_storage_web/templates/page/index.html.eex:191
 msgid "You can share records for viewing and downloading files or for editing and uploading files. You can invalidate all shared links for a record with one click."
 msgstr "Możesz udostępniać rekordy do podglądu i pobierania plików, lub dla edycji i wgrywania plików. W każdej chwili możesz wygasić wszystkie udostępnione linki jednym kliknięciem."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:120
+#: lib/deer_storage_web/templates/page/index.html.eex:132
 msgid "Step 2: Rethink and decide how you want to manage your data"
 msgstr "Krok 2: Przemyśl i podejmij decyzję, jak chcesz zarządzać swoimi danymi"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:129
+#: lib/deer_storage_web/templates/page/index.html.eex:141
 msgid "Deciding how you want to create your tables may not seem easy at first sight, but trust me, it is worth thinking it through."
 msgstr "Decyzja, jak stworzyć swoje tabele może nie wydawać się banalna na pierwszy rzut oka, ale wierz mi, że warto ją podjąć."
 
@@ -1670,7 +1670,7 @@ msgid "Please add %{num1} to %{num2}:"
 msgstr "Proszę dodaj %{num1} do %{num2}"
 
 #, elixir-format
-#: lib/deer_storage_web/templates/registration/new.html.eex:77
+#: lib/deer_storage_web/templates/registration/new.html.eex:90
 msgid "Solve the math question here..."
 msgstr "Rozwiąż tutaj zadanie matematyczne..."
 
@@ -1784,7 +1784,7 @@ msgstr "Wysyłanie e-maili jest wyłączone. Nowi użytkownicy muszą zostać po
 
 #, elixir-format
 #: lib/deer_storage_web/templates/invitation/new.html.eex:18
-#: lib/deer_storage_web/templates/registration/new.html.eex:88
+#: lib/deer_storage_web/templates/registration/new.html.eex:101
 msgid "Emails are disabled. New users must be confirmed by an administrator."
 msgstr "Wysyłanie e-maili jest wyłączone. Nowi użytkownicy muszą być potwierdzeni przez administratora."
 
@@ -1824,41 +1824,59 @@ msgid "You now can log in to your account"
 msgstr "Możesz teraz zalogować się na swoje konto."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:130
+#: lib/deer_storage_web/templates/page/index.html.eex:142
 msgid "After creating your table, you still will be able to rename columns to match your data. At this point, you cannot remove your columns because of data-loss prevention."
 msgstr "Po stworzeniu Twojej tabeli, w dalszym ciągu będziesz mieć możliwość zmiany nazw kolumn. Na ten moment nie będziesz w stanie usuwać kolumn z powodu zabezpieczeń przed utratą danych."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:160
+#: lib/deer_storage_web/templates/page/index.html.eex:172
 msgid "DeerStorage is a great solution for example for sales teams with hundreds of clients worked on simultaneously."
 msgstr "DeerStorage to świetne rozwiązanie dla np. zespołów sprzedażowych, posługujących się setkami klientów/ofert w tym samym czasie."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:159
+#: lib/deer_storage_web/templates/page/index.html.eex:171
 msgid "I've tested record search with over 100,000 records within one table and it remains blazingly fast even with such immense amounts of data. Having said that, you can create many records and don't need to worry about quick access to your data."
 msgstr "Przetestowałem przeszukiwanie rekordów przy ponad 100.000 wpisów dla jednej tabeli i w dalszym ciągu jest piekielnie szybkie (100.000 wpisów! To nie przelewki). Możesz być pewny/-a, że system pozostanie szybki i sprawny niezależnie od tego, jak duża będzie Twoja baza danych."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:9
+#: lib/deer_storage_web/templates/page/index.html.eex:21
 msgid "Your online database. As it should be."
 msgstr "Twoja baza danych online. Taka, jaka być powinna."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:43
+#: lib/deer_storage_web/templates/page/index.html.eex:55
 msgid "Read more about this project here: "
 msgstr "Przeczytaj więcej o tym projekcie (w jęz. angielskim): "
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:106
+#: lib/deer_storage_web/templates/page/index.html.eex:118
 msgid "Your first database is created automatically when you register and confirm your e-mail. Additional ones require administrator to create them for you. You can toggle administrator mode in \"Settins\" tab (as long as you own the website)."
 msgstr "Twoja pierwsza baza danych jest stworzona automatycznie, jak tylko zarejestrujesz się i potwierdzisz swój adres e-mail. Dodatkowe bazy wymagają interwencji administratora. Możesz przełączyć się w tryb administora w zakładce \"Ustawienia\" (jeśli jesteś właścicielem strony)."
 
 #, elixir-format
-#: lib/deer_storage_web/templates/page/index.html.eex:49
+#: lib/deer_storage_web/templates/page/index.html.eex:61
 msgid "License: "
 msgstr "Licencja: "
 
-#, elixir-format, fuzzy
-#: lib/deer_storage_web/templates/page/index.html.eex:46
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:58
 msgid "Read the source code here: "
 msgstr "Zobacz kod źródłowy: "
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:10
+#: lib/deer_storage_web/templates/registration/new.html.eex:22
+msgid "This is a demo instance of the DeerStorage. You can register and click it through, but your data will be removed after some time. There is no warranty that this site will work and you will be able to access your account"
+msgstr "To jest instancja testowa DeerStorage. Możesz zarejestrować się i przeklikać funkcjonalności tego projektu, ale Twoje dane zostaną usunięte po jakimś czasie. Nie masz żadnej gwarancji, że ta strona będzie działać w przyszłości i będziesz w stanie dostać się do swojego konta."
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:6
+#: lib/deer_storage_web/templates/registration/new.html.eex:18
+msgid "This is just a demo instance!"
+msgstr "To jest tylko instancja testowa!"
+
+#, elixir-format
+#: lib/deer_storage_web/templates/page/index.html.eex:13
+#: lib/deer_storage_web/templates/registration/new.html.eex:25
+msgid "I encourage you to set up your own instance and give it a try."
+msgstr "Zachęcam Cię do założenia i wypróbowania własnej instancji."

@@ -13,6 +13,19 @@
 
 <section class="section">
   <div class="container">
+    <article class="message is-warning">
+      <div class="message-header">
+        <p><%= gettext("This is just a demo instance!") %></p>
+        <button class="delete" aria-label="delete"></button>
+      </div>
+      <div class="message-body">
+          <%= gettext("This is a demo instance of the DeerStorage. You can register and click it through, but your data will be removed after some time. There is no warranty that this site will work and you will be able to access your account") %>
+          <br>
+          <br>
+          <%= gettext("I encourage you to set up your own instance and give it a try.") %>
+      </div>
+    </article>
+
     <%= form_for @changeset, Routes.registration_path(@conn, :create), [as: :user, autocomplete: "off"], fn f -> %>
       <%= if @changeset.action do %>
         <div class="help is-danger">
