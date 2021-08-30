@@ -21,13 +21,13 @@
       <% end %>
 
       <div class="field">
-        <%= label f, :email, class: 'label' %>
-        <%= text_input f, :email, class: 'input' %>
+        <%= label f, :email, class: "label" %>
+        <%= text_input f, :email, class: "input" %>
         <%= error_tag f, :email %>
       </div>
 
       <div class="field">
-        <%= submit gettext("Submit"), class: 'button' %>
+        <%= submit gettext("Submit"), class: "button" %>
       </div>
     <% end %>
     </div>

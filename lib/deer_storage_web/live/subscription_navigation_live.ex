@@ -41,7 +41,7 @@ defmodule DeerStorageWeb.SubscriptionNavigationLive do
         PubSub.subscribe(DeerStorage.PubSub, "records_counts:#{id}")
       end
 
-     if socket.root_view == DeerStorageWeb.DeerRecordsLive.Index, do: call(socket.root_pid, :whats_my_table_id)
+     if socket.view == DeerStorageWeb.DeerRecordsLive.Index, do: call(socket.root_pid, :whats_my_table_id)
     end
 
     Gettext.put_locale(DeerStorageWeb.Gettext, locale)

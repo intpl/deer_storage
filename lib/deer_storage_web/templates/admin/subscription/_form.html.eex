@@ -6,43 +6,43 @@
   <% end %>
 
   <div class="field">
-    <%= label f, :name, gettext("Database name"), class: 'label' %>
-    <%= text_input f, :name, class: 'input' %>
+    <%= label f, :name, gettext("Database name"), class: "label" %>
+    <%= text_input f, :name, class: "input" %>
     <%= error_tag f, :name %>
   </div>
 
   <div class="field">
-    <%= label f, :storage_limit_kilobytes, gettext("Storage limit"), class: 'label' %>
-    <%= select f, :storage_limit_kilobytes, storage_limit_options(field_value(f, :storage_limit_kilobytes)), class: 'input' %>
+    <%= label f, :storage_limit_kilobytes, gettext("Storage limit"), class: "label" %>
+    <%= select f, :storage_limit_kilobytes, storage_limit_options(input_value(f, :storage_limit_kilobytes)), class: "input" %>
     <%= error_tag f, :storage_limit_kilobytes %>
   </div>
 
   <div class="field">
-    <%= label f, :deer_files_limit, gettext("Files limit"), class: 'label' %>
-    <%= number_input f, :deer_files_limit, class: 'input' %>
+    <%= label f, :deer_files_limit, gettext("Files limit"), class: "label" %>
+    <%= number_input f, :deer_files_limit, class: "input" %>
     <%= error_tag f, :deer_files_limit %>
   </div>
 
   <div class="field">
-    <%= label f, :deer_tables_limit, gettext("Tables limit"), class: 'label' %>
-    <%= number_input f, :deer_tables_limit, class: 'input' %>
+    <%= label f, :deer_tables_limit, gettext("Tables limit"), class: "label" %>
+    <%= number_input f, :deer_tables_limit, class: "input" %>
     <%= error_tag f, :deer_tables_limit %>
   </div>
 
   <div class="field">
-    <%= label f, :deer_columns_per_table_limit, gettext("Columns per table limit"), class: 'label' %>
-    <%= number_input f, :deer_columns_per_table_limit, class: 'input' %>
+    <%= label f, :deer_columns_per_table_limit, gettext("Columns per table limit"), class: "label" %>
+    <%= number_input f, :deer_columns_per_table_limit, class: "input" %>
     <%= error_tag f, :deer_columns_per_table_limit %>
   </div>
 
   <div class="field">
-    <%= label f, :deer_records_per_table_limit, gettext("Records per table limit"), class: 'label' %>
-    <%= number_input f, :deer_records_per_table_limit, class: 'input' %>
+    <%= label f, :deer_records_per_table_limit, gettext("Records per table limit"), class: "label" %>
+    <%= number_input f, :deer_records_per_table_limit, class: "input" %>
     <%= error_tag f, :deer_records_per_table_limit %>
   </div>
 
   <div class="field">
-    <%= label f, :expires_on, gettext("Expires on"), class: 'label' %>
+    <%= label f, :expires_on, gettext("Expires on"), class: "label" %>
 
     <div class="control">
       <%= date_select f, :expires_on, builder: fn b ->  %>
@@ -55,8 +55,8 @@
     <br>
 
     <div class="field">
-      <%= label f, :admin_notes, gettext("Admin notes"), class: 'label' %>
-      <%= textarea f, :admin_notes, class: 'textarea' %>
+      <%= label f, :admin_notes, gettext("Admin notes"), class: "label" %>
+      <%= textarea f, :admin_notes, class: "textarea" %>
       <%= error_tag f, :admin_notes %>
     </div>
 
@@ -64,6 +64,6 @@
   </div>
 
   <div>
-    <%= submit gettext("Save"), class: 'button is-primary' %>
+    <%= submit gettext("Save"), class: "button is-primary" %>
   </div>
 <% end %>

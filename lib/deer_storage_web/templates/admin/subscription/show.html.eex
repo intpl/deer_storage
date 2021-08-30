@@ -80,10 +80,10 @@
         <%= form_for @conn, Routes.admin_subscription_user_subscription_link_path(@conn, :create, @subscription.id, redirect_back_to: "subscription"), fn f -> %>
           <div class="columns">
             <div class="column is-half">
-              <%= select f, :user_id, [], class: 'input use-select2' %>
+              <%= select f, :user_id, [], class: "input use-select2" %>
             </div>
             <div class="column is-half">
-              <%= submit gettext("Connect"), class: 'button is-primary is-pulled-left' %>
+              <%= submit gettext("Connect"), class: "button is-primary is-pulled-left" %>
             </div>
           </div>
         <% end %></form>

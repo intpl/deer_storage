@@ -6,8 +6,8 @@ defmodule DeerStorageWeb.LayoutView do
 
   def maybe_active_dashboard_link(socket, header_str) do
     header_str = if header_str, do: "🏠 " <> header_str
-    class = case socket.root_view do
-                DeerStorageWeb.DeerDashboardLive.Index -> "navbar-item has-text-weight-bold is-active"
+    class = case socket.view do
+              DeerStorageWeb.DeerDashboardLive.Index -> "navbar-item has-text-weight-bold is-active"
               _ -> "navbar-item has-text-weight-bold"
               end
 

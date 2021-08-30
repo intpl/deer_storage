@@ -26,8 +26,11 @@ defmodule DeerStorageWeb.Router do
 
     get "/files/record/:record_id/:file_id", DeerFilesController, :download_record
 
-    live "/dashboard", DeerDashboardLive.Index, layout: {DeerStorageWeb.LayoutView, "without_navigation.html"}
-    live "/records/:table_id", DeerRecordsLive.Index, layout: {DeerStorageWeb.LayoutView, "without_navigation.html"}
+
+    live_session :default_live_without_navigation, root_layout: {DeerStorageWeb.LayoutView, "without_navigation.html"} do
+      live "/dashboard", DeerDashboardLive.Index
+      live "/records/:table_id", DeerRecordsLive.Index
+    end
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update]
 
@@ -82,7 +85,10 @@ defmodule DeerStorageWeb.Router do
   scope "/", DeerStorageWeb do
     pipe_through [:browser, :navigation_tracked]
 
-    live "/share/:subscription_id/:shared_record_uuid", SharedRecordsLive.Show, layout: {DeerStorageWeb.LayoutView, "without_navigation.html"}
+    live_session :default_without_navigation_for_shared_record, root_layout: {DeerStorageWeb.LayoutView, "without_navigation.html"} do
+      live "/share/:subscription_id/:shared_record_uuid", SharedRecordsLive.Show
+    end
+
     get "/:subscription_id/shared_record/:shared_record_id/:file_id", SharedRecordFilesController, :download_file_from_shared_record
     get "/:subscription_id/shared_file/:shared_file_id/:file_id", SharedRecordFilesController, :download_file_from_shared_file
     post "/change_language", ChangeLanguageController, :change_language

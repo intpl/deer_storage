@@ -6,42 +6,42 @@
   <% end %>
 
   <div class="field">
-    <%= label f, :name, gettext("Name and surname"), class: 'label' %>
-    <%= text_input f, :name, class: 'input' %>
+    <%= label f, :name, gettext("Name and surname"), class: "label" %>
+    <%= text_input f, :name, class: "input" %>
     <%= error_tag f, :name %>
   </div>
 
   <div class="field">
-    <%= label f, :time_zone, gettext("Time zone"), class: 'label' %>
-    <%= select f, :time_zone, time_zones_select_options(), class: 'input use-select2' %>
+    <%= label f, :time_zone, gettext("Time zone"), class: "label" %>
+    <%= select f, :time_zone, time_zones_select_options(), class: "input use-select2" %>
     <%= error_tag f, :email %>
   </div>
 
   <div class="field">
-    <%= label f, :locale, gettext("Language"), class: 'label' %>
-    <%= select f, :locale, languages_select_options(), class: 'input' %>
+    <%= label f, :locale, gettext("Language"), class: "label" %>
+    <%= select f, :locale, languages_select_options(), class: "input" %>
     <%= error_tag f, :locale %>
   </div>
 
   <div class="field">
-    <%= label f, :email, gettext("E-mail address"), class: 'label' %>
-    <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
+    <%= label f, :email, gettext("E-mail address"), class: "label" %>
+    <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: "input" %>
     <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
   </div>
 
   <div class="field">
-    <%= label f, :admin_notes, gettext("Admin notes"), class: 'label' %>
-    <%= textarea f, :admin_notes, class: 'textarea' %>
+    <%= label f, :admin_notes, gettext("Admin notes"), class: "label" %>
+    <%= textarea f, :admin_notes, class: "textarea" %>
     <%= error_tag f, :admin_notes %>
   </div>
 
   <div class="field">
-    <%= label f, :last_used_subscription_id, gettext("Last used database"), class: 'label' %>
-    <%= select f, :last_used_subscription_id, [], class: 'input use-select2' %>
+    <%= label f, :last_used_subscription_id, gettext("Last used database"), class: "label" %>
+    <%= select f, :last_used_subscription_id, [], class: "input use-select2" %>
     <%= error_tag f, :last_used_subscription_id %>
   </div>
   <div>
-    <%= submit gettext("Save"), class: 'button is-primary' %>
+    <%= submit gettext("Save"), class: "button is-primary" %>
   </div>
 <% end %>
 

@@ -21,19 +21,19 @@
       <% end %>
 
         <div class="field">
-          <%= label f, :password, gettext("New Password"), class: 'label' %>
-          <%= password_input f, :password, class: 'input' %>
+          <%= label f, :password, gettext("New Password"), class: "label" %>
+          <%= password_input f, :password, class: "input" %>
           <%= error_tag f, :password %>
         </div>
 
         <div class="field">
-          <%= label f, :password_confirmation, class: 'label' %>
-          <%= password_input f, :password_confirmation, class: 'input' %>
+          <%= label f, :password_confirmation, class: "label" %>
+          <%= password_input f, :password_confirmation, class: "input" %>
           <%= error_tag f, :password_confirmation %>
         </div>
 
       <div>
-        <%= submit gettext("Submit"), class: 'button' %>
+        <%= submit gettext("Submit"), class: "button" %>
       </div>
     <% end %>
   </div>

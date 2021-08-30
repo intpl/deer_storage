@@ -41,7 +41,7 @@
             <a class="button is-primary" href="<%= Routes.registration_path(DeerStorageWeb.Endpoint, :new) %>"> <strong><%= gettext("Register") %></strong> </a>
           <% end %>
 
-          <%= link gettext("Sign in"), to: Routes.session_path(DeerStorageWeb.Endpoint, :new), class: 'button is-light' %>
+          <%= link gettext("Sign in"), to: Routes.session_path(DeerStorageWeb.Endpoint, :new), class: "button is-light" %>
         </div>
       </div>
     </div>

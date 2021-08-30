@@ -20,7 +20,7 @@ defmodule DeerStorage.MixProject do
   def application do
     [
       mod: {DeerStorage.Application, []},
-      extra_applications: [:mnesia, :logger, :runtime_tools, :timex, :phoenix_ecto, :bamboo, :os_mon]
+      extra_applications: [:mnesia, :logger, :runtime_tools, :timex, :phoenix_ecto, :bamboo, :os_mon, :plug]
     ]
   end
 
@@ -34,29 +34,29 @@ defmodule DeerStorage.MixProject do
   defp deps do
     [
       # Default
-      {:phoenix, "~> 1.5", override: true},
+      {:phoenix, "~> 1.6-rc.0", override: true},
       {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix_ecto, "~> 4.2.0"},
+      {:phoenix_ecto, "~> 4.4.0"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.14.2"},
+      {:phoenix_html, "<= 3.0.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.5.1"},
 
       # Non-default
       {:pow, "~> 1.0.20"},
-      {:bamboo, "~> 1.4"},
+      {:bamboo, "~> 2.2"},
       {:timex, "~> 3.5"},
-      {:tzdata, "~> 1.0.1"},
-      {:phoenix_live_view, "~> 0.15"},
+      {:tzdata, "~> 1.1.0"},
+      {:phoenix_live_view, "~> 0.16"},
       {:floki, ">= 0.0.0", only: :test},
       {:faker, "~> 0.13", only: [:test, :dev]},
-      {:phoenix_live_dashboard, "~> 0.4"},
-      {:telemetry_poller, "~> 0.5"},
+      {:phoenix_live_dashboard, "~> 0.5"},
+      {:telemetry_poller, "~> 1.0"},
       {:telemetry_metrics, "~> 0.6"},
-      {:poison, "~> 4.0"},
+      {:poison, "~> 5.0"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:csv, "~> 2.4"},
       {:ecto_psql_extras, "~> 0.2"},

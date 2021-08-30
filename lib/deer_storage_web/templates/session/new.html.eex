@@ -21,24 +21,24 @@
       <% end %>
 
       <div class="field">
-        <%= label f, :email, gettext("E-mail"), class: 'label' %>
-        <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: 'input' %>
+        <%= label f, :email, gettext("E-mail"), class: "label" %>
+        <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: "input" %>
         <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
       </div>
 
       <div class="field">
-        <%= label f, :password, gettext("Password"), class: 'label' %>
-        <%= password_input f, :password, class: 'input' %>
+        <%= label f, :password, gettext("Password"), class: "label" %>
+        <%= password_input f, :password, class: "input" %>
         <%= error_tag f, :password %>
       </div>
 
       <div class="field">
-        <%= checkbox f, :persistent_session, class: 'checkbox', value: true %>&nbsp;
-        <%= label f, :persistent_session, gettext("Remember me (for 30 days)"), class: 'checkbox' %>
+        <%= checkbox f, :persistent_session, class: "checkbox", value: true %>&nbsp;
+        <%= label f, :persistent_session, gettext("Remember me (for 30 days)"), class: "checkbox" %>
       </div>
 
       <div>
-        <%= submit gettext("Sign in"), class: 'button' %>
+        <%= submit gettext("Sign in"), class: "button" %>
       </div>
     <% end %>
     <br>

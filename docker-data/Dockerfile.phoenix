@@ -59,7 +59,7 @@ RUN mix do compile, release
 
 FROM bitwalker/alpine-erlang:23 AS app
 
-RUN apk --no-cache --no-progress add -q postgresql-client=11.11-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.10/main
+RUN apk --no-cache --no-progress add -q postgresql-client=11.12-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.10/main
 RUN apk --no-cache --no-progress add -q coreutils file
 
 WORKDIR /opt/app

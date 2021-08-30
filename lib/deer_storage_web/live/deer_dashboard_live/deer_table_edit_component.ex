@@ -21,13 +21,13 @@ defmodule DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent do
       <%= form_for @changeset, "#", [phx_change: :validate_table_edit, phx_submit: :save_table_edit, autocomplete: "off"], fn f -> %>
         <%= hidden_input f, :id, value: @table_id %>
 
-        <%= label f, gettext("Name"), class: 'label field-label' %>
-        <%= text_input f, :name, class: 'input' %>
+        <%= label f, gettext("Name"), class: "label field-label" %>
+        <%= text_input f, :name, class: "input" %>
         <%= error_tag f, :name %>
 
         <br>
 
-        <%= label f, gettext("Columns"), class: 'label field-label' %>
+        <%= label f, gettext("Columns"), class: "label field-label" %>
 
         <%= inputs_for f, :deer_columns, fn dc -> %>
           <div class="field is-grouped">
@@ -37,7 +37,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent do
             </p>
             <p class="control">
               <div class="field">
-                <%= text_input dc, :name, class: 'input is-small' %>
+                <%= text_input dc, :name, class: "input is-small" %>
                 <%= error_tag dc, :name %>
               </div>
             </p>
