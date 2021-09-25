@@ -34,7 +34,7 @@ defmodule DeerStorage.MixProject do
   defp deps do
     [
       # Default
-      {:phoenix, "~> 1.6-rc.0", override: true},
+      {:phoenix, "~> 1.6", override: true},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.4.0"},
       {:ecto_sql, "~> 3.4"},
