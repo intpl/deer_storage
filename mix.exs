@@ -50,7 +50,7 @@ defmodule DeerStorage.MixProject do
       {:bamboo, "~> 2.2"},
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.1.0"},
-      {:phoenix_live_view, "~> 0.16"},
+      {:phoenix_live_view, "~> 0.16.0"},
       {:floki, ">= 0.0.0", only: :test},
       {:faker, "~> 0.13", only: [:test, :dev]},
       {:phoenix_live_dashboard, "~> 0.5"},
