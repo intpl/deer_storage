@@ -1,0 +1,8 @@
+[env]
+KERL_CONFIGURE_OPTIONS = "--without-odbc"
+_.file = '.env'
+
+[tools]
+erlang = '28'
+elixir = '1.19'
+node = "25"

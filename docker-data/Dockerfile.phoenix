@@ -1,4 +1,4 @@
-FROM bitwalker/alpine-elixir:1.11.0 AS build
+FROM bitwalker/alpine-elixir:1.11.0 AS build # alpine:3.12.0
 
 # Install NPM
 RUN \
@@ -57,7 +57,7 @@ ARG NEW_SUBSCRIPTION_TABLES_LIMIT
 
 RUN mix do compile, release
 
-FROM bitwalker/alpine-erlang:23 AS app
+FROM bitwalker/alpine-erlang:23 AS app # alpine:3.12.0
 
 RUN apk --no-cache --no-progress add -q postgresql-client=11.12-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.10/main
 RUN apk --no-cache --no-progress add -q coreutils file
