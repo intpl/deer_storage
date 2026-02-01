@@ -36,8 +36,8 @@ defmodule DeerStorage.MixProject do
       # Default
       {:phoenix, "~> 1.6", override: true},
       {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix_ecto, "~> 4.4.0"},
-      {:ecto_sql, "~> 3.4"},
+      {:phoenix_ecto, "~> 4.7"},
+      {:ecto_sql, "~> 3.13"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
@@ -59,7 +59,7 @@ defmodule DeerStorage.MixProject do
       {:poison, "~> 5.0"},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:csv, "~> 2.4"},
-      {:ecto_psql_extras, "~> 0.2"},
+      {:ecto_psql_extras, "~> 0.8"},
       {:xxhash, "~> 0.3.1"},
       {:navigation_history, "~> 0.3"},
       {:circular_buffer, "~> 0.3"}
