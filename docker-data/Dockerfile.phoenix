@@ -1,6 +1,6 @@
-FROM bitwalker/alpine-elixir:1.11.0 AS build
+FROM hexpm/elixir:1.18.4-erlang-27.3.4.1-alpine-3.21.3 AS build
 
-# Install NPM
+# Install build dependencies
 RUN \
     mkdir -p /opt/app && \
     chmod -R 777 /opt/app && \
@@ -11,9 +11,10 @@ RUN \
       wget \
       curl \
       python3 \
+      py3-pip \
       inotify-tools \
       nodejs \
-      nodejs-npm && \
+      npm && \
     npm install npm -g --no-progress && \
     update-ca-certificates --fresh && \
     rm -rf /var/cache/apk/*
@@ -21,11 +22,9 @@ RUN \
 # Add local node module binaries to PATH
 ENV PATH=./node_modules/.bin:$PATH
 
-# Ensure latest versions of Hex/Rebar are installed on build
-ONBUILD RUN mix do local.hex --force, local.rebar --force
-
 WORKDIR /opt/app
 
+# Install Hex and Rebar
 RUN mix local.hex --force && \
     mix local.rebar --force
 
@@ -57,10 +56,10 @@ ARG NEW_SUBSCRIPTION_TABLES_LIMIT
 
 RUN mix do compile, release
 
-FROM bitwalker/alpine-erlang:23 AS app
+FROM hexpm/erlang:27.3.4.1-alpine-3.21.3 AS app
 
-RUN apk --no-cache --no-progress add -q postgresql-client=11.12-r0 --repository=http://dl-cdn.alpinelinux.org/alpine/v3.10/main
-RUN apk --no-cache --no-progress add -q coreutils file
+RUN apk --no-cache --no-progress add -q postgresql-client --repository=http://dl-cdn.alpinelinux.org/alpine/v3.21/main
+RUN apk --no-cache --no-progress add -q coreutils file bash
 
 WORKDIR /opt/app
 
