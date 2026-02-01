@@ -20,7 +20,16 @@ defmodule DeerStorage.MixProject do
   def application do
     [
       mod: {DeerStorage.Application, []},
-      extra_applications: [:mnesia, :logger, :runtime_tools, :timex, :phoenix_ecto, :bamboo, :os_mon, :plug]
+      extra_applications: [
+        :mnesia,
+        :logger,
+        :runtime_tools,
+        :timex,
+        :phoenix_ecto,
+        :bamboo,
+        :os_mon,
+        :plug
+      ]
     ]
   end
 
@@ -39,21 +48,21 @@ defmodule DeerStorage.MixProject do
       {:phoenix_ecto, "~> 4.7"},
       {:ecto_sql, "~> 3.13"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 3.0.0"},
+      {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.5.1"},
 
       # Non-default
-      {:pow, "~> 1.0.20"},
+      {:pow, "~> 1.0.39"},
       {:bamboo, "~> 2.2"},
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.1.0"},
-      {:phoenix_live_view, "~> 0.16.0"},
+      {:phoenix_live_view, "~> 0.18.0"},
       {:floki, ">= 0.0.0", only: :test},
       {:faker, "~> 0.13", only: [:test, :dev]},
-      {:phoenix_live_dashboard, "~> 0.5"},
+      {:phoenix_live_dashboard, "~> 0.7"},
       {:telemetry_poller, "~> 1.0"},
       {:telemetry_metrics, "~> 0.6"},
       {:poison, "~> 5.0"},
