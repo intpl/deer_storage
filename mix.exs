@@ -52,7 +52,7 @@ defmodule DeerStorage.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.5.1"},
+      {:plug_cowboy, "~> 2.6"},
 
       # Non-default
       {:pow, "~> 1.0.39"},
