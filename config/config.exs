@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 # TODO: use Config module: https://hexdocs.pm/elixir/Config.html
 
 config :deer_storage,
@@ -20,8 +20,10 @@ config :deer_storage, DeerStorageWeb.Endpoint,
   render_errors: [view: DeerStorageWeb.ErrorView, accepts: ~w(html json)],
   pubsub_server: DeerStorage.PubSub,
   live_view: [
-    signing_salt: "Cx4+NQzV+jnvqWiZKk+v0u1YPxyS/vIg", # overwrite in production
-    hibernate_after: 3_600_000 # 1 hour
+    # overwrite in production
+    signing_salt: "Cx4+NQzV+jnvqWiZKk+v0u1YPxyS/vIg",
+    # 1 hour
+    hibernate_after: 3_600_000
   ]
 
 # Configures Elixir's Logger
@@ -41,7 +43,8 @@ config :deer_storage, :pow,
   web_mailer_module: DeerStorageWeb,
   cache_store_backend: Pow.Store.Backend.MnesiaCache,
   extensions: [PowResetPassword, PowEmailConfirmation, PowPersistentSession, PowInvitation]
-  # controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
+
+# controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

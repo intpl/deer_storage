@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # Configure your database
 config :deer_storage, DeerStorage.Repo,
@@ -20,6 +20,7 @@ config :logger, level: :warn
 
 config :deer_storage, DeerStorageWeb.PowMailer, adapter: Bamboo.TestAdapter
 
-config :deer_storage, :pow, cache_store_backend: DeerStorageWeb.EtsCacheMock,
+config :deer_storage, :pow,
+  cache_store_backend: DeerStorageWeb.EtsCacheMock,
   message_verifier: DeerStorage.Test.Pow.MessageVerifier,
   cache_store_backend: Pow.Store.Backend.EtsCacheMock
