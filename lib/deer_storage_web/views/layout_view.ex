@@ -1,6 +1,7 @@
 defmodule DeerStorageWeb.LayoutView do
   import DeerStorage.FeatureFlags, only: [registration_enabled?: 0]
   use DeerStorageWeb, :view
+  use Phoenix.Component
 
   def available_languages_and_locales(), do: [{"Polski", "pl"}, {"English", "en"}]
 
@@ -20,17 +21,20 @@ defmodule DeerStorageWeb.LayoutView do
   end
 
   def maybe_active_records_link(socket, %{id: id} = dt, id) do
-    live_redirect("#{dt.name} (#{dt.count})",
-      to: Routes.live_path(socket, DeerStorageWeb.DeerRecordsLive.Index, dt.id),
-      class: "navbar-item is-active"
-    )
+    class = "navbar-item is-active"
+    path = Routes.live_path(socket, DeerStorageWeb.DeerRecordsLive.Index, dt.id)
+
+    text = "#{dt.name} (#{dt.count})"
+
+    content_tag(:a, text, href: path, class: class)
   end
 
   def maybe_active_records_link(socket, dt, _) do
-    live_redirect("#{dt.name} (#{dt.count})",
-      to: Routes.live_path(socket, DeerStorageWeb.DeerRecordsLive.Index, dt.id),
-      class: "navbar-item"
-    )
+    class = "navbar-item"
+    path = Routes.live_path(socket, DeerStorageWeb.DeerRecordsLive.Index, dt.id)
+    text = "#{dt.name} (#{dt.count})"
+
+    content_tag(:a, text, href: path, class: class)
   end
 
   def title(conn) do
