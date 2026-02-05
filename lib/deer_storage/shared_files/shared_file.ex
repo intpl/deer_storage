@@ -19,7 +19,8 @@ defmodule DeerStorage.SharedFiles.SharedFile do
 
   @doc false
   def changeset(shared_file, attrs) do
-    ninety_days_from_now = DateTime.truncate(DateTime.add(DateTime.utc_now, 7_776_000, :second), :second)
+    ninety_days_from_now =
+      DateTime.truncate(DateTime.add(DateTime.utc_now(), 7_776_000, :second), :second)
 
     shared_file
     |> cast(attrs, [:deer_record_id, :subscription_id, :created_by_user_id, :deer_file_id])

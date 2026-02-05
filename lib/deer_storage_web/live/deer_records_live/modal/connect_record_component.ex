@@ -4,21 +4,25 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
   import DeerStorageWeb.DeerRecordView
   import DeerStorageWeb.Gettext
 
-  def update(%{
-        subscription: %{deer_tables: deer_tables} = subscription,
-        excluded_records_ids: excluded_record_ids,
-        connecting_record_query: query,
-        connecting_record_records: records,
-        connecting_record_selected_table_id: table_id}, socket) do
-
-    {:ok, assign(socket,
-      excluded_records_ids: excluded_record_ids,
-      deer_columns: deer_columns_from_subscription(subscription, table_id),
-      deer_tables: deer_tables,
-      table_id: table_id,
-      records: records,
-      query: query
-    )}
+  def update(
+        %{
+          subscription: %{deer_tables: deer_tables} = subscription,
+          excluded_records_ids: excluded_record_ids,
+          connecting_record_query: query,
+          connecting_record_records: records,
+          connecting_record_selected_table_id: table_id
+        },
+        socket
+      ) do
+    {:ok,
+     assign(socket,
+       excluded_records_ids: excluded_record_ids,
+       deer_columns: deer_columns_from_subscription(subscription, table_id),
+       deer_tables: deer_tables,
+       table_id: table_id,
+       records: records,
+       query: query
+     )}
   end
 
   def render(assigns) do

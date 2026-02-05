@@ -8,14 +8,23 @@ defmodule DeerStorage.Subscriptions.Subscription do
 
   alias DeerStorage.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
-  defmacro days_to_expire, do: System.get_env("NEW_SUBSCRIPTION_DAYS_TO_EXPIRE") |> String.to_integer
+  defmacro days_to_expire,
+    do: System.get_env("NEW_SUBSCRIPTION_DAYS_TO_EXPIRE") |> String.to_integer()
 
   schema "subscriptions" do
-    default_records_per_table_limit = System.get_env("NEW_SUBSCRIPTION_RECORDS_PER_TABLE_LIMIT") |> String.to_integer
-    default_files_limit = System.get_env("NEW_SUBSCRIPTION_FILES_COUNT_LIMIT") |> String.to_integer
-    default_storage_limit = System.get_env("NEW_SUBSCRIPTION_STORAGE_LIMIT_IN_KILOBYTES") |> String.to_integer
-    default_columns_per_table_limit = System.get_env("NEW_SUBSCRIPTION_COLUMNS_PER_TABLE_LIMIT") |> String.to_integer
-    default_tables_limit = System.get_env("NEW_SUBSCRIPTION_TABLES_LIMIT") |> String.to_integer
+    default_records_per_table_limit =
+      System.get_env("NEW_SUBSCRIPTION_RECORDS_PER_TABLE_LIMIT") |> String.to_integer()
+
+    default_files_limit =
+      System.get_env("NEW_SUBSCRIPTION_FILES_COUNT_LIMIT") |> String.to_integer()
+
+    default_storage_limit =
+      System.get_env("NEW_SUBSCRIPTION_STORAGE_LIMIT_IN_KILOBYTES") |> String.to_integer()
+
+    default_columns_per_table_limit =
+      System.get_env("NEW_SUBSCRIPTION_COLUMNS_PER_TABLE_LIMIT") |> String.to_integer()
+
+    default_tables_limit = System.get_env("NEW_SUBSCRIPTION_TABLES_LIMIT") |> String.to_integer()
 
     field :admin_notes, :string
     field :name, :string
@@ -56,20 +65,29 @@ defmodule DeerStorage.Subscriptions.Subscription do
   @doc false
   def admin_changeset(subscription, attrs) do
     subscription
-    |> cast(attrs, [:name,
-                   :expires_on,
-                   :admin_notes,
-                   :storage_limit_kilobytes,
-                   :deer_files_limit,
-                   :deer_tables_limit,
-                   :deer_records_per_table_limit,
-                   :deer_columns_per_table_limit])
+    |> cast(attrs, [
+      :name,
+      :expires_on,
+      :admin_notes,
+      :storage_limit_kilobytes,
+      :deer_files_limit,
+      :deer_tables_limit,
+      :deer_records_per_table_limit,
+      :deer_columns_per_table_limit
+    ])
     |> validate_required([:name])
   end
 
   def append_table(subscription, table_name, table_columns) do
-    new_table_attrs = [%{name: table_name, deer_columns: Enum.map(table_columns, fn col_name -> %{name: col_name} end)}]
-    deer_tables = deer_tables_to_attrs(fetch_field!(subscription, :deer_tables)) ++ new_table_attrs
+    new_table_attrs = [
+      %{
+        name: table_name,
+        deer_columns: Enum.map(table_columns, fn col_name -> %{name: col_name} end)
+      }
+    ]
+
+    deer_tables =
+      deer_tables_to_attrs(fetch_field!(subscription, :deer_tables)) ++ new_table_attrs
 
     change(subscription)
     |> cast(%{deer_tables: deer_tables}, [])
@@ -80,7 +98,9 @@ defmodule DeerStorage.Subscriptions.Subscription do
 
   defp validate_deer_columns_limit(changeset, %{deer_columns_per_table_limit: limit}) do
     validate_change(changeset, :deer_tables, fn :deer_tables, changesets_list ->
-      case Enum.all?(changesets_list, fn ch -> columns_length_valid?(fetch_field!(ch, :deer_columns), limit) end) do
+      case Enum.all?(changesets_list, fn ch ->
+             columns_length_valid?(fetch_field!(ch, :deer_columns), limit)
+           end) do
         true -> []
         false -> [{:deer_tables, "deer columns limit exceeded"}]
       end
@@ -91,6 +111,7 @@ defmodule DeerStorage.Subscriptions.Subscription do
   defp columns_length_valid?(_, _), do: true
 
   defp maybe_add_expires_on_date(%{data: %{expires_on: nil}} = changeset),
-    do: put_change(changeset, :expires_on, Date.add(Date.utc_today, days_to_expire()))
+    do: put_change(changeset, :expires_on, Date.add(Date.utc_today(), days_to_expire()))
+
   defp maybe_add_expires_on_date(changeset), do: changeset
 end

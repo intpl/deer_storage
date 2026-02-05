@@ -5,18 +5,26 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
   import DeerStorageWeb.Gettext
   import DeerStorageWeb.DateHelpers, only: [dt: 2]
 
-  import DeerStorageWeb.DeerRecordView, only: [
-    deer_columns_from_subscription: 2,
-    deer_table_from_subscription: 2,
-    deer_field_content_from_column_id: 2,
-    display_filesize_from_kilobytes: 1,
-    mimetype_is_previewable?: 1,
-    maybe_shrink_filename: 1
-  ]
+  import DeerStorageWeb.DeerRecordView,
+    only: [
+      deer_columns_from_subscription: 2,
+      deer_table_from_subscription: 2,
+      deer_field_content_from_column_id: 2,
+      display_filesize_from_kilobytes: 1,
+      mimetype_is_previewable?: 1,
+      maybe_shrink_filename: 1
+    ]
 
   def mount(socket), do: {:ok, assign(socket, :display_full_names, false)}
 
-  def render(%{record: record, subscription: subscription, table_id: table_id, current_user: current_user} = assigns) do
+  def render(
+        %{
+          record: record,
+          subscription: subscription,
+          table_id: table_id,
+          current_user: current_user
+        } = assigns
+      ) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
     ~L"""
@@ -203,7 +211,11 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
     """
   end
 
-  def handle_event("toggle_fullnames", _, %{assigns: %{display_full_names: previous_display_value}} = socket) do
+  def handle_event(
+        "toggle_fullnames",
+        _,
+        %{assigns: %{display_full_names: previous_display_value}} = socket
+      ) do
     {:noreply, assign(socket, :display_full_names, !previous_display_value)}
   end
 

@@ -8,8 +8,9 @@ defmodule DeerStorageWeb.Admin.UserController do
   def search(conn, params) do
     query = params["query"] || ""
 
-    users = Users.list_users(query, 1, 100, "")
-    |> Enum.map(fn user -> %{id: user.id, text: "#{user.name} (#{user.email})"} end)
+    users =
+      Users.list_users(query, 1, 100, "")
+      |> Enum.map(fn user -> %{id: user.id, text: "#{user.name} (#{user.email})"} end)
 
     json(conn, users)
   end
@@ -22,10 +23,19 @@ defmodule DeerStorageWeb.Admin.UserController do
     page = String.to_integer(params["page"] || "1")
     users = Users.list_users(query, page, per_page, sort_by)
 
-    rendered_pagination = Phoenix.View.render_to_string(
-      DeerStorageWeb.Admin.UserView, "_index_pagination.html",
-      %{conn: conn, count: length(users), per_page: per_page, page: page, query: query, sort_by: sort_by}
-    )
+    rendered_pagination =
+      Phoenix.View.render_to_string(
+        DeerStorageWeb.Admin.UserView,
+        "_index_pagination.html",
+        %{
+          conn: conn,
+          count: length(users),
+          per_page: per_page,
+          page: page,
+          query: query,
+          sort_by: sort_by
+        }
+      )
 
     render(
       conn,
@@ -51,7 +61,10 @@ defmodule DeerStorageWeb.Admin.UserController do
         |> redirect(to: Routes.admin_user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, action: Routes.admin_user_path(conn, :create))
+        render(conn, "new.html",
+          changeset: changeset,
+          action: Routes.admin_user_path(conn, :create)
+        )
     end
   end
 
@@ -59,9 +72,11 @@ defmodule DeerStorageWeb.Admin.UserController do
     user = Users.get_user!(id) |> DeerStorage.Repo.preload(:available_subscriptions)
     available_subscriptions = user.available_subscriptions
     count = length(UserSessionUtils.user_sessions_keys(user))
-    excluded_subscriptions_ids = available_subscriptions
-    |> Enum.map(fn s -> s.id end)
-    |> Poison.encode!
+
+    excluded_subscriptions_ids =
+      available_subscriptions
+      |> Enum.map(fn s -> s.id end)
+      |> Poison.encode!()
 
     render(
       conn,
@@ -76,7 +91,12 @@ defmodule DeerStorageWeb.Admin.UserController do
   def edit(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     changeset = Users.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset, action: Routes.admin_user_path(conn, :update, id))
+
+    render(conn, "edit.html",
+      user: user,
+      changeset: changeset,
+      action: Routes.admin_user_path(conn, :update, id)
+    )
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
@@ -89,7 +109,11 @@ defmodule DeerStorageWeb.Admin.UserController do
         |> redirect(to: Routes.admin_user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset, action: Routes.admin_user_path(conn, :update, id))
+        render(conn, "edit.html",
+          user: user,
+          changeset: changeset,
+          action: Routes.admin_user_path(conn, :update, id)
+        )
     end
   end
 
@@ -114,17 +138,20 @@ defmodule DeerStorageWeb.Admin.UserController do
   def confirm_user(conn, %{"user_id" => id}) do
     user = Users.get_user!(id)
     token = user.email_confirmation_token
+
     case token do
       nil ->
         conn
         |> put_flash(:info, gettext("User is already confirmed"))
         |> redirect(to: Routes.admin_user_path(conn, :show, user))
+
       _token ->
         case PowEmailConfirmation.Plug.confirm_email(conn, token) do
           {:ok, _user, conn} ->
             conn
             |> put_flash(:info, gettext("E-mail has been confirmed"))
             |> redirect(to: Routes.admin_user_path(conn, :show, user))
+
           {:error, _changeset, conn} ->
             conn
             |> put_flash(:error, gettext("Failed to confirm e-mail"))

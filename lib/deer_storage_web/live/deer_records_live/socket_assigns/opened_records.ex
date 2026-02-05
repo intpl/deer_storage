@@ -375,7 +375,8 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   defp maybe_send_assign_connected_records(
          %DeerRecord{connected_deer_records_ids: list},
          %DeerRecord{connected_deer_records_ids: list}
-       ), do: nil
+       ),
+       do: nil
 
   defp maybe_send_assign_connected_records(
          _old_record,

@@ -7,22 +7,24 @@ defmodule DeerStorageWeb.Admin.UserControllerTest do
 
   import DeerStorage.Test.SessionHelpers, only: [assign_user_to_session: 2]
 
-  @admin_attrs %{email: "admin@storagedeer.com",
-                  name: "Admin",
-                  password: "secret123",
-                  password_confirmation: "secret123",
-                  locale: "pl",
+  @admin_attrs %{
+    email: "admin@storagedeer.com",
+    name: "Admin",
+    password: "secret123",
+    password_confirmation: "secret123",
+    locale: "pl"
   }
 
-  @create_attrs %{email: "test@test.eu",
-                  name: "Henryk Testowny",
-                  password: "secret123",
-                  password_confirmation: "secret123",
-                  locale: "pl",
-                  last_used_subscription: %{
-                    name: "Test",
-                    email: "test@example.org"
-                  }
+  @create_attrs %{
+    email: "test@test.eu",
+    name: "Henryk Testowny",
+    password: "secret123",
+    password_confirmation: "secret123",
+    locale: "pl",
+    last_used_subscription: %{
+      name: "Test",
+      email: "test@example.org"
+    }
   }
 
   @update_attrs %{email: "test2@test.eu"}

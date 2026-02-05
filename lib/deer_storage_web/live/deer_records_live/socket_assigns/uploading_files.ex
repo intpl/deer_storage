@@ -32,7 +32,8 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   def assign_uploading_file_for_record_after_delete(
         %{assigns: %{uploading_file_for_record: nil}} = socket,
         _
-      ), do: maybe_reload_and_overwrite_deer_file_upload(socket)
+      ),
+      do: maybe_reload_and_overwrite_deer_file_upload(socket)
 
   def assign_uploading_file_for_record_after_delete(
         %{assigns: %{uploading_file_for_record: %{id: id}}} = socket,
@@ -103,7 +104,8 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
 
   def maybe_reload_and_overwrite_deer_file_upload(
         %{assigns: %{uploads: %{deer_file: _deer_file}}} = socket
-      ), do: reload_subscription_storage_and_allow_upload(socket)
+      ),
+      do: reload_subscription_storage_and_allow_upload(socket)
 
   def maybe_reload_and_overwrite_deer_file_upload(socket), do: socket
 

@@ -8,7 +8,7 @@ defmodule DeerStorage.DeerRecords.DeerField do
   end
 
   @doc false
-  def changeset(deer_field, attrs, [deer_table_id: table_id, subscription: subscription]) do
+  def changeset(deer_field, attrs, deer_table_id: table_id, subscription: subscription) do
     deer_field
     |> cast(attrs, [:deer_column_id, :content])
     |> validate_tables_and_columns_integrity(table_id, subscription)
@@ -19,8 +19,9 @@ defmodule DeerStorage.DeerRecords.DeerField do
     case Enum.find(subscription.deer_tables, fn table -> table.id == table_id end) do
       nil ->
         add_error(changeset, :deer_column_id, "empty")
+
       deer_table ->
-        validate_inclusion(changeset, :deer_column_id, Enum.map(deer_table.deer_columns, &(&1.id)))
+        validate_inclusion(changeset, :deer_column_id, Enum.map(deer_table.deer_columns, & &1.id))
     end
   end
 end

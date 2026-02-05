@@ -6,13 +6,22 @@ defmodule DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent do
 
   import DeerStorageWeb.ErrorHelpers, only: [error_tag: 2]
 
-  def update(%{changeset: changeset, table: %{id: table_id}, columns_per_table_limit: columns_per_table_limit}, socket) do
-    {:ok, assign(
-        socket,
-        table_id: table_id,
-        changeset: changeset,
-        columns_per_table_limit: columns_per_table_limit,
-        columns_count: length(Ecto.Changeset.fetch_field!(changeset, :deer_columns)))}
+  def update(
+        %{
+          changeset: changeset,
+          table: %{id: table_id},
+          columns_per_table_limit: columns_per_table_limit
+        },
+        socket
+      ) do
+    {:ok,
+     assign(
+       socket,
+       table_id: table_id,
+       changeset: changeset,
+       columns_per_table_limit: columns_per_table_limit,
+       columns_count: length(Ecto.Changeset.fetch_field!(changeset, :deer_columns))
+     )}
   end
 
   def render(assigns) do
@@ -59,5 +68,4 @@ defmodule DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent do
     </div>
     """
   end
-
 end

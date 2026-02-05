@@ -17,10 +17,12 @@ defmodule DeerStorage.SharedFiles do
     # TODO: track limits: user shared records per day e.g. 100
     Repo.insert!(
       SharedFile.changeset(%SharedFile{}, %{
-            subscription_id: subscription_id,
-            created_by_user_id: user_id,
-            deer_record_id: deer_record_id,
-            deer_file_id: deer_file_id}))
+        subscription_id: subscription_id,
+        created_by_user_id: user_id,
+        deer_record_id: deer_record_id,
+        deer_file_id: deer_file_id
+      })
+    )
   end
 
   def delete_all_by_deer_record_id!(subscription_id, deer_record_id) do
@@ -32,6 +34,6 @@ defmodule DeerStorage.SharedFiles do
 
   def delete_outdated!, do: Repo.delete_all(outdated_query())
 
-  defp available_query, do: from sr in SharedFile, where: ^DateTime.utc_now < sr.expires_on
-  defp outdated_query, do: from sr in SharedFile, where: ^DateTime.utc_now >= sr.expires_on
+  defp available_query, do: from(sr in SharedFile, where: ^DateTime.utc_now() < sr.expires_on)
+  defp outdated_query, do: from(sr in SharedFile, where: ^DateTime.utc_now() >= sr.expires_on)
 end

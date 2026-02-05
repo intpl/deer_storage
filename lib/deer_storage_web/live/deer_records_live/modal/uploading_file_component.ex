@@ -2,32 +2,44 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
   use Phoenix.LiveComponent
   import DeerStorageWeb.Gettext
   import DeerStorageWeb.DeerRecordView, only: [display_filesize_from_kilobytes: 1]
-  import DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.Helpers, only: [any_entry_started_upload?: 1]
+
+  import DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.Helpers,
+    only: [any_entry_started_upload?: 1]
 
   def update(%{uploads: uploads, upload_results: upload_results}, socket) do
-  upload_started? = any_entry_started_upload?(uploads.deer_file.entries)
-  socket = assign(socket, entries: uploads.deer_file.entries, deer_file: uploads.deer_file, upload_results: upload_results)
-  socket = if upload_started? do
-    assign(socket,
-      upload_started?: true,
-      cancel_button_class: "button is-danger",
-      cancel_button_text: gettext("Cancel"),
-      drop_target_ref: nil,
-      drop_area_class: nil,
-      drop_area_text: nil,
-      cancel_modal_event: nil)
-  else
-    assign(socket,
-      upload_started?: false,
-      cancel_button_class: "button",
-      cancel_button_text: gettext("Close"),
-      drop_target_ref: uploads.deer_file.ref,
-      drop_area_class: "drop-area",
-      drop_area_text: gettext("Drop files on this window or select them by hand"),
-      cancel_modal_event: "close_upload_file_modal")
-  end
+    upload_started? = any_entry_started_upload?(uploads.deer_file.entries)
 
-  {:ok, socket}
+    socket =
+      assign(socket,
+        entries: uploads.deer_file.entries,
+        deer_file: uploads.deer_file,
+        upload_results: upload_results
+      )
+
+    socket =
+      if upload_started? do
+        assign(socket,
+          upload_started?: true,
+          cancel_button_class: "button is-danger",
+          cancel_button_text: gettext("Cancel"),
+          drop_target_ref: nil,
+          drop_area_class: nil,
+          drop_area_text: nil,
+          cancel_modal_event: nil
+        )
+      else
+        assign(socket,
+          upload_started?: false,
+          cancel_button_class: "button",
+          cancel_button_text: gettext("Close"),
+          drop_target_ref: uploads.deer_file.ref,
+          drop_area_class: "drop-area",
+          drop_area_text: gettext("Drop files on this window or select them by hand"),
+          cancel_modal_event: "close_upload_file_modal"
+        )
+      end
+
+    {:ok, socket}
   end
 
   def render(assigns) do
@@ -108,8 +120,13 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
   end
 
   defp translate_error(:too_large), do: gettext("File size exceeds your database limits")
-  defp translate_error(:total_size_exceeds_limits), do: gettext("Upload has been canceled due to the total size of files exceeded database limits")
+
+  defp translate_error(:total_size_exceeds_limits),
+    do:
+      gettext("Upload has been canceled due to the total size of files exceeded database limits")
 
   defp errors_for_entry([], _), do: nil
-  defp errors_for_entry(errors, %{ref: ref}), do: Enum.find(errors, fn {error_ref, _error} -> error_ref == ref end)
+
+  defp errors_for_entry(errors, %{ref: ref}),
+    do: Enum.find(errors, fn {error_ref, _error} -> error_ref == ref end)
 end

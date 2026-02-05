@@ -4,7 +4,9 @@ defmodule DeerCache.RecordsCountsCache do
 
   import DeerStorage.DeerRecords, only: [count_records_grouped_by_deer_table_id: 0]
 
-  def start_link(opts \\ []), do: GenServer.start_link(__MODULE__, [{:ets_table_name, :deer_records_by_table_id_cache}], opts)
+  def start_link(opts \\ []),
+    do:
+      GenServer.start_link(__MODULE__, [{:ets_table_name, :deer_records_by_table_id_cache}], opts)
 
   def fetch_count(table_id) do
     case GenServer.call(__MODULE__, {:get, table_id}) do
@@ -17,17 +19,23 @@ defmodule DeerCache.RecordsCountsCache do
     {:reply, get(deer_table_id, state), state}
   end
 
-  def handle_call({:deleted_table, deer_table_id}, _from, state), do: {:reply, delete(deer_table_id, state), state}
+  def handle_call({:deleted_table, deer_table_id}, _from, state),
+    do: {:reply, delete(deer_table_id, state), state}
 
   def handle_cast({:increment, deer_table_id, by_count}, state) do
-    new_count = case get(deer_table_id, state) do
-                  [] -> by_count
-                  [{^deer_table_id, n}] -> n + by_count
-                end
+    new_count =
+      case get(deer_table_id, state) do
+        [] -> by_count
+        [{^deer_table_id, n}] -> n + by_count
+      end
 
     set(deer_table_id, new_count, state)
 
-    PubSub.broadcast DeerStorage.PubSub, "records_counts:#{deer_table_id}", {:cached_records_count_changed, deer_table_id, new_count}
+    PubSub.broadcast(
+      DeerStorage.PubSub,
+      "records_counts:#{deer_table_id}",
+      {:cached_records_count_changed, deer_table_id, new_count}
+    )
 
     {:noreply, state}
   end
@@ -38,7 +46,11 @@ defmodule DeerCache.RecordsCountsCache do
 
     set(deer_table_id, new_count, state)
 
-    PubSub.broadcast DeerStorage.PubSub, "records_counts:#{deer_table_id}", {:cached_records_count_changed, deer_table_id, new_count}
+    PubSub.broadcast(
+      DeerStorage.PubSub,
+      "records_counts:#{deer_table_id}",
+      {:cached_records_count_changed, deer_table_id, new_count}
+    )
 
     {:noreply, state}
   end

@@ -2,43 +2,63 @@ defmodule DeerStorageWeb.Admin.UserView do
   use DeerStorageWeb, :view
 
   import DeerStorage.FeatureFlags, only: [mailing_enabled?: 0]
-  import DeerStorageWeb.RegistrationView, only: [languages_select_options: 0, time_zones_select_options: 0]
+
+  import DeerStorageWeb.RegistrationView,
+    only: [languages_select_options: 0, time_zones_select_options: 0]
 
   def determine_if_sorted(title, field, sort_by, query) do
     case Regex.scan(~r/(.*)_(.*)$/, sort_by) do
       [[_match, ^field, order]] ->
         case order do
-            "asc" -> link("⮝ " <> title, to: "?sort_by=#{field}_desc&query=#{query}")
-            "desc" -> link("⮟ " <> title, to: "?sort_by=#{field}_asc&query=#{query}")
+          "asc" -> link("⮝ " <> title, to: "?sort_by=#{field}_desc&query=#{query}")
+          "desc" -> link("⮟ " <> title, to: "?sort_by=#{field}_asc&query=#{query}")
         end
-      _ -> link(title, to: "?sort_by=#{field}_desc&query=#{query}")
+
+      _ ->
+        link(title, to: "?sort_by=#{field}_desc&query=#{query}")
     end
   end
 
   def toggle_admin_button(conn, user) do
-    text = if user.role == "admin" do
-      gettext("Revoke admin privileges")
-    else
-      gettext("Grant admin privileges")
-    end
+    text =
+      if user.role == "admin" do
+        gettext("Revoke admin privileges")
+      else
+        gettext("Grant admin privileges")
+      end
 
-    link text, to: Routes.admin_user_user_path(conn, :toggle_admin, user), method: :put, data: [confirm: gettext("Are you sure?")], class: "button is-danger"
+    link(text,
+      to: Routes.admin_user_user_path(conn, :toggle_admin, user),
+      method: :put,
+      data: [confirm: gettext("Are you sure?")],
+      class: "button is-danger"
+    )
   end
 
   def user_roles_select_options do
     [
       [gettext("Admin"), "admin"],
-      [gettext("User"), "user"],
-    ] |> Map.new(fn [k, v] -> {k, v} end)
+      [gettext("User"), "user"]
+    ]
+    |> Map.new(fn [k, v] -> {k, v} end)
   end
 
-  def subscription_name_link_for(_, %DeerStorage.Users.User{last_used_subscription: nil}), do: gettext("empty")
-  def subscription_name_link_for(conn, %DeerStorage.Users.User{last_used_subscription: subscription}) do
-    link subscription.name, to: Routes.admin_subscription_path(conn, :show, subscription.id)
+  def subscription_name_link_for(_, %DeerStorage.Users.User{last_used_subscription: nil}),
+    do: gettext("empty")
+
+  def subscription_name_link_for(conn, %DeerStorage.Users.User{
+        last_used_subscription: subscription
+      }) do
+    link(subscription.name, to: Routes.admin_subscription_path(conn, :show, subscription.id))
   end
 
-  def subscription_expires_datetime_for(%DeerStorage.Users.User{last_used_subscription: nil}), do: gettext("empty")
-  def subscription_expires_datetime_for(%DeerStorage.Users.User{last_used_subscription: subscription}), do: subscription.expires_on
+  def subscription_expires_datetime_for(%DeerStorage.Users.User{last_used_subscription: nil}),
+    do: gettext("empty")
+
+  def subscription_expires_datetime_for(%DeerStorage.Users.User{
+        last_used_subscription: subscription
+      }),
+      do: subscription.expires_on
 
   def users_sorting_options do
     descending = " (#{gettext("descending")})"

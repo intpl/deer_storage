@@ -5,7 +5,8 @@ defmodule DeerStorageWeb.PageController do
 
   def index(conn, _params) do
     render(conn, "index.html")
-  rescue Phoenix.Template.UndefinedError ->
+  rescue
+    Phoenix.Template.UndefinedError ->
       redirect_to_dashboard_or_new_session(conn)
   end
 
@@ -13,6 +14,7 @@ defmodule DeerStorageWeb.PageController do
     case Pow.Plug.current_user(conn) do
       %{last_used_subscription_id: id} ->
         redirect_to_dashboard(conn, id)
+
       _ ->
         redirect(conn, to: Routes.session_path(conn, :new))
     end

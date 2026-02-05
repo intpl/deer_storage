@@ -2,20 +2,28 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
   use DeerStorageWeb.ConnCase
   use Bamboo.Test
 
-  alias DeerStorage.{Repo, Users, Users.User, Subscriptions, UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink}
+  alias DeerStorage.{
+    Repo,
+    Users,
+    Users.User,
+    Subscriptions,
+    UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
+  }
 
   import DeerStorage.Fixtures
   import DeerStorage.Test.SessionHelpers, only: [assign_user_to_session: 2]
 
-  @valid_attrs %{email: "test@storagedeer.com",
-                  name: "Henryk Testowny",
-                  password: "secret123",
-                  password_confirmation: "secret123",
-                  locale: "pl",
-                  last_used_subscription: %{
-                    name: "Test",
-                    email: "test@example.org"
-                  }}
+  @valid_attrs %{
+    email: "test@storagedeer.com",
+    name: "Henryk Testowny",
+    password: "secret123",
+    password_confirmation: "secret123",
+    locale: "pl",
+    last_used_subscription: %{
+      name: "Test",
+      email: "test@example.org"
+    }
+  }
 
   def user_fixture do
     {:ok, user} = Users.create_user(@valid_attrs)
@@ -24,12 +32,14 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
   end
 
   def admin_fixture do
-    {:ok, admin} = Users.admin_create_user(@valid_attrs |> Map.merge(%{role: "admin", subscription: nil}))
+    {:ok, admin} =
+      Users.admin_create_user(@valid_attrs |> Map.merge(%{role: "admin", subscription: nil}))
 
     admin
   end
 
-  def current_subscription_id_from_conn(conn), do: conn.private.plug_session["current_subscription_id"]
+  def current_subscription_id_from_conn(conn),
+    do: conn.private.plug_session["current_subscription_id"]
 
   describe "new" do
     test "[guest] GET /registration/new", %{conn: conn} do
@@ -49,7 +59,9 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
 
     test "[user without subscription] GET /registration/edit", %{conn: conn} do
       # TODO workaround, but it needs to be changed
-      {:ok, user} = @valid_attrs |> Map.merge(%{last_used_subscription: nil}) |> Users.admin_create_user
+      {:ok, user} =
+        @valid_attrs |> Map.merge(%{last_used_subscription: nil}) |> Users.admin_create_user()
+
       user = user |> Repo.preload(:available_subscriptions)
 
       conn = assign_user_to_session(conn, user)
@@ -66,14 +78,17 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       assert "/session/new" = redirected_path
       conn = get(recycle(conn), redirected_path)
 
-      assert html_response(conn, 200) =~ "Musisz potwierdzić swój adres e-mail przed pierwszym zalogowaniem"
-      assert Subscriptions.total_count == 1
-      assert Users.total_count == 1
+      assert html_response(conn, 200) =~
+               "Musisz potwierdzić swój adres e-mail przed pierwszym zalogowaniem"
 
-      {:ok, email_confirmation_token} = Users.last_user |> Map.fetch(:email_confirmation_token)
+      assert Subscriptions.total_count() == 1
+      assert Users.total_count() == 1
+
+      {:ok, email_confirmation_token} = Users.last_user() |> Map.fetch(:email_confirmation_token)
 
       assert_email_delivered_with(
-        to: [nil: @valid_attrs.email], # TODO: czy to w ogole dziala? :O
+        # TODO: czy to w ogole dziala? :O
+        to: [nil: @valid_attrs.email],
         text_body: ~r/#{email_confirmation_token}/
       )
     end
@@ -90,8 +105,11 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       user = create_valid_user_with_subscription(@valid_attrs)
       new_name = "New example name"
 
-      conn = assign_user_to_session(conn, user)
-      |> put("/registration", user: @valid_attrs |> Map.merge(%{name: new_name, current_password: "secret123"}))
+      conn =
+        assign_user_to_session(conn, user)
+        |> put("/registration",
+          user: @valid_attrs |> Map.merge(%{name: new_name, current_password: "secret123"})
+        )
 
       assert html_response(conn, 200) =~ "Konto zaktualizowane"
 
@@ -103,8 +121,9 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       user = create_valid_user_with_subscription(@valid_attrs)
       new_name = "New example name"
 
-      conn = assign_user_to_session(conn, user)
-      |> put("/registration", user: @valid_attrs |> Map.merge(%{name: new_name}))
+      conn =
+        assign_user_to_session(conn, user)
+        |> put("/registration", user: @valid_attrs |> Map.merge(%{name: new_name}))
 
       assert html_response(conn, 200) =~ "Coś poszło nie tak. Sprawdź błędy poniżej"
 
@@ -116,10 +135,16 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       user = create_valid_user_with_subscription(@valid_attrs)
       new_email = "test_new@storagedeer.com"
 
-      conn = assign_user_to_session(conn, user)
-      |> put("/registration", user: @valid_attrs |> Map.merge(%{email: new_email, current_password: @valid_attrs.password}))
+      conn =
+        assign_user_to_session(conn, user)
+        |> put("/registration",
+          user:
+            @valid_attrs
+            |> Map.merge(%{email: new_email, current_password: @valid_attrs.password})
+        )
 
-      assert html_response(conn, 200) =~ "Wysłano e-mail w celu potwierdzenia na adres: <span>#{new_email}</span>"
+      assert html_response(conn, 200) =~
+               "Wysłano e-mail w celu potwierdzenia na adres: <span>#{new_email}</span>"
 
       reloaded_user = Repo.get(User, user.id)
       refute reloaded_user.email == new_email
@@ -127,19 +152,28 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       assert reloaded_user.email_confirmed_at == nil
 
       assert_email_delivered_with(
-        to: [nil: new_email], # TODO: czy to w ogole dziala? :O
+        # TODO: czy to w ogole dziala? :O
+        to: [nil: new_email],
         text_body: ~r/#{reloaded_user.email_confirmation_token}/
       )
     end
   end
 
   describe "switch_subscription_id" do
-    test "[user - available subscription] PUT /switch_subscription_id - changes subscription_id", %{conn: conn} do
+    test "[user - available subscription] PUT /switch_subscription_id - changes subscription_id",
+         %{conn: conn} do
       user = create_valid_user_with_subscription(@valid_attrs)
       {:ok, new_subscription} = Subscriptions.create_subscription(%{name: "New Subscription"})
-      Repo.insert! %UserAvailableSubscriptionLink{user_id: user.id, subscription_id: new_subscription.id}
 
-      conn = post(conn, "/session", user: %{email: @valid_attrs.email, password: @valid_attrs.password})
+      Repo.insert!(%UserAvailableSubscriptionLink{
+        user_id: user.id,
+        subscription_id: new_subscription.id
+      })
+
+      conn =
+        post(conn, "/session",
+          user: %{email: @valid_attrs.email, password: @valid_attrs.password}
+        )
 
       conn = conn |> put("/registration/switch_subscription_id/#{new_subscription.id}")
 
@@ -151,39 +185,59 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       assert new_subscription.id == current_subscription_id_from_conn(conn)
     end
 
-    test "[user - not available subscription] PUT /switch_subscription_id - does not change subscription_id", %{conn: conn} do
+    test "[user - not available subscription] PUT /switch_subscription_id - does not change subscription_id",
+         %{conn: conn} do
       user = create_valid_user_with_subscription(@valid_attrs)
       original_subscription_id = user.last_used_subscription_id
       {:ok, new_subscription} = Subscriptions.create_subscription(%{name: "New Subscription"})
 
-      conn = post(conn, "/session", user: %{email: @valid_attrs.email, password: @valid_attrs.password})
+      conn =
+        post(conn, "/session",
+          user: %{email: @valid_attrs.email, password: @valid_attrs.password}
+        )
 
       assert_raise FunctionClauseError, fn ->
-         conn |> put("/registration/switch_subscription_id/#{new_subscription.id}")
+        conn |> put("/registration/switch_subscription_id/#{new_subscription.id}")
       end
 
       reloaded_user = Repo.get!(User, user.id) |> Repo.preload(:available_subscriptions)
 
       refute reloaded_user.last_used_subscription_id == new_subscription.id
-      assert reloaded_user.available_subscriptions |> Enum.map(fn sub -> sub.id end) == [original_subscription_id]
+
+      assert reloaded_user.available_subscriptions |> Enum.map(fn sub -> sub.id end) == [
+               original_subscription_id
+             ]
     end
 
-    test "[user - invalid subscription id] PUT /switch_subscription_id - does not change subscription_id", %{conn: conn} do
+    test "[user - invalid subscription id] PUT /switch_subscription_id - does not change subscription_id",
+         %{conn: conn} do
       create_valid_user_with_subscription(@valid_attrs)
 
-      conn = post(conn, "/session", user: %{email: @valid_attrs.email, password: @valid_attrs.password})
+      conn =
+        post(conn, "/session",
+          user: %{email: @valid_attrs.email, password: @valid_attrs.password}
+        )
 
-      assert_raise ArgumentError, fn -> # tries to run String.to_integer, therefore ArgumentError
-         conn |> put("/registration/switch_subscription_id/example")
+      # tries to run String.to_integer, therefore ArgumentError
+      assert_raise ArgumentError, fn ->
+        conn |> put("/registration/switch_subscription_id/example")
       end
     end
 
-    test "[admin - available subscription] PUT /switch_subscription_id - changes subscription_id", %{conn: conn} do
+    test "[admin - available subscription] PUT /switch_subscription_id - changes subscription_id",
+         %{conn: conn} do
       user = create_valid_user_with_subscription(@valid_attrs |> Map.merge(%{role: "admin"}))
       {:ok, new_subscription} = Subscriptions.create_subscription(%{name: "New Subscription"})
-      Repo.insert! %UserAvailableSubscriptionLink{user_id: user.id, subscription_id: new_subscription.id}
 
-      conn = post(conn, "/session", user: %{email: @valid_attrs.email, password: @valid_attrs.password})
+      Repo.insert!(%UserAvailableSubscriptionLink{
+        user_id: user.id,
+        subscription_id: new_subscription.id
+      })
+
+      conn =
+        post(conn, "/session",
+          user: %{email: @valid_attrs.email, password: @valid_attrs.password}
+        )
 
       conn = conn |> put("/registration/switch_subscription_id/#{new_subscription.id}")
 
@@ -200,7 +254,10 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
     test "[user] PUT /reset_subscription_id - fails", %{conn: conn} do
       user = create_valid_user_with_subscription(@valid_attrs)
 
-      conn = post(conn, "/session", user: %{email: @valid_attrs.email, password: @valid_attrs.password})
+      conn =
+        post(conn, "/session",
+          user: %{email: @valid_attrs.email, password: @valid_attrs.password}
+        )
 
       assert_raise Phoenix.ActionClauseError, fn ->
         conn |> put("/registration/reset_subscription_id")
@@ -212,7 +269,10 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
     test "[admin] PUT /reset_subscription_id - nilify subscription_id", %{conn: conn} do
       user = create_valid_user_with_subscription(@valid_attrs |> Map.merge(%{role: "admin"}))
 
-      conn = post(conn, "/session", user: %{email: @valid_attrs.email, password: @valid_attrs.password})
+      conn =
+        post(conn, "/session",
+          user: %{email: @valid_attrs.email, password: @valid_attrs.password}
+        )
 
       conn = conn |> put("/registration/reset_subscription_id")
 

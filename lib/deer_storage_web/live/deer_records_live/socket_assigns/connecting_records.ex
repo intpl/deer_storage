@@ -42,7 +42,8 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.ConnectingRecords d
   def assign_connecting_records_after_delete(
         %{assigns: %{connecting_record: %{id: id}}} = socket,
         id
-      ), do: assign_closed_connecting_records(socket)
+      ),
+      do: assign_closed_connecting_records(socket)
 
   def assign_connecting_records_after_delete(
         %{assigns: %{connecting_records: records}} = socket,

@@ -29,7 +29,9 @@ defmodule DeerStorage.SubscriptionTest do
     end
 
     test "create_subscription/1 with valid data creates a subscription" do
-      assert {:ok, %Subscription{} = subscription} = Subscriptions.create_subscription(@valid_attrs)
+      assert {:ok, %Subscription{} = subscription} =
+               Subscriptions.create_subscription(@valid_attrs)
+
       assert subscription.name == "Example"
     end
 
@@ -39,13 +41,19 @@ defmodule DeerStorage.SubscriptionTest do
 
     test "update_subscription/2 with valid data updates the subscription" do
       subscription = subscription_fixture()
-      assert {:ok, %Subscription{} = subscription} = Subscriptions.update_subscription(subscription, @update_attrs)
+
+      assert {:ok, %Subscription{} = subscription} =
+               Subscriptions.update_subscription(subscription, @update_attrs)
+
       assert subscription.name == "Example2"
     end
 
     test "update_subscription/2 with invalid data returns error changeset" do
       subscription = subscription_fixture()
-      assert {:error, %Ecto.Changeset{}} = Subscriptions.update_subscription(subscription, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Subscriptions.update_subscription(subscription, @invalid_attrs)
+
       assert subscription == Subscriptions.get_subscription!(subscription.id)
     end
 

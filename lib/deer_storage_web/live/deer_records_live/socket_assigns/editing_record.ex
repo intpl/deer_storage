@@ -64,7 +64,8 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.EditingRecord do
   def assign_editing_record_after_delete(
         %{assigns: %{editing_record: %{data: %{id: id}}}} = socket,
         id
-      ), do: assign_error_editing_record_removed(socket)
+      ),
+      do: assign_error_editing_record_removed(socket)
 
   def assign_editing_record_after_delete(
         %{assigns: %{editing_record: editing_record}} = socket,

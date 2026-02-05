@@ -6,14 +6,16 @@ defmodule DeerStorage.DeerTablesExamples do
       list_item("classroom"),
       list_item("school"),
       list_item("veterinary_clinic"),
-      list_item("family"),
+      list_item("family")
     ]
   end
 
   def show("classroom") do
     {
       gettext("Classroom (for teachers)"),
-      gettext("A good example to start working with a students database. It has students lists, lessons, homeworks to upload and grades"),
+      gettext(
+        "A good example to start working with a students database. It has students lists, lessons, homeworks to upload and grades"
+      ),
       [
         {gettext("Students"), [pgettext("people", "Name"), gettext("Date of birth")]},
         {gettext("Lesson"), [gettext("Subject")]},
@@ -26,7 +28,9 @@ defmodule DeerStorage.DeerTablesExamples do
   def show("school") do
     {
       gettext("School (for educational institutions)"),
-      gettext("More comprehensive example on how school data could be arranged. It consists of teachers, students, classes, lessons, grades, homeworks and exams"),
+      gettext(
+        "More comprehensive example on how school data could be arranged. It consists of teachers, students, classes, lessons, grades, homeworks and exams"
+      ),
       [
         {gettext("Teachers"), [pgettext("people", "Name"), gettext("Area of expertise")]},
         {gettext("Classes"), [gettext("Name"), gettext("Year")]},
@@ -41,11 +45,21 @@ defmodule DeerStorage.DeerTablesExamples do
   def show("family") do
     {
       gettext("Family"),
-      gettext("You can store your pictures, tickets, agreements with kids and everything you can think of related to your family"),
+      gettext(
+        "You can store your pictures, tickets, agreements with kids and everything you can think of related to your family"
+      ),
       [
-        {gettext("Pictures"), [gettext("Collection name"), gettext("Event/Trip"), gettext("Place")]},
-        {gettext("Tickets"), [gettext("Type of ticket"), gettext("Date"), gettext("Country/place")]},
-        {gettext("Agreements with kids"), [gettext("Name of agreement"), gettext("Promise"), gettext("Conditions"), gettext("Deadline")]}
+        {gettext("Pictures"),
+         [gettext("Collection name"), gettext("Event/Trip"), gettext("Place")]},
+        {gettext("Tickets"),
+         [gettext("Type of ticket"), gettext("Date"), gettext("Country/place")]},
+        {gettext("Agreements with kids"),
+         [
+           gettext("Name of agreement"),
+           gettext("Promise"),
+           gettext("Conditions"),
+           gettext("Deadline")
+         ]}
       ]
     }
   end
@@ -53,7 +67,9 @@ defmodule DeerStorage.DeerTablesExamples do
   def show("veterinary_clinic") do
     {
       gettext("Veterinary clinic"),
-      gettext("You can use it as a starter to work with animal patients. Out of the box you get animals, clients, invoices and visits."),
+      gettext(
+        "You can use it as a starter to work with animal patients. Out of the box you get animals, clients, invoices and visits."
+      ),
       [
         {gettext("Animals"), [pgettext("people", "Name"), gettext("Year of birth")]},
         {gettext("Clients"), [pgettext("people", "Name"), gettext("Phone number")]},

@@ -14,7 +14,8 @@ defmodule DeerStorage.Application do
       DeerStorageWeb.Telemetry,
       DeerStorageWeb.Endpoint,
       Pow.Store.Backend.MnesiaCache,
-      Pow.Store.Backend.MnesiaCache.Unsplit # Recover from netsplit
+      # Recover from netsplit
+      Pow.Store.Backend.MnesiaCache.Unsplit
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

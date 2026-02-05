@@ -25,7 +25,8 @@ defmodule DeerStorage.UsersTest do
       assert user.password == "secret123"
       assert user.locale == "pl"
 
-      user = user |> DeerStorage.Repo.preload([:user_subscription_links, :available_subscriptions])
+      user =
+        user |> DeerStorage.Repo.preload([:user_subscription_links, :available_subscriptions])
 
       assert user.available_subscriptions == [user.last_used_subscription]
     end
@@ -51,7 +52,9 @@ defmodule DeerStorage.UsersTest do
     end
 
     test "create_user/1 fill-in default time zone in changeset if empty" do
-      {:ok, user} = User.changeset(%User{}, %{@valid_attrs | time_zone: ""}) |> DeerStorage.Repo.insert
+      {:ok, user} =
+        User.changeset(%User{}, %{@valid_attrs | time_zone: ""}) |> DeerStorage.Repo.insert()
+
       assert user.time_zone, "Europe/Warsaw"
     end
 
@@ -63,7 +66,7 @@ defmodule DeerStorage.UsersTest do
     test "create_user/1 with a role defined overwrites invalid field" do
       changeset = Map.merge(@valid_attrs, %{role: "admin"})
 
-      {:ok, user} = User.changeset(%User{}, changeset) |> DeerStorage.Repo.insert
+      {:ok, user} = User.changeset(%User{}, changeset) |> DeerStorage.Repo.insert()
       assert user.role, "user"
     end
 

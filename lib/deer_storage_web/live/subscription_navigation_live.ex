@@ -4,11 +4,13 @@ defmodule DeerStorageWeb.SubscriptionNavigationLive do
 
   import DeerStorageWeb.Gettext
   import Phoenix.HTML.Link, only: [link: 2]
-  import DeerStorageWeb.LayoutView, only: [
-    compact_tables_to_ids_and_names: 1,
-    maybe_active_dashboard_link: 2,
-    maybe_active_records_link: 3
-  ]
+
+  import DeerStorageWeb.LayoutView,
+    only: [
+      compact_tables_to_ids_and_names: 1,
+      maybe_active_dashboard_link: 2,
+      maybe_active_records_link: 3
+    ]
 
   import DeerStorageWeb.LiveHelpers, only: [list_new_table_ids: 2]
 
@@ -22,39 +24,46 @@ defmodule DeerStorageWeb.SubscriptionNavigationLive do
   end
 
   # TODO: limit of a cookie is 4k, it is a lot more here...
-  def mount(:not_mounted_at_router,
-    %{"header_text" => header_text,
-      "subscription_id" => subscription_id,
-      "subscription_tables" => subscription_tables,
-      "storage_limit_kilobytes" => storage_limit_kilobytes,
-      "locale" => locale
-    }, socket) do
-
+  def mount(
+        :not_mounted_at_router,
+        %{
+          "header_text" => header_text,
+          "subscription_id" => subscription_id,
+          "subscription_tables" => subscription_tables,
+          "storage_limit_kilobytes" => storage_limit_kilobytes,
+          "locale" => locale
+        },
+        socket
+      ) do
     subscription_tables = subscription_tables || []
 
     # TODO: refactor this
-    records_table_id = if connected?(socket) do
-      PubSub.subscribe(DeerStorage.PubSub, "subscription:#{subscription_id}")
-      PubSub.subscribe(DeerStorage.PubSub, "subscription_deer_storage:#{subscription_id}")
+    records_table_id =
+      if connected?(socket) do
+        PubSub.subscribe(DeerStorage.PubSub, "subscription:#{subscription_id}")
+        PubSub.subscribe(DeerStorage.PubSub, "subscription_deer_storage:#{subscription_id}")
 
-      for %{id: id} <- subscription_tables do
-        PubSub.subscribe(DeerStorage.PubSub, "records_counts:#{id}")
+        for %{id: id} <- subscription_tables do
+          PubSub.subscribe(DeerStorage.PubSub, "records_counts:#{id}")
+        end
+
+        if socket.view == DeerStorageWeb.DeerRecordsLive.Index,
+          do: call(socket.root_pid, :whats_my_table_id)
       end
 
-     if socket.view == DeerStorageWeb.DeerRecordsLive.Index, do: call(socket.root_pid, :whats_my_table_id)
-    end
-
     Gettext.put_locale(DeerStorageWeb.Gettext, locale)
-    {_files, used_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription_id)
 
-    {:ok, assign(socket,
-        subscription_tables: fetch_cached_counts(subscription_tables),
-        used_storage_kilobytes: used_storage_kilobytes,
-        storage_limit_megabytes: ceil(storage_limit_kilobytes / 1024),
-        header_text: header_text,
-        records_table_id: records_table_id
-      )
-    }
+    {_files, used_storage_kilobytes} =
+      DeerCache.SubscriptionStorageCache.fetch_data(subscription_id)
+
+    {:ok,
+     assign(socket,
+       subscription_tables: fetch_cached_counts(subscription_tables),
+       used_storage_kilobytes: used_storage_kilobytes,
+       storage_limit_megabytes: ceil(storage_limit_kilobytes / 1024),
+       header_text: header_text,
+       records_table_id: records_table_id
+     )}
   end
 
   def render(%{missing_subscription: true} = assigns) do
@@ -122,24 +131,41 @@ defmodule DeerStorageWeb.SubscriptionNavigationLive do
     """
   end
 
-  def handle_info({:cached_deer_storage_changed, {_files, kilobytes}}, socket), do: {:noreply, assign(socket, used_storage_kilobytes: kilobytes)}
+  def handle_info({:cached_deer_storage_changed, {_files, kilobytes}}, socket),
+    do: {:noreply, assign(socket, used_storage_kilobytes: kilobytes)}
 
-  def handle_info({:cached_records_count_changed, table_id, count}, %{assigns: %{subscription_tables: tables}} = socket) do
-  socket = socket |> assign(subscription_tables: overwrite_cached_count(tables, table_id, count), __changed__: %{subscription_tables: true})
+  def handle_info(
+        {:cached_records_count_changed, table_id, count},
+        %{assigns: %{subscription_tables: tables}} = socket
+      ) do
+    socket =
+      socket
+      |> assign(
+        subscription_tables: overwrite_cached_count(tables, table_id, count),
+        __changed__: %{subscription_tables: true}
+      )
+
     {:noreply, socket}
   end
 
-  def handle_info({:subscription_updated, subscription}, %{assigns: %{subscription_tables: old_tables}} = socket) do
+  def handle_info(
+        {:subscription_updated, subscription},
+        %{assigns: %{subscription_tables: old_tables}} = socket
+      ) do
     new_tables = compact_tables_to_ids_and_names(subscription.deer_tables)
 
     list_new_table_ids(old_tables, new_tables)
     |> Enum.each(fn id -> PubSub.subscribe(DeerStorage.PubSub, "records_counts:#{id}") end)
 
     # TODO subscribe to newly added table
-    {:noreply, socket |> assign(
-      subscription_tables: fetch_cached_counts(new_tables), # non optimal
-      storage_limit_megabytes: ceil(subscription.storage_limit_kilobytes / 1024),
-      header_text: subscription.name)}
+    {:noreply,
+     socket
+     |> assign(
+       # non optimal
+       subscription_tables: fetch_cached_counts(new_tables),
+       storage_limit_megabytes: ceil(subscription.storage_limit_kilobytes / 1024),
+       header_text: subscription.name
+     )}
   end
 
   defp overwrite_cached_count(tables, table_id, count) do

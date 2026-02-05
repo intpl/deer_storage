@@ -9,11 +9,16 @@ defmodule DeerStorage.Subscriptions.DeerTableTest do
   describe "DeerTable.move_column_to_index/3" do
     setup do
       subscription = create_valid_subscription_with_tables(1, 10)
-      attrs = %{name: "example table",
-                deer_columns: [%{name: "first table"},
-                               %{name: "second table"},
-                               %{name: "third table"},
-                               %{name: "fourth table"}]}
+
+      attrs = %{
+        name: "example table",
+        deer_columns: [
+          %{name: "first table"},
+          %{name: "second table"},
+          %{name: "third table"},
+          %{name: "fourth table"}
+        ]
+      }
 
       changeset = changeset(%DeerTable{}, attrs)
 
@@ -21,35 +26,57 @@ defmodule DeerStorage.Subscriptions.DeerTableTest do
     end
 
     test "moves column to specific index: 1->2", %{table_changeset: table_changeset} do
-      new_deer_columns = table_changeset
-      |> move_column_to_index(1, 2)
-      |> fetch_field!(:deer_columns)
+      new_deer_columns =
+        table_changeset
+        |> move_column_to_index(1, 2)
+        |> fetch_field!(:deer_columns)
 
-      assert [%{id: nil, name: "first table"}, %{id: nil, name: "third table"}, %{id: nil, name: "second table"} | _] = new_deer_columns
+      assert [
+               %{id: nil, name: "first table"},
+               %{id: nil, name: "third table"},
+               %{id: nil, name: "second table"} | _
+             ] = new_deer_columns
     end
 
     test "moves column to specific index: 2->1", %{table_changeset: table_changeset} do
-      new_deer_columns = table_changeset
-      |> move_column_to_index(2, 1)
-      |> fetch_field!(:deer_columns)
+      new_deer_columns =
+        table_changeset
+        |> move_column_to_index(2, 1)
+        |> fetch_field!(:deer_columns)
 
-      assert [%{id: nil, name: "first table"}, %{id: nil, name: "third table"}, %{id: nil, name: "second table"} | _] = new_deer_columns
+      assert [
+               %{id: nil, name: "first table"},
+               %{id: nil, name: "third table"},
+               %{id: nil, name: "second table"} | _
+             ] = new_deer_columns
     end
 
     test "moves column to specific index: 0->-1", %{table_changeset: table_changeset} do
-      new_deer_columns = table_changeset
-      |> move_column_to_index(0, -1)
-      |> fetch_field!(:deer_columns)
+      new_deer_columns =
+        table_changeset
+        |> move_column_to_index(0, -1)
+        |> fetch_field!(:deer_columns)
 
-      assert [%{id: nil, name: "second table"}, %{id: nil, name: "third table"}, %{id: nil, name: "fourth table"}, %{id: nil, name: "first table"}] = new_deer_columns
+      assert [
+               %{id: nil, name: "second table"},
+               %{id: nil, name: "third table"},
+               %{id: nil, name: "fourth table"},
+               %{id: nil, name: "first table"}
+             ] = new_deer_columns
     end
 
     test "moves column to specific index: 3->4", %{table_changeset: table_changeset} do
-      new_deer_columns = table_changeset
-      |> move_column_to_index(3, 4)
-      |> fetch_field!(:deer_columns)
+      new_deer_columns =
+        table_changeset
+        |> move_column_to_index(3, 4)
+        |> fetch_field!(:deer_columns)
 
-      assert [%{id: nil, name: "fourth table"}, %{id: nil, name: "first table"}, %{id: nil, name: "second table"}, %{id: nil, name: "third table"}] = new_deer_columns
+      assert [
+               %{id: nil, name: "fourth table"},
+               %{id: nil, name: "first table"},
+               %{id: nil, name: "second table"},
+               %{id: nil, name: "third table"}
+             ] = new_deer_columns
     end
   end
 end

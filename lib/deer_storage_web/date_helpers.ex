@@ -10,7 +10,10 @@ defmodule DeerStorageWeb.DateHelpers do
     convert_datetime(datetime, time_zone, locale)
   end
 
-  def dt(%Plug.Conn{assigns: %{current_user: %User{time_zone: time_zone}, locale: locale}}, datetime) do
+  def dt(
+        %Plug.Conn{assigns: %{current_user: %User{time_zone: time_zone}, locale: locale}},
+        datetime
+      ) do
     convert_datetime(datetime, time_zone, locale)
   end
 

@@ -36,10 +36,13 @@ defmodule DeerStorageWeb.EnsureRolePlug do
   defp has_role?(_user, _role), do: false
 
   defp maybe_halt(true, conn), do: conn
+
   defp maybe_halt(_any, conn) do
     conn
     # |> Controller.put_flash(:error, "Unauthorized access") skip due to liveview
-    |> Controller.redirect(to: DeerStorageWeb.Router.Helpers.live_path(conn, DeerStorageWeb.DeerDashboardLive.Index))
+    |> Controller.redirect(
+      to: DeerStorageWeb.Router.Helpers.live_path(conn, DeerStorageWeb.DeerDashboardLive.Index)
+    )
     |> halt()
   end
 end

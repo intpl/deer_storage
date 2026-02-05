@@ -14,10 +14,12 @@ defmodule DeerStorageWeb.DeerRecordView do
   def maybe_join_query(list) when is_list(list), do: Enum.join(list, " ")
 
   def maybe_shrink_filename(text, limit \\ 17)
+
   def maybe_shrink_filename(text, limit) when byte_size(text) > limit do
     half_limit = trunc(limit / 2)
-    String.slice(text, 0..(half_limit)) <> "..." <> String.slice(text, -(half_limit)..-1)
+    String.slice(text, 0..half_limit) <> "..." <> String.slice(text, -half_limit..-1)
   end
+
   def maybe_shrink_filename(text, _), do: text
 
   def compare_downcased_strings(nil, _), do: false
@@ -26,7 +28,11 @@ defmodule DeerStorageWeb.DeerRecordView do
   def compare_downcased_strings(_, ""), do: false
   def compare_downcased_strings(str1, str2), do: String.downcase(str1) =~ String.downcase(str2)
 
-  def render_prepared_fields(prepared_fields), do: render(DeerStorageWeb.DeerRecordView, "_editable_prepared_fields.html", prepared_fields: prepared_fields)
+  def render_prepared_fields(prepared_fields),
+    do:
+      render(DeerStorageWeb.DeerRecordView, "_editable_prepared_fields.html",
+        prepared_fields: prepared_fields
+      )
 
   # images
   def mimetype_is_previewable?("image/jpeg"), do: true
@@ -54,17 +60,19 @@ defmodule DeerStorageWeb.DeerRecordView do
     deer_fields = Ecto.Changeset.fetch_field!(changeset, :deer_fields)
 
     deer_columns
-    |> Enum.with_index
+    |> Enum.with_index()
     |> Enum.map(fn {dc, index} ->
-      %{id: dc.id,
+      %{
+        id: dc.id,
         index: index,
         name: dc.name,
         value: Enum.find_value(deer_fields, fn df -> df.deer_column_id == dc.id && df.content end)
-       }
+      }
     end)
   end
 
-  def different_deer_fields(%Ecto.Changeset{} = changeset, record), do: different_deer_fields(fetch_field!(changeset, :deer_fields), record.deer_fields)
+  def different_deer_fields(%Ecto.Changeset{} = changeset, record),
+    do: different_deer_fields(fetch_field!(changeset, :deer_fields), record.deer_fields)
 
   def different_deer_fields(deer_fields1, deer_fields2) do
     Enum.reduce(deer_fields1, [], fn %{deer_column_id: column_id, content: content}, acc ->
@@ -78,10 +86,11 @@ defmodule DeerStorageWeb.DeerRecordView do
   end
 
   def shared_record_days_to_expire(shared_record) do
-    floor(DateTime.diff(shared_record.expires_on, DateTime.utc_now, :second) / 86_400)
+    floor(DateTime.diff(shared_record.expires_on, DateTime.utc_now(), :second) / 86_400)
   end
 
   def display_filesize_from_kilobytes(kilobytes) when kilobytes <= 1024, do: "#{kilobytes} KB"
+
   def display_filesize_from_kilobytes(kilobytes) do
     megabytes = Float.ceil(kilobytes / 1024, 2)
 
@@ -96,7 +105,9 @@ defmodule DeerStorageWeb.DeerRecordView do
     Enum.find(deer_tables, fn table -> table.id == table_id end).name
   end
 
-  def deer_field_content_from_column_id(%DeerRecord{deer_fields: deer_fields}, column_id), do: deer_field_content_from_column_id(deer_fields, column_id)
+  def deer_field_content_from_column_id(%DeerRecord{deer_fields: deer_fields}, column_id),
+    do: deer_field_content_from_column_id(deer_fields, column_id)
+
   def deer_field_content_from_column_id(deer_fields, column_id) when is_list(deer_fields) do
     case Enum.find(deer_fields, fn field -> field.deer_column_id == column_id end) do
       nil -> nil
@@ -110,6 +121,7 @@ defmodule DeerStorageWeb.DeerRecordView do
 
   def deer_table_from_subscription(nil, _table_id), do: nil
   def deer_table_from_subscription(%Subscription{deer_tables: []}, _table_id), do: nil
+
   def deer_table_from_subscription(%Subscription{deer_tables: deer_tables}, table_id) do
     Enum.find(deer_tables, fn table -> table.id == table_id end)
   end

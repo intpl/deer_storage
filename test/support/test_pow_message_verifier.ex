@@ -7,7 +7,7 @@ defmodule DeerStorage.Test.Pow.MessageVerifier do
 
     case String.replace(message, prepend, "") do
       ^message -> :error
-      message  -> {:ok, message}
+      message -> {:ok, message}
     end
   end
 end

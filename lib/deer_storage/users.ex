@@ -12,7 +12,7 @@ defmodule DeerStorage.Users do
   end
 
   def total_count(), do: DeerStorage.Repo.aggregate(User, :count, :id)
-  def last_user(), do: from(u in User, limit: 1, order_by: [desc: u.inserted_at]) |> Repo.one
+  def last_user(), do: from(u in User, limit: 1, order_by: [desc: u.inserted_at]) |> Repo.one()
 
   def list_users("", page, per_page, sort_by) when page > 0 do
     offset = (page - 1) * per_page
@@ -33,7 +33,8 @@ defmodule DeerStorage.Users do
     |> where(^compose_search_query([:name, :email, :admin_notes, :time_zone], query_string))
     |> offset(^offset)
     |> limit(^per_page)
-    |> Repo.all() |> Repo.preload(:last_used_subscription)
+    |> Repo.all()
+    |> Repo.preload(:last_used_subscription)
   end
 
   def list_users do
@@ -43,16 +44,23 @@ defmodule DeerStorage.Users do
   end
 
   def list_users_except_ids(ids) do
-    User |> where([u], u.id not in ^ids) |> Repo.all
+    User |> where([u], u.id not in ^ids) |> Repo.all()
   end
 
-  def list_users_for_subscription_id_with_permissions(subscription_id) when is_number(subscription_id) do
+  def list_users_for_subscription_id_with_permissions(subscription_id)
+      when is_number(subscription_id) do
     from(u in User,
       join: l in UserAvailableSubscriptionLink,
       on: l.subscription_id == ^subscription_id and l.user_id == u.id,
-      select: {u, %{subscription_id: l.subscription_id, permission_to_manage_users: l.permission_to_manage_users}},
+      select:
+        {u,
+         %{
+           subscription_id: l.subscription_id,
+           permission_to_manage_users: l.permission_to_manage_users
+         }},
       order_by: [desc: field(u, :id)]
-    ) |> Repo.all
+    )
+    |> Repo.all()
   end
 
   def get_user!(id) do
@@ -62,10 +70,11 @@ defmodule DeerStorage.Users do
   end
 
   def create_user(attrs \\ %{}) do
-    user = %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert!()
-    |> maybe_upsert_subscription_link
+    user =
+      %User{}
+      |> User.changeset(attrs)
+      |> Repo.insert!()
+      |> maybe_upsert_subscription_link
 
     {:ok, user}
   end
@@ -99,21 +108,25 @@ defmodule DeerStorage.Users do
   end
 
   def toggle_admin!(%User{} = user) do
-    role = case user.role do
-             "user" -> "admin"
-             "admin" -> "user"
-           end
+    role =
+      case user.role do
+        "user" -> "admin"
+        "admin" -> "user"
+      end
 
     user
     |> User.changeset_role(%{role: role})
     |> Repo.update()
   end
 
-  def toggle_permission_for_user_subscription_link!(%UserAvailableSubscriptionLink{} = user_subscription_link, permission_key) do
+  def toggle_permission_for_user_subscription_link!(
+        %UserAvailableSubscriptionLink{} = user_subscription_link,
+        permission_key
+      ) do
     previous_value = Map.fetch!(user_subscription_link, permission_key)
     changeset = change(user_subscription_link, %{permission_key => !previous_value})
 
-    Repo.update! changeset
+    Repo.update!(changeset)
   end
 
   def update_last_used_subscription_id!(%User{} = user, subscription_id) do
@@ -121,48 +134,69 @@ defmodule DeerStorage.Users do
     |> Repo.preload(:last_used_subscription)
   end
 
-  def maybe_upsert_subscription_link(%User{id: _user_id, last_used_subscription_id: nil} = user), do: user
-  def maybe_upsert_subscription_link(%User{id: user_id, last_used_subscription_id: subscription_id} = user) do
+  def maybe_upsert_subscription_link(%User{id: _user_id, last_used_subscription_id: nil} = user),
+    do: user
+
+  def maybe_upsert_subscription_link(
+        %User{id: user_id, last_used_subscription_id: subscription_id} = user
+      ) do
     upsert_subscription_link!(user_id, subscription_id, :nothing)
 
     user
   end
 
-  def insert_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id, last_used_subscription_id: nil} = user, subscription_id) when is_integer(subscription_id) do
+  def insert_subscription_link_and_maybe_change_last_used_subscription_id(
+        %User{id: user_id, last_used_subscription_id: nil} = user,
+        subscription_id
+      )
+      when is_integer(subscription_id) do
     upsert_subscription_link!(user_id, subscription_id, :raise)
 
     update_last_used_subscription_id!(user, subscription_id)
   end
 
-  def insert_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id}, subscription_id) when is_integer(subscription_id) do
+  def insert_subscription_link_and_maybe_change_last_used_subscription_id(
+        %User{id: user_id},
+        subscription_id
+      )
+      when is_integer(subscription_id) do
     upsert_subscription_link!(user_id, subscription_id, :raise)
   end
 
-  def remove_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id, last_used_subscription_id: subscription_id} = user, subscription_id) do
+  def remove_subscription_link_and_maybe_change_last_used_subscription_id(
+        %User{id: user_id, last_used_subscription_id: subscription_id} = user,
+        subscription_id
+      ) do
     Repo.transaction(fn ->
       remove_user_subscription_link!(user_id, subscription_id)
       update_last_used_subscription_id!(user, nil)
     end)
   end
 
-  def remove_subscription_link_and_maybe_change_last_used_subscription_id(%User{id: user_id}, subscription_id) when is_number(subscription_id) do
+  def remove_subscription_link_and_maybe_change_last_used_subscription_id(
+        %User{id: user_id},
+        subscription_id
+      )
+      when is_number(subscription_id) do
     remove_user_subscription_link!(user_id, subscription_id)
   end
 
-  def upsert_subscription_link!(user_id, subscription_id, on_conflict, attrs \\ %{})do
+  def upsert_subscription_link!(user_id, subscription_id, on_conflict, attrs \\ %{}) do
     %UserAvailableSubscriptionLink{user_id: user_id, subscription_id: subscription_id}
     |> Map.merge(attrs)
     |> Repo.insert!(on_conflict: on_conflict)
   end
 
   def ensure_user_subscription_link!(user_id, subscription_id, required_permissions \\ []) do
-    params = [user_id: user_id, subscription_id: subscription_id] ++ Enum.map(required_permissions, fn k -> {k, true} end)
+    params =
+      [user_id: user_id, subscription_id: subscription_id] ++
+        Enum.map(required_permissions, fn k -> {k, true} end)
 
     Repo.get_by!(UserAvailableSubscriptionLink, params)
   end
 
   defp remove_user_subscription_link!(user_id, subscription_id) do
-    ensure_user_subscription_link!(user_id, subscription_id) |> Repo.delete!
+    ensure_user_subscription_link!(user_id, subscription_id) |> Repo.delete!()
   end
 
   defp sort_users_by(q, ""), do: q
@@ -182,30 +216,34 @@ defmodule DeerStorage.Users do
   defp sort_users_by(q, "inserted_at_asc"), do: q |> order_by(asc: :inserted_at)
   defp sort_users_by(q, "updated_at_desc"), do: q |> order_by(desc: :updated_at)
   defp sort_users_by(q, "updated_at_asc"), do: q |> order_by(asc: :updated_at)
-  defp sort_users_by(q, "email_confirmed_at_desc"), do: q |> order_by(desc_nulls_last: :email_confirmed_at)
-  defp sort_users_by(q, "email_confirmed_at_asc"), do: q |> order_by(asc_nulls_first: :email_confirmed_at)
+
+  defp sort_users_by(q, "email_confirmed_at_desc"),
+    do: q |> order_by(desc_nulls_last: :email_confirmed_at)
+
+  defp sort_users_by(q, "email_confirmed_at_asc"),
+    do: q |> order_by(asc_nulls_first: :email_confirmed_at)
 
   defp sort_users_by(q, "last_used_subscription_name_desc") do
     from u in q,
-    left_join: s in assoc(u, :last_used_subscription),
-    order_by: [desc: s.name]
+      left_join: s in assoc(u, :last_used_subscription),
+      order_by: [desc: s.name]
   end
 
   defp sort_users_by(q, "last_used_subscription_name_asc") do
     from u in q,
-    left_join: s in assoc(u, :last_used_subscription),
-    order_by: [asc: s.name]
+      left_join: s in assoc(u, :last_used_subscription),
+      order_by: [asc: s.name]
   end
 
   defp sort_users_by(q, "last_used_subscription_expires_on_desc") do
     from u in q,
-    left_join: s in assoc(u, :last_used_subscription),
-    order_by: [desc: s.expires_on]
+      left_join: s in assoc(u, :last_used_subscription),
+      order_by: [desc: s.expires_on]
   end
 
   defp sort_users_by(q, "last_used_subscription_expires_on_asc") do
     from u in q,
-    left_join: s in assoc(u, :last_used_subscription),
-    order_by: [asc: s.expires_on]
+      left_join: s in assoc(u, :last_used_subscription),
+      order_by: [asc: s.expires_on]
   end
 end

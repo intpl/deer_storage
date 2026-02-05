@@ -5,7 +5,12 @@ defmodule DeerStorageWeb.LocalePlug do
 
   def init(_opts), do: nil
 
-  def call(%Plug.Conn{assigns: %{current_user: %DeerStorage.Users.User{locale: locale}}} = conn, _opts), do: put_and_assign_locale(conn, locale)
+  def call(
+        %Plug.Conn{assigns: %{current_user: %DeerStorage.Users.User{locale: locale}}} = conn,
+        _opts
+      ),
+      do: put_and_assign_locale(conn, locale)
+
   def call(conn, _opts) do
     known_locales = Gettext.known_locales(DeerStorageWeb.Gettext)
     session_locale = get_session(conn, "locale")
@@ -16,8 +21,14 @@ defmodule DeerStorageWeb.LocalePlug do
   end
 
   defp maybe_put_accept_language_locale(conn, known_locales) do
-    locale = Enum.find(extract_accept_language(conn), fn accepted_locale -> Enum.member?(known_locales, accepted_locale) end)
-    if locale, do: put_and_assign_locale(conn, locale), else: put_and_assign_locale(conn, @default_locale)
+    locale =
+      Enum.find(extract_accept_language(conn), fn accepted_locale ->
+        Enum.member?(known_locales, accepted_locale)
+      end)
+
+    if locale,
+      do: put_and_assign_locale(conn, locale),
+      else: put_and_assign_locale(conn, @default_locale)
   end
 
   defp put_and_assign_locale(conn, locale) do
@@ -37,7 +48,8 @@ defmodule DeerStorageWeb.LocalePlug do
         |> Enum.reject(&is_nil/1)
         |> ensure_language_fallbacks()
 
-      _ -> []
+      _ ->
+        []
     end
   end
 
@@ -59,5 +71,4 @@ defmodule DeerStorageWeb.LocalePlug do
       if Enum.member?(tags, language), do: [tag], else: [tag, language]
     end)
   end
-
 end

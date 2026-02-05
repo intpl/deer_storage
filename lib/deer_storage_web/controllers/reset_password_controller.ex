@@ -30,6 +30,7 @@ defmodule DeerStorageWeb.ResetPasswordController do
           conn
           |> put_flash(:info, gettext("Email has been sent"))
           |> redirect(to: Routes.session_path(conn, :new))
+
         {:error, changeset, conn} ->
           case PowPlug.__prevent_user_enumeration__(conn, nil) do
             true ->
@@ -64,6 +65,7 @@ defmodule DeerStorageWeb.ResetPasswordController do
           conn
           |> put_flash(:info, gettext("Password has been changed"))
           |> redirect(to: Routes.session_path(conn, :new))
+
         {:error, changeset, conn} ->
           conn
           |> assign(:changeset, changeset)
@@ -98,7 +100,7 @@ defmodule DeerStorageWeb.ResetPasswordController do
 
   defp assign_update_path(conn, _opts) do
     token = conn.params["id"]
-    path  = Routes.reset_password_path(conn, :update, token)
+    path = Routes.reset_password_path(conn, :update, token)
     Conn.assign(conn, :action, path)
   end
 end

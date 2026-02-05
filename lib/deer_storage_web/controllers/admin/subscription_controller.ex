@@ -8,8 +8,9 @@ defmodule DeerStorageWeb.Admin.SubscriptionController do
   def search(conn, params) do
     query = params["query"] || ""
 
-    subscriptions = Subscriptions.list_subscriptions(query, 1, 100, "")
-    |> Enum.map(fn subscription -> %{id: subscription.id, text: subscription.name} end)
+    subscriptions =
+      Subscriptions.list_subscriptions(query, 1, 100, "")
+      |> Enum.map(fn subscription -> %{id: subscription.id, text: subscription.name} end)
 
     json(conn, subscriptions)
   end
@@ -22,10 +23,19 @@ defmodule DeerStorageWeb.Admin.SubscriptionController do
     page = String.to_integer(params["page"] || "1")
     subscriptions = Subscriptions.list_subscriptions(query, page, per_page, sort_by)
 
-    rendered_pagination = Phoenix.View.render_to_string(
-      DeerStorageWeb.Admin.SubscriptionView, "_index_pagination.html",
-      %{conn: conn, count: length(subscriptions), per_page: per_page, page: page, query: query, sort_by: sort_by}
-    )
+    rendered_pagination =
+      Phoenix.View.render_to_string(
+        DeerStorageWeb.Admin.SubscriptionView,
+        "_index_pagination.html",
+        %{
+          conn: conn,
+          count: length(subscriptions),
+          per_page: per_page,
+          page: page,
+          query: query,
+          sort_by: sort_by
+        }
+      )
 
     render(
       conn,
@@ -58,11 +68,14 @@ defmodule DeerStorageWeb.Admin.SubscriptionController do
   def show(conn, %{"id" => id}) do
     subscription = Subscriptions.get_subscription!(id)
     subscription_users = subscription.users
-    excluded_users_ids = subscription_users
-    |> Enum.map(fn u -> u.id end)
-    |> Poison.encode!
 
-    {uploaded_files_count, used_storage_kilobytes} = DeerCache.SubscriptionStorageCache.fetch_data(subscription.id)
+    excluded_users_ids =
+      subscription_users
+      |> Enum.map(fn u -> u.id end)
+      |> Poison.encode!()
+
+    {uploaded_files_count, used_storage_kilobytes} =
+      DeerCache.SubscriptionStorageCache.fetch_data(subscription.id)
 
     render(
       conn,

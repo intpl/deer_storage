@@ -40,5 +40,5 @@ defmodule DeerStorageWeb.ConnCase do
     {:ok, conn: Phoenix.ConnTest.build_conn(), ets: EtsCacheMock}
   end
 
-  setup %{conn: conn}, do: {:ok, conn: conn |> Pow.Plug.put_config([otp_app: :deer_storage])}
+  setup %{conn: conn}, do: {:ok, conn: conn |> Pow.Plug.put_config(otp_app: :deer_storage)}
 end

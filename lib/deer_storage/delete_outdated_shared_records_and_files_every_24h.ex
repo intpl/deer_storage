@@ -13,10 +13,12 @@ defmodule DeerStorage.DeleteOutdatedSharedRecordsAndFilesEvery24h do
   end
 
   def handle_info(:work, state) do
-    {records_count, _} = DeerStorage.SharedRecords.delete_outdated!
-    {files_count, _} = DeerStorage.SharedFiles.delete_outdated!
+    {records_count, _} = DeerStorage.SharedRecords.delete_outdated!()
+    {files_count, _} = DeerStorage.SharedFiles.delete_outdated!()
 
-    Logger.info("Deleted #{records_count} outdated shared records and #{files_count} outdated shared files")
+    Logger.info(
+      "Deleted #{records_count} outdated shared records and #{files_count} outdated shared files"
+    )
 
     schedule_next_work()
 
@@ -24,6 +26,7 @@ defmodule DeerStorage.DeleteOutdatedSharedRecordsAndFilesEvery24h do
   end
 
   defp schedule_next_work() do
-    Process.send_after(self(), :work, 86_400_000) # 1 day in milliseconds
+    # 1 day in milliseconds
+    Process.send_after(self(), :work, 86_400_000)
   end
 end

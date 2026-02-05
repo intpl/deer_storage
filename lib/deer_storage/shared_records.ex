@@ -27,7 +27,11 @@ defmodule DeerStorage.SharedRecords do
     |> where([sr], sr.deer_record_id == ^deer_record_id)
     |> Repo.delete_all()
 
-    PubSub.broadcast DeerStorage.PubSub, "shared_records_invalidates:#{deer_record_id}", :all_shared_records_invalidated
+    PubSub.broadcast(
+      DeerStorage.PubSub,
+      "shared_records_invalidates:#{deer_record_id}",
+      :all_shared_records_invalidated
+    )
   end
 
   def delete_outdated!, do: Repo.delete_all(outdated_query())
@@ -36,12 +40,14 @@ defmodule DeerStorage.SharedRecords do
     # TODO: track limits: user shared records per day e.g. 100
     Repo.insert!(
       SharedRecord.changeset(%SharedRecord{}, %{
-            subscription_id: subscription_id,
-            created_by_user_id: user_id,
-            deer_record_id: deer_record_id,
-            is_editable: is_editable}))
+        subscription_id: subscription_id,
+        created_by_user_id: user_id,
+        deer_record_id: deer_record_id,
+        is_editable: is_editable
+      })
+    )
   end
 
-  defp available_query, do: from sr in SharedRecord, where: ^DateTime.utc_now < sr.expires_on
-  defp outdated_query, do: from sr in SharedRecord, where: ^DateTime.utc_now >= sr.expires_on
+  defp available_query, do: from(sr in SharedRecord, where: ^DateTime.utc_now() < sr.expires_on)
+  defp outdated_query, do: from(sr in SharedRecord, where: ^DateTime.utc_now() >= sr.expires_on)
 end

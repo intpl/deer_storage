@@ -4,22 +4,23 @@ defmodule DeerStorageWeb.ResetPasswordControllerTest do
 
   alias DeerStorage.{Repo, Users, Users.User}
 
-  @valid_attrs %{email: "test@storagedeer.com",
-                  name: "Henryk Testowny",
-                  password: "secret123",
-                  password_confirmation: "secret123",
-                  locale: "pl",
-                  last_used_subscription: %{
-                    name: "Test",
-                    email: "test@example.org"
-                  }}
+  @valid_attrs %{
+    email: "test@storagedeer.com",
+    name: "Henryk Testowny",
+    password: "secret123",
+    password_confirmation: "secret123",
+    locale: "pl",
+    last_used_subscription: %{
+      name: "Test",
+      email: "test@example.org"
+    }
+  }
 
   def user_fixture do
     {:ok, user} = Users.create_user(@valid_attrs)
 
     user
   end
-
 
   describe "new" do
     test "[guest] GET /reset-password/new", %{conn: conn} do
@@ -32,7 +33,8 @@ defmodule DeerStorageWeb.ResetPasswordControllerTest do
     test "[guest] GET /reset-password/edit", %{conn: conn} do
       user_fixture()
 
-      {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
+      {:ok, %{token: token}, conn} =
+        conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
 
       conn = get(conn, "/reset-password/#{token}/edit")
 
@@ -53,7 +55,8 @@ defmodule DeerStorageWeb.ResetPasswordControllerTest do
       assert html_response(conn, 200) =~ "Wysłano adres e-mail"
 
       assert_email_delivered_with(
-        to: [nil: @valid_attrs.email] # TODO: czy to w ogole dziala? :O
+        # TODO: czy to w ogole dziala? :O
+        to: [nil: @valid_attrs.email]
         # text_body: ~r/TODO: TOKEN/
       )
     end
@@ -91,7 +94,8 @@ defmodule DeerStorageWeb.ResetPasswordControllerTest do
     test "[guest] [valid attrs] POST /reset-password", %{conn: conn} do
       user = user_fixture()
 
-      {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
+      {:ok, %{token: token}, conn} =
+        conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
 
       user_params = %{password: "secret999", password_confirmation: "secret999"}
       conn = put(conn, "/reset-password/#{token}", %{user: user_params})
@@ -110,7 +114,8 @@ defmodule DeerStorageWeb.ResetPasswordControllerTest do
     test "[guest] [invalid attrs: no password_confirmation] POST /reset-password", %{conn: conn} do
       user = user_fixture()
 
-      {:ok, %{token: token}, conn} = conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
+      {:ok, %{token: token}, conn} =
+        conn |> PowResetPassword.Plug.create_reset_token(%{"email" => @valid_attrs.email})
 
       # Make sure password didn't change
       {:ok, reloaded_user_password_hash} = Repo.get(User, user.id) |> Map.fetch(:password_hash)

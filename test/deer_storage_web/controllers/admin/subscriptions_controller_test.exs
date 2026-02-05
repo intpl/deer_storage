@@ -8,11 +8,12 @@ defmodule DeerStorageWeb.Admin.SubscriptionControllerTest do
 
   import DeerStorage.Test.SessionHelpers, only: [assign_user_to_session: 2]
 
-  @admin_attrs %{email: "admin@storagedeer.com",
-                  name: "Admin",
-                  password: "secret123",
-                  password_confirmation: "secret123",
-                  locale: "pl",
+  @admin_attrs %{
+    email: "admin@storagedeer.com",
+    name: "Admin",
+    password: "secret123",
+    password_confirmation: "secret123",
+    locale: "pl"
   }
 
   @create_attrs %{name: "example name", email: "test@test.eu"}
@@ -52,7 +53,9 @@ defmodule DeerStorageWeb.Admin.SubscriptionControllerTest do
   describe "create subscription" do
     test "redirects to show when data is valid", %{conn: conn, admin: admin} do
       conn = assign_user_to_session(conn, admin)
-      conn = post(conn, Routes.admin_subscription_path(conn, :create), subscription: @create_attrs)
+
+      conn =
+        post(conn, Routes.admin_subscription_path(conn, :create), subscription: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.admin_subscription_path(conn, :show, id)
@@ -64,7 +67,11 @@ defmodule DeerStorageWeb.Admin.SubscriptionControllerTest do
   describe "edit subscription" do
     setup [:create_subscription]
 
-    test "renders form for editing chosen subscription", %{conn: conn, admin: admin, subscription: subscription} do
+    test "renders form for editing chosen subscription", %{
+      conn: conn,
+      admin: admin,
+      subscription: subscription
+    } do
       conn = assign_user_to_session(conn, admin)
       conn = get(conn, Routes.admin_subscription_path(conn, :edit, subscription))
 
@@ -77,7 +84,11 @@ defmodule DeerStorageWeb.Admin.SubscriptionControllerTest do
 
     test "redirects when data is valid", %{conn: conn, admin: admin, subscription: subscription} do
       conn = assign_user_to_session(conn, admin)
-      conn = put(conn, Routes.admin_subscription_path(conn, :update, subscription), subscription: @update_attrs)
+
+      conn =
+        put(conn, Routes.admin_subscription_path(conn, :update, subscription),
+          subscription: @update_attrs
+        )
 
       assert redirected_to(conn) == Routes.admin_subscription_path(conn, :show, subscription)
 

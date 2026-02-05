@@ -2,7 +2,13 @@ defmodule DeerCache.SubscriptionStorageCache do
   use GenServer
   alias Phoenix.PubSub
 
-  def start_link(opts \\ []), do: GenServer.start_link(__MODULE__, [{:ets_table_name, :deer_files_disk_usage_by_subscription_id}], opts)
+  def start_link(opts \\ []),
+    do:
+      GenServer.start_link(
+        __MODULE__,
+        [{:ets_table_name, :deer_files_disk_usage_by_subscription_id}],
+        opts
+      )
 
   def fetch_data(subscription_id) do
     case GenServer.call(__MODULE__, {:get, subscription_id}) do
@@ -16,14 +22,22 @@ defmodule DeerCache.SubscriptionStorageCache do
   end
 
   def handle_cast({:uploaded_file, subscription_id, file_size_in_kilobytes}, state) do
-    new_data = case get(subscription_id, state) do
-                  [] -> {1, file_size_in_kilobytes}
-                  [{^subscription_id, {files, kilobytes}}] -> {files + 1, kilobytes + file_size_in_kilobytes}
-                end
+    new_data =
+      case get(subscription_id, state) do
+        [] ->
+          {1, file_size_in_kilobytes}
+
+        [{^subscription_id, {files, kilobytes}}] ->
+          {files + 1, kilobytes + file_size_in_kilobytes}
+      end
 
     set(subscription_id, new_data, state)
 
-    PubSub.broadcast DeerStorage.PubSub, "subscription_deer_storage:#{subscription_id}", {:cached_deer_storage_changed, new_data}
+    PubSub.broadcast(
+      DeerStorage.PubSub,
+      "subscription_deer_storage:#{subscription_id}",
+      {:cached_deer_storage_changed, new_data}
+    )
 
     {:noreply, state}
   end
@@ -34,7 +48,11 @@ defmodule DeerCache.SubscriptionStorageCache do
 
     set(subscription_id, new_data, state)
 
-    PubSub.broadcast DeerStorage.PubSub, "subscription_deer_storage:#{subscription_id}", {:cached_deer_storage_changed, new_data}
+    PubSub.broadcast(
+      DeerStorage.PubSub,
+      "subscription_deer_storage:#{subscription_id}",
+      {:cached_deer_storage_changed, new_data}
+    )
 
     {:noreply, state}
   end
@@ -45,7 +63,8 @@ defmodule DeerCache.SubscriptionStorageCache do
     grouped_data = DeerStorage.Services.CalculateDeerStorage.run!()
     state = %{ets_table_name: ets_table_name}
 
-    for {subscription_id, {files, kilobytes}} <- grouped_data, do: set(subscription_id, {files, kilobytes}, state)
+    for {subscription_id, {files, kilobytes}} <- grouped_data,
+        do: set(subscription_id, {files, kilobytes}, state)
 
     {:ok, state}
   end

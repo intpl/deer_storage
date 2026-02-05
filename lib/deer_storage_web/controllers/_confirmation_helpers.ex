@@ -3,9 +3,9 @@ defmodule DeerStorageWeb.ControllerHelpers.ConfirmationHelpers do
   alias PowEmailConfirmation.Phoenix.Mailer
 
   def send_confirmation_email(user, conn) do
-    url               = confirmation_url(conn, user.email_confirmation_token)
-    unconfirmed_user  = %{user | email: user.unconfirmed_email || user.email}
-    email             = Mailer.email_confirmation(conn, unconfirmed_user, url)
+    url = confirmation_url(conn, user.email_confirmation_token)
+    unconfirmed_user = %{user | email: user.unconfirmed_email || user.email}
+    email = Mailer.email_confirmation(conn, unconfirmed_user, url)
 
     Pow.Phoenix.Mailer.deliver(conn, email)
   end

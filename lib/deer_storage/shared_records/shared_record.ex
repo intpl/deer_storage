@@ -19,7 +19,8 @@ defmodule DeerStorage.SharedRecords.SharedRecord do
 
   @doc false
   def changeset(shared_record, attrs) do
-    ninety_days_from_now = DateTime.truncate(DateTime.add(DateTime.utc_now, 7_776_000, :second), :second)
+    ninety_days_from_now =
+      DateTime.truncate(DateTime.add(DateTime.utc_now(), 7_776_000, :second), :second)
 
     shared_record
     |> cast(attrs, [:deer_record_id, :subscription_id, :created_by_user_id, :is_editable])

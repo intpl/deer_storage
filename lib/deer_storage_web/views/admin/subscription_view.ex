@@ -13,7 +13,9 @@ defmodule DeerStorageWeb.Admin.SubscriptionView do
     default_limits_list = default_limits_list()
 
     case selected_option do
-      nil -> default_limits_list
+      nil ->
+        default_limits_list
+
       _ ->
         case Enum.find(default_limits_list, fn {_text, value} -> value == selected_option end) do
           nil -> ["#{selected_option} KB" | default_limits_list]
@@ -26,10 +28,12 @@ defmodule DeerStorageWeb.Admin.SubscriptionView do
     case Regex.scan(~r/(.*)_(.*)$/, sort_by) do
       [[_match, ^field, order]] ->
         case order do
-            "asc" -> link("⮝ " <> title, to: "?sort_by=#{field}_desc&query=#{query}")
-            "desc" -> link("⮟ " <> title, to: "?sort_by=#{field}_asc&query=#{query}")
+          "asc" -> link("⮝ " <> title, to: "?sort_by=#{field}_desc&query=#{query}")
+          "desc" -> link("⮟ " <> title, to: "?sort_by=#{field}_asc&query=#{query}")
         end
-      _ -> link(title, to: "?sort_by=#{field}_desc&query=#{query}")
+
+      _ ->
+        link(title, to: "?sort_by=#{field}_desc&query=#{query}")
     end
   end
 
