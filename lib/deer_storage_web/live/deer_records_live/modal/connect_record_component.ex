@@ -45,8 +45,8 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
                   name="query"
                   type="text"
                   list="matches"
-                  placeholder="<%= gettext("Search...") %>"
-                  value="<%= @query %>"
+                  placeholder={gettext("Search...")}
+                  value={@query}
                   onkeypress="window.scrollTo(0,0)"
                   phx-debounce="300" />
               </p>
@@ -55,7 +55,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
                 <span class="select">
                   <select name="table_id" class="select">
                     <%= for %{id: id, name: name} <- @deer_tables do %>
-                      <option value="<%= id %>" <%= if @table_id == id, do: "selected" %>>
+                      <option value={id} {if @table_id == id, do: "selected"}>
                         <%= name %>
                       </option>
                     <% end %>
@@ -68,7 +68,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
               <div class="column">
                 <%= for record <- @records do %>
                   <%= if !Enum.member?(@excluded_records_ids, record.id) do %>
-                    <a class="box" href="#" phx-click="connect_records" phx-value-record_id="<%= record.id %>">
+                    <a class="box" href="#" phx-click="connect_records" phx-value-record_id={record.id}>
                       <article class="media">
                         <div class="media-content">
                           <div class="content">

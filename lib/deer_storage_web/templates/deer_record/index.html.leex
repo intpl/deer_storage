@@ -115,7 +115,7 @@ end %>
             type="submit"
             href="#"
             phx-click="clear"
-            onclick="window.scrollTo(0,0)" <%= if empty?(@query), do: "disabled" %>>
+            onclick="window.scrollTo(0,0)" disabled={empty?(@query)}>
               <%= gettext("Clear") %>
         </a>
 

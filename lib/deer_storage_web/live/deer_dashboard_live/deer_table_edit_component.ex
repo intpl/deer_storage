@@ -41,8 +41,8 @@ defmodule DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent do
         <%= inputs_for f, :deer_columns, fn dc -> %>
           <div class="field is-grouped">
             <p class="control">
-              <a class="button is-small" href="#" phx-click="move_column_up" phx-value-index="<%= dc.index %>">▲</a>
-              <a class="button is-small" href="#" phx-click="move_column_down" phx-value-index="<%= dc.index %>">▼</a>
+              <a class="button is-small" href="#" phx-click="move_column_up" phx-value-index={dc.index}>▲</a>
+              <a class="button is-small" href="#" phx-click="move_column_down" phx-value-index={dc.index}>▼</a>
             </p>
             <p class="control">
               <div class="field">

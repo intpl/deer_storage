@@ -44,24 +44,24 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
 
   def render(assigns) do
     ~H"""
-      <div class="modal is-active" phx-drop-target="<%= assigns[:drop_target_ref] %>">
+      <div class="modal is-active" phx-drop-target={assigns[:drop_target_ref]}>
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
             <p class="modal-card-title">
               <%= gettext("Upload file(s)") %>
             </p>
-            <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="<%= @cancel_modal_event %>"></a>
+            <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click={@cancel_modal_event}></a>
           </header>
 
           <section class="modal-card-body">
-            <div class="<%= assigns[:drop_area_class] %>">
+            <div class={assigns[:drop_area_class]}>
               <div class="is-size-4 has-text-centered drop-area-text">
                 <%= assigns[:drop_area_text] %>
               </div>
               <%= for entry <- @entries do %>
                 <% if !@upload_started? do %>
-                  <a href="#" phx-click="cancel_upload_entry" phx-value-ref="<%= entry.ref %>"> <%= gettext("Cancel") %> </a> |
+                  <a href="#" phx-click="cancel_upload_entry" phx-value-ref={entry.ref}> <%= gettext("Cancel") %> </a> |
                 <% end %>
 
                 <%= display_filesize_from_kilobytes(ceil(entry.client_size / 1024)) %>
@@ -81,7 +81,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
                         <progress class="progress is-danger" value="100" max="100">0%</progress>
                     <% end %>
                   <% _ -> %>
-                    <progress class="progress is-info" value="<%= entry.progress %>" max="100"><%= entry.progress %>%</progress>
+                    <progress class="progress is-info" value={entry.progress} max="100"><%= entry.progress %>%</progress>
                 <% end %>
 
               <br>
@@ -112,7 +112,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
           </section>
 
           <footer class="modal-card-foot">
-            <a class="<%= @cancel_button_class %>" data-bulma-modal="close" href="#" phx-click="close_upload_file_modal"><%= @cancel_button_text %></a>
+            <a class={@cancel_button_class} data-bulma-modal="close" href="#" phx-click="close_upload_file_modal"><%= @cancel_button_text %></a>
           </footer>
         </div>
       </div>

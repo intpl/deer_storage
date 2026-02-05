@@ -53,7 +53,7 @@
         <input type="hidden" name="query" value="<%= @query %>" />
         <select name="sort_by" onchange='this.form.submit()'>
           <%= for [value, description] <- subscriptions_sorting_options() do %>
-            <option value="<%= value %>" <%= if @sort_by == value, do: "selected" %>>
+            <option value="<%= value %>" selected={@sort_by == value}>
               <%= description %>
             </option>
           <% end %>

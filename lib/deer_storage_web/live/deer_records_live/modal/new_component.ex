@@ -52,7 +52,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.NewComponent do
             <p class="modal-card-title">
               <%= gettext("Insert record to table") %>: <%= @table_name %>
             </p>
-            <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click="<%= @callbacks[:close] %>"></a>
+            <a class="delete" aria-label="close" data-bulma-modal="close" href="#" phx-click={@callbacks[:close]}></a>
           </header>
 
           <%= if @can_change_table_id? do %>
@@ -62,7 +62,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.NewComponent do
                   <form phx-change="change_new_connected_record_table_id" id="hash<%= @deer_tables_xxh32 %>">
                     <select name="table_id">
                       <%= for %{id: id, name: name} <- @deer_tables do %>
-                        <option value="<%= id %>" <%= if id == @table_id, do: "selected" %>><%= name %></option>
+                        <option value={id} selected={id == @table_id}><%= name %></option>
                       <% end %>
                     </select>
                   </form>
@@ -89,7 +89,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.NewComponent do
                 <p><%= gettext("You cannot create this record") %></p>&nbsp;
               <% end %>
 
-              <a class="button" data-bulma-modal="close" href="#" phx-click="<%= @callbacks[:close] %>"><%= gettext("Cancel") %></a>
+              <a class="button" data-bulma-modal="close" href="#" phx-click={@callbacks[:close]}><%= gettext("Cancel") %></a>
             </footer>
           <% end %>
         </div>
