@@ -36,7 +36,8 @@ defmodule DeerStorageWeb do
         namespace: DeerStorageWeb
 
       # Import convenience functions from controllers
-      import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1, get_csrf_token: 0]
+      import Phoenix.Controller,
+        only: [get_flash: 1, get_flash: 2, view_module: 1, get_csrf_token: 0]
 
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
@@ -48,7 +49,14 @@ defmodule DeerStorageWeb do
       import DeerStorageWeb.DateHelpers
 
       import Phoenix.LiveView.Helpers,
-        only: [live_component: 2, live_component: 3, live_component: 4, live_redirect: 2, live_render: 3]
+        only: [
+          live_component: 2,
+          live_component: 3,
+          live_component: 4,
+          live_redirect: 2
+        ]
+
+      import Phoenix.Component, only: [live_render: 3]
     end
   end
 
