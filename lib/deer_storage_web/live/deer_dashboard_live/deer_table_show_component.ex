@@ -11,7 +11,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.DeerTableShowComponent do
           records_per_table_limit: per_table_limit
         } = assigns
       ) do
-    ~L"""
+    ~H"""
     <div>
       <%= if @editing_table_id == nil do %>
         <strong>

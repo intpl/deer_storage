@@ -27,7 +27,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
       ) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
-    ~L"""
+    ~H"""
     <div class="scrollable-vh75 overwrite-padding-top-120">
       <div class="field is-grouped">
         <a class="is-small button" href="#" phx-click="close_show" phx-value-id="<%= record.id %>">

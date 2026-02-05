@@ -43,7 +43,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
       <div class="modal is-active" phx-drop-target="<%= assigns[:drop_target_ref] %>">
         <div class="modal-background"></div>
         <div class="modal-card">

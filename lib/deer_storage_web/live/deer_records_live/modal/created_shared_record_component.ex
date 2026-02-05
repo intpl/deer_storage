@@ -3,7 +3,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent do
   import DeerStorageWeb.Gettext
 
   def render(assigns) do
-    ~L"""
+    ~H"""
       <script>
         function copyGeneratedUrl() {
           const element = document.getElementById('created_shared_record_generated_url');

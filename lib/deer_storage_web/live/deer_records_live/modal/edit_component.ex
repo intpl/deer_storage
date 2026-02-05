@@ -27,7 +27,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.EditComponent do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
       <div class="modal is-active" id="editing_record">
         <div class="modal-background"></div>
         <div class="modal-card">

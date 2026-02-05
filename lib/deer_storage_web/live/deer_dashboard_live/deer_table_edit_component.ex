@@ -25,7 +25,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div>
       <%= form_for @changeset, "#", [phx_change: :validate_table_edit, phx_submit: :save_table_edit, autocomplete: "off"], fn f -> %>
         <%= hidden_input f, :id, value: @table_id %>

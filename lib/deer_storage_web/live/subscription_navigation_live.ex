@@ -67,7 +67,7 @@ defmodule DeerStorageWeb.SubscriptionNavigationLive do
   end
 
   def render(%{missing_subscription: true} = assigns) do
-    ~L"""
+    ~H"""
       <div class="navbar-brand">
         <div class="navbar-item">
           <%= gettext("No database assigned") %>
@@ -94,7 +94,7 @@ defmodule DeerStorageWeb.SubscriptionNavigationLive do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
       <div class="navbar-brand">
         <%= maybe_active_dashboard_link(@socket, @header_text) %>
 
