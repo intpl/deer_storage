@@ -1,30 +1,30 @@
-<div class="modal is-active" phx-window-keydown="key" phx-target="<%= assigns.myself %>" phx-hook="hookPreviewGestures">
-  <a class="modal-background" phx-click="close_preview_modal" phx-target="<%= assigns.myself %>" style="cursor: default;"></a>
+<div id="preview-modal" class="modal is-active" phx-window-keydown="key" phx-target={@myself} phx-hook="hookPreviewGestures">
+  <a class="modal-background" phx-click="close_preview_modal" phx-target={@myself} style="cursor: default;"></a>
 
-  <div class="buttons has-addons is-centered is-hidden-mobile mb-0" title="<%= gettext("You can use keyboard arrows instead of clicking these buttons") %>">
-    <a class="button is-small is-dark mb-0" phx-click="previous" phx-target="<%= assigns.myself %>" href="#">
+  <div class="buttons has-addons is-centered is-hidden-mobile mb-0" title={gettext("You can use keyboard arrows instead of clicking these buttons")}>
+    <a class="button is-small is-dark mb-0" phx-click="previous" phx-target={@myself} href="#">
       <%= pgettext("image", "Previous") %>
     </a>
-    <a class="button is-small is-dark mb-0" href="<%= assigns.file_url %>">
+    <a class="button is-small is-dark mb-0" href={@file_url}>
       <%= pgettext("image", "Download") %>
     </a>
-    <a class="button is-small is-dark mb-0" phx-click="next" phx-target="<%= assigns.myself %>" href="#">
+    <a class="button is-small is-dark mb-0" phx-click="next" phx-target={@myself} href="#">
       <%= pgettext("image", "Next") %>
     </a>
   </div>
 
   <p class="image overwrite-width90 overwrite-height90">
     <iframe
-      id="<%= assigns.deer_file.id %>"
+      id={@deer_file.id}
       class="overwrite-fullwidth overwrite-fullheight"
-      src="/ViewerJS/index.html#<%= assigns.file_url %>#/<%= assigns.deer_file.original_filename %>"
+      src={"/ViewerJS/index.html#" <> @file_url <> "#/" <> @deer_file.original_filename}
       allowfullscreen
       webkitallowfullscreen>
     </iframe>
   </p>
 
   <div class="modal-content has-text-centered hide-overflow">
-    <span class="has-text-white" title="<%= assigns.deer_file.original_filename %>"><%= maybe_shrink_filename(assigns.deer_file.original_filename, 30) %></span>
+    <span class="has-text-white" title={@deer_file.original_filename}><%= maybe_shrink_filename(@deer_file.original_filename, 30) %></span>
   </div>
-  <a class="modal-close is-large" data-bulma-modal="close" href="#" phx-target="<%= assigns.myself %>" phx-click="close_preview_modal"><%= gettext("Close") %></a>
+  <a class="modal-close is-large" data-bulma-modal="close" href="#" phx-target={@myself} phx-click="close_preview_modal"><%= gettext("Close") %></a>
 </div>
