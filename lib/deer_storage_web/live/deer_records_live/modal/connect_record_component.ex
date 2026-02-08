@@ -55,7 +55,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
                 <span class="select">
                   <select name="table_id" class="select">
                     <%= for %{id: id, name: name} <- @deer_tables do %>
-                      <option value={id} {if @table_id == id, do: "selected"}>
+                      <option value={id} selected={@table_id == id}>
                         <%= name %>
                       </option>
                     <% end %>
