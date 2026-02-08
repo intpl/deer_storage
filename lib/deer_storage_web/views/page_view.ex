@@ -1,5 +1,4 @@
 defmodule DeerStorageWeb.PageView do
-  import DeerStorage.FeatureFlags, only: [registration_enabled?: 0]
   use DeerStorageWeb, :view
 
   def dashboard_link(%{assigns: %{current_user: %{role: "admin"}, current_subscription: nil}}) do
