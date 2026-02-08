@@ -56,7 +56,7 @@ defmodule DeerStorageWeb do
           live_redirect: 2
         ]
 
-      import Phoenix.Component, only: [live_render: 3]
+      import Phoenix.Component, only: [live_render: 2, live_render: 3]
     end
   end
 
