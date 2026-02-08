@@ -11,40 +11,48 @@ defmodule DeerStorageWeb.DeerDashboardLive.DeerTableShowComponent do
           records_per_table_limit: per_table_limit
         } = assigns
       ) do
+    assigns =
+      assigns
+      |> assign(:table_id, table_id)
+      |> assign(:table_name, table_name)
+      |> assign(:deer_columns, deer_columns)
+      |> assign(:cached_count, cached_count)
+      |> assign(:per_table_limit, per_table_limit)
+
     ~H"""
     <div>
       <%= if @editing_table_id == nil do %>
         <strong>
-          <%= live_redirect "#{table_name}", to: Routes.live_path(@socket, DeerStorageWeb.DeerRecordsLive.Index, table_id) %>
+          <%= live_redirect "#{@table_name}", to: Routes.live_path(@socket, DeerStorageWeb.DeerRecordsLive.Index, @table_id) %>
         </strong>
 
-        (<%= cached_count %>/<%= per_table_limit %>)
+        (<%= @cached_count %>/<%= @per_table_limit %>)
 
       <% else %>
-        <strong><%= table_name %></strong>
-        (<%= cached_count %>)
+        <strong><%= @table_name %></strong>
+        (<%= @cached_count %>)
       <% end %>
 
       <br>
 
-      <%= for %{name: name} <- deer_columns do %>
+      <%= for %{name: name} <- @deer_columns do %>
         <%= name %><br>
       <% end %>
 
       <br>
 
-      <a href="#" phx-click="toggle_table_edit" phx-value-table_id={table_id} class="button is-small"><%= gettext("Edit") %></a>
-        <%= if cached_count == 0 do %>
+      <a href="#" phx-click="toggle_table_edit" phx-value-table_id={@table_id} class="button is-small"><%= gettext("Edit") %></a>
+        <%= if @cached_count == 0 do %>
           <a href="#"
             phx-click="delete_table"
-            phx-value-table_id={table_id}
+            phx-value-table_id={@table_id}
             class="button is-small is-warning">
               <%= gettext("Delete") %>
           </a>
         <% else %>
           <a href="#"
             phx-click="destroy_table_with_data"
-            phx-value-table_id={table_id}
+            phx-value-table_id={@table_id}
             class="button is-small is-danger"
             data-confirm={gettext("Are you sure you want to delete this table, all of the records, shared links and uploaded files?")}>
               <%= gettext("Delete") %>

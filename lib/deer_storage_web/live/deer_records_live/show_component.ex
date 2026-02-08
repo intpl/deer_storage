@@ -27,14 +27,22 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
       ) do
     deer_columns = deer_columns_from_subscription(subscription, table_id)
 
+    assigns =
+      assigns
+      |> assign(:deer_columns, deer_columns)
+      |> assign(:record, record)
+      |> assign(:subscription, subscription)
+      |> assign(:table_id, table_id)
+      |> assign(:current_user, current_user)
+
     ~H"""
     <div class="scrollable-vh75 overwrite-padding-top-120">
       <div class="field is-grouped">
-        <a class="is-small button" href="#" phx-click="close_show" phx-value-id={record.id}>
+        <a class="is-small button" href="#" phx-click="close_show" phx-value-id={@record.id}>
           <span class="delete"></span>&nbsp;
         </a>
 
-        <a class="is-small button" href="#" phx-click="edit" phx-value-record_id={record.id}>
+        <a class="is-small button" href="#" phx-click="edit" phx-value-record_id={@record.id}>
           <%= gettext("Edit") %>
         </a>
 
@@ -46,32 +54,32 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
           </div>
           <div class="dropdown-menu">
             <div class="dropdown-content">
-              <a href="#" class="dropdown-item" href="#" phx-click="share" phx-value-record_id={record.id}>
+              <a href="#" class="dropdown-item" phx-click="share" phx-value-record_id={@record.id}>
                 <%= gettext("Share for 90 days") %>
               </a>
-              <a href="#" class="dropdown-item" href="#" phx-click="share-for-editing" phx-value-record_id={record.id}>
+              <a href="#" class="dropdown-item" phx-click="share-for-editing" phx-value-record_id={@record.id}>
                 <%= gettext("Share to edit for 90 days") %>
               </a>
-              <a href="#" class="dropdown-item" href="#" phx-click="invalidate-shared-links" phx-value-record_id={record.id} data-confirm={gettext("Are you sure you want to delete all shared links for this record and files in it?")}>
+              <a href="#" class="dropdown-item" phx-click="invalidate-shared-links" phx-value-record_id={@record.id} data-confirm={gettext("Are you sure you want to delete all shared links for this record and files in it?")}>
                 <%= gettext("Delete/invalidate all shared links") %>
               </a>
             </div>
           </div>
         </div>
 
-        <a class="is-small button is-danger is-outlined" href="#" phx-click="delete" phx-value-record_id={record.id} data-confirm={gettext("Are you sure to REMOVE this record?")}>
+        <a class="is-small button is-danger is-outlined" href="#" phx-click="delete" phx-value-record_id={@record.id} data-confirm={gettext("Are you sure to REMOVE this record?")}>
           <%= gettext("Delete") %>
         </a>
       </div>
       <ul>
-        <%= Enum.map(deer_columns, fn %{id: column_id, name: column_name} -> %>
+        <%= Enum.map(@deer_columns, fn %{id: column_id, name: column_name} -> %>
           <li>
             <strong><%= column_name %>:</strong>
-            <%= deer_field_content_from_column_id(record, column_id) %>
+            <%= deer_field_content_from_column_id(@record, column_id) %>
           </li>
         <% end) %>
         <br>
-        <%= case [dt(current_user, record.inserted_at), dt(current_user, record.updated_at)] do %>
+        <%= case [dt(@current_user, @record.inserted_at), dt(@current_user, @record.updated_at)] do %>
           <% [inserted_at, inserted_at] -> %>
               <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
           <% [inserted_at, updated_at] -> %>
@@ -81,11 +89,11 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
       </ul>
 
       <div class="prewrapped">
-        <%= record.notes %>
+        <%= @record.notes %>
       </div>
 
       <a href="#" phx-click="toggle_fullnames" phx-target={@myself}>
-        <%= if assigns.display_full_names do %>
+        <%= if @display_full_names do %>
           <%= gettext("Show short filenames") %>
         <% else %>
           <%= gettext("Show full filenames") %>
@@ -96,11 +104,11 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
       <br>
 
       <ul>
-        <%= Enum.map(record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes, mimetype: mimetype} -> %>
-          <% download_url = Routes.deer_files_path(@socket, :download_record, record.id, file_id) %>
+        <%= Enum.map(@record.deer_files, fn %{id: file_id, original_filename: name, kilobytes: kilobytes, mimetype: mimetype} -> %>
+          <% download_url = Routes.deer_files_path(@socket, :download_record, @record.id, file_id) %>
           <li>
             <%= if mimetype_is_previewable?(mimetype) do %>
-              <a href="#" phx-click="preview_record_file" phx-value-record-id={record.id} phx-value-file-id={file_id} title={name}> <%= maybe_shrink_if_not_fullnames(assigns, name) %> </a>
+              <a href="#" phx-click="preview_record_file" phx-value-record-id={@record.id} phx-value-file-id={file_id} title={name}> <%= maybe_shrink_if_not_fullnames(assigns, name) %> </a>
             <% else %>
               <%= link maybe_shrink_if_not_fullnames(assigns, name), to: download_url, title: name %>
             <% end %>
@@ -115,10 +123,10 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
                 <a class="dropdown-item" href={download_url}>
                   <span><%= gettext("Download") %></span>
                 </a>
-                <a class="dropdown-item" href="#" phx-click="share_record_file" phx-value-record-id={record.id} phx-value-file-id={file_id}>
+                <a class="dropdown-item" href="#" phx-click="share_record_file" phx-value-record-id={@record.id} phx-value-file-id={file_id}>
                   <span><%= gettext("Share") %></span>
                 </a>
-                <a class="dropdown-item" href="#" phx-click="delete_record_file" phx-value-record-id={record.id} phx-value-file-id={file_id} data-confirm={gettext("Are you sure to DELETE this file?")}>
+                <a class="dropdown-item" href="#" phx-click="delete_record_file" phx-value-record-id={@record.id} phx-value-file-id={file_id} data-confirm={gettext("Are you sure to DELETE this file?")}>
                   <span class="delete"></span>&nbsp;
                   <span><%= gettext("Delete") %></span>
                 </a>
@@ -131,15 +139,15 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
 
       <br>
 
-      <a class="is-small button is-link is-light" href="#" phx-click="new_connected_record" phx-value-connecting-with-record_id={record.id}>
+      <a class="is-small button is-link is-light" href="#" phx-click="new_connected_record" phx-value-connecting-with-record_id={@record.id}>
         <span><%= gettext("Create connected record") %></span>
       </a>
 
-      <a class="is-small button is-link is-light" href="#" phx-click="show_connect_record_modal" phx-value-record_id={record.id}>
+      <a class="is-small button is-link is-light" href="#" phx-click="show_connect_record_modal" phx-value-record_id={@record.id}>
         <span><%= gettext("Connect") %></span>
       </a>
 
-      <a class="is-small button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id={record.id} phx-value-table_id={record.deer_table_id}>
+      <a class="is-small button is-link" href="#" phx-click="show_upload_file_modal" phx-value-record_id={@record.id} phx-value-table_id={@record.deer_table_id}>
         <span><%= gettext("Upload file(s)") %></span>
       </a>
 
@@ -148,7 +156,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
 
       <ul>
         <%= Enum.map(@connected_records, fn connected_record -> %>
-          <% %{name: table_name, deer_columns: connected_record_deer_columns} = deer_table_from_subscription(subscription, connected_record.deer_table_id) %>
+          <% %{name: table_name, deer_columns: connected_record_deer_columns} = deer_table_from_subscription(@subscription, connected_record.deer_table_id) %>
           <article class="message">
             <div class="message-header">
               <p><%= table_name %></p>
@@ -166,7 +174,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
                   <span><%= gettext("Upload file(s)") %></span>
                 </a>
 
-                <a href="#" class="is-small button is-danger is-light" phx-click="disconnect_records" phx-value-opened_record_id={record.id} phx-value-connected_record_id={connected_record.id} data-confirm={gettext("Are you sure you want to unlink these records from each other?")}>
+                <a href="#" class="is-small button is-danger is-light" phx-click="disconnect_records" phx-value-opened_record_id={@record.id} phx-value-connected_record_id={connected_record.id} data-confirm={gettext("Are you sure you want to unlink these records from each other?")}>
                   <%= gettext("Disconnect") %>
                 </a>
               </div>
@@ -179,7 +187,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
 
               <br>
 
-              <%= case [dt(current_user, connected_record.inserted_at), dt(current_user, connected_record.updated_at)] do %>
+              <%= case [dt(@current_user, connected_record.inserted_at), dt(@current_user, connected_record.updated_at)] do %>
               <% [inserted_at, inserted_at] -> %> <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
               <% [inserted_at, updated_at] -> %>
                 <li><%= gettext("Created at") %>: <b><%= inserted_at %></b></li>
