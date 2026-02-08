@@ -19,7 +19,7 @@ defmodule DeerStorageWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: DeerStorageWeb
+      use Phoenix.Controller, namespace: DeerStorageWeb, formats: [html: "View"]
 
       import Plug.Conn
       import DeerStorageWeb.Gettext
@@ -52,7 +52,6 @@ defmodule DeerStorageWeb do
         only: [
           live_component: 2,
           live_component: 3,
-          live_component: 4,
           live_redirect: 2
         ]
 
