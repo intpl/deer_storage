@@ -2,7 +2,7 @@
 
 <%= if @deer_record do %>
   <%= cond do
-    @preview_deer_file -> live_component(@socket,
+    @preview_deer_file -> live_component(
       DeerStorageWeb.DeerRecordsLive.Modal.PreviewFileComponent,
       id: "preview_file_component",
       deer_file: @preview_deer_file,
@@ -12,7 +12,7 @@
           @current_subscription.id,
           @shared_record.id,
           @preview_deer_file.id))
-    @editing_record -> live_component(@socket,
+    @editing_record -> live_component(
       DeerStorageWeb.DeerRecordsLive.Modal.EditComponent,
       id: "edit",
       changeset: @editing_record,
@@ -22,7 +22,7 @@
       table_id: @deer_record.deer_table_id,
       table_name: nil,
       editing_record_has_been_removed: false)
-    @uploading -> live_component(@socket,
+    @uploading -> live_component(
       DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent,
       id: "uploading_file_component",
       upload_results: @upload_results,

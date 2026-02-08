@@ -1,6 +1,6 @@
 <%= if @current_subscription_id do %>
   <%= live_render(
-      @socket,
+      
       DeerStorageWeb.SubscriptionNavigationLive,
       container: {:div, class: "navbar is-dark"},
       id: "navigation_live",
@@ -17,15 +17,13 @@
 <%= cond do
   @preview_for_record_id && @preview_deer_file ->
     live_component(
-      @socket,
       DeerStorageWeb.DeerRecordsLive.Modal.PreviewFileComponent,
       id: "preview_file_component",
-      file_url: Routes.deer_files_path(@socket, :download_record, @preview_for_record_id, @preview_deer_file.id),
+      file_url: Routes.deer_files_path( :download_record, @preview_for_record_id, @preview_deer_file.id),
       deer_file: @preview_deer_file
     )
   @uploading_file_for_record ->
     live_component(
-      @socket,
       DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent,
       id: "uploading_file_component",
       upload_results: @upload_results,
@@ -33,7 +31,6 @@
     )
   @connecting_record ->
     live_component(
-      @socket,
       DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent,
       id: "connecting_component",
       subscription: @current_subscription,
@@ -44,7 +41,6 @@
     )
   @current_shared_link ->
     live_component(
-      @socket,
       DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent,
       id: "shared_record_component",
       subscription_id: @current_subscription_id,
@@ -52,7 +48,6 @@
     )
   @editing_record ->
     live_component(
-      @socket,
       DeerStorageWeb.DeerRecordsLive.Modal.EditComponent,
       id: "edit",
       changeset: @editing_record,
@@ -68,7 +63,6 @@
     table_name = deer_table_name_from_id(@current_subscription_tables, table_id)
 
     live_component(
-      @socket,
       DeerStorageWeb.DeerRecordsLive.Modal.NewComponent,
       id: "new",
       connecting_record?: true,
@@ -81,7 +75,6 @@
     )
   @new_record ->
     live_component(
-      @socket,
       DeerStorageWeb.DeerRecordsLive.Modal.NewComponent,
       id: "new",
       connecting_record?: false,
@@ -220,7 +213,6 @@ end %>
         <div class="column">
           <div class="sticky">
             <%= live_component(
-                @socket,
                 DeerStorageWeb.DeerRecordsLive.ShowComponent,
                 id: record.id,
                 current_user: @current_user,

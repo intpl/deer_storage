@@ -1,6 +1,5 @@
 <%= if @current_subscription_id do %>
   <%= live_render(
-      @socket,
       DeerStorageWeb.SubscriptionNavigationLive,
       container: {:div, class: "navbar is-dark"},
       id: "navigation_live",
@@ -39,14 +38,12 @@
                   <%= case table.id == @editing_table_id do %>
                     <% true -> %>
                       <%= live_component(
-                          @socket,
                           DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent,
                           table: table,
                           columns_per_table_limit: @subscription_deer_columns_per_table_limit,
                           changeset: @editing_table_changeset) %>
                     <% false -> %>
                       <%= live_component(
-                          @socket,
                           DeerStorageWeb.DeerDashboardLive.DeerTableShowComponent,
                           table: table,
                           editing_table_id: @editing_table_id,
