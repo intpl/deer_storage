@@ -59,7 +59,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.NewComponent do
             <section class="modal-card-body">
               <div class="control">
                 <div class="select">
-                  <form phx-change="change_new_connected_record_table_id" id="hash<%= @deer_tables_xxh32 %>">
+                  <form phx-change="change_new_connected_record_table_id" id={"hash" <> to_string(@deer_tables_xxh32)}>
                     <select name="table_id">
                       <%= for %{id: id, name: name} <- @deer_tables do %>
                         <option value={id} selected={id == @table_id}><%= name %></option>
@@ -73,7 +73,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.NewComponent do
 
           <%= form_for @changeset, "#", [phx_change: @callbacks[:change], phx_submit: @callbacks[:submit], autocomplete: "off"], fn f -> %>
             <section class="modal-card-body">
-              <div class"container">
+              <div class="container">
                 <%= render_prepared_fields(@prepared_fields) %>
                 <hr>
                 <div class="control">

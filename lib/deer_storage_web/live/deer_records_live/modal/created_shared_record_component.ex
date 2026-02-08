@@ -23,7 +23,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent do
           </header>
 
           <section class="modal-card-body">
-            <div class"container" id="created_shared_record_generated_url">
+            <div class="container" id="created_shared_record_generated_url">
               <%= @current_shared_link %>
             </div>
           </section>

@@ -87,7 +87,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
               <br>
               <% end %>
 
-              <form phx-submit="submit_upload" phx-change="validate_upload" class="file is-centered <%= if @upload_started?, do: "is-hidden" %>">
+              <form phx-submit="submit_upload" phx-change="validate_upload" class={"file is-centered " <> if @upload_started?, do: "is-hidden", else: ""}>
                 <label class="file">
                 <%= Phoenix.LiveView.Helpers.live_file_input @deer_file, class: "file-input" %>
                   <span class="file-cta">

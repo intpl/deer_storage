@@ -43,7 +43,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.EditComponent do
           </header>
           <%= form_for @changeset, "#", [phx_change: :validate_edit, phx_submit: :save_edit, autocomplete: "off"], fn f -> %>
             <section class="modal-card-body">
-              <div class"container">
+              <div class="container">
                 <%= render_prepared_fields(@prepared_fields) %>
               </div>
               <hr>
