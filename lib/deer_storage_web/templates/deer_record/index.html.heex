@@ -1,3 +1,4 @@
+<div>
 <%= if @current_subscription_id do %>
   <%= live_render(@socket,
       DeerStorageWeb.SubscriptionNavigationLive,
@@ -90,7 +91,7 @@ end %>
 <% opened_records_count = length(@opened_records) %>
 
 <section class="section">
-  <div class="columns z-index-39 has-background-white sticky <%= if Enum.any?(@opened_records), do: "is-hidden-mobile" %>">
+  <div class={"columns z-index-39 has-background-white sticky " <> if Enum.any?(@opened_records), do: "is-hidden-mobile", else: ""}>
     <div class="column is-2">
       <div class="field">
       <%= if @cached_count < @current_subscription_deer_records_per_table_limit do %>
@@ -116,10 +117,10 @@ end %>
             class="input"
             type="text" name="query"
             list="matches"
-            placeholder="<%= gettext("Search...") %>"
-            value="<%= maybe_join_query(@query) %>"
+            placeholder={gettext("Search...")}
+            value={maybe_join_query(@query)}
             onkeypress="window.scrollTo(0,0)"
-            phx-debounce="<%= @search_debounce %>" />
+            phx-debounce={@search_debounce} />
         </p>
 
         <p class="control">
@@ -135,7 +136,7 @@ end %>
           |
           <a href="#" phx-click="clear_selected"><%= gettext("Unselect") %></a>
           |
-          <a href="#" phx-click="delete_selected" data-confirm="<%= gettext("Are you sure to REMOVE all %{count} selected records?", count: opened_records_count) %>">
+          <a href="#" phx-click="delete_selected" data-confirm={gettext("Are you sure to REMOVE all %{count} selected records?", count: opened_records_count)}>
             <%= gettext("Delete selected (%{count})", count: opened_records_count) %>
           </a>
         <% else %>
@@ -146,12 +147,12 @@ end %>
   </div>
 
   <div class="columns is-mobile">
-    <div class="column <%= if Enum.any?(@opened_records), do: "is-hidden-mobile" %>">
+    <div class={"column " <> if Enum.any?(@opened_records), do: "is-hidden-mobile", else: ""}>
         <%= if @count == 0 do %>
           <div class="section">
             <h1 class="title has-text-grey-light has-text-centered">
               <%= gettext("Could not find anything...") %>
-            </h3>
+            </h1>
 
             <%= if @page > 1 do %>
               <h3 class="subtitle has-text-grey-light has-text-centered">
@@ -165,7 +166,7 @@ end %>
           <% deer_columns = deer_columns_from_subscription(@current_subscription, @table_id) %>
 
           <%= for record <- @records do %>
-            <a class="box <%= classes_for_record_box(@current_user.id, record, @opened_records) %>" href="#" phx-click="show" phx-value-record_id="<%= record.id %>">
+            <a class={"box " <> classes_for_record_box(@current_user.id, record, @opened_records)} href="#" phx-click="show" phx-value-record_id={record.id}>
               <div class="columns is-desktop">
                 <div class="column">
                   <%= for %{id: column_id, name: column_name} <- deer_columns do %>
@@ -225,5 +226,6 @@ end %>
         </div>
       <% end %>
     <% end %>
-  </section>
+  </div>
+</section>
 </div>

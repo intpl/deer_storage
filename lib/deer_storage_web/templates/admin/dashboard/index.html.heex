@@ -18,10 +18,10 @@
           available_space: total_megabytes
       ) %>
       <%= case @root_disk_percentage do %>
-        <% perc when perc > 90 -> %><progress class="progress is-danger" value="<%= perc %>" max="100"><%= perc %>%</progress>
-        <% perc when perc > 80 -> %><progress class="progress is-warning" value="<%= perc %>" max="100"><%= perc %>%</progress>
-        <% perc when perc > 50 -> %><progress class="progress is-info" value="<%= perc %>" max="100"><%= perc %>%</progress>
-        <% perc -> %><progress class="progress is-success" value="<%= perc %>" max="100"><%= perc %>%</progress>
+        <% perc when perc > 90 -> %><progress class="progress is-danger" value={perc} max="100"><%= perc %>%</progress>
+        <% perc when perc > 80 -> %><progress class="progress is-warning" value={perc} max="100"><%= perc %>%</progress>
+        <% perc when perc > 50 -> %><progress class="progress is-info" value={perc} max="100"><%= perc %>%</progress>
+        <% perc -> %><progress class="progress is-success" value={perc} max="100"><%= perc %>%</progress>
       <% end %>
     </div>
   </div>

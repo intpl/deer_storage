@@ -49,7 +49,7 @@
   <div class="hero-body">
     <div class="container">
       <%= if @is_editable do %>
-        <a class="button" href="#" phx-click="edit" phx-value-record_id="<%= @deer_record.id %>">
+        <a class="button" href="#" phx-click="edit" phx-value-record_id={@deer_record.id}>
           <%= gettext("Edit") %>
         </a>
         <a class="button is-info" href="#" phx-click="show_upload_file_modal">
@@ -79,14 +79,14 @@
           <li>
               <p>
                 <%= if mimetype_is_previewable?(mimetype) do %>
-                  <a href="#" phx-click="preview_file" phx-value-file-id="<%= file_id %>"> <%= name %> </a>
+                  <a href="#" phx-click="preview_file" phx-value-file-id={file_id}> <%= name %> </a>
                 <% else %>
                   <%= link "#{name}", to: Routes.shared_record_files_path(DeerStorageWeb.Endpoint, :download_file_from_shared_record, @current_subscription.id, @shared_record.id, file_id) %>
                 <% end %>
                 (<%= display_filesize_from_kilobytes(kilobytes) %>)
 
                 <%= if @is_editable do %>
-                  <a href="#" phx-click="delete_file" phx-value-file-id="<%= file_id %>" data-confirm="<%= gettext("Are you sure to DELETE this file?") %>">
+                  <a href="#" phx-click="delete_file" phx-value-file-id={file_id} data-confirm={gettext("Are you sure to DELETE this file?")}>
                     <span><%= gettext("Delete") %></span>
                   </a>
                 <% end %>

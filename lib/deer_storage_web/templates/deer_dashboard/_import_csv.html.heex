@@ -6,11 +6,11 @@
       <div class="columns">
         <div class="column is-one-third">
           <%= entry.client_name %>
-          <a href="#" phx-click="cancel_upload_entry" phx-value-ref="<%= entry.ref %>">
+          <a href="#" phx-click="cancel_upload_entry" phx-value-ref={entry.ref}>
             <%= gettext("Cancel") %>
           </a>
 
-          <progress class="progress is-info" value="<%= entry.progress %>" max="100"><%= entry.progress %>%</progress>
+          <progress class="progress is-info" value={entry.progress} max="100"><%= entry.progress %>%</progress>
 
           <%= if entry.done? == true do %>
             <%= gettext("Ready to import.") %>
