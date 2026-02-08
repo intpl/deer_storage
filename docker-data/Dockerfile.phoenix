@@ -58,8 +58,7 @@ RUN mix do compile, release
 
 FROM erlang:28-alpine AS app
 
-RUN apk --no-cache --no-progress add -q postgresql-client --repository=http://dl-cdn.alpinelinux.org/alpine/v3.21/main
-RUN apk --no-cache --no-progress add -q coreutils file bash
+RUN apk --no-cache --no-progress add -q postgresql-client coreutils file bash
 
 WORKDIR /opt/app
 
