@@ -19,7 +19,8 @@ defmodule DeerStorageWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: DeerStorageWeb, formats: [html: "View"]
+      use Phoenix.Controller, formats: [html: "View"]
+      plug :put_layout, html: {DeerStorageWeb.LayoutView, :app}
 
       import Plug.Conn
       import DeerStorageWeb.Gettext
