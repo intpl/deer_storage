@@ -60,10 +60,6 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
                 <%= assigns[:drop_area_text] %>
               </div>
               <%= for entry <- @entries do %>
-                <% if !@upload_started? do %>
-                  <a href="#" phx-click="cancel_upload_entry" phx-value-ref={entry.ref}> <%= gettext("Cancel") %> </a> |
-                <% end %>
-
                 <%= display_filesize_from_kilobytes(ceil(entry.client_size / 1024)) %>
                 | <%= entry.client_name %>
 
