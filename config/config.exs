@@ -16,12 +16,12 @@ config :deer_storage, DeerStorage.Gettext, default_locale: "en", locales: ~w(en 
 # Configures the endpoint
 config :deer_storage, DeerStorageWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "Kkpy/olWADIHhc0fK7C/K2YuBOE3u2BTzJZAnqeI59WAH33cl57Snvee6xGETJfm",
+  secret_key_base: System.fetch_env!("SECRET_KEY_BASE_CONFIG"),
   render_errors: [view: DeerStorageWeb.ErrorView, accepts: ~w(html json)],
   pubsub_server: DeerStorage.PubSub,
   live_view: [
     # overwrite in production
-    signing_salt: "Cx4+NQzV+jnvqWiZKk+v0u1YPxyS/vIg",
+    signing_salt: System.fetch_env!("SECRET_SIGNING_SALT"),
     # 1 hour
     hibernate_after: 3_600_000
   ]
