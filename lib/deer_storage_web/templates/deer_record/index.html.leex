@@ -1,6 +1,5 @@
 <%= if @current_subscription_id do %>
-  <%= live_render(
-      
+  <%= live_render(@socket,
       DeerStorageWeb.SubscriptionNavigationLive,
       container: {:div, class: "navbar is-dark"},
       id: "navigation_live",
@@ -19,7 +18,7 @@
     live_component(
       DeerStorageWeb.DeerRecordsLive.Modal.PreviewFileComponent,
       id: "preview_file_component",
-      file_url: Routes.deer_files_path( :download_record, @preview_for_record_id, @preview_deer_file.id),
+      file_url: Routes.deer_files_path(@socket, :download_record, @preview_for_record_id, @preview_deer_file.id),
       deer_file: @preview_deer_file
     )
   @uploading_file_for_record ->

@@ -7,9 +7,9 @@ defmodule DeerCache.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(DeerCache.RecordsCountsCache, [[name: DeerCache.RecordsCountsCache]]),
-      worker(DeerCache.SubscriptionStorageCache, [[name: DeerCache.SubscriptionStorageCache]]),
-      worker(DeerStorage.DeleteOutdatedSharedRecordsAndFilesEvery24h, [])
+      {DeerCache.RecordsCountsCache, name: DeerCache.RecordsCountsCache},
+      {DeerCache.SubscriptionStorageCache, name: DeerCache.SubscriptionStorageCache},
+      DeerStorage.DeleteOutdatedSharedRecordsAndFilesEvery24h
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

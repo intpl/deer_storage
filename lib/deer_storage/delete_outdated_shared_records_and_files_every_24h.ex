@@ -2,9 +2,9 @@ defmodule DeerStorage.DeleteOutdatedSharedRecordsAndFilesEvery24h do
   require Logger
   use GenServer
 
-  def start_link do
+  def start_link(_opts \\ []) do
     Logger.info("Starting DeleteOutdatedSharedRecordsAndFilesEvery24h worker...")
-    GenServer.start_link(__MODULE__, %{})
+    GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
   end
 
   def init(state) do

@@ -44,7 +44,7 @@ defmodule DeerStorageWeb.Admin.DashboardLive.Index do
 
     {_, root_disk_total_size, root_disk_percentage} =
       :disksup.get_disk_data()
-      |> Enum.find(fn {mountpoint, _size, _perc} -> mountpoint == '/' end)
+      |> Enum.find(fn {mountpoint, _size, _perc} -> mountpoint == ~c"/" end)
 
     socket
     |> assign(

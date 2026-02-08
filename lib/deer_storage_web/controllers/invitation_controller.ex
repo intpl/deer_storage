@@ -16,9 +16,6 @@ defmodule DeerStorageWeb.InvitationController do
   import DeerStorageWeb.ControllerHelpers.SubscriptionHelpers,
     only: [verify_if_subscription_is_expired: 2]
 
-  # TODO: wrap endpoints
-  import DeerStorageWeb.ControllerHelpers.FeatureFlagsHelpers
-
   plug :verify_if_subscription_is_expired when action in [:new, :create]
   plug :load_user_from_invitation_token when action in [:show, :edit, :update]
   plug :assign_create_path when action in [:new, :create]

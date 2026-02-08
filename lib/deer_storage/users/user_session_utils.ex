@@ -5,7 +5,7 @@ defmodule DeerStorage.Users.UserSessionUtils do
   alias DeerStorage.UserAvailableSubscriptionLinks.UserAvailableSubscriptionLink
 
   @credentials_cache_config [
-    backend: Application.get_env(:deer_storage, :pow)[:cache_store_backend]
+    backend: Application.compile_env(:deer_storage, [:pow, :cache_store_backend])
   ]
 
   def get_live_user(socket, %{"deer_storage_auth" => signed_token}) do

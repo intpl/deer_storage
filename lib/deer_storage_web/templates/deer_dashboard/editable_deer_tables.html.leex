@@ -1,5 +1,5 @@
 <%= if @current_subscription_id do %>
-  <%= live_render(
+  <%= live_render(@socket,
       DeerStorageWeb.SubscriptionNavigationLive,
       container: {:div, class: "navbar is-dark"},
       id: "navigation_live",
