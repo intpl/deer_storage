@@ -4,8 +4,8 @@ defmodule DeerStorage.MixProject do
   def project do
     [
       app: :deer_storage,
-      version: "0.1.0",
-      elixir: "~> 1.5",
+      version: "0.1.1",
+      elixir: "~> 1.19",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
