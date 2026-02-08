@@ -1,8 +1,6 @@
 defmodule DeerStorageWeb.InvitationController do
   use DeerStorageWeb, :controller
 
-  import DeerStorage.FeatureFlags, only: [mailing_enabled?: 0]
-
   import Plug.Conn, only: [assign: 3]
 
   import DeerStorage.Users.UserSessionUtils,
