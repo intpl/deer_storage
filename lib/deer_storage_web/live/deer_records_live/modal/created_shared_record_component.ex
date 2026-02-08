@@ -4,6 +4,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent do
 
   def render(assigns) do
     ~H"""
+    <div>
       <script>
         function copyGeneratedUrl() {
           const element = document.getElementById('created_shared_record_generated_url');
@@ -37,6 +38,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent do
 
         </div>
       </div>
+    </div>
     """
   end
 end
