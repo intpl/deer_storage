@@ -1,6 +1,7 @@
 defmodule DeerStorageWeb.InvitationController do
   use DeerStorageWeb, :controller
 
+  alias DeerStorage.FeatureFlags
   import Plug.Conn, only: [assign: 3]
 
   import DeerStorage.Users.UserSessionUtils,
@@ -33,7 +34,7 @@ defmodule DeerStorageWeb.InvitationController do
   def create(%{assigns: %{current_subscription: %{id: current_subscription_id}}} = conn, %{
         "user" => user_params
       }) do
-    case [mailing_enabled?(), Plug.create_user(conn, user_params)] do
+    case [FeatureFlags.mailing_enabled?(), Plug.create_user(conn, user_params)] do
       [true, {:ok, %{email: email} = user, conn}] when is_binary(email) ->
         Users.insert_subscription_link_and_maybe_change_last_used_subscription_id(
           user,
