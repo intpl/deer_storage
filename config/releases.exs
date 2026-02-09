@@ -17,7 +17,11 @@ config :deer_storage, DeerStorageWeb.Endpoint,
   url: [host: {:system, "APP_HOST"}, port: 443, scheme: "https"],
   http: [port: 80],
   server: true,
-  secret_key_base: System.fetch_env!("SECRET_KEY_BASE_RELEASE")
+  secret_key_base: System.fetch_env!("SECRET_KEY_BASE_PROD"),
+  live_view: [
+    signing_salt: System.fetch_env!("SECRET_SIGNING_SALT_PROD"),
+    hibernate_after: 3_600_000
+  ]
 
 if System.get_env("POW_MAILGUN_API_KEY") do
   config :deer_storage,

@@ -30,9 +30,10 @@ env_structs = [
   # hidden values
   %{key: "APP_HTTP_PORT", data: %{value: "80", hidden: true}},
   %{key: "APP_HTTPS_PORT", data: %{value: "443", hidden: true}},
-  %{key: "SECRET_KEY_BASE_CONFIG", data: %{value: generate_secret.(64), hidden: true}},
-  %{key: "SECRET_KEY_BASE_RELEASE", data: %{value: generate_secret.(64), hidden: true}},
-  %{key: "SECRET_SIGNING_SALT", data: %{value: generate_secret.(32), hidden: true}},
+  %{key: "SECRET_KEY_BASE_DEV", data: %{value: generate_secret.(64), hidden: true}},
+  %{key: "SECRET_KEY_BASE_PROD", data: %{value: generate_secret.(64), hidden: true}},
+  %{key: "SECRET_SIGNING_SALT_DEV", data: %{value: generate_secret.(32), hidden: true}},
+  %{key: "SECRET_SIGNING_SALT_PROD", data: %{value: generate_secret.(32), hidden: true}},
   %{key: "PGUSER", data: %{value: "deer", hidden: true}},
   %{key: "PGPASSWORD", data: %{value: generate_secret.(Enum.random(30..60)), hidden: true}},
   %{key: "PGHOST", data: %{value: "db", hidden: true}},

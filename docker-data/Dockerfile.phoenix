@@ -24,9 +24,25 @@ ENV PATH=./node_modules/.bin:$PATH
 
 WORKDIR /opt/app
 
-# Install Hex and Rebar
-RUN mix local.hex --force && \
-    mix local.rebar --force
+ARG SECRET_KEY_BASE_DEV
+ARG SECRET_KEY_BASE_PROD
+ARG SECRET_SIGNING_SALT_DEV
+ARG SECRET_SIGNING_SALT_PROD
+
+# It's needed because it's inside a macro in DeerStorage.Subscriptions.Subscription
+ARG NEW_SUBSCRIPTION_COLUMNS_PER_TABLE_LIMIT
+ARG NEW_SUBSCRIPTION_DAYS_TO_EXPIRE
+ARG NEW_SUBSCRIPTION_FILES_COUNT_LIMIT
+ARG NEW_SUBSCRIPTION_RECORDS_PER_TABLE_LIMIT
+ARG NEW_SUBSCRIPTION_STORAGE_LIMIT_IN_KILOBYTES
+ARG NEW_SUBSCRIPTION_TABLES_LIMIT
+
+# Install Hex and Rebar with increased timeouts
+RUN mix local.hex --force --if-missing || \
+    (sleep 5 && mix local.hex --force --if-missing) || \
+    (sleep 10 && mix local.hex --force --if-missing)
+RUN mix local.rebar --force --if-missing || \
+    (sleep 5 && mix local.rebar --force --if-missing)
 
 ENV MIX_ENV=prod
 
@@ -46,13 +62,6 @@ COPY lib lib
 
 # uncomment COPY if rel/ exists
 # COPY rel rel
-
-ARG NEW_SUBSCRIPTION_COLUMNS_PER_TABLE_LIMIT
-ARG NEW_SUBSCRIPTION_DAYS_TO_EXPIRE
-ARG NEW_SUBSCRIPTION_FILES_COUNT_LIMIT
-ARG NEW_SUBSCRIPTION_RECORDS_PER_TABLE_LIMIT
-ARG NEW_SUBSCRIPTION_STORAGE_LIMIT_IN_KILOBYTES
-ARG NEW_SUBSCRIPTION_TABLES_LIMIT
 
 RUN mix do compile, release
 

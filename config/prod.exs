@@ -7,7 +7,12 @@ import Config
 config :deer_storage, DeerStorageWeb.Endpoint,
   url: [host: System.get_env("APP_HOST"), port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
-  server: true
+  server: true,
+  secret_key_base: System.fetch_env!("SECRET_KEY_BASE_PROD"),
+  live_view: [
+    signing_salt: System.fetch_env!("SECRET_SIGNING_SALT_PROD"),
+    hibernate_after: 3_600_000
+  ]
 
 # Log to console because of Docker
 config :logger, :console, level: :info
