@@ -14,7 +14,7 @@ config :deer_storage, DeerStorage.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 config :deer_storage, DeerStorageWeb.Endpoint,
-  url: [host: {:system, "APP_HOST"}, port: 443, scheme: "https"],
+  url: [host: System.get_env("APP_HOST"), port: 443, scheme: "https"],
   http: [port: 80],
   server: true,
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE_PROD"),
