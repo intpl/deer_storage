@@ -23,10 +23,10 @@
     <form phx-submit="submit_upload" phx-change="validate_upload" class="file">
       <%= if Enum.any?(@uploads.csv_file.entries) do %>
         <button type="submit" class="button is-primary"><%= gettext("Import file(s) to DeerStorage!") %></button>
-        <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "is-hidden" %>
+        <.live_file_input upload={@uploads.csv_file} class="is-hidden" />
       <% else %>
         <label class="file is-boxed">
-          <%= Phoenix.LiveView.Helpers.live_file_input @uploads.csv_file, class: "file-input" %>
+          <.live_file_input upload={@uploads.csv_file} class="file-input" />
           <span class="file-cta">
             <span class="file-icon"> ⛟ </span>
             <span class="file-label">

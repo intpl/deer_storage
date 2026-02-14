@@ -2,7 +2,7 @@ defmodule DeerStorageWeb.SubscriptionNavigationLive do
   alias DeerStorageWeb.Router.Helpers, as: Routes
   alias Phoenix.PubSub
 
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
   import Phoenix.HTML.Link, only: [link: 2]
 
   import DeerStorageWeb.LayoutView,

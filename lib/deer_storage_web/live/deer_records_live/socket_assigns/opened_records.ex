@@ -5,7 +5,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
   alias DeerStorage.SharedFiles
 
   import Phoenix.Component, only: [assign: 2, assign: 3]
-  import Phoenix.LiveView, only: [push_redirect: 2]
+  import Phoenix.LiveView, only: [push_navigate: 2]
 
   import DeerStorageWeb.DeerRecordView, only: [mimetype_is_previewable?: 1]
 
@@ -35,7 +35,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.OpenedRecords do
     assign_opened_record_and_fetch_connected_records(socket, record_id)
   rescue
     Ecto.NoResultsError ->
-      push_redirect(socket,
+      push_navigate(socket,
         to:
           Routes.live_path(
             DeerStorageWeb.Endpoint,

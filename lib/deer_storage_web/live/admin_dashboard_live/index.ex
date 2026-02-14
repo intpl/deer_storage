@@ -57,7 +57,7 @@ defmodule DeerStorageWeb.Admin.DashboardLive.Index do
 
   def handle_info({[:user | _], _}, socket), do: {:noreply, socket |> fetch}
 
-  def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
+  def handle_info(:logout, socket), do: {:noreply, push_navigate(socket, to: "/")}
 
   # TODO: renew tokens
 end

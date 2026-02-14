@@ -1,6 +1,6 @@
 defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.Records do
   import Phoenix.Component, only: [assign: 2, assign: 3]
-  import Phoenix.LiveView, only: [push_redirect: 2]
+  import Phoenix.LiveView, only: [push_navigate: 2]
   import DeerStorageWeb.LiveHelpers, only: [is_expired?: 1]
   import DeerStorage.DbHelpers.DeerRecordsSearch, only: [search_records: 4]
 
@@ -55,7 +55,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.Records do
       ) do
     case is_expired?(subscription) do
       true ->
-        push_redirect(socket, to: "/registration/edit")
+        push_navigate(socket, to: "/registration/edit")
 
       false ->
         socket

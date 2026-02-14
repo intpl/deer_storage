@@ -6,7 +6,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
     only: [assign_opened_new_connected_record_modal: 2]
 
   import Phoenix.Component, only: [assign: 2, assign: 3]
-  import Phoenix.LiveView, only: [push_redirect: 2]
+  import Phoenix.LiveView, only: [push_navigate: 2]
   import DeerStorageWeb.LiveHelpers, only: [is_expired?: 1]
   import DeerStorageWeb.DeerRecordView, only: [deer_table_from_subscription: 2]
   import DeerStorage.DeerRecords, only: [change_record: 3]
@@ -17,7 +17,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
       ) do
     case deer_table_from_subscription(subscription, table_id) do
       %{name: table_name} -> assign(socket, table_name: table_name, table_id: table_id)
-      nil -> push_redirect(socket, to: "/dashboard")
+      nil -> push_navigate(socket, to: "/dashboard")
     end
   end
 
@@ -40,12 +40,12 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.Subscription do
       ) do
     case is_expired?(subscription) do
       true ->
-        push_redirect(socket, to: "/registration/edit")
+        push_navigate(socket, to: "/registration/edit")
 
       false ->
         case deer_table_from_subscription(subscription, table_id) do
           nil ->
-            push_redirect(socket, to: "/dashboard")
+            push_navigate(socket, to: "/dashboard")
 
           %{name: table_name} ->
             socket

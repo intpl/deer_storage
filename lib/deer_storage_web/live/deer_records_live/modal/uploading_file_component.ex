@@ -1,6 +1,7 @@
 defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
   use Phoenix.LiveComponent
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
+  import Phoenix.Component
   import DeerStorageWeb.DeerRecordView, only: [display_filesize_from_kilobytes: 1]
 
   import DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.Helpers,
@@ -85,7 +86,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent do
 
               <form phx-submit="submit_upload" phx-change="validate_upload" class={"file is-centered " <> if @upload_started?, do: "is-hidden", else: ""}>
                 <label class="file">
-                <%= Phoenix.LiveView.Helpers.live_file_input @deer_file, class: "file-input" %>
+                <.live_file_input upload={@deer_file} class="file-input" />
                   <span class="file-cta">
                     <span class="file-label">
                       <%= gettext("Select file(s) to upload") %>

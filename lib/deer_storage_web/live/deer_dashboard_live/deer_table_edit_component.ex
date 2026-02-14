@@ -1,7 +1,7 @@
 defmodule DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent do
   use Phoenix.LiveComponent
 
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
   import Phoenix.HTML.Form
 
   import DeerStorageWeb.ErrorHelpers, only: [error_tag: 2]

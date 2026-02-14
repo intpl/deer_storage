@@ -2,7 +2,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.ShowComponent do
   use Phoenix.LiveComponent
   alias DeerStorageWeb.Router.Helpers, as: Routes
   import Phoenix.HTML.Link, only: [link: 2]
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
   import DeerStorageWeb.DateHelpers, only: [dt: 2]
 
   import DeerStorageWeb.DeerRecordView,

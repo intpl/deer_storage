@@ -35,20 +35,21 @@
             <div class="box">
               <article class="media">
                 <div class="content">
-                  <%= case table.id == @editing_table_id do %>
-                    <% true -> %>
-                      <%= live_component(
-                          DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent,
-                          table: table,
-                          columns_per_table_limit: @subscription_deer_columns_per_table_limit,
-                          changeset: @editing_table_changeset) %>
-                    <% false -> %>
-                      <%= live_component(
-                          DeerStorageWeb.DeerDashboardLive.DeerTableShowComponent,
-                          table: table,
-                          editing_table_id: @editing_table_id,
-                          records_per_table_limit: @subscription_deer_records_per_table_limit,
-                          cached_count: @cached_counts[table.id] || 0) %>
+                  <%= if table.id == @editing_table_id do %>
+                    <.live_component
+                        module={DeerStorageWeb.DeerDashboardLive.DeerTableEditComponent}
+                        table={table}
+                        columns_per_table_limit={@subscription_deer_columns_per_table_limit}
+                        changeset={@editing_table_changeset}
+                        id={"edit_#{table.id}"} />
+                  <% else %>
+                    <.live_component
+                        module={DeerStorageWeb.DeerDashboardLive.DeerTableShowComponent}
+                        table={table}
+                        editing_table_id={@editing_table_id}
+                        records_per_table_limit={@subscription_deer_records_per_table_limit}
+                        cached_count={@cached_counts[table.id] || 0}
+                        id={table.id} />
                   <% end %>
                 </div>
               </article>

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Language: pl\n"
-"Plural-Forms: nplurals=3\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10||n%100>=20) ? 1 : 2);\n"
 
 #, elixir-format
 #: lib/deer_storage_web/templates/admin/subscription/_form.html.eex:4

@@ -86,7 +86,7 @@ defmodule DeerStorageWeb.SharedRecordsLive.Show do
         {:noreply, socket}
     end
   rescue
-    Ecto.NoResultsError -> {:noreply, push_redirect(socket, to: "/")}
+    Ecto.NoResultsError -> {:noreply, push_navigate(socket, to: "/")}
   end
 
   def handle_event("close_edit", _, %{assigns: %{is_editable: true}} = socket),
@@ -120,14 +120,17 @@ defmodule DeerStorageWeb.SharedRecordsLive.Show do
       tmp_path = Path.join(@tmp_dir, uuid)
       File.rename!(path, tmp_path)
 
-      spawn(DeerStorage.Services.UploadDeerFile, :run!, [
-        pid,
-        tmp_path,
-        original_filename,
-        record_id,
-        user_id,
-        uuid
-      ])
+      _worker_pid =
+        spawn(DeerStorage.Services.UploadDeerFile, :run!, [
+          pid,
+          tmp_path,
+          original_filename,
+          record_id,
+          user_id,
+          uuid
+        ])
+
+      {:ok, :upload_started}
     end)
 
     {:noreply, socket}
@@ -266,7 +269,7 @@ defmodule DeerStorageWeb.SharedRecordsLive.Show do
         %{assigns: %{deer_record: %{id: deer_record_id}}} = socket
       ) do
     case Enum.member?(deleted_record_ids, deer_record_id) do
-      true -> {:noreply, push_redirect(socket, to: "/")}
+      true -> {:noreply, push_navigate(socket, to: "/")}
       false -> {:noreply, socket}
     end
   end
@@ -275,13 +278,13 @@ defmodule DeerStorageWeb.SharedRecordsLive.Show do
         {:record_delete, record_id},
         %{assigns: %{deer_record: %{id: record_id}}} = socket
       ),
-      do: {:noreply, push_redirect(socket, to: "/")}
+      do: {:noreply, push_navigate(socket, to: "/")}
 
   def handle_info({:record_delete, _}, socket),
     do: {:noreply, maybe_reload_and_overwrite_deer_file_upload(socket)}
 
   def handle_info(:all_shared_records_invalidated, socket),
-    do: {:noreply, push_redirect(socket, to: "/")}
+    do: {:noreply, push_navigate(socket, to: "/")}
 
   def handle_info(
         {:record_update, %{id: record_id} = updated_deer_record},
@@ -305,7 +308,7 @@ defmodule DeerStorageWeb.SharedRecordsLive.Show do
     redirect_if_expired(socket, subscription, fn ->
       case DeerRecordView.deer_table_from_subscription(subscription, deer_table_id) do
         nil ->
-          {:noreply, push_redirect(socket, to: "/")}
+          {:noreply, push_navigate(socket, to: "/")}
 
         _ ->
           {:noreply,
@@ -361,7 +364,7 @@ defmodule DeerStorageWeb.SharedRecordsLive.Show do
 
   defp redirect_if_expired(socket, subscription, function_to_run) do
     case is_expired?(subscription) do
-      true -> {:noreply, push_redirect(socket, to: "/")}
+      true -> {:noreply, push_navigate(socket, to: "/")}
       false -> function_to_run.()
     end
   end

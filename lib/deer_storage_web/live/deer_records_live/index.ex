@@ -227,7 +227,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index do
         socket
       ) do
     {:noreply,
-     push_redirect(socket,
+     push_navigate(socket,
        to:
          Routes.live_path(DeerStorageWeb.Endpoint, DeerStorageWeb.DeerRecordsLive.Index, table_id,
            id: record_id
@@ -238,7 +238,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index do
   def handle_call(:whats_my_table_id, _pid, %{assigns: %{table_id: table_id}} = socket),
     do: {:reply, table_id, socket}
 
-  def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
+  def handle_info(:logout, socket), do: {:noreply, push_navigate(socket, to: "/")}
 
   def handle_info({:subscription_updated, subscription}, socket),
     do:

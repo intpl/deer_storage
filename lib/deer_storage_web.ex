@@ -23,7 +23,7 @@ defmodule DeerStorageWeb do
       plug :put_layout, html: {DeerStorageWeb.LayoutView, :app}
 
       import Plug.Conn
-      import DeerStorageWeb.Gettext
+      use Gettext, backend: DeerStorageWeb.Gettext
       import Phoenix.LiveView.Controller
 
       alias DeerStorageWeb.Router.Helpers, as: Routes
@@ -44,19 +44,18 @@ defmodule DeerStorageWeb do
       use Phoenix.HTML
 
       import DeerStorageWeb.ErrorHelpers
-      import DeerStorageWeb.Gettext
+      use Gettext, backend: DeerStorageWeb.Gettext
       alias DeerStorageWeb.Router.Helpers, as: Routes
 
       import DeerStorageWeb.DateHelpers
 
-      import Phoenix.LiveView.Helpers,
+      import Phoenix.Component,
         only: [
-          live_component: 2,
-          live_component: 3,
-          live_redirect: 2
+          live_component: 1,
+          live_file_input: 1,
+          live_render: 2,
+          live_render: 3
         ]
-
-      import Phoenix.Component, only: [live_render: 2, live_render: 3]
     end
   end
 
@@ -73,7 +72,7 @@ defmodule DeerStorageWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import DeerStorageWeb.Gettext
+      use Gettext, backend: DeerStorageWeb.Gettext
     end
   end
 

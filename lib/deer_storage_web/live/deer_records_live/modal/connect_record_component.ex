@@ -2,7 +2,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent do
   use Phoenix.LiveComponent
 
   import DeerStorageWeb.DeerRecordView
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
 
   def update(
         %{

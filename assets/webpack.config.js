@@ -23,7 +23,9 @@ module.exports = (env, options) => ({
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: function(modulePath) {
+          return /node_modules/.test(modulePath) && !/phoenix/.test(modulePath);
+        },
         use: {
           loader: 'babel-loader'
         }

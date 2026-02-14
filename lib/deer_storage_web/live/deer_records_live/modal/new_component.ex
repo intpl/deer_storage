@@ -1,6 +1,6 @@
 defmodule DeerStorageWeb.DeerRecordsLive.Modal.NewComponent do
   use Phoenix.LiveComponent
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
   import Phoenix.HTML.Form
 
   import DeerStorageWeb.DeerRecordView,

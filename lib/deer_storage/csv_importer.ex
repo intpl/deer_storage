@@ -2,7 +2,7 @@ defmodule DeerStorage.CsvImporter do
   require Logger
 
   import Ecto.Query, warn: false
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
   import DeerStorage.Subscriptions.Subscription, only: [append_table: 3, deer_changeset: 2]
 
   alias Phoenix.PubSub

@@ -6,6 +6,7 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   import Phoenix.LiveView,
     only: [
       allow_upload: 3,
+      disallow_upload: 2,
       consume_uploaded_entry: 3,
       consume_uploaded_entries: 3,
       uploaded_entries: 2,
@@ -89,14 +90,17 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
       tmp_path = Path.join(@tmp_dir, uuid)
       File.rename!(path, tmp_path)
 
-      spawn(DeerStorage.Services.UploadDeerFile, :run!, [
-        pid,
-        tmp_path,
-        original_filename,
-        record_id,
-        user_id,
-        uuid
-      ])
+      _worker_pid =
+        spawn(DeerStorage.Services.UploadDeerFile, :run!, [
+          pid,
+          tmp_path,
+          original_filename,
+          record_id,
+          user_id,
+          uuid
+        ])
+
+      {:ok, :upload_started}
     end)
 
     socket |> assign(:upload_results, [])
@@ -185,14 +189,18 @@ defmodule DeerStorageWeb.DeerRecordsLive.Index.SocketAssigns.UploadingFiles do
   end
 
   defp allow_deer_file_upload_or_overwrite_existing(
-         %{assigns: %{uploads: %{deer_file: deer_file} = uploads}} = socket,
+         %{assigns: %{uploads: %{deer_file: _}}} = socket,
          files,
          size
        ) do
-    deer_file = Map.merge(deer_file, %{max_entries: files, max_file_size: size})
-    uploads = Map.merge(uploads, %{deer_file: deer_file})
-
-    assign(socket, :uploads, uploads)
+    # LiveView 1.x: need to disallow and re-allow to update config
+    socket
+    |> disallow_upload(:deer_file)
+    |> allow_upload(:deer_file,
+      accept: :any,
+      max_entries: files,
+      max_file_size: size
+    )
   end
 
   defp allow_deer_file_upload_or_overwrite_existing(socket, files, size),

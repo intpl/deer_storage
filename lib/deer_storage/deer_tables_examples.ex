@@ -1,5 +1,5 @@
 defmodule DeerStorage.DeerTablesExamples do
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
 
   def list_examples do
     [

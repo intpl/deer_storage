@@ -14,79 +14,89 @@
   ) %>
 <% end %>
 
-<%= cond do
-  @preview_for_record_id && @preview_deer_file ->
-    live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.PreviewFileComponent,
-      id: "preview_file_component",
-      file_url: Routes.deer_files_path(@socket, :download_record, @preview_for_record_id, @preview_deer_file.id),
-      deer_file: @preview_deer_file
-    )
-  @uploading_file_for_record ->
-    live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent,
-      id: "uploading_file_component",
-      upload_results: @upload_results,
-      uploads: @uploads
-    )
-  @connecting_record ->
-    live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent,
-      id: "connecting_component",
-      subscription: @current_subscription,
-      excluded_records_ids: [@connecting_record.id | @connecting_record.connected_deer_records_ids],
-      connecting_record_query: @connecting_query,
-      connecting_record_records: @connecting_records,
-      connecting_record_selected_table_id: @connecting_selected_table_id
-    )
-  @current_shared_link ->
-    live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent,
-      id: "shared_record_component",
-      subscription_id: @current_subscription_id,
-      current_shared_link: @current_shared_link
-    )
-  @editing_record ->
-    live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.EditComponent,
-      id: "edit",
-      changeset: @editing_record,
-      can_create_records: @cached_count < @current_subscription_deer_records_per_table_limit,
-      subscription: @current_subscription,
-      table_id: @table_id,
-      table_name: @table_name,
-      editing_record_has_been_removed: @editing_record_has_been_removed,
-      old_editing_record: @old_editing_record
-    )
-  @new_record_connecting_with_record_id ->
-    table_id = Ecto.Changeset.fetch_field!(@new_record, :deer_table_id)
-    table_name = deer_table_name_from_id(@current_subscription_tables, table_id)
+<%= if @preview_for_record_id && @preview_deer_file do %>
+  <.live_component
+    module={DeerStorageWeb.DeerRecordsLive.Modal.PreviewFileComponent}
+    id="preview_file_component"
+    file_url={Routes.deer_files_path(@socket, :download_record, @preview_for_record_id, @preview_deer_file.id)}
+    deer_file={@preview_deer_file}
+  />
+<% else %>
+  <%= if @uploading_file_for_record do %>
+    <.live_component
+      module={DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent}
+      id="uploading_file_component"
+      upload_results={@upload_results}
+      uploads={@uploads}
+    />
+  <% else %>
+    <%= if @connecting_record do %>
+      <.live_component
+        module={DeerStorageWeb.DeerRecordsLive.Modal.ConnectRecordComponent}
+        id="connecting_component"
+        subscription={@current_subscription}
+        excluded_records_ids={[@connecting_record.id | @connecting_record.connected_deer_records_ids]}
+        connecting_record_query={@connecting_query}
+        connecting_record_records={@connecting_records}
+        connecting_record_selected_table_id={@connecting_selected_table_id}
+      />
+    <% else %>
+      <%= if @current_shared_link do %>
+        <.live_component
+          module={DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent}
+          id="shared_record_component"
+          subscription_id={@current_subscription_id}
+          current_shared_link={@current_shared_link}
+        />
+      <% else %>
+        <%= if @editing_record do %>
+          <.live_component
+            module={DeerStorageWeb.DeerRecordsLive.Modal.EditComponent}
+            id="edit"
+            changeset={@editing_record}
+            can_create_records={@cached_count < @current_subscription_deer_records_per_table_limit}
+            subscription={@current_subscription}
+            table_id={@table_id}
+            table_name={@table_name}
+            editing_record_has_been_removed={@editing_record_has_been_removed}
+            old_editing_record={@old_editing_record}
+          />
+        <% else %>
+          <%= if @new_record_connecting_with_record_id do %>
+            <% table_id = Ecto.Changeset.fetch_field!(@new_record, :deer_table_id) %>
+            <% table_name = deer_table_name_from_id(@current_subscription_tables, table_id) %>
 
-    live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.NewComponent,
-      id: "new",
-      connecting_record?: true,
-      changeset: @new_record,
-      subscription: @current_subscription,
-      table_id: table_id,
-      table_name: table_name,
-      deer_tables: @current_subscription_tables,
-      cached_count: 0 # FIXME
-    )
-  @new_record ->
-    live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.NewComponent,
-      id: "new",
-      connecting_record?: false,
-      changeset: @new_record,
-      subscription: @current_subscription,
-      table_id: @table_id,
-      table_name: @table_name,
-      deer_tables: [],
-      cached_count: @cached_count
-    )
-  true -> ""
-end %>
+            <.live_component
+              module={DeerStorageWeb.DeerRecordsLive.Modal.NewComponent}
+              id="new"
+              connecting_record?={true}
+              changeset={@new_record}
+              subscription={@current_subscription}
+              table_id={table_id}
+              table_name={table_name}
+              deer_tables={@current_subscription_tables}
+              cached_count={0}
+            />
+          <% else %>
+            <%= if @new_record do %>
+              <.live_component
+                module={DeerStorageWeb.DeerRecordsLive.Modal.NewComponent}
+                id="new"
+                connecting_record?={false}
+                changeset={@new_record}
+                subscription={@current_subscription}
+                table_id={@table_id}
+                table_name={@table_name}
+                deer_tables={[]}
+                cached_count={@cached_count}
+              />
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
 
 <% opened_records_count = length(@opened_records) %>
 
@@ -212,16 +222,15 @@ end %>
       <%= for [record, connected_records] <- @opened_records do %>
         <div class="column">
           <div class="sticky">
-            <%= live_component(
-                DeerStorageWeb.DeerRecordsLive.ShowComponent,
-                id: record.id,
-                current_user: @current_user,
-                record: record,
-                subscription: @current_subscription,
-                table_id: @table_id,
-                connected_records: connected_records
-              )
-            %>
+            <.live_component
+                module={DeerStorageWeb.DeerRecordsLive.ShowComponent}
+                id={record.id}
+                current_user={@current_user}
+                record={record}
+                subscription={@current_subscription}
+                table_id={@table_id}
+                connected_records={connected_records}
+              />
           </div>
         </div>
       <% end %>

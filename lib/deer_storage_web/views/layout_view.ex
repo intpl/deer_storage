@@ -14,10 +14,8 @@ defmodule DeerStorageWeb.LayoutView do
         _ -> "navbar-item has-text-weight-bold"
       end
 
-    live_redirect(header_str,
-      to: Routes.live_path(socket, DeerStorageWeb.DeerDashboardLive.Index),
-      class: class
-    )
+    link = Routes.live_path(socket, DeerStorageWeb.DeerDashboardLive.Index)
+    content_tag(:a, header_str, href: link, class: class)
   end
 
   def maybe_active_records_link(socket, %{id: id} = dt, id) do

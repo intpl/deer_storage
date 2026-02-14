@@ -1,34 +1,42 @@
 <%= render(DeerStorageWeb.LayoutView, "navigation_guest.html") %>
 
 <%= if @deer_record do %>
-  <%= cond do
-    @preview_deer_file -> live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.PreviewFileComponent,
-      id: "preview_file_component",
-      deer_file: @preview_deer_file,
-      file_url: Routes.shared_record_files_path(
+  <%= if @preview_deer_file do %>
+    <.live_component
+      module={DeerStorageWeb.DeerRecordsLive.Modal.PreviewFileComponent}
+      id="preview_file_component"
+      deer_file={@preview_deer_file}
+      file_url={Routes.shared_record_files_path(
           DeerStorageWeb.Endpoint,
           :download_file_from_shared_record,
           @current_subscription.id,
           @shared_record.id,
-          @preview_deer_file.id))
-    @editing_record -> live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.EditComponent,
-      id: "edit",
-      changeset: @editing_record,
-      old_editing_record: @old_editing_record,
-      can_create_records: false,
-      subscription: @current_subscription,
-      table_id: @deer_record.deer_table_id,
-      table_name: nil,
-      editing_record_has_been_removed: false)
-    @uploading -> live_component(
-      DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent,
-      id: "uploading_file_component",
-      upload_results: @upload_results,
-      uploads: @uploads)
-    true -> ""
-  end %>
+          @preview_deer_file.id)}
+    />
+  <% else %>
+    <%= if @editing_record do %>
+      <.live_component
+        module={DeerStorageWeb.DeerRecordsLive.Modal.EditComponent}
+        id="edit"
+        changeset={@editing_record}
+        old_editing_record={@old_editing_record}
+        can_create_records={false}
+        subscription={@current_subscription}
+        table_id={@deer_record.deer_table_id}
+        table_name={nil}
+        editing_record_has_been_removed={false}
+      />
+    <% else %>
+      <%= if @uploading do %>
+        <.live_component
+          module={DeerStorageWeb.DeerRecordsLive.Modal.UploadingFileComponent}
+          id="uploading_file_component"
+          upload_results={@upload_results}
+          uploads={@uploads}
+        />
+      <% end %>
+    <% end %>
+  <% end %>
 
   <section class="hero is-primary is-bold">
     <div class="hero-body">

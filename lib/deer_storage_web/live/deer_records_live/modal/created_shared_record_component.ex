@@ -1,6 +1,6 @@
 defmodule DeerStorageWeb.DeerRecordsLive.Modal.CreatedSharedRecordComponent do
   use Phoenix.LiveComponent
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
 
   def render(assigns) do
     ~H"""

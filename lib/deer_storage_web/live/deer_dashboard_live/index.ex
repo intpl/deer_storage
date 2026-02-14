@@ -13,7 +13,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.Index do
       list_new_table_ids: 2
     ]
 
-  import DeerStorageWeb.Gettext
+  use Gettext, backend: DeerStorageWeb.Gettext
 
   import DeerStorage.Subscriptions,
     only: [
@@ -37,7 +37,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.Index do
   alias DeerStorage.Subscriptions.DeerTable
 
   def mount(_params, %{"deer_storage_auth" => _token, "current_subscription_id" => nil}, socket),
-    do: {:ok, push_redirect(socket, to: "/registration/edit")}
+    do: {:ok, push_navigate(socket, to: "/registration/edit")}
 
   def mount(
         _params,
@@ -281,15 +281,18 @@ defmodule DeerStorageWeb.DeerDashboardLive.Index do
       tmp_path = Path.join(@tmp_dir, uuid)
       File.rename!(path, tmp_path)
 
-      spawn(DeerStorage.CsvImporter, :run!, [
-        pid,
-        subscription,
-        user,
-        tmp_path,
-        original_filename,
-        uuid,
-        true
-      ])
+      _worker_pid =
+        spawn(DeerStorage.CsvImporter, :run!, [
+          pid,
+          subscription,
+          user,
+          tmp_path,
+          original_filename,
+          uuid,
+          true
+        ])
+
+      {:ok, :upload_started}
     end)
 
     {:noreply, socket}
@@ -307,7 +310,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.Index do
       ) do
     case is_expired?(subscription) do
       true ->
-        {:noreply, push_redirect(socket, to: "/registration/edit")}
+        {:noreply, push_navigate(socket, to: "/registration/edit")}
 
       false ->
         {:noreply,
@@ -335,7 +338,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.Index do
     {:noreply, socket |> assign(cached_counts: Map.merge(cached_counts, %{table_id => count}))}
   end
 
-  def handle_info(:logout, socket), do: {:noreply, push_redirect(socket, to: "/")}
+  def handle_info(:logout, socket), do: {:noreply, push_navigate(socket, to: "/")}
 
   def handle_cast(
         {:csv_importer_error, msg},
@@ -375,7 +378,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.Index do
 
         case is_expired?(subscription) do
           true ->
-            {:noreply, push_redirect(socket, to: "/registration/edit")}
+            {:noreply, push_navigate(socket, to: "/registration/edit")}
 
           false ->
             {
@@ -395,11 +398,7 @@ defmodule DeerStorageWeb.DeerDashboardLive.Index do
                 user_subscription_link: user_subscription_link
               )
               |> assign_examples_if_no_subscription_tables
-              |> allow_upload(:csv_file,
-                accept: ~w(.csv),
-                auto_upload: true,
-                max_entries: available_tables_count
-              )
+              |> maybe_allow_csv_upload(available_tables_count)
             }
         end
 
@@ -462,4 +461,14 @@ defmodule DeerStorageWeb.DeerDashboardLive.Index do
   end
 
   defp assign_examples_if_no_subscription_tables(socket), do: socket
+
+  defp maybe_allow_csv_upload(socket, count) when count > 0 do
+    allow_upload(socket, :csv_file,
+      accept: ~w(.csv),
+      auto_upload: true,
+      max_entries: count
+    )
+  end
+
+  defp maybe_allow_csv_upload(socket, _count), do: socket
 end
