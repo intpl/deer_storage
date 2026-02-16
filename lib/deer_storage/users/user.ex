@@ -57,7 +57,9 @@ defmodule DeerStorage.Users.User do
 
   def changeset(%{inserted_at: nil} = user_or_changeset, params) do
     user_changeset(user_or_changeset, params)
-    |> cast_assoc(:last_used_subscription, with: &Subscription.changeset/2)
+    |> cast_assoc(:last_used_subscription,
+      with: fn changeset, params -> Subscription.changeset(changeset, params) end
+    )
     |> validate_required(:last_used_subscription)
   end
 

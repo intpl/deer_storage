@@ -188,7 +188,7 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       conn = conn |> put("/registration/switch_subscription_id/#{new_subscription.id}")
 
       redirected_path = redirected_to(conn, 302)
-      assert Phoenix.Controller.get_flash(conn) == %{"info" => "Obecna baza danych zmieniona"}
+      assert conn.assigns.flash == %{"info" => "Obecna baza danych zmieniona"}
       assert "/registration/edit" = redirected_path
 
       assert Repo.get!(User, user.id).last_used_subscription_id == new_subscription.id
@@ -252,7 +252,7 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       conn = conn |> put("/registration/switch_subscription_id/#{new_subscription.id}")
 
       redirected_path = redirected_to(conn, 302)
-      assert Phoenix.Controller.get_flash(conn) == %{"info" => "Obecna baza danych zmieniona"}
+      assert conn.assigns.flash == %{"info" => "Obecna baza danych zmieniona"}
       assert "/registration/edit" = redirected_path
 
       assert Repo.get!(User, user.id).last_used_subscription_id == new_subscription.id

@@ -37,9 +37,12 @@ defmodule DeerStorage.DeerRecords.DeerRecord do
     |> validate_inclusion(:deer_table_id, deer_tables_ids)
     |> validate_length(:notes, max: 2000)
     |> cast_embed(:deer_fields,
-      with:
-        {DeerField, :changeset,
-         [[deer_table_id: attrs.deer_table_id, subscription: subscription]]}
+      with: fn changeset, params ->
+        DeerField.changeset(changeset, params,
+          deer_table_id: attrs.deer_table_id,
+          subscription: subscription
+        )
+      end
     )
   end
 

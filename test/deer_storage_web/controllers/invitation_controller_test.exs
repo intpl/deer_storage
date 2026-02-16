@@ -141,7 +141,7 @@ defmodule DeerStorageWeb.InvitationControllerTest do
         })
 
       # TODO change this to something like "Welcome"
-      assert Phoenix.Controller.get_flash(conn, :info) == "User has been created"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "User has been created"
     end
 
     test "[guest] [invalid params - invalid e-mail] PUT /invitation", %{conn: conn} do
@@ -175,7 +175,7 @@ defmodule DeerStorageWeb.InvitationControllerTest do
         })
 
       # TODO change this to something like "Welcome"
-      assert Phoenix.Controller.get_flash(conn, :info) == "User has been created"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "User has been created"
 
       assert Repo.get(User, new_user.id).email == new_user.email
     end
@@ -196,7 +196,7 @@ defmodule DeerStorageWeb.InvitationControllerTest do
       conn = put(conn, "/invitation/#{sign_token(conn, new_user.invitation_token)}", params)
 
       # TODO change this to something like "Welcome"
-      assert Phoenix.Controller.get_flash(conn, :info) == "User has been created"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "User has been created"
 
       assert Repo.get(User, new_user.id).last_used_subscription_id ==
                new_user.last_used_subscription_id
@@ -235,7 +235,7 @@ defmodule DeerStorageWeb.InvitationControllerTest do
       conn = put(conn, "/invitation/#{sign_token(conn, new_user.invitation_token)}", params)
 
       # TODO change this to something like "Welcome"
-      assert Phoenix.Controller.get_flash(conn, :info) == "User has been created"
+      assert Phoenix.Flash.get(conn.assigns.flash, :info) == "User has been created"
 
       assert Repo.get(User, new_user.id).role == "user"
     end

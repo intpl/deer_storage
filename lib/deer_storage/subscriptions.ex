@@ -115,7 +115,11 @@ defmodule DeerStorage.Subscriptions do
     change_subscription_deer(subscription)
     |> Ecto.Changeset.cast(%{deer_tables: deer_tables}, [])
     |> Ecto.Changeset.cast_embed(:deer_tables,
-      with: {DeerTable, :ensure_no_columns_are_missing_changeset, [[subscription: subscription]]}
+      with: fn changeset, params ->
+        DeerTable.ensure_no_columns_are_missing_changeset(changeset, params,
+          subscription: subscription
+        )
+      end
     )
     |> Repo.update()
     |> maybe_notify_about_updated_subscription
