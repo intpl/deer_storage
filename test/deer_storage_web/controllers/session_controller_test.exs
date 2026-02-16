@@ -9,7 +9,7 @@ defmodule DeerStorageWeb.SessionControllerTest do
   describe "new" do
     test "[guest] GET /session/new", %{conn: conn} do
       conn = get(conn, "/session/new")
-      assert html_response(conn, 200) =~ "Zaloguj się do DeerStorage"
+      assert html_response(conn, 200) =~ "Sign in to DeerStorage"
     end
   end
 
@@ -28,7 +28,7 @@ defmodule DeerStorageWeb.SessionControllerTest do
 
       conn = post(conn, "/session", user: %{email: user.email, password: "wrong"})
 
-      assert html_response(conn, 200) =~ "Zły e-mail lub hasło"
+      assert html_response(conn, 200) =~ "Invalid e-mail or password"
     end
 
     test "[guest -> user] [valid - expired subscription] POST /session", %{conn: conn} do
@@ -58,7 +58,7 @@ defmodule DeerStorageWeb.SessionControllerTest do
       conn = get(recycle(conn), redirected_path)
 
       assert html_response(conn, 200) =~
-               "Adres e-mail nie został potwierdzony. Wysłano linka ponownie"
+               "You have to be confirmed by an administrator before you can log in"
     end
 
     test "[guest -> admin] [valid / assigned subscription] POST /session", %{conn: conn} do

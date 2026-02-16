@@ -11,4 +11,10 @@ defmodule DeerStorage.Test.SessionHelpers do
   def assign_locale_to_session(conn, locale) do
     conn |> Plug.Test.init_test_session(%{}) |> Plug.Conn.put_session("locale", locale)
   end
+
+  def with_captcha(conn, captcha_solution \\ "42") do
+    conn
+    |> Plug.Test.init_test_session(%{})
+    |> Plug.Conn.put_session("captcha_solution", captcha_solution)
+  end
 end

@@ -11,7 +11,7 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
   }
 
   import DeerStorage.Fixtures
-  import DeerStorage.Test.SessionHelpers, only: [assign_user_to_session: 2]
+  import DeerStorage.Test.SessionHelpers, only: [assign_user_to_session: 2, with_captcha: 1]
 
   @valid_attrs %{
     email: "test@storagedeer.com",
@@ -24,6 +24,8 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       email: "test@example.org"
     }
   }
+
+  @valid_attrs_with_captcha Map.merge(@valid_attrs, %{"captcha" => "42"})
 
   def user_fixture do
     {:ok, user} = Users.create_user(@valid_attrs)
@@ -44,7 +46,7 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
   describe "new" do
     test "[guest] GET /registration/new", %{conn: conn} do
       conn = get(conn, "/registration/new")
-      assert html_response(conn, 200) =~ "Zarejestruj się w DeerStorage"
+      assert html_response(conn, 200) =~ "Register to DeerStorage"
     end
   end
 
@@ -54,7 +56,7 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       conn = assign_user_to_session(conn, user)
 
       conn = get(conn, "/registration/edit")
-      assert html_response(conn, 200) =~ "Edytuj swoje konto w DeerStorage"
+      assert html_response(conn, 200) =~ "Edytuj swoje konto"
     end
 
     test "[user without subscription] GET /registration/edit", %{conn: conn} do
@@ -67,36 +69,50 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       conn = assign_user_to_session(conn, user)
 
       conn = get(conn, "/registration/edit")
-      assert html_response(conn, 200) =~ "Edytuj swoje konto w DeerStorage"
+      assert html_response(conn, 200) =~ "Edytuj swoje konto"
     end
   end
 
   describe "create" do
     test "[guest] [valid attrs] POST /registration", %{conn: conn} do
-      conn = post(conn, "/registration", user: @valid_attrs)
+      # First visit the new page to get the captcha challenge
+      conn_get = get(conn, "/registration/new")
+      response_body = html_response(conn_get, 200)
+
+      # Extract the captcha question (e.g., "Please add 18 to 15:")
+      captcha_question = Regex.run(~r/Please add (\d+) to (\d+):/, response_body)
+
+      captcha_solution =
+        case captcha_question do
+          [_, a, b] -> String.to_integer(a) + String.to_integer(b)
+          # fallback
+          _ -> 42
+        end
+
+      # Now post with the correct captcha solution
+      user_params = Map.put(@valid_attrs_with_captcha, "captcha", to_string(captcha_solution))
+      conn = post(conn_get, "/registration", user: user_params)
+
       redirected_path = redirected_to(conn, 302)
       assert "/session/new" = redirected_path
       conn = get(recycle(conn), redirected_path)
 
       assert html_response(conn, 200) =~
-               "Musisz potwierdzić swój adres e-mail przed pierwszym zalogowaniem"
+               "E-mailing is disabled. You must be confirmed by an administrator"
 
       assert Subscriptions.total_count() == 1
       assert Users.total_count() == 1
 
-      {:ok, email_confirmation_token} = Users.last_user() |> Map.fetch(:email_confirmation_token)
-
-      assert_email_delivered_with(
-        # TODO: czy to w ogole dziala? :O
-        to: [nil: @valid_attrs.email],
-        text_body: ~r/#{email_confirmation_token}/
-      )
+      # When emailing is enabled, user would receive confirmation email
+      # For now, user is created but needs admin confirmation
+      {:ok, user} = Users.last_user() |> Map.fetch(:email)
+      assert user == @valid_attrs.email
     end
 
     test "[guest] [invalid attrs] POST /registration", %{conn: conn} do
-      conn = post(conn, "/registration", user: %{})
+      conn = conn |> with_captcha() |> post("/registration", user: %{"captcha" => "wrong_answer"})
 
-      assert html_response(conn, 200) =~ "Coś poszło nie tak. Sprawdź błędy poniżej"
+      assert html_response(conn, 200) =~ "Invalid answer to math question"
     end
   end
 
@@ -125,14 +141,15 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
         assign_user_to_session(conn, user)
         |> put("/registration", user: @valid_attrs |> Map.merge(%{name: new_name}))
 
-      assert html_response(conn, 200) =~ "Coś poszło nie tak. Sprawdź błędy poniżej"
+      assert html_response(conn, 200) =~ "Coś poszło nie tak"
 
       {:ok, reloaded_user_name} = Repo.get(User, user.id) |> Map.fetch(:name)
       refute reloaded_user_name == new_name
     end
 
-    test "[user] PUT /registration - changing email sends e-mail", %{conn: conn} do
+    test "[user] PUT /registration - cannot change email without admin", %{conn: conn} do
       user = create_valid_user_with_subscription(@valid_attrs)
+      original_email = user.email
       new_email = "test_new@storagedeer.com"
 
       conn =
@@ -143,19 +160,12 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
             |> Map.merge(%{email: new_email, current_password: @valid_attrs.password})
         )
 
-      assert html_response(conn, 200) =~
-               "Wysłano e-mail w celu potwierdzenia na adres: <span>#{new_email}</span>"
+      # Users cannot change their own email, they need to ask an admin
+      assert html_response(conn, 200) =~ "Nie możesz zmienić"
 
       reloaded_user = Repo.get(User, user.id)
-      refute reloaded_user.email == new_email
-      refute reloaded_user.email_confirmation_token == nil
-      assert reloaded_user.email_confirmed_at == nil
-
-      assert_email_delivered_with(
-        # TODO: czy to w ogole dziala? :O
-        to: [nil: new_email],
-        text_body: ~r/#{reloaded_user.email_confirmation_token}/
-      )
+      # Email should remain unchanged
+      assert reloaded_user.email == original_email
     end
   end
 
@@ -178,7 +188,7 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       conn = conn |> put("/registration/switch_subscription_id/#{new_subscription.id}")
 
       redirected_path = redirected_to(conn, 302)
-      assert Phoenix.Controller.get_flash(conn) == %{"info" => "Zmieniono obecną subskrypcję"}
+      assert Phoenix.Controller.get_flash(conn) == %{"info" => "Obecna baza danych zmieniona"}
       assert "/registration/edit" = redirected_path
 
       assert Repo.get!(User, user.id).last_used_subscription_id == new_subscription.id
@@ -242,7 +252,7 @@ defmodule DeerStorageWeb.RegistrationControllerTest do
       conn = conn |> put("/registration/switch_subscription_id/#{new_subscription.id}")
 
       redirected_path = redirected_to(conn, 302)
-      assert Phoenix.Controller.get_flash(conn) == %{"info" => "Zmieniono obecną subskrypcję"}
+      assert Phoenix.Controller.get_flash(conn) == %{"info" => "Obecna baza danych zmieniona"}
       assert "/registration/edit" = redirected_path
 
       assert Repo.get!(User, user.id).last_used_subscription_id == new_subscription.id

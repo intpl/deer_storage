@@ -16,7 +16,11 @@ defmodule DeerStorageWeb.Admin.SubscriptionControllerTest do
     locale: "pl"
   }
 
-  @create_attrs %{name: "example name", email: "test@test.eu"}
+  @create_attrs %{
+    name: "example name",
+    email: "test@test.eu",
+    expires_on: Date.add(Date.utc_today(), 30)
+  }
   @update_attrs %{name: "example2 name"}
 
   setup do
@@ -36,7 +40,7 @@ defmodule DeerStorageWeb.Admin.SubscriptionControllerTest do
       conn = assign_user_to_session(conn, admin)
       conn = get(conn, Routes.admin_subscription_path(conn, :index))
 
-      assert html_response(conn, 200) =~ "Nazwa subskrypcji"
+      assert html_response(conn, 200) =~ "Bazy danych"
       assert html_response(conn, 200) =~ "example name"
     end
   end
@@ -46,7 +50,7 @@ defmodule DeerStorageWeb.Admin.SubscriptionControllerTest do
       conn = assign_user_to_session(conn, admin)
       conn = get(conn, Routes.admin_subscription_path(conn, :new))
 
-      assert html_response(conn, 200) =~ "Nowa Subskrypcja"
+      assert html_response(conn, 200) =~ "Nowa baza danych"
     end
   end
 

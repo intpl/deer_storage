@@ -25,17 +25,32 @@ defmodule DeerStorage.Fixtures do
 
   def create_valid_user_with_subscription(
         user_attrs \\ random_user_attrs(),
-        subscription_attrs \\ random_subscription_attrs()
+        subscription_attrs \\ random_subscription_attrs(),
+        link_attrs \\ %{}
       ) do
     {:ok, subscription} = create_valid_subscription(subscription_attrs)
 
+    # Create user without subscription first
     {:ok, user} =
       Users.admin_create_user(
         user_attrs
-        |> Map.merge(%{last_used_subscription_id: subscription.id})
+        |> Map.merge(%{last_used_subscription_id: nil})
       )
 
-    user
+    # Manually create the subscription link with the desired permissions
+    default_link_attrs = %{permission_to_manage_users: false}
+    merged_link_attrs = Map.merge(default_link_attrs, link_attrs)
+
+    Users.upsert_subscription_link!(user.id, subscription.id, :raise, merged_link_attrs)
+
+    # Update user's last_used_subscription_id
+    updated_user = Users.update_last_used_subscription_id!(user, subscription.id)
+
+    # Preload the available_subscriptions association
+    user_with_subscriptions = Repo.preload(updated_user, :available_subscriptions)
+
+    # Return user with password stored in a map for testing
+    Map.put(user_with_subscriptions, :password, user_attrs.password)
   end
 
   def create_valid_user_with_unconfirmed_email(
@@ -54,7 +69,7 @@ defmodule DeerStorage.Fixtures do
         })
       )
 
-    user
+    Map.put(user, :password, attrs.password)
   end
 
   def create_user_with_expired_subscription(
@@ -66,11 +81,11 @@ defmodule DeerStorage.Fixtures do
     {:ok, user} =
       Users.admin_create_user(attrs |> Map.merge(%{last_used_subscription_id: subscription.id}))
 
-    user
+    Map.put(user, :password, attrs.password)
   end
 
   def create_user_without_subscription(attrs \\ random_user_attrs()) do
     {:ok, user} = Users.admin_create_user(attrs |> Map.merge(%{last_used_subscription_id: nil}))
-    user
+    Map.put(user, :password, attrs.password)
   end
 end

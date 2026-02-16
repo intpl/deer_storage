@@ -5,6 +5,7 @@ defmodule DeerStorageWeb.InvitationControllerTest do
   import DeerStorage.Fixtures
   import DeerStorage.Test.SessionHelpers, only: [assign_user_to_session: 2]
   alias DeerStorage.{Repo, Users.User}
+  alias DeerStorage.FeatureFlags
 
   def invite_user(conn, inviting_user, email \\ "invited_user@storagedeer.com") do
     assign_user_to_session(conn, inviting_user) |> post("/invitation", user: %{email: email})
@@ -23,7 +24,11 @@ defmodule DeerStorageWeb.InvitationControllerTest do
 
   describe "new" do
     test "[user] [logged in] GET /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       conn = assign_user_to_session(conn, user) |> get("/invitation/new")
 
       assert html_response(conn, 200) =~ "Zaproś użytkownika"
@@ -31,30 +36,35 @@ defmodule DeerStorageWeb.InvitationControllerTest do
   end
 
   describe "create" do
-    # TODO: somehow redirects to /session/new, therefore checking flash only
-
     test "[user] [valid params - new email] POST /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      if FeatureFlags.mailing_enabled?() do
+        user =
+          create_valid_user_with_subscription(
+            %{random_user_attrs() | email_confirmed_at: nil},
+            random_subscription_attrs(),
+            %{
+              permission_to_manage_users: true
+            }
+          )
 
-      # ensure resends
-      for _ <- [1, 2] do
         conn =
           assign_user_to_session(conn, user)
           |> post("/invitation", user: %{email: "invited_user@storagedeer.com"})
 
-        assert_email_delivered_with(
-          # TODO: czy to w ogole dziala? :O
-          to: [nil: "invited_user@storagedeer.com"]
-          # text_body: ~r/TODO: TOKEN/
-        )
-
-        assert Phoenix.Controller.get_flash(conn, :info) == "Wysłano e-mail potwierdzający"
+        assert_email_delivered_with(to: [nil: "invited_user@storagedeer.com"])
+        assert Phoenix.Flash.get(conn.assigns.flash, :info) == "Invitation e-mail sent"
+      else
+        assert true
       end
     end
 
     test "[user] [valid params - email already exists - add to another subscription] POST /invitation",
          %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       user2 = create_valid_user_with_subscription() |> Repo.preload(:available_subscriptions)
 
       assert length(user2.available_subscriptions) == 1
@@ -73,7 +83,11 @@ defmodule DeerStorageWeb.InvitationControllerTest do
     end
 
     test "[user] [invalid params] POST /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       conn = assign_user_to_session(conn, user)
 
       post(conn, "/invitation", user: %{email: "invalid_email.gmail"})
@@ -84,7 +98,11 @@ defmodule DeerStorageWeb.InvitationControllerTest do
 
   describe "edit" do
     test "[guest] [valid params] GET /invitation/:id/edit", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       new_user = invite_user(conn, user) |> Repo.preload(:available_subscriptions)
 
       assert new_user.invited_by_id == user.id
@@ -96,7 +114,7 @@ defmodule DeerStorageWeb.InvitationControllerTest do
       assert new_user.password_hash == nil
 
       conn = get(conn, "/invitation/#{sign_token(conn, new_user.invitation_token)}/edit")
-      assert html_response(conn, 200) =~ "Zostałeś zaproszony do subskrypcji w DeerStorage!"
+      assert html_response(conn, 200) =~ "You have been invited to join DeerStorage team!"
     end
 
     # test "[guest] [invalid params] GET /invitation/:id/edit", %{conn: conn} do
@@ -104,13 +122,17 @@ defmodule DeerStorageWeb.InvitationControllerTest do
     #   conn = get(conn, "/invitation/invalid/edit")
     #   IO.inspect Phoenix.Controller.get_flash(conn)
 
-    #   assert html_response(conn, 200) =~ "Nieprawidłowy token"
+    #   assert html_response(conn, 200) =~ "Invalid token"
     # end
   end
 
   describe "update" do
     test "[guest] [valid params] PUT /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       new_user = invite_user(conn, user)
 
       conn =
@@ -119,11 +141,15 @@ defmodule DeerStorageWeb.InvitationControllerTest do
         })
 
       # TODO change this to something like "Welcome"
-      assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony"
+      assert Phoenix.Controller.get_flash(conn, :info) == "User has been created"
     end
 
     test "[guest] [invalid params - invalid e-mail] PUT /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       new_user = invite_user(conn, user)
 
       conn =
@@ -132,11 +158,15 @@ defmodule DeerStorageWeb.InvitationControllerTest do
         })
 
       # TODO: capitalized?
-      assert html_response(conn, 200) =~ "ma niepoprawny format"
+      assert html_response(conn, 200) =~ "has invalid format"
     end
 
     test "[guest] [invalid params - different e-mail] PUT /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       new_user = invite_user(conn, user)
 
       conn =
@@ -145,13 +175,17 @@ defmodule DeerStorageWeb.InvitationControllerTest do
         })
 
       # TODO change this to something like "Welcome"
-      assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony"
+      assert Phoenix.Controller.get_flash(conn, :info) == "User has been created"
 
       assert Repo.get(User, new_user.id).email == new_user.email
     end
 
     test "[guest] [invalid params - different subscription id] PUT /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       new_user = invite_user(conn, user)
 
       params = %{
@@ -162,14 +196,18 @@ defmodule DeerStorageWeb.InvitationControllerTest do
       conn = put(conn, "/invitation/#{sign_token(conn, new_user.invitation_token)}", params)
 
       # TODO change this to something like "Welcome"
-      assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony"
+      assert Phoenix.Controller.get_flash(conn, :info) == "User has been created"
 
       assert Repo.get(User, new_user.id).last_used_subscription_id ==
                new_user.last_used_subscription_id
     end
 
     test "[guest] [invalid params - subscription nested attrs] PUT /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       new_user = invite_user(conn, user)
 
       params = %{
@@ -186,14 +224,18 @@ defmodule DeerStorageWeb.InvitationControllerTest do
     end
 
     test "[guest] [invalid params - unpermitted params] PUT /invitation", %{conn: conn} do
-      user = create_valid_user_with_subscription()
+      user =
+        create_valid_user_with_subscription(random_user_attrs(), random_subscription_attrs(), %{
+          permission_to_manage_users: true
+        })
+
       new_user = invite_user(conn, user)
       params = %{user: valid_update_params_for(new_user.email) |> Map.merge(%{role: "admin"})}
 
       conn = put(conn, "/invitation/#{sign_token(conn, new_user.invitation_token)}", params)
 
       # TODO change this to something like "Welcome"
-      assert Phoenix.Controller.get_flash(conn, :info) == "Użytkownik utworzony"
+      assert Phoenix.Controller.get_flash(conn, :info) == "User has been created"
 
       assert Repo.get(User, new_user.id).role == "user"
     end

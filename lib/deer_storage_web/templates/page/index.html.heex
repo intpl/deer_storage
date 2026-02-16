@@ -1,0 +1,23 @@
+<section class="hero is-light is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        <%= gettext("Welcome to DeerStorage") %>
+      </h1>
+      <h2 class="subtitle">
+        <%= gettext("Welcome to DeerStorage! You can create your database using example templates and edit it or start building from scratch.") %>
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="buttons">
+      <%= link(gettext("Sign in"), to: Routes.session_path(@conn, :new), class: "button is-primary") %>
+      <%= if registration_enabled?() do %>
+        <%= link(gettext("Register"), to: Routes.registration_path(@conn, :new), class: "button") %>
+      <% end %>
+    </div>
+  </div>
+</section>

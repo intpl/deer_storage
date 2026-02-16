@@ -22,7 +22,7 @@ defmodule DeerStorage.UsersTest do
       assert {:ok, %User{} = user} = Users.create_user(@valid_attrs)
       assert user.email == "test@example.org"
       assert user.name == "Henryk Testowny"
-      assert user.password == "secret123"
+      assert user.password_hash != nil
       assert user.locale == "pl"
 
       user =

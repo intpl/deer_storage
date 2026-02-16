@@ -40,7 +40,12 @@ defmodule DeerStorageWeb.InvitationController do
 
         maybe_send_email_and_respond_success(conn, user)
 
-      [false, {:ok, %{email: email} = _user, conn}] when is_binary(email) ->
+      [false, {:ok, %{email: email} = user, conn}] when is_binary(email) ->
+        Users.insert_subscription_link_and_maybe_change_last_used_subscription_id(
+          user,
+          current_subscription_id
+        )
+
         conn
         |> put_flash(
           :error,
