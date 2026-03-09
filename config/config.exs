@@ -15,7 +15,7 @@ config :deer_storage, DeerStorage.Gettext, default_locale: "en", locales: ~w(en 
 
 # Configures the endpoint
 config :deer_storage, DeerStorageWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: System.get_env("APP_HOST")],
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE_DEV"),
   render_errors: [view: DeerStorageWeb.ErrorView, accepts: ~w(html json)],
   pubsub_server: DeerStorage.PubSub,

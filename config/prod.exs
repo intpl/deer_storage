@@ -5,7 +5,7 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :deer_storage, DeerStorageWeb.Endpoint,
-  url: [host: System.get_env("APP_HOST"), port: 80],
+  url: [host: System.get_env("APP_HOST"), port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE_PROD"),

@@ -1,6 +1,0 @@
-FROM nginx:1.27-alpine
-
-RUN apk --no-cache --update add bash openssl
-
-COPY default.conf.template /etc/nginx/templates/
-COPY nginx-proxy-reloading-script.sh /docker-entrypoint.d/nginx-proxy-reloading-script.sh

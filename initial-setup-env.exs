@@ -29,7 +29,6 @@ end
 env_structs = [
   # hidden values
   %{key: "APP_HTTP_PORT", data: %{value: "80", hidden: true}},
-  %{key: "APP_HTTPS_PORT", data: %{value: "443", hidden: true}},
   %{key: "SECRET_KEY_BASE_DEV", data: %{value: generate_secret.(64), hidden: true}},
   %{key: "SECRET_KEY_BASE_PROD", data: %{value: generate_secret.(64), hidden: true}},
   %{key: "SECRET_SIGNING_SALT_DEV", data: %{value: generate_secret.(32), hidden: true}},
@@ -42,7 +41,6 @@ env_structs = [
   %{key: "POW_MAILGUN_BASE_URI", data: %{value: "", hidden: true}},
   %{key: "POW_MAILGUN_DOMAIN", data: %{value: "", hidden: true}},
   %{key: "POW_MAILGUN_API_KEY", data: %{value: "", hidden: true}},
-  %{key: "LETSENCRYPT_STAGING", data: %{value: "0", hidden: true}},
   %{key: "FEATURE_REGISTRATION", data: %{value: "1", hidden: true}},
 
   # user-visible values
@@ -50,16 +48,6 @@ env_structs = [
        value: "localhost",
        description: "This is used both for urls generation in the app and for (optional) Let's Encrypt certificate requests. Application is unusable without setting it up correctly. You can write your domain here (e.g. 'demo.example.org') or just keep localhost for testing locally. Don't use quotes."
     }},
-  %{key: "LETSENCRYPT_ENABLED", data: %{
-       value: "0",
-       description: "Set it to 1 if you want to have signed Let's Encrypt certificate for your domain (does not work for localhost obviously). If left 0, self-signed certificate will be used."
-    }
-  },
-  %{key: "LETSENCRYPT_EMAIL", data: %{
-       value: "",
-       description: "It's strongly recommended to set it to valid e-mail address if you use Let's Encrypt, but keeping it empty is possible and everything works."
-    }
-  },
   %{key: "FEATURE_AUTOCONFIRM_AND_PROMOTE_FIRST_USER_TO_ADMIN", data: %{
        value: "1",
        description: "First user that registers to this DeerStorage instance will be autoconfirmed and promoted to administrator automatically. DON'T CHANGE THIS or else you will have to promote yourself to admin using PostgreSQL console."
