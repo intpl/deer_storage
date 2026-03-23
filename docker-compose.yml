@@ -28,7 +28,7 @@ services:
       - uploaded_files:/opt/app/uploaded_files
     restart: always
   db:
-    image: postgres:17-alpine
+    image: docker.io/library/postgres:17-alpine
     environment:
       POSTGRES_USER: "${PGUSER}"
       POSTGRES_PASSWORD: "${PGPASSWORD}"

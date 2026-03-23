@@ -1,4 +1,4 @@
-FROM elixir:1.19.5-alpine AS build
+FROM docker.io/library/elixir:1.19.5-alpine AS build
 
 # Install build dependencies
 RUN \
@@ -65,7 +65,7 @@ COPY lib lib
 
 RUN mix do compile, release
 
-FROM erlang:28-alpine AS app
+FROM docker.io/library/erlang:28-alpine AS app
 
 RUN apk --no-cache --no-progress add -q postgresql-client coreutils file bash
 
